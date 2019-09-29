@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>编辑信息</title>
+
+    <link rel="shortcut icon" href="../../../static/img/favicon.ico" />
+    <link href="../../../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet" />
+    <link href="../../../static/css/font-awesome.css?v=4.4.0" rel="stylesheet" />
+    <link href="../../../static/css/animate.css" rel="stylesheet" />
+    <!--<link href="../../../static/css/plugins/chosen/chosen.css" rel="stylesheet" />-->
+    <link href="../../../static/css/Validformstyle.css" rel="stylesheet" />
+    <link href="../../../static/js/skin/default/style.css" rel="stylesheet" />
+    <link href="../../../static/css/style.css"  rel="stylesheet" />
+    <!--<link href="../../../static/css/plugins/treeview/bootstrap-treeview.css"  rel="stylesheet" />-->
+    <!--<link href="../../../static/css/plugins/switchery/switchery.css"  rel="stylesheet" />-->
+    <script type="text/javascript">
+        function Close() {
+            //parent.layer.msg(msg);
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            parent.layer.close(index);
+        }
+    </script>
+</head>
+<body class="gray-bg">
+<form id="upload-form"   method="post" enctype="multipart/form-data" >
+<div class="form-horizontal">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+
+
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <input type="hidden" id="id" value="0">
+                        <input type="hidden" id="userPwd" value="0">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">是否启用：</label>
+                            <div class="col-sm-5">
+                                <input type="file" id="file" name="file" value="上传" onchange="uploadImg(this);"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">预览：</label>
+                            <div class="col-sm-5">
+                                <img src="" id="viewImg">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-3">
+                                <input type="button" id="BtnSave" value="提交" class="btn btn-primary">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+<!-- 全局js -->
+<script src="../../../static/js/jquery.min.js"></script>
+<script src="../../../static/js/bootstrap.min.js"></script>
+<script src="../../../static/js/Validform_v5.3.2.js"></script>
+<!--<script src="../../../static/js/demo/form-advanced-demo.js"></script>-->
+<!-- 自定义js -->
+<script type="text/javascript">
+function uploadImg(obj)
+{
+    var f=$(obj).val();
+    alert(f);
+    console.log(obj);
+    if(f == null || f ==undefined || f == ''){
+        return false;
+    }
+    if(!/\.(?:png|jpg|bmp|gif|PNG|JPG|BMP|GIF)$/.test(f)) {
+        alert("类型必须是图片(.png|jpg|bmp|gif|PNG|JPG|BMP|GIF)");
+        $(obj).val('');
+        return false;
+    }
+
+    var data = new FormData();
+        $.each($(obj)[0].files,function(i,file){
+            data.append('file', file);
+        });
+    $.ajax({
+        url: "/v1/http/upload/img",
+        method: 'POST',
+        data: data,
+        contentType: false,
+        processData: false,
+        success: function (resp) {
+           var data= JSON.parse(resp);
+            if(data.code==0)
+            {
+                $("#viewImg").attr("src",data.data);
+                layer.msg("上传成功");
+            }
+            else
+                layer.msg("上传失败");
+
+        }
+    });
+
+}
+</script>
+<script src="../../../static/js/content.js?v=1.0.0"></script>
+<!--<script src="../../../static/js/plugins/treeview/bootstrap-treeview.js"></script>-->
+<!--<script src="../../../static/js/plugins/switchery/switchery.js"></script>-->
+<script src="../../../static/js/plugins/layer/layer.min.js"></script>
+<script src="../../../static/js/LayerTool.js"></script>
+<script src="../../../static/js/layout.js"></script>
+</body>
+</html>
+
+
+
+

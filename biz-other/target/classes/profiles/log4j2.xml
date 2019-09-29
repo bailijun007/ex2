@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info" name="XMLConfigTest" packages="org.apache.logging.log4j.test" monitorInterval="30">
+    <Properties>
+        <Property name="logDir">E:/log/exp/contract/</Property>
+        <Property name="fileName">contract.log</Property>
+    </Properties>
+    <ThresholdFilter level="info"/>
+
+    <Appenders>
+        <Console name="STDOUT">
+            <!--<PatternLayout pattern="%m MDC%X%n"/>-->
+            <PatternLayout pattern="%-d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %C{1.} %L - [%p] %m%n"/>
+        </Console>
+        <Routing name="Routing">
+            <Routes pattern="$${sd:orderType}">
+                <Route>
+                    <RollingFile name="log" fileName="${logDir}/${fileName}"
+                                 filePattern="${logDir}/log/${fileName}.%i.gz">
+                        <PatternLayout>
+                            <pattern>%d %p %c{1.} [%t] %m%n</pattern>
+                        </PatternLayout>
+                        <SizeBasedTriggeringPolicy size="30MB"/>
+                    </RollingFile>
+                    <DefaultRolloverStrategy max="100000"/>
+                </Route>
+                <Route ref="STDOUT" key="Audit"/>
+            </Routes>
+            <ThresholdFilter level="info"/>
+        </Routing>
+
+
+
+        <RollingFile
+                name="klineRebuild"
+                fileName="${logDir}/forceEngine.log"
+                filePattern="${logDir}/log/forceEngine.log.%i.gz">
+            <PatternLayout>
+                <pattern>%d %p %c{1.} [%t] %m%n</pattern>
+            </PatternLayout>
+            <SizeBasedTriggeringPolicy size="50MB"></SizeBasedTriggeringPolicy>
+        </RollingFile>
+
+    </Appenders>
+     
+    <Loggers>
+
+        <logger name="klineRebuildLogger" additivity="TRUE" level="ALL">
+            <AppenderRef ref="klineRebuild" level="ALL" />
+
+        </logger>
+
+        <Root level="info">
+            <AppenderRef ref="Routing"/>
+            <AppenderRef ref="STDOUT"/>
+        </Root>
+    </Loggers>
+
+</Configuration>

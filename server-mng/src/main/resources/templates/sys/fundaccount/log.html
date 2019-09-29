@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>编辑信息</title>
+
+    <link rel="shortcut icon" href="../../../static/img/favicon.ico" />
+    <link href="../../../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet" />
+    <link href="../../../static/css/font-awesome.css?v=4.4.0" rel="stylesheet" />
+    <link href="../../../static/css/animate.css" rel="stylesheet" />
+    <link href="../../../static/css/Validformstyle.css" rel="stylesheet" />
+    <link href="../../../static/js/skin/default/style.css" rel="stylesheet" />
+    <link href="../../../static/css/style.css"  rel="stylesheet" />
+    <script type="text/javascript">
+        function Close() {
+            //parent.layer.msg(msg);
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            parent.layer.close(index);
+        }
+    </script>
+</head>
+<body class="gray-bg">
+<div class="form-horizontal">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+
+
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <input type="hidden" id="id" value="0">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">币的符号：</label>
+                            <div class="col-sm-6">
+                                <input  class="form-control" type="text" id="symbol">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">链上服务的symbolId：</label>
+                            <div class="col-sm-6">
+                                <input  class="form-control" type="text" datatype="n1-10" id="chain_symbol_id">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">币的名称：</label>
+                                <div class="col-sm-6">
+                                    <input  class="form-control" type="text" id="coin_name">
+                                </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">币的展示名：</label>
+                            <div class="col-sm-6">
+                                <input  class="form-control" type="text" value="USD" id="display_name">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">币所属的链：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="chain_name" type="text" datatype="*1-100" errormsg="菜单名称最多不能超过100位数">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">精度：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="precision" type="text" datatype="*1-100" errormsg="合约展示名最多10位">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">币的权限：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="privilege" type="text" datatype="*1-100" errormsg="合约面值最多100位">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">是否生效：</label>
+                            <div class="col-sm-5">
+                                <div class="rule-single-checkbox">
+                                    <input type="checkbox" id="ckbIsOnTop"  />
+                                </div>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-3">
+                                <input type="button" id="BtnSave" value="提交" class="btn btn-primary">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 全局js -->
+<script src="../../../static/js/jquery.min.js"></script>
+<script src="../../../static/js/bootstrap.min.js"></script>
+<script src="../../../static/js/Validform_v5.3.2.js"></script>
+<!-- 自定义js -->
+<script src="../../../static/js/layout.js"></script>
+<script src="../../../static/js/content.js?v=1.0.0"></script>
+<script src="../../../static/js/plugins/layer/layer.min.js"></script>
+<script src="../../../static/js/LayerTool.js"></script>
+<script type="text/javascript">
+    $(function () {
+        // $(".form-horizontal").Validform({ tiptype: 2 });
+        $(".form-horizontal").Validform({ tiptype: 2 });
+    });
+</script>
+
+<!--下拉框检索-->
+<link href="../../../static/js/plugins/jquery.searchableSelect/jquery.searchableSelect.css" rel="stylesheet" />
+<script src="../../../static/js/plugins/jquery.searchableSelect/jquery.searchableSelect.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        function initData() {
+
+            var id = GetQueryString("id");
+            var action=GetQueryString("action");
+            if (id != ""&&action=="Edit")//id不为空则需要绑定值
+            {
+                $.ajax({
+                    type: "get",
+                    url: "/v1/http/coin/query?id=" + id,
+                    contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+                    async: false,
+                    //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+                    //data:JSON.stringify({id:id}),
+                    success: function (data) {
+                        //console.log(data);
+                        if (data.data != null) {
+                            $("#id").val(data.data.id);
+                            $("#symbol").val(data.data.symbol);
+                            $("#coin_name").val(data.data.coinName);
+                            $("#display_name").val(data.data.displayName);
+                            $("#chain_name").val(data.data.chainName);
+                            $("#precision").val(data.data.precision);
+                            $("#privilege").val(data.data.privilege);
+                            $("#chain_symbol_id").val(data.data.chainSymbolId)
+                            if (data.data.status == "1")
+                                $("#ckbIsOnTop").parent().find("a").attr("class", "selected")
+                        }
+                    }
+                })
+            }
+        }
+        $(".form-horizontal").Validform({ tiptype: 2 });
+        initData();
+    });
+
+    $("#BtnSave").click(function(){
+        var checkVal=$("#ckbIsOnTop").parent().find("a").attr("class");
+        var isCheck;
+        var id = GetQueryString("id");
+        var action=GetQueryString("action");
+        if(action!="Edit")
+            id=0;
+        if(checkVal=="selected")
+            isCheck=1;
+        else
+            isCheck=0;
+
+        if($(".Validform_wrong").length>0)
+        {
+            layer.msg("请确认信息填写是否有误！");
+            return false;
+        }
+
+        var parmes="?";
+        parmes+= "id="+id;
+        parmes+="&symbol="+$("#symbol").val();
+        parmes+="&chain_symbol_id="+$("#chain_symbol_id").val();
+        parmes+="&coin_name="+$("#coin_name").val();
+        parmes+="&display_name="+$("#display_name").val();
+        parmes+="&chain_name="+$("#chain_name").val();
+        parmes+="&pre="+$("#precision").val();
+        parmes+="&privilege="+$("#privilege").val();
+        parmes+="&stat="+isCheck;
+
+        $.ajax({
+            type:"post",
+            url:"/v1/http/coin/create_or_edit"+parmes,
+            contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+            success:function(data) {
+                debugger
+                //console.log(data);
+                if(data.code==0)
+                {
+                    if(id>0&&action=="Edit")
+                        layer.msg("修改成功！");
+                    else
+                        layer.msg("添加成功！");
+                }
+                setTimeout("Close()", 1000);
+            }
+        })
+    })
+</script>
+
+</body>
+</html>
+
+
+
+

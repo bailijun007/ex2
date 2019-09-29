@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>编辑信息</title>
+
+    <link rel="shortcut icon" href="../../../static/img/favicon.ico" />
+    <link href="../../../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet" />
+    <link href="../../../static/css/font-awesome.css?v=4.4.0" rel="stylesheet" />
+    <link href="../../../static/css/animate.css" rel="stylesheet" />
+    <link href="../../../static/css/Validformstyle.css" rel="stylesheet" />
+    <link href="../../../static/js/skin/default/style.css" rel="stylesheet" />
+    <link href="../../../static/css/style.css"  rel="stylesheet" />
+    <script type="text/javascript">
+        function Close() {
+            //parent.layer.msg(msg);
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            parent.layer.close(index);
+        }
+    </script>
+
+
+
+</head>
+<body class="gray-bg">
+<div class="form-horizontal">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+
+
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <input type="hidden" id="id" value="0">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">排名：</label>
+                            <div class="col-sm-6">
+                                <input  class="form-control" type="text" id="sort">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">用户名：</label>
+                            <div class="col-sm-6">
+                                <input  class="form-control" type="text" id="account">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">收益率：</label>
+                                <div class="col-sm-6">
+                                    <input  class="form-control" type="text" datatype="*1-10" id="earningRate">
+                                </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">时间：</label>
+                            <div class="col-sm-6">
+                                <input  class="form-control" type="text"   id="earningRateTime">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-3">
+                                <input type="button" id="BtnSave" value="提交" class="btn btn-primary">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 全局js -->
+<script src="../../../static/js/jquery.min.js"></script>
+<script src="../../../static/js/bootstrap.min.js"></script>
+<script src="../../../static/js/Validform_v5.3.2.js"></script>
+<!-- 自定义js -->
+<script src="../../../static/js/layout.js"></script>
+<script src="../../../static/js/content.js?v=1.0.0"></script>
+<script src="../../../static/js/plugins/layer/layer.min.js"></script>
+<script src="../../../static/js/LayerTool.js"></script>
+<script src="../../../static/js/plugins/layer/laydate/laydate.js"></script>
+<script type="text/javascript">
+    $(function () {
+        // $(".form-horizontal").Validform({ tiptype: 2 });
+        $(".form-horizontal").Validform({ tiptype: 2 });
+        //时间选择器
+        laydate.render({
+            elem: '#earningRateTime',
+            type: 'date',
+            value:new Date()
+        });
+    });
+</script>
+
+<!--下拉框检索-->
+<link href="../../../static/js/plugins/jquery.searchableSelect/jquery.searchableSelect.css" rel="stylesheet" />
+<script src="../../../static/js/plugins/jquery.searchableSelect/jquery.searchableSelect.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        function checkHasEarningRate()
+        {
+            var hasEarningRate=false;
+            var params="?account="+$("#account").val();
+            params += "&earning_rate_time="+$("#earningRateTime").val();
+            $.ajax({
+                type:"post",
+                url:"/v1/http/earningrate/check_has_earning_rate"+params,
+                contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+                async:false,
+                success:function(data) {
+                    hasEarningRate=data.data.has_earning_rate;
+                }
+            })
+            return hasEarningRate;
+        }
+
+        function checkHasUser()
+        {
+            var hasUser=false;
+            var params="?account="+$("#account").val();
+
+            $.ajax({
+                type:"post",
+                url:"/v1/http/user/check_has_user"+params,
+                contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+                async:false,
+                success:function(data) {
+                    hasUser=data.data.has_user;
+                }
+            })
+            return hasUser;
+        }
+
+
+        $("#BtnSave").click(function(){
+            var hasUser=checkHasUser();
+            if(!hasUser)
+            {
+                layer.msg("账号不存在！");
+                return false;
+            }
+            var hasEarningRate=checkHasEarningRate();
+            //新增且已有
+            if($("#id").val()=="0"&&hasEarningRate==true)
+            {
+                layer.msg("该用户今日已存在收益率信息！");
+                return false;
+            }
+
+            var id = GetQueryString("id");
+            var action=GetQueryString("action");
+            if(action!="Edit")
+                id=0;
+
+
+            if($(".Validform_wrong").length>0)
+            {
+                layer.msg("请确认信息填写是否有误！");
+                return false;
+            }
+
+            var parmes="?";
+            parmes+= "id="+id;
+            parmes+="&account="+$("#account").val();
+            parmes+="&earning_rate="+$("#earningRate").val();
+            parmes+="&earning_rate_time="+$("#earningRateTime").val();
+            parmes+="&sort="+$("#sort").val();
+
+            $.ajax({
+                type:"post",
+                url:"/v1/http/earningrate/create_or_edit"+parmes,
+                contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+
+                success:function(data) {
+                    debugger
+                    //console.log(data);
+                    if(data.code==0)
+                    {
+                        if(id>0&&action=="Edit")
+                            layer.msg("修改成功！");
+                        else
+                            layer.msg("添加成功！");
+                    }
+                    setTimeout("Close()", 1000);
+                }
+            })
+        })
+        function initData() {
+
+            var id = GetQueryString("id");
+            var action=GetQueryString("action");
+            if (id != ""&&action=="Edit")//id不为空则需要绑定值
+            {
+                $.ajax({
+                    type: "get",
+                    url: "/v1/http/earningrate/query?id=" + id,
+                    contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+                    async: false,
+                    //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+                    //data:JSON.stringify({id:id}),
+                    success: function (data) {
+                        //console.log(data);
+                        if (data.data != null) {
+                            $("#id").val(data.data.id);
+                            $("#sort").val(data.data.sort);
+                            $("#account").val(data.data.account);
+                            $("#earningRate").val(data.data.earningRate);
+                            $("#earningRateTime").val(getShortDate(data.data.earningRateTime));
+                        }
+                    }
+                })
+            }
+        }
+        $(".form-horizontal").Validform({ tiptype: 2 });
+        initData();
+    });
+
+    // $("#symbol").blur(function(){
+    //     $.ajax({
+    //         type:"post",
+    //         url:"/v1/http/coin/check_has_coin?symbol="+$("#symbol").val(),
+    //         contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+    //         success:function(data) {
+    //             if(data.data.has_coin==true)
+    //             {
+    //                 layer.msg("已存在该币种！");
+    //                 $("#symbol").val("");
+    //             }
+    //         }
+    //     });
+    //
+    // })
+
+
+
+</script>
+
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>编辑信息</title>
+
+    <link rel="shortcut icon" href="../../../static/img/favicon.ico" />
+    <link href="../../../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet" />
+    <link href="../../../static/css/font-awesome.css?v=4.4.0" rel="stylesheet" />
+    <link href="../../../static/css/animate.css" rel="stylesheet" />
+    <link href="../../../static/css/Validformstyle.css" rel="stylesheet" />
+    <link href="../../../static/js/skin/default/style.css" rel="stylesheet" />
+    <link href="../../../static/css/style.css"  rel="stylesheet" />
+    <script type="text/javascript">
+        function Close() {
+            //parent.layer.msg(msg);
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            parent.layer.close(index);
+        }
+    </script>
+</head>
+<body class="gray-bg">
+<div class="form-horizontal">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+
+
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <input type="hidden" id="id" value="0">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">通知类型：</label>
+                            <div class="col-sm-6">
+                                <div class="rule-multi-radio" id="MsgType">
+                                    <input type="radio" name="msgType"  value="1" onclick="radioClick()" checked="checked" ><label>短信</label>
+                                    <input type="radio" name="msgType"  value="2" onclick="radioClick()" ><label>邮件</label>
+                                </div>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">具体类型：</label>
+                            <div class="col-sm-6">
+                                    <select class="form-control" id="type">
+                                        <!--<option value="PhoneLoginNotify">登录短信通知</option>-->
+                                        <!--<option value="ChangePhone">修改手机</option>-->
+                                        <!--<option value="ChangeLoginPwd">修改手机登录密码</option>-->
+                                    </select>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <!--<div class="form-group">-->
+                            <!--<label class="col-sm-3 control-label">通知内容：</label>-->
+                            <!--<div class="col-sm-6">-->
+                                <!--&lt;!&ndash;<input  class="form-control" type="text" id="content">&ndash;&gt;-->
+                                <!--<textarea class="form-control" rows="3" datatype="*1-200"  id="content"></textarea>-->
+                            <!--</div>-->
+                            <!--<div class="Validform_checktip"></div>-->
+                        <!--</div>-->
+
+                        <div id="append">
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">备注：</label>
+                            <div class="col-sm-6">
+                                <input  class="form-control" type="text" value=""   id="remark">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-3">
+                                <input type="button" id="BtnSave" value="提交" class="btn btn-primary">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 全局js -->
+<script src="../../../static/js/jquery.min.js"></script>
+<script src="../../../static/js/bootstrap.min.js"></script>
+<script src="../../../static/js/Validform_v5.3.2.js"></script>
+<!-- 自定义js -->
+<script src="../../../static/js/content.js?v=1.0.0"></script>
+<script src="../../../static/js/plugins/layer/layer.min.js"></script>
+<script src="../../../static/js/LayerTool.js"></script>
+<script type="text/javascript">
+    $(function () {
+        // $(".form-horizontal").Validform({ tiptype: 2 });
+        $(".form-horizontal").Validform({ tiptype: 2 });
+    });
+</script>
+
+<!--下拉框检索-->
+<link href="../../../static/js/plugins/jquery.searchableSelect/jquery.searchableSelect.css" rel="stylesheet" />
+<script src="../../../static/js/plugins/jquery.searchableSelect/jquery.searchableSelect.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        function initLanguage()
+        {
+            $.ajax({
+                type: "get",
+                url: "/v1/http/dic/query_type_list?dic_type=3",
+                contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+                async: false,
+                //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+                //data:JSON.stringify({id:id}),
+                success: function (data) {
+                    //console.log(data);
+                    var list= data.data.dic_list;
+                    if (list != null) {
+                        var html="";
+                        for(var i=0;i<list.length;i++)
+                        {
+                            html+="<div class='form-group'>"
+                            html+="<label class='col-sm-3 control-label'>"+list[i].key+"：</label>"
+                            html+="<div class='col-sm-6'>"
+                            html+="<textarea class='form-control' rows='3' datatype='*' key='"+list[i].key+"'  id='"+list[i].key+"'></textarea>"
+                            html+="</div>"
+                            html+="</div>"
+                        }
+                        $("#append").append(html);
+                    }
+                }
+            })
+        }
+        initLanguage()
+
+
+        function initData() {
+
+            var id = GetQueryString("id");
+            var action=GetQueryString("action");
+            if (id != 0&&action=="Edit")//id不为空则需要绑定值
+            {
+
+                $.ajax({
+                    type: "get",
+                    url: "/v1/http/smstemp/query?id=" + id,
+                    contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+                    async: false,
+                    //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+                    //data:JSON.stringify({id:id}),
+                    success: function (data) {
+                        //console.log(data);
+                        if (data.data != null) {
+                            bindDrop(data.data.type,"type");
+                            $("#id").val(data.data.id);
+                            //$("#content").val(data.data.content);
+                            var dataContent=JSON.parse(data.data.content);
+                            for(var item in dataContent)
+                            {
+                                $("#"+item+"").val(dataContent[item]);
+                            }
+                            $("#remark").val(data.data.remark);
+                            //bindMsgType(data.data.type);
+                            $("#type").val(data.data.code);
+                            $("input[name='msgType'][value="+data.data.type+"]").attr("checked",true);
+
+                        }
+
+                    }
+                })
+            }else
+            {
+                bindDrop("PhoneVerify","type");
+            }
+
+        }
+        initData();
+        $(".form-horizontal").Validform({ tiptype: 2 });
+    });
+
+
+    
+    
+    $("#BtnSave").click(function(){
+        // var checkVal=$("#ckbIsOnTop").parent().find("a").attr("class");
+        // var isCheck;
+        var id = GetQueryString("id");
+        var action=GetQueryString("action");
+        if(action!="Edit")
+            id=0;
+        // if(checkVal=="selected")
+        //     isCheck=1;
+        // else
+        //     isCheck=0;
+        var parmes="?";
+        if($(".Validform_wrong").length>0)
+        {
+            layer.msg("请确认信息填写是否有误！");
+            return false;
+        }
+
+        var content="";
+        $("#append textarea").each(function () {
+            content +=$(this).attr("key")+","
+            content +=$(this).val()+"|"
+        })
+        parmes+= "id="+id;
+        parmes+="&content="+encodeURIComponent(encodeURIComponent(content));
+        parmes+="&remark="+$("#remark").val();
+        parmes+= "&type="+$("#MsgType").find(".selected").attr("data-value")
+        parmes+= "&code="+$("#type").val()
+        $.ajax({
+            type:"post",
+            url:"/v1/http/smstemp/create_or_edit"+parmes,
+            contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+
+            success:function(data) {
+                debugger
+                //console.log(data);
+                if(data.code==0)
+                {
+                    if(data.data.id>0&&action=="Edit")
+                        layer.msg("修改成功！");
+                    else
+                        layer.msg("添加成功！");
+                }
+                setTimeout("Close()", 1000);
+            }
+        })
+    })
+
+    function radioClick()
+    {
+       //alert($("#MsgType").find(".selected").attr("data-value")) ;
+        bindDrop($("#MsgType").find(".selected").attr("data-value"),"type");
+    }
+</script>
+<script src="../../../static/js/layout.js"></script>
+</body>
+</html>
+
+
+
+

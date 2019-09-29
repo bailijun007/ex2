@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>编辑信息</title>
+
+    <link rel="shortcut icon" href="../../../static/img/favicon.ico" />
+    <link href="../../../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet" />
+    <link href="../../../static/css/font-awesome.css?v=4.4.0" rel="stylesheet" />
+    <link href="../../../static/css/animate.css" rel="stylesheet" />
+    <link href="../../../static/css/Validformstyle.css" rel="stylesheet" />
+    <link href="../../../static/js/skin/default/style.css" rel="stylesheet" />
+    <link href="../../../static/css/style.css"  rel="stylesheet" />
+    <link href="../../../static/css/plugins/jsTree/style.min.css" rel="stylesheet">
+
+
+</head>
+<body class="gray-bg">
+<div class="form-horizontal">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <input type="hidden" id="id" value="0">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">是否启用：</label>
+                            <div class="col-sm-5">
+                                <div class="rule-single-checkbox">
+                                    <input type="checkbox" id="ckbIsOnTop"  checked="checked" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">角色名称：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="role_name" type="text" datatype="*1-10" errormsg="角色名称最多不能超过10位数">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">描述：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="description" type="text" datatype="*1-100" errormsg="角色名称最多不能超过10位数">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">选择菜单：</label>
+                            <div id="menuTree" class="col-sm-6"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-3">
+                                <input type="button" id="BtnSave" value="提交" class="btn btn-primary">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 全局js -->
+<script src="../../../static/js/jquery.min.js"></script>
+<script src="../../../static/js/bootstrap.min.js"></script>
+<script src="../../../static/js/Validform_v5.3.2.js"></script>
+
+<script src="../../../static/js/plugins/jsTree/jstree.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        // $(".form-horizontal").Validform({ tiptype: 2 });
+        $(".form-horizontal").Validform({ tiptype: 2 });
+    });
+</script>
+<!-- 自定义js -->
+<script src="../../../static/js/layout.js"></script>
+<script src="../../../static/js/content.js?v=1.0.0"></script>
+<script src="../../../static/js/plugins/layer/layer.min.js"></script>
+<script src="../../../static/js/LayerTool.js"></script>
+<script type="text/javascript">
+    function Close() {
+        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        parent.layer.close(index);
+    }
+    $("#BtnSave").click(function(){
+        var checkVal=$("#ckbIsOnTop").parent().find("a").attr("class");
+        var isCheck;
+        if(checkVal=="selected")
+            isCheck=true;
+        else
+            isCheck=false;
+        if($(".Validform_wrong").length>0)
+        {
+            layer.msg("请确认信息填写是否有误！");
+            return false;
+        }
+         var ids=getNodeId();
+        $.ajax({
+            type:"post",
+            url:"/v1/http/role/create_or_edit",
+            contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+            //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+            data:JSON.stringify({
+                "id":$("#id").val(),
+                "roleName":$("#role_name").val(),
+                "description":$("#description").val(),
+                "enable":isCheck,
+                "menuList":ids
+            }),
+            success:function(data) {
+                var id=GetQueryString("id");
+                if(data==true)
+                {
+                    if(id>0)
+                        layer.msg("修改成功！");
+                    else
+                        layer.msg("添加成功！");
+
+                }
+
+                setTimeout("Close()", 1000);
+            }
+        })
+    });
+    function getNodeId(){
+        //获取选中的节点
+        var ids = [];
+        $.each($("#menuTree").jstree("get_checked"), function (index, item) {
+            ids.push(item);
+        });
+        $.each($("#menuTree").jstree("get_undetermined").find(".jstree-undetermined"), function (index, item) {
+            ids.push(item.closest(".jstree-node").id);
+        });
+        //alert(ids);
+        return ids;
+    }
+    $(function(){
+        function initData()
+        {
+            $.ajax({
+                type:"get",
+                url:"/v1/http/menu/query_tree_list",
+                contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+                //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+                //data:JSON.stringify(),
+                success:function(data) {
+                //console.log((data));
+                //初始化JsTree
+                   $("#menuTree").jstree({
+                        "core": {
+                            "data":data.data.treeBoList
+                        },
+                        "checkbox" : {
+                            "keep_selected_style" : false
+                        },
+                        "plugins" : [ "wholerow", "checkbox" ]
+                    });
+                    var id=GetQueryString("id");
+                    if(id!="")//id不为空则需要绑定值
+                    {
+                        var menuList;
+                        $.ajax({
+                            type:"get",
+                            url:"/v1/http/role/query?id="+id,
+                            contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+                            async:false,
+                            //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+                            //data:JSON.stringify({id:id}),
+                            success:function(roledata) {
+                                //console.log(roledata);
+                                if(roledata.data!=null)
+                                {
+                                    $("#role_name").val(roledata.data.roleName);
+                                    $("#description").val(roledata.data.description);
+                                    $("#id").val(roledata.data.id);
+                                    if(roledata.data.enable==true)
+                                        $("#ckbIsOnTop").parent().find("a").attr("class","selected")
+                                    else
+                                        $("#ckbIsOnTop").parent().find("a").attr("class","")
+                                    menuList=roledata.data.menulist;
+                                }
+                            }})
+                        //设置节点选中
+                        $("#menuTree").on("loaded.jstree", function (event, data) {
+                            for(var i=0;i<menuList.length;i++)
+                            {
+                                if(!data.instance.is_parent(menuList[i]))//不是父节点设置选中
+                                {
+                                    data.instance.select_node(menuList[i]);//选中节点
+                                }
+
+                            }
+                        });
+                    }
+                }
+            })
+        }
+        initData();
+    });
+
+</script>
+
+</body>
+</html>
+
+
+
+

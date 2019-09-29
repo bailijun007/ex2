@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>编辑信息</title>
+
+    <link rel="shortcut icon" href="../../../static/img/favicon.ico" />
+    <link href="../../../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet" />
+    <link href="../../../static/css/font-awesome.css?v=4.4.0" rel="stylesheet" />
+    <link href="../../../static/css/animate.css" rel="stylesheet" />
+    <link href="../../../static/css/Validformstyle.css" rel="stylesheet" />
+    <link href="../../../static/js/skin/default/style.css" rel="stylesheet" />
+    <link href="../../../static/css/style.css"  rel="stylesheet" />
+    <script type="text/javascript">
+        function Close() {
+            //parent.layer.msg(msg);
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            parent.layer.close(index);
+        }
+    </script>
+</head>
+<body class="gray-bg">
+<div class="form-horizontal">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+
+
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <input type="hidden" id="id" value="0">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">模块：</label>
+                            <div class="col-sm-6">
+
+                                <select id="module" class="form-control">
+
+                                </select>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">类型：</label>
+                            <div class="col-sm-6">
+
+                                <select id="type" class="form-control">
+                                    <option value="1">异常</option>
+                                </select>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">编码：</label>
+                            <div class="col-sm-6">
+                                <input  class="form-control" type="text" datatype="/\-/i" id="code">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">国际化常量：</label>
+                            <div class="col-sm-6">
+                                <input  class="form-control" type="text" value="" id="locale_constant">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div id="append">
+
+                        </div>
+
+                        <!--<div class="form-group">-->
+                            <!--<label class="col-sm-3 control-label">国际化说明内容：</label>-->
+                            <!--<div class="col-sm-6">-->
+                                <!--<input class="form-control" id="locale_content" type="text" datatype="*1-100" errormsg="菜单名称最多不能超过100位数">-->
+                            <!--</div>-->
+                            <!--<div class="Validform_checktip"></div>-->
+                        <!--</div>-->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">备注：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="remark" type="text" >
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-3">
+                                <input type="button" id="BtnSave" value="提交" class="btn btn-primary">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 全局js -->
+<script src="../../../static/js/jquery.min.js"></script>
+<script src="../../../static/js/bootstrap.min.js"></script>
+<script src="../../../static/js/Validform_v5.3.2.js"></script>
+<!-- 自定义js -->
+<script src="../../../static/js/layout.js"></script>
+<script src="../../../static/js/content.js?v=1.0.0"></script>
+<script src="../../../static/js/plugins/layer/layer.min.js"></script>
+<script src="../../../static/js/LayerTool.js"></script>
+<script type="text/javascript">
+    $(function () {
+        // $(".form-horizontal").Validform({ tiptype: 2 });
+        $(".form-horizontal").Validform({ tiptype: 2 });
+    });
+</script>
+
+<!--下拉框检索-->
+<link href="../../../static/js/plugins/jquery.searchableSelect/jquery.searchableSelect.css" rel="stylesheet" />
+<script src="../../../static/js/plugins/jquery.searchableSelect/jquery.searchableSelect.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+
+        bindDrop("ErrorMessage",'module');
+        function initLanguage()
+        {
+            $.ajax({
+                type: "get",
+                url: "/v1/http/dic/query_type_list?dic_type=3",
+                contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+                async: false,
+                //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+                //data:JSON.stringify({id:id}),
+                success: function (data) {
+                    //console.log(data);
+                    var list= data.data.dic_list;
+                    if (list != null) {
+                        var html="";
+                        for(var i=0;i<list.length;i++)
+                        {
+                            html+="<div class='form-group'>"
+                            html+="<label class='col-sm-3 control-label'>"+list[i].key+"：</label>"
+                            html+="<div class='col-sm-6'>"
+                            html+="<input class='form-control' id='"+list[i].key+"' key='"+list[i].key+"' value=''  type='text' datatype='*1-100' errormsg='描述最多100位'>"
+                            html+="</div>"
+                            html+="</div>"
+                        }
+                        $("#append").append(html);
+                    }
+                }
+            })
+        }
+        initLanguage()
+        function initData() {
+
+            var id = GetQueryString("id");
+            var action=GetQueryString("action");
+            if (id != ""&&action=="Edit")//id不为空则需要绑定值
+            {
+                $.ajax({
+                    type: "get",
+                    url: "/v1/http/locale/query?id=" + id,
+                    contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+                    async: false,
+                    //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+                    //data:JSON.stringify({id:id}),
+                    success: function (data) {
+                        //console.log(data);
+                        if (data.data != null) {
+                            $("#id").val(data.data.id);
+                            $("#type").val(data.data.type);
+                            $("#code").val(data.data.code);
+                            $("#locale_language").val(data.data.locale_language);
+                            $("#locale_constant").val(data.data.locale_constant);
+                            var dataContent=JSON.parse(data.data.locale_content);
+                            for(var item in dataContent)
+                            {
+                                $("#"+item+"").val(dataContent[item]);
+                            }
+                            //$("#locale_content").val(data.data.locale_content);
+                            $("#remark").val(data.data.remark);
+                            $("#module").val(data.data.module);
+                        }
+                    }
+                })
+            }
+        }
+        $(".form-horizontal").Validform({ tiptype: 2 });
+        initData();
+    });
+
+    $("#locale_language").blur(function(){
+        checkHasLocale();
+    })
+
+    $("#code").blur(function(){
+        checkHasLocale();
+    })
+    function checkHasLocale() {
+        $.ajax({
+            type:"post",
+            url:"/v1/http/locale/check_has_locale?code="+$("#code").val(),
+            contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+            success:function(data) {
+                if(data.code!=0)
+                {
+                    layer.msg("已存在该错误码！");
+                    $("#code").val("");
+                    $("#code").parent().next().children().remove();
+                }
+            }
+        });
+    }
+
+    $("#BtnSave").click(function(){
+
+        var id = GetQueryString("id");
+        var action=GetQueryString("action");
+        if(action!="Edit")
+            id=0;
+
+
+        if($(".Validform_wrong").length>0)
+        {
+            layer.msg("请确认信息填写是否有误！");
+            return false;
+        }
+        var content="";
+        $("#append input").each(function () {
+            content +=$(this).attr("key")+","
+            content +=$(this).val()+"|"
+        })
+        var parmes="?";
+        parmes+= "id="+id;
+        parmes+="&type="+$("#type").val();
+        parmes+="&code="+$("#code").val();
+        //parmes+="&locale_language="+$("#locale_language").val();
+        parmes+="&locale_constant="+$("#locale_constant").val();
+        parmes+="&locale_content="+ encodeURIComponent(encodeURIComponent(content));
+        parmes+="&remark="+$("#remark").val();
+        parmes+="&module="+$("#module").val();
+        $.ajax({
+            type:"post",
+            url:"/v1/http/locale/create_or_edit"+parmes,
+            contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+            success:function(data) {
+                debugger
+                //console.log(data);
+                if(data.code==0)
+                {
+                    if(id>0&&action=="Edit")
+                        layer.msg("修改成功！");
+                    else
+                        layer.msg("添加成功！");
+                }
+                setTimeout("Close()", 1000);
+            }
+        })
+    })
+</script>
+
+</body>
+</html>
+
+
+
+

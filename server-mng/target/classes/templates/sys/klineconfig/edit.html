@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>编辑信息</title>
+
+    <link rel="shortcut icon" href="../../../static/img/favicon.ico" />
+    <link href="../../../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet" />
+    <link href="../../../static/css/font-awesome.css?v=4.4.0" rel="stylesheet" />
+    <link href="../../../static/css/animate.css" rel="stylesheet" />
+    <!--<link href="../../../static/css/plugins/chosen/chosen.css" rel="stylesheet" />-->
+    <link href="../../../static/css/Validformstyle.css" rel="stylesheet" />
+    <link href="../../../static/js/skin/default/style.css" rel="stylesheet" />
+    <link href="../../../static/css/style.css"  rel="stylesheet" />
+    <!--<link href="../../../static/css/plugins/treeview/bootstrap-treeview.css"  rel="stylesheet" />-->
+    <!--<link href="../../../static/css/plugins/switchery/switchery.css"  rel="stylesheet" />-->
+    <script type="text/javascript">
+        function Close() {
+            //parent.layer.msg(msg);
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            parent.layer.close(index);
+        }
+    </script>
+</head>
+<body class="gray-bg">
+<div class="form-horizontal">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+
+
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <input type="hidden" id="id" value="0">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">是否启用：</label>
+                            <div class="col-sm-5">
+                                <div class="rule-single-checkbox">
+                                    <input type="checkbox" id="ckbIsOnTop" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">交易对名称：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="pair" type="text" datatype="*1-10" errormsg="菜单名称最多不能超过10位数">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">开始时间：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="stat_time" type="text" >
+                                <span style="color: red">填时间戳,为空默认从当前时间开始</span>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">结束时间：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="end_time" type="text" >
+                                <span style="color: red">填时间戳</span>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">运行时间：</label>
+                            <div class="col-sm-6">
+                                <div class="rule-multi-porp" id="checkboxList">
+                                    <span id="cblActionType">
+                                        <input id="1" type="checkbox" name="" value="1">
+                                        <label for="1">1min</label>
+                                        <input id="5" type="checkbox" name="" value="5">
+                                        <label for="5">5min</label>
+                                        <input id="15" type="checkbox" name="" value="15">
+                                        <label for="15">15min</label>
+                                        <input id="30" type="checkbox" name="" value="30">
+                                        <label for="30">30min</label>
+                                        <input id="60" type="checkbox" name="" value="60">
+                                        <label for="60">1hour</label>
+                                        <input id="120" type="checkbox" name="" value="120">
+                                        <label for="120">2hour</label>
+                                        <input id="240" type="checkbox" name="" value="240">
+                                        <label for="240">4hour</label>
+                                        <input id="360" type="checkbox" name="" value="360">
+                                        <label for="360">8hour</label>
+                                        <input id="720" type="checkbox" name="" value="720">
+                                        <label for="720">12hour</label>
+                                        <input id="1440" type="checkbox" name="" value="1440">
+                                        <label for="1440">1day</label>
+                                        <input id="10080" type="checkbox" name="" value="10080">
+                                        <label for="10080">1week</label>
+                                        <input id="302400" type="checkbox" name="" value="302400">
+                                        <label for="302400">1month</label>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">生成K线类型：</label>
+                            <div class="col-sm-6">
+                                <div class="rule-multi-radio" id="type">
+                                    <input type="radio" name="type"  value="1"  checked="checked"><label>启动时</label>
+                                    <input type="radio" name="type"  value="2"><label>补充时间段</label>
+                                </div>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <!--<div class="form-group">-->
+                            <!--<label class="col-sm-3 control-label">用户类型：</label>-->
+                            <!--<div class="col-sm-6">-->
+                                <!--<div class="rule-multi-radio" id="userTypeList">-->
+                                  <!--<input type="radio" name="userType" disabled="disabled" value="1"  checked="checked"><label>后台用户</label>-->
+                                  <!--<input type="radio" name="userType" disabled="disabled" value="2"><label>交易所用户</label>-->
+                                  <!--<input type="radio" name="userType" disabled="disabled" value="3"><label>游客</label>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="Validform_checktip"></div>-->
+                        <!--</div>-->
+
+
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-3">
+                                <input type="button" id="BtnSave" value="提交" class="btn btn-primary">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 全局js -->
+<script src="../../../static/js/jquery.min.js"></script>
+<script src="../../../static/js/bootstrap.min.js"></script>
+<script src="../../../static/js/Validform_v5.3.2.js"></script>
+<!--<script src="../../../static/js/demo/form-advanced-demo.js"></script>-->
+<!-- 自定义js -->
+<script type="text/javascript">
+    $(function () {
+        function initData() {
+            var id = GetQueryString("id");
+            var action=GetQueryString("action");
+            if (id != "0"&&action=="Edit")//id不为空则需要绑定值
+            {
+                $.ajax({
+                    type: "get",
+                    url: "/v1/http/klineconfig/query?id=" + id,
+                    contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+                    async: false,
+                    //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+                    //data:JSON.stringify({id:id}),
+                    success: function (data) {
+                        //console.log(data);
+                        if (data.data != null) {
+                            $("#pair").val(data.data.pair);
+                            $("#stat_time").val(data.data.stat_time=="null"?"":data.data.stat_time);
+                            $("#end_time").val(data.data.end_time=="null"?"":data.data.end_time);
+                            $("#id").val(data.data.id);
+                            if (data.data.status == "1")
+                                $("#ckbIsOnTop").attr("checked","checked")//$("#ckbIsOnTop").parent().find("a").attr("class", "selected");
+                            var arr= data.data.klineInterval.split(",");
+                            $("input[name='type'][value='"+data.data.type+"']").attr("checked",true);
+                            for(var i=0;i<arr.length;i++)
+                            {
+                                //console.log(arr[i])
+                                $("#"+arr[i]+"").attr("checked","checked");
+                            }
+
+                        }
+                    }
+                })
+            }
+        }
+        initData();
+
+
+        $(".form-horizontal").Validform({ tiptype: 2 });
+    });
+
+    $("#BtnSave").click(function(){
+        var klineInterval = "";
+        //获取选中的权限
+        $("#checkboxList").find(".selected").each(function () {
+           //console.log($($(this).find("a")).attr("data-value")) ;
+            klineInterval+=$($(this).find("a")).attr("data-value")+",";
+        })
+
+        var checkVal=$("#ckbIsOnTop").parent().find("a").attr("class");
+        var isCheck;
+        var id = GetQueryString("id");
+        var action=GetQueryString("action");
+        if(action!="Edit")
+            id=0;
+        if(checkVal=="selected")
+            isCheck=true;
+        else
+            isCheck=false;
+        if($(".Validform_wrong").length>0)
+        {
+            layer.msg("请确认信息填写是否有误！");
+            return false;
+        }
+        var param="?";
+        param+= "pair="+$("#pair").val();
+        param+= "&enable="+isCheck;
+        param+= "&id="+id;
+        param+= "&klineInterval="+klineInterval;
+        param+= "&stat_time="+$("#stat_time").val();
+        param+= "&end_time="+$("#end_time").val();
+        param+= "&type="+$("#type .selected").attr("data-value");
+
+        $.ajax({
+            type:"post",
+            url:"/v1/http/klineconfig/create_or_edit"+param,
+            contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+            success:function(data) {
+                //console.log(data);
+                if(data.code==0)
+                {
+                    if(id>0)
+                        layer.msg("修改成功！");
+                    else
+                        layer.msg("添加成功！");
+                    setTimeout("Close()", 1000);
+                }
+                else
+                {
+
+                }
+
+            }
+        })
+    })
+</script>
+<script src="../../../static/js/content.js?v=1.0.0"></script>
+<!--<script src="../../../static/js/plugins/treeview/bootstrap-treeview.js"></script>-->
+<!--<script src="../../../static/js/plugins/switchery/switchery.js"></script>-->
+<script src="../../../static/js/plugins/layer/layer.min.js"></script>
+<script src="../../../static/js/LayerTool.js"></script>
+<script src="../../../static/js/layout.js"></script>
+</body>
+</html>
+
+
+
+

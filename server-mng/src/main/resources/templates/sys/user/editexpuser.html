@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>编辑信息</title>
+
+    <link rel="shortcut icon" href="../../../static/img/favicon.ico" />
+    <link href="../../../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet" />
+    <link href="../../../static/css/font-awesome.css?v=4.4.0" rel="stylesheet" />
+    <link href="../../../static/css/animate.css" rel="stylesheet" />
+    <!--<link href="../../../static/css/plugins/chosen/chosen.css" rel="stylesheet" />-->
+    <link href="../../../static/css/Validformstyle.css" rel="stylesheet" />
+    <link href="../../../static/js/skin/default/style.css" rel="stylesheet" />
+    <link href="../../../static/css/style.css"  rel="stylesheet" />
+
+    <!--<link href="../../../static/css/plugins/treeview/bootstrap-treeview.css"  rel="stylesheet" />-->
+    <!--<link href="../../../static/css/plugins/switchery/switchery.css"  rel="stylesheet" />-->
+    <script type="text/javascript">
+        function Close() {
+            //parent.layer.msg(msg);
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            parent.layer.close(index);
+        }
+    </script>
+</head>
+<body class="gray-bg">
+<div class="form-horizontal">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+
+
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <input type="hidden" id="id" value="0">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">是否启用：</label>
+                            <div class="col-sm-5">
+                                <div class="rule-single-checkbox">
+                                    <input type="checkbox" checked="checked" id="ckbIsOnTop" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">区号：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="areaCode" type="text" datatype="*1-10" errormsg="菜单名称最多不能超过10位数">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">手机号码：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="phone" type="text" datatype="m" errormsg="手机号码不正确">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">邮箱：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="email" type="text" datatype="e" errormsg="邮箱不正确">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <input type="hidden" id="userPwd" value="">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">密码：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="pwd" type="text" value="******" datatype="*6-16" errormsg="密码长度异常"><span style="color: red">不改密码别动这个*</span>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <input type="hidden" id="userFundPwd" value="">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">资金密码：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="fund_pwd" type="text" value="******" datatype="*6-16" errormsg="密码长度异常"><span style="color: red">不改密码别动这个*</span>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">用户类型：</label>
+                            <div class="col-sm-6">
+                                <div class="rule-multi-radio" id="userTypeList">
+                                    <input type="radio" name="userType" value="1" checked="checked"><label>交易所用户</label>
+                                    <input type="radio" name="userType" value="2"  ><label>内部用户</label>
+                                </div>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-3">
+                                <input type="button" id="BtnSave" value="提交" class="btn btn-primary">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 全局js -->
+<script src="../../../static/js/jquery.min.js"></script>
+<script src="../../../static/js/bootstrap.min.js"></script>
+<script src="../../../static/js/Validform_v5.3.2.js"></script>
+<script src="../../../static/js/md5.js"></script>
+<!--<script src="../../../static/js/demo/form-advanced-demo.js"></script>-->
+<!-- 自定义js -->
+<script type="text/javascript">
+    $(function () {
+        function initData() {
+            var id = GetQueryString("id");
+            var action=GetQueryString("action");
+            if (id != "0"&&action=="Edit")//id不为空则需要绑定值
+            {
+                $.ajax({
+                    type: "get",
+                    url: "/v1/http/user/query?id=" + id,
+                    contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+                    async: false,
+                    //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+                    //data:JSON.stringify({id:id}),
+                    success: function (data) {
+                        //console.log(data);
+                        if (data.data != null) {
+                            $("#phone").val(data.data.phone);
+                            $("#userPwd").val(data.data.userPwd);
+                            $("#userFundPwd").val(data.data.fundPwd);
+                            //$("#pwd").val();
+                            $("#email").val(data.data.email);
+                            $("#areaCode").val(data.data.areaCode);
+                            $("input[name='userType'][value='"+data.data.userType+"']").attr("checked",true);
+                            // $("#usertype").val(data.data.userType);
+                            $("#id").val(data.data.id);
+                            if (data.data.status == "1")
+                                $("#ckbIsOnTop").attr("checked","checked")//$("#ckbIsOnTop").parent().find("a").attr("class", "selected");
+                        }
+                    }
+                })
+            }
+
+
+        }
+        initData();
+
+
+        $(".form-horizontal").Validform({ tiptype: 2 });
+    });
+
+    $("#BtnSave").click(function(){
+        var ids = [];
+        //获取选中的权限
+        $("#checkboxList").find(".selected").each(function () {
+            //console.log($($(this).find("a")).attr("data-value")) ;
+            ids.push($($(this).find("a")).attr("data-value"));
+        })
+
+        var checkVal=$("#ckbIsOnTop").parent().find("a").attr("class");
+        var isCheck;
+        var id = GetQueryString("id");
+        var action=GetQueryString("action");
+        if(action!="Edit")
+            id=0;
+        if(checkVal=="selected")
+            isCheck=1;
+        else
+            isCheck=0;
+        if($(".Validform_wrong").length>0)
+        {
+            layer.msg("请确认信息填写是否有误！");
+            return false;
+        }
+        var pwd=""
+        if($("#pwd").val()!="******")
+            pwd=hex_md5($("#pwd").val());
+        else
+            pwd=$("#userPwd").val();
+
+        var fundPwd=""
+        if($("#fund_pwd").val()!="******")
+            fundPwd=hex_md5($("#fund_pwd").val());
+        else
+            fundPwd=$("#userFundPwd").val();
+        $.ajax({
+            type:"post",
+            url:"/v1/http/user/create_or_edit",
+            contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+            //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+            data:JSON.stringify({
+                "areaCode":$("#areaCode").val(),
+                "userName":$("#username").val(),
+                "password":pwd,
+                "fundPwd":fundPwd,
+                "userType":$("#userTypeList .selected").attr("data-value"),
+                "phone":$("#phone").val(),
+                "email":$("#email").val(),
+                "status":isCheck,
+                "id":id,
+                "roleList":ids
+            }),
+            success:function(data) {
+                //console.log(data);
+                if(data.code==0)
+                {
+                    if(id>0)
+                        layer.msg("修改成功！");
+                    else
+                        layer.msg("添加成功！");
+                    setTimeout("Close()", 1000);
+                }
+                else
+                {
+
+                }
+
+            }
+        })
+    })
+</script>
+<script src="../../../static/js/content.js?v=1.0.0"></script>
+<!--<script src="../../../static/js/plugins/treeview/bootstrap-treeview.js"></script>-->
+<!--<script src="../../../static/js/plugins/switchery/switchery.js"></script>-->
+<script src="../../../static/js/plugins/layer/layer.min.js"></script>
+<script src="../../../static/js/LayerTool.js"></script>
+<script src="../../../static/js/layout.js"></script>
+</body>
+</html>
+
+
+
+
