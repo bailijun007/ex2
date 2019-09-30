@@ -21,7 +21,6 @@ com\hupa\exp\servermng\config\WebMvcConfig.class
 com\hupa\exp\servermng\config\AppSettingConfig.class
 com\hupa\exp\servermng\entity\user\UserListOutputPage.class
 com\hupa\exp\servermng\entity\menu\MenuListOutputPage.class
-com\hupa\exp\servermng\entity\dictype\DicTypeOutputDto.class
 com\hupa\exp\servermng\service\def\IApiRoleControllerService.class
 com\hupa\exp\servermng\entity\contract\GetContractInputDto.class
 com\hupa\exp\servermng\service\def\IApiAssertChangeControllerService.class
@@ -52,7 +51,6 @@ com\hupa\exp\servermng\entity\operationlog\OperationLogListInputDto.class
 com\hupa\exp\servermng\entity\login\LoginOutOutputDto.class
 com\hupa\exp\servermng\enums\UserExceptionCode.class
 com\hupa\exp\servermng\entity\assertchange\FundAssertChangeOutputDto.class
-com\hupa\exp\servermng\entity\dictype\DicTypeAllListInputDto.class
 com\hupa\exp\servermng\entity\klineconfig\KlineConfigListInputDto.class
 com\hupa\exp\servermng\service\impl\ApiDicControllerServiceImpl.class
 com\hupa\exp\servermng\config\dubbo\DubboBeans.class
@@ -88,7 +86,6 @@ com\hupa\exp\servermng\action\controller\api\ApiEarningRateController.class
 com\hupa\exp\servermng\entity\area\AreaOutputDto.class
 com\hupa\exp\servermng\entity\user\EditFundAccountOutputDto.class
 com\hupa\exp\servermng\entity\login\LoginInputDto.class
-com\hupa\exp\servermng\entity\dictype\DicTypeAllListOutputDto.class
 com\hupa\exp\servermng\exception\MenuException.class
 com\hupa\exp\servermng\validate\LoginValidateImpl.class
 com\hupa\exp\servermng\config\aliyunoss\OSSClientConfig.class
@@ -111,7 +108,6 @@ com\hupa\exp\servermng\action\controller\api\ApiInformationController.class
 com\hupa\exp\servermng\help\Swagger2Helper.class
 com\hupa\exp\servermng\entity\locale\LocaleListInputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiUploadController.class
-com\hupa\exp\servermng\entity\dictype\DicTypeInfoInputDto.class
 com\hupa\exp\servermng\entity\fundaccount\FundAccountLogListOutputDto.class
 com\hupa\exp\servermng\entity\user\GenFeeInputDto.class
 com\hupa\exp\servermng\entity\tickerlast\PcTickerLastPageDataOutputDto.class
@@ -131,7 +127,6 @@ com\hupa\exp\servermng\entity\assertchange\FundAssertChangeListOutputDto.class
 com\hupa\exp\servermng\entity\modulelimit\ModuleLimitInputDto.class
 com\hupa\exp\servermng\service\impl\ApiContractControllerServiceImpl.class
 com\hupa\exp\servermng\entity\locale\LocaleListOutputDto.class
-com\hupa\exp\servermng\action\controller\api\ApiDicTypeController.class
 com\hupa\exp\servermng\entity\klineconfig\KlineConfigOutputDto.class
 com\hupa\exp\servermng\entity\earningrate\PcEarningRateInfoInputDto.class
 com\hupa\exp\servermng\entity\user\GenFeeOutputDto.class
@@ -143,7 +138,6 @@ com\hupa\exp\servermng\entity\dic\DicInfoOutputDto.class
 com\hupa\exp\servermng\service\def\IApiUploadControllerService.class
 com\hupa\exp\servermng\action\controller\api\DefaultViewController.class
 com\hupa\exp\servermng\service\def\IApiSmsTempControllerService.class
-com\hupa\exp\servermng\entity\dictype\DicTypeListInputDto.class
 com\hupa\exp\servermng\entity\role\RoleMenuInputDto.class
 com\hupa\exp\servermng\entity\locale\LocaleInfoInputDto.class
 com\hupa\exp\servermng\entity\coin\GetCoinInputDto.class
@@ -163,7 +157,6 @@ com\hupa\exp\servermng\enums\MenuExceptionCode.class
 com\hupa\exp\servermng\service\def\IApiPcOrderControllerService.class
 com\hupa\exp\servermng\validate\ILoginValidate.class
 com\hupa\exp\servermng\action\controller\api\ApiFundAccountController.class
-com\hupa\exp\servermng\entity\dictype\DicTypeInputDto.class
 com\hupa\exp\servermng\entity\contract\ContractListOutputPage.class
 com\hupa\exp\servermng\entity\assertchange\PcAssertChangeInputDto.class
 com\hupa\exp\servermng\entity\fundwithdraw\AuditPassFundWithdrawInputDto.class
@@ -230,12 +223,10 @@ com\hupa\exp\servermng\service\impl\ApiAssertChangeControllerServiceImpl.class
 com\hupa\exp\servermng\entity\information\GetInformationInfoOutputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiLocaleController.class
 com\hupa\exp\servermng\entity\fundaccount\FundAccountLogListInputDto.class
-com\hupa\exp\servermng\service\def\IApiDicTypeControllerService.class
 com\hupa\exp\servermng\entity\modulelimit\ModuleLimitListInputDto.class
 com\hupa\exp\servermng\entity\dic\DicListInputDto.class
 com\hupa\exp\servermng\entity\fundwithdraw\AuditFundWithdrawOutputDto.class
 com\hupa\exp\servermng\entity\menu\MenuHtmlInputDto.class
-com\hupa\exp\servermng\entity\dictype\DicTypeInfoOutputDto.class
 com\hupa\exp\servermng\entity\fundwithdraw\FundWithdrawListOutputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiStoringLevelController.class
 com\hupa\exp\servermng\enums\ContarctExceptionCode.class
@@ -265,7 +256,6 @@ com\hupa\exp\servermng\enums\LocaleExceptionCode.class
 com\hupa\exp\servermng\entity\coin\CoinListOutputPage.class
 com\hupa\exp\servermng\entity\earningrate\CheckHasEarningRateOutputDto.class
 com\hupa\exp\servermng\service\impl\ApiRoleControllerServiceImpl.class
-com\hupa\exp\servermng\service\impl\ApiDicTypeControllerServiceImpl.class
 com\hupa\exp\servermng\service\def\IApiMenuControllerService.class
 com\hupa\exp\servermng\service\def\IApiLocaleControllerService.class
 com\hupa\exp\servermng\service\def\IApiKlineConfigControllerService.class
@@ -286,7 +276,6 @@ com\hupa\exp\servermng\entity\modulelimit\GetModuleLimitOutputDto.class
 com\hupa\exp\servermng\entity\contract\GetContractOutputDto.class
 com\hupa\exp\servermng\entity\coin\CoinInputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiKlineConfigController.class
-com\hupa\exp\servermng\entity\dictype\DicTypeListOutputDto.class
 com\hupa\exp\servermng\entity\klineconfig\KlineConfigInputDto.class
 com\hupa\exp\servermng\service\impl\ApiModuleLimitControllerServiceImpl.class
 com\hupa\exp\servermng\action\controller\api\ApiOperationLogController.class

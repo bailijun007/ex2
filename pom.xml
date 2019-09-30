@@ -14,6 +14,8 @@
         <module>biz-other</module>
         <!--对外服务层,管理后台-->
         <module>server-mng</module>
+        <!--对外服务层,管理后台-->
+        <module>proc-test</module>
     </modules>
 
 

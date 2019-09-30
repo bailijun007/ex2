@@ -31,7 +31,6 @@ com\hupa\exp\bizother\entity\TableFieldListBizBo.class
 com\hupa\exp\bizother\entity\FundAccountBizBo.class
 com\hupa\exp\bizother\entity\ExpKlineConfigBizBo.class
 com\hupa\exp\bizother\entity\ExpLocaleBizBo.class
-com\hupa\exp\bizother\service\dictype\def\IDicTypeService.class
 com\hupa\exp\bizother\service\user\impl\UserRoleServiceImpl.class
 com\hupa\exp\bizother\service\locale\impl\LocaleServiceImpl.class
 com\hupa\exp\bizother\entity\ExpDicTypeListBizBo.class
@@ -58,7 +57,6 @@ com\hupa\exp\bizother\service\klineconfig\impl\KlineConfigServiceImpl.class
 com\hupa\exp\BizOtherMainEntrance.class
 com\hupa\exp\bizother\service\menu\def\IMenuService.class
 com\hupa\exp\bizother\enums\BizUserExceptionCode.class
-com\hupa\exp\bizother\service\dictype\impl\DicTypeServiceImpl.class
 com\hupa\exp\bizother\service\dic\impl\DicServiceImpl.class
 com\hupa\exp\bizother\entity\ExpUserListBizBo.class
 com\hupa\exp\bizother\entity\ExpUserRoleBizBo.class

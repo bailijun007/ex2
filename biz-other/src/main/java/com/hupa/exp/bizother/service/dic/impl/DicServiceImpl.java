@@ -3,14 +3,11 @@ package com.hupa.exp.bizother.service.dic.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.hupa.exp.base.enums.ValidateExceptionCode;
 import com.hupa.exp.base.exception.ValidateException;
-import com.hupa.exp.bizother.entity.ExpAreaBizBo;
-import com.hupa.exp.bizother.entity.ExpAreaListBizBo;
 import com.hupa.exp.bizother.entity.ExpDicBizBo;
 import com.hupa.exp.bizother.entity.ExpDicListBizBo;
 import com.hupa.exp.bizother.service.dic.def.IDicService;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.daoex2.dao.expv2.def.IExpDicDao;
-import com.hupa.exp.daoex2.entity.po.expv2.ExpAreaPo;
 import com.hupa.exp.daoex2.entity.po.expv2.ExpDicPo;
 import com.hupa.exp.util.convent.ConventObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +53,7 @@ public class DicServiceImpl implements IDicService {
 
     @Override
     public List<ExpDicBizBo> queryDicListByType(int type) throws BizException {
-        List<ExpDicPo> list=iExpDicDao.selectDicListByType(type);
+        List<ExpDicPo> list=iExpDicDao.selectDicListByParentId(type);
         List<ExpDicBizBo> boList=new ArrayList<>();
         for(ExpDicPo po:list)
         {

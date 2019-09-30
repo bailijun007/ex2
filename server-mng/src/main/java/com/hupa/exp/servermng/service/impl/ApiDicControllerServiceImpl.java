@@ -1,16 +1,12 @@
 package com.hupa.exp.servermng.service.impl;
 
-import com.alibaba.druid.sql.dialect.mysql.ast.clause.ConditionValue;
 import com.alibaba.fastjson.JSON;
 import com.hupa.exp.base.enums.OperationModule;
 import com.hupa.exp.base.enums.OperationType;
-import com.hupa.exp.base.exception.ValidateException;
 import com.hupa.exp.bizother.entity.ExpDicBizBo;
 import com.hupa.exp.bizother.entity.ExpDicListBizBo;
-import com.hupa.exp.bizother.entity.ExpDicTypeBizBo;
 import com.hupa.exp.bizother.entity.ExpUserBizBo;
 import com.hupa.exp.bizother.service.dic.def.IDicService;
-import com.hupa.exp.bizother.service.dictype.def.IDicTypeService;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.servermng.entity.base.DeleteInputDto;
@@ -29,8 +25,7 @@ public class ApiDicControllerServiceImpl implements IApiDicControllerService {
     @Autowired
     private IDicService dicService;
 
-    @Autowired
-    private IDicTypeService dicTypeService;
+
 
     @Autowired
     private IExpOperationLogService logService;
@@ -41,7 +36,7 @@ public class ApiDicControllerServiceImpl implements IApiDicControllerService {
     @Override
     public DicAllListOutputDto queryDicListByType(DicAllListInputDto inputDto) throws BizException {
         DicAllListOutputDto outputDto=new DicAllListOutputDto();
-        ExpDicTypeBizBo dicTypeBizBo =dicTypeService.selectPoByKey(inputDto.getTypekey());
+        ExpDicBizBo dicTypeBizBo =dicService.queryDicByKey(inputDto.getTypekey());
         if(dicTypeBizBo==null)
             return outputDto;
         List<ExpDicBizBo> boList=dicService.queryDicListByType(Integer.valueOf(String.valueOf(dicTypeBizBo.getId())));
