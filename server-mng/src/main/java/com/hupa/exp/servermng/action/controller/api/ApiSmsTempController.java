@@ -45,7 +45,7 @@ public class ApiSmsTempController {
              @ApiParam(name="code",value = "具体通知类型",required = true)
             @RequestParam(name = "code") String code
 ){
-        logger.info("打印日志--------------------->");
+        //logger.info("打印日志--------------------->");
         SmsTempOutputDto outputDto=new SmsTempOutputDto();
         SmsTempInputDto inputDto=new SmsTempInputDto();
         inputDto.setId(id);

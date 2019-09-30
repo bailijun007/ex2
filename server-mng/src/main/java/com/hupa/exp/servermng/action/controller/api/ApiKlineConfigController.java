@@ -47,7 +47,7 @@ public class ApiKlineConfigController {
             @RequestParam(name = "type",required = false) Integer type
 
     ){
-        logger.info("打印日志--------------------->");
+        //logger.info("打印日志--------------------->");
         KlineConfigOutputDto outputDto=new KlineConfigOutputDto();
         KlineConfigInputDto inputDto=new KlineConfigInputDto();
         inputDto.setId(id);

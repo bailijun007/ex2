@@ -39,7 +39,7 @@ public class ApiUserController {
     @ApiOperation(value = "插入用户")
     @PostMapping("/create_or_edit")
     public BaseResultViaApiDto<UserInputDto,UserOutputDto> createOrEditUser(@RequestBody UserInputDto inputDto){
-        logger.info("打印日志--------------------->");
+        //logger.info("打印日志--------------------->");
         UserOutputDto outputDto=new UserOutputDto();
         inputDto.setUpdatetime(new Date().getTime());
         try{

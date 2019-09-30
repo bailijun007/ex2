@@ -37,7 +37,7 @@ public class ApiDicTypeController {
             @ApiParam(name="page_size",value = "条数",required = true)
             @RequestParam(name = "page_size") Integer pageSize
     ){
-        logger.info("打印日志--------------------->");
+        //logger.info("打印日志--------------------->");
         DicTypeListInputDto inputDto=new DicTypeListInputDto();
         DicTypeListOutputDto outputDto=new DicTypeListOutputDto();
         inputDto.setCurrentPage(currentPage);
@@ -54,7 +54,7 @@ public class ApiDicTypeController {
     @GetMapping("/query_all_list")
     public BaseResultViaApiDto<DicTypeAllListInputDto,DicTypeAllListOutputDto> getAllList(
     ){
-        logger.info("打印日志--------------------->");
+        //logger.info("打印日志--------------------->");
         DicTypeAllListInputDto inputDto=new DicTypeAllListInputDto();
         DicTypeAllListOutputDto outputDto=new DicTypeAllListOutputDto();
 
@@ -77,7 +77,7 @@ public class ApiDicTypeController {
             @ApiParam(name="value",value = "值",required = true)
             @RequestParam(name = "value") String value
     ){
-        logger.info("打印日志--------------------->");
+        //logger.info("打印日志--------------------->");
         DicTypeInputDto inputDto=new DicTypeInputDto();
         DicTypeOutputDto outputDto=new DicTypeOutputDto();
         inputDto.setId(id);
@@ -100,7 +100,7 @@ public class ApiDicTypeController {
             @ApiParam(name="id",value = "id",required = true)
             @RequestParam(name = "id") Long id
     ){
-        logger.info("打印日志--------------------->");
+        //logger.info("打印日志--------------------->");
         DicTypeInfoInputDto inputDto=new DicTypeInfoInputDto();
         DicTypeInfoOutputDto outputDto=new DicTypeInfoOutputDto();
         inputDto.setId(id);
@@ -120,7 +120,7 @@ public class ApiDicTypeController {
             @ApiParam(name="ids",value = "ids",required = true)
             @RequestParam(name = "ids") String ids
     ){
-        logger.info("打印日志--------------------->");
+        //logger.info("打印日志--------------------->");
         DeleteInputDto inputDto=new DeleteInputDto();
         DeleteOutputDto outputDto=new DeleteOutputDto();
         inputDto.setIds(ids);

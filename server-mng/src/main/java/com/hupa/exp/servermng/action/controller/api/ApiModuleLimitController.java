@@ -46,7 +46,7 @@ public class ApiModuleLimitController {
             @ApiParam(name="enable",value = "是否启用",required = true)
             @RequestParam(name = "enable") Integer enable
     ){
-        logger.info("打印日志--------------------->");
+        //logger.info("打印日志--------------------->");
         ModuleLimitOutputDto outputDto=new ModuleLimitOutputDto();
         ModuleLimitInputDto inputDto=new ModuleLimitInputDto();
         inputDto.setId(id);
@@ -70,7 +70,7 @@ public class ApiModuleLimitController {
             @ApiParam(name="id",value = "id",required = true)
             @RequestParam(name = "id") long id
     ){
-        logger.info("打印日志--------------------->");
+        //logger.info("打印日志--------------------->");
         GetModuleLimitOutputDto outputDto=new GetModuleLimitOutputDto();
         GetModuleLimitInputDto inputDto=new GetModuleLimitInputDto();
         inputDto.setId(id);
@@ -90,7 +90,7 @@ public class ApiModuleLimitController {
             @ApiParam(name="current_page",value = "页码",required = true)
             @RequestParam(name = "current_page") Integer currentPage
     ){
-        logger.info("打印日志--------------------->");
+        //logger.info("打印日志--------------------->");
         ModuleLimitListOutputDto outputDto=new ModuleLimitListOutputDto();
         ModuleLimitListInputDto inputDto=new ModuleLimitListInputDto();
         inputDto.setCurrentPage(currentPage);

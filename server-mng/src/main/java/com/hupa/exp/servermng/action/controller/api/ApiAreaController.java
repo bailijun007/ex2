@@ -72,7 +72,7 @@ public class ApiAreaController {
             @ApiParam(name="id",value = "id",required = true)
             @RequestParam(name = "id") long id
     ){
-        logger.info("打印日志--------------------->");
+        //logger.info("打印日志--------------------->");
         GetAreaOutputDto outputDto=new GetAreaOutputDto();
         GetAreaInputDto inputDto=new GetAreaInputDto();
         inputDto.setId(id);
@@ -93,7 +93,7 @@ public class ApiAreaController {
             @ApiParam(name="current_page",value = "页码",required = true)
             @RequestParam(name = "current_page") Integer currentPage
     ){
-        logger.info("打印日志--------------------->");
+        //logger.info("打印日志--------------------->");
         AreaListInputDto inputDto=new AreaListInputDto();
         AreaListOutputDto outputDto=new AreaListOutputDto();
 

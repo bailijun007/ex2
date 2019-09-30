@@ -42,7 +42,7 @@ public class ApiEarningRateController {
             @ApiParam(name="page_size",value = "条数",required = true)
             @RequestParam(name = "page_size") Integer pageSize
     ){
-        logger.info("打印日志--------------------->");
+        //logger.info("打印日志--------------------->");
         PcEarningRatePageDataInputDto inputDto=new PcEarningRatePageDataInputDto();
         PcEarningRatePageDataOutputDto outputDto=new PcEarningRatePageDataOutputDto();
         inputDto.setCurrentPage(currentPage);
@@ -106,7 +106,7 @@ public class ApiEarningRateController {
             @ApiParam(name="id",value = "id",required = true)
             @RequestParam(name = "id") Long id
     ){
-        logger.info("打印日志--------------------->");
+        //logger.info("打印日志--------------------->");
         PcEarningRateInfoInputDto inputDto=new PcEarningRateInfoInputDto();
         PcEarningRateInfoOutputDto outputDto=new PcEarningRateInfoOutputDto();
         inputDto.setId(id);
@@ -126,7 +126,7 @@ public class ApiEarningRateController {
             @ApiParam(name="ids",value = "ids",required = true)
             @RequestParam(name = "ids") String ids
     ){
-        logger.info("打印日志--------------------->");
+        //logger.info("打印日志--------------------->");
         DeleteInputDto inputDto=new DeleteInputDto();
         DeleteOutputDto outputDto=new DeleteOutputDto();
         inputDto.setIds(ids);
@@ -148,7 +148,7 @@ public class ApiEarningRateController {
                 @ApiParam(name="earning_rate_time",value = "earning_rate_time",required = true)
                 @RequestParam(name = "earning_rate_time") String earningRateTime
     ){
-        logger.info("打印日志--------------------->");
+        //logger.info("打印日志--------------------->");
         CheckHasEarningRateInputDto inputDto=new CheckHasEarningRateInputDto();
         CheckHasEarningRateOutputDto outputDto=new CheckHasEarningRateOutputDto();
         inputDto.setAccount(account);

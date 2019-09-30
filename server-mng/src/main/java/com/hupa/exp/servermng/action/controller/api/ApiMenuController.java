@@ -49,7 +49,7 @@ public class ApiMenuController {
             @RequestParam(name = "enable") boolean enable,
             @ApiParam(name="icon",value = "图标",required = false)
             @RequestParam(name = "icon") String icon){
-        logger.info("打印日志--------------------->");
+        //logger.info("打印日志--------------------->");
         MenuInputDto inputDto=new MenuInputDto();
         inputDto.setId(id);
         inputDto.setMenuname(menuname);

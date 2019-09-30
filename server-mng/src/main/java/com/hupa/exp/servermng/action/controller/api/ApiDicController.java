@@ -35,7 +35,7 @@ public class ApiDicController {
             @ApiParam(name="dic_type_key",value = "类型",required = true)
             @RequestParam(name = "dic_type_key") String dicTypeKey
     ){
-        logger.info("打印日志--------------------->");
+        //logger.info("打印日志--------------------->");
         DicAllListInputDto inputDto=new DicAllListInputDto();
         DicAllListOutputDto outputDto=new DicAllListOutputDto();
 
@@ -58,7 +58,7 @@ public class ApiDicController {
             @ApiParam(name="dic_type",value = "类型",required = true)
             @RequestParam(name = "dic_type") Integer dicType
     ){
-        logger.info("打印日志--------------------->");
+        //logger.info("打印日志--------------------->");
         DicListInputDto inputDto=new DicListInputDto();
         DicListOutputDto outputDto=new DicListOutputDto();
         inputDto.setCurrentPage(currentPage);
@@ -84,7 +84,7 @@ public class ApiDicController {
             @ApiParam(name="dic_type",value = "类型",required = true)
             @RequestParam(name = "dic_type") Integer dicType
     ){
-        logger.info("打印日志--------------------->");
+        //logger.info("打印日志--------------------->");
         DicInputDto inputDto=new DicInputDto();
         DicOutputDto outputDto=new DicOutputDto();
         inputDto.setId(id);
@@ -108,7 +108,7 @@ public class ApiDicController {
             @ApiParam(name="id",value = "id",required = true)
             @RequestParam(name = "id") Long id
     ){
-        logger.info("打印日志--------------------->");
+        //logger.info("打印日志--------------------->");
         DicInfoInputDto inputDto=new DicInfoInputDto();
         DicInfoOutputDto outputDto=new DicInfoOutputDto();
         inputDto.setId(id);
@@ -128,7 +128,7 @@ public class ApiDicController {
             @ApiParam(name="ids",value = "ids",required = true)
             @RequestParam(name = "ids") String ids
     ){
-        logger.info("打印日志--------------------->");
+        //logger.info("打印日志--------------------->");
         DeleteInputDto inputDto=new DeleteInputDto();
         DeleteOutputDto outputDto=new DeleteOutputDto();
         inputDto.setIds(ids);
