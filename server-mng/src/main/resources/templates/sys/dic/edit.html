@@ -34,7 +34,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">类型：</label>
                             <div class="col-sm-6">
-                                <select id="dic_type" class="form-control">
+                                <select id="parentId" class="form-control">
 
                                 </select>
                             </div>
@@ -106,7 +106,7 @@
                         {
                             html+="<option value='"+list[i].id+"'>"+list[i].value+"</option>"
                         }
-                        $("#dic_type").html(html);
+                        $("#parentId").html(html);
                     }
                 }
             })
@@ -131,7 +131,7 @@
                           $("#id").val(data.data.id);
                             $("#key").val(data.data.key);
                             $("#value").val(data.data.value);
-                            $("#dic_type").val(data.data.dic_type);
+                            $("#parentId").val(data.data.parent_id);
                         }
                     }
                 })
@@ -161,7 +161,7 @@
         param+= "id="+id;
         param+="&key="+$("#key").val();
         param+="&value="+$("#value").val();
-        param+="&dic_type="+$("#dic_type").val();
+        param+="&parent_id="+$("#parentId").val();
         $.ajax({
             type:"post",
             url:"/v1/http/dic/create_or_edit"+param,

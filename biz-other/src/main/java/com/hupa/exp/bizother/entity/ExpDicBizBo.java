@@ -4,7 +4,7 @@ public class ExpDicBizBo {
     private long id;
     private String key;
     private String value;
-    private Integer dicType;
+    private Integer parentId;
 
     public long getId() {
         return id;
@@ -30,11 +30,11 @@ public class ExpDicBizBo {
         this.value = value;
     }
 
-    public Integer getDicType() {
-        return dicType;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setDicType(Integer dicType) {
-        this.dicType = dicType;
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 }

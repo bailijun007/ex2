@@ -47,7 +47,7 @@ public class ApiDicControllerServiceImpl implements IApiDicControllerService {
             pageData.setId(String.valueOf(bo.getId()));
             pageData.setKey(bo.getKey());
             pageData.setValue(bo.getValue());
-            pageData.setDicType(String.valueOf(bo.getDicType()));
+            pageData.setParentId(String.valueOf(bo.getParentId()));
             pageList.add(pageData);
         }
 
@@ -72,7 +72,7 @@ public class ApiDicControllerServiceImpl implements IApiDicControllerService {
     public DicOutputDto editDic(DicInputDto inputDto) throws BizException {
         ExpDicBizBo bo=dicService.queryDicById(inputDto.getId());// ConventObjectUtil.conventObject(inputDto,ExpDicBizBo.class);
         String before=JSON.toJSONString(bo);
-        bo.setDicType(inputDto.getDicType());
+        bo.setParentId(inputDto.getParentId());
         bo.setKey(inputDto.getKey());
         bo.setValue(inputDto.getValue());
         String after=JSON.toJSONString(bo);
@@ -90,7 +90,7 @@ public class ApiDicControllerServiceImpl implements IApiDicControllerService {
     public DicInfoOutputDto getDicById(DicInfoInputDto inputDto) throws BizException {
         ExpDicBizBo bo= dicService.queryDicById(inputDto.getId());
         DicInfoOutputDto outputDto=new DicInfoOutputDto();
-        outputDto.setDicType(String.valueOf(bo.getDicType()));
+        outputDto.setParentId(String.valueOf(bo.getParentId()));
         outputDto.setId(String.valueOf(bo.getId()));
         outputDto.setKey(bo.getKey());
         outputDto.setValue(bo.getValue());
@@ -100,7 +100,7 @@ public class ApiDicControllerServiceImpl implements IApiDicControllerService {
 
     @Override
     public DicListOutputDto queryDicList(DicListInputDto inputDto) throws BizException {
-        ExpDicListBizBo boList=dicService.queryDicList(inputDto.getType(),inputDto.getCurrentPage(),inputDto.getPageSize());
+        ExpDicListBizBo boList=dicService.queryDicList(inputDto.getParentId(),inputDto.getCurrentPage(),inputDto.getPageSize());
         List<DicInfoOutputDto> pageList=new ArrayList<>();
         for(ExpDicBizBo bo:boList.getRows())
         {
@@ -108,7 +108,7 @@ public class ApiDicControllerServiceImpl implements IApiDicControllerService {
             pageData.setId(String.valueOf(bo.getId()));
             pageData.setKey(bo.getKey());
             pageData.setValue(bo.getValue());
-            pageData.setDicType(String.valueOf(bo.getDicType()));
+            pageData.setParentId(String.valueOf(bo.getParentId()));
             pageList.add(pageData);
         }
         DicListOutputDto outputDto=new DicListOutputDto();

@@ -7,8 +7,8 @@ public class DicInfoOutputDto  extends BaseOutputDto {
     private String id;
     private String key;
     private String value;
-    @JsonProperty("dic_type")
-    private String dicType;
+    @JsonProperty("parent_id")
+    private String parentId;
 
     public String getId() {
         return id;
@@ -34,11 +34,11 @@ public class DicInfoOutputDto  extends BaseOutputDto {
         this.value = value;
     }
 
-    public String getDicType() {
-        return dicType;
+    public String getParentId() {
+        return parentId;
     }
 
-    public void setDicType(String dicType) {
-        this.dicType = dicType;
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 }

@@ -56,14 +56,14 @@ public class ApiDicController {
             @ApiParam(name="page_size",value = "条数",required = true)
             @RequestParam(name = "page_size") Integer pageSize,
             @ApiParam(name="dic_type",value = "类型",required = true)
-            @RequestParam(name = "dic_type") Integer dicType
+            @RequestParam(name = "parent_id") Integer parentId
     ){
         //logger.info("打印日志--------------------->");
         DicListInputDto inputDto=new DicListInputDto();
         DicListOutputDto outputDto=new DicListOutputDto();
         inputDto.setCurrentPage(currentPage);
         inputDto.setPageSize(pageSize);
-        inputDto.setType(dicType);
+        inputDto.setParentId(parentId);
         try{
             outputDto = service.queryDicList(inputDto);
         }catch(BizException e){
@@ -72,7 +72,7 @@ public class ApiDicController {
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
 
-    @ApiOperation(value = "获取区号信息")
+    @ApiOperation(value = "新增或修改字段")
     @PostMapping("/create_or_edit")
     public BaseResultViaApiDto<DicInputDto,DicOutputDto> createOrEditDic(
             @ApiParam(name="id",value = "id",required = true)
@@ -81,8 +81,8 @@ public class ApiDicController {
             @RequestParam(name = "key") String key,
             @ApiParam(name="value",value = "值",required = true)
             @RequestParam(name = "value") String value,
-            @ApiParam(name="dic_type",value = "类型",required = true)
-            @RequestParam(name = "dic_type") Integer dicType
+            @ApiParam(name="parent_id",value = "类型",required = true)
+            @RequestParam(name = "parent_id") Integer parentId
     ){
         //logger.info("打印日志--------------------->");
         DicInputDto inputDto=new DicInputDto();
@@ -90,7 +90,7 @@ public class ApiDicController {
         inputDto.setId(id);
         inputDto.setKey(key);
         inputDto.setValue(value);
-        inputDto.setDicType(dicType);
+        inputDto.setParentId(parentId);
         try{
             if(id>0)
                 outputDto = service.editDic(inputDto);

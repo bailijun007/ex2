@@ -98,9 +98,9 @@
                 contentType: "application/json;charset=UTF-8",
                 success:function (data) {
                     if(data.data.auditStatus==true)
-                        layer.msg("审核成功！");
+                        layer.msg("操作成功！");
                     else
-                        layer.msg("审核失败！");
+                        layer.msg("操作失败！");
                     $('#tb_departments').bootstrapTable('destroy');
                     oTable.Init();
                 }
@@ -123,10 +123,11 @@
                 contentType: "application/json;charset=UTF-8",
                 success:function (data) {
                     if(data.data.auditStatus==true)
-                        layer.msg("审核成功！");
+                        layer.msg("操作成功！");
                     else
-                        layer.msg("审核失败！");
+                        layer.msg("操作失败！");
                     $('#tb_departments').bootstrapTable('destroy');
+                    layer.close(index);
                     oTable.Init();
                 }
             });
@@ -191,7 +192,11 @@
                             }
                             , {
                                 title: 'withdrawTime',
-                                field: 'withdrawTime'
+                                formatter: function (value, row, index) {
+                                    if(row.withdrawTime!=null)
+                                        return time(parseInt(row.withdrawTime));
+                                    return"";
+                                }
                             }
                             , {
                                 title: 'status',
