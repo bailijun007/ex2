@@ -68,6 +68,11 @@
             oTable.Init();
         });
 
+        $("#symbol").change(function () {
+            $('#tb_departments').bootstrapTable('destroy');
+            oTable.Init();
+        });
+
 
     });
     var addCatalogEvent = function (action,id) {

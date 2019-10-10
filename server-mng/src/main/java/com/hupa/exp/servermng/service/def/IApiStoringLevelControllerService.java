@@ -9,4 +9,5 @@ public interface IApiStoringLevelControllerService {
     StoringLevelInfoOutputDto getStoringLevel(StoringLevelInfoInputDto inputDto) throws BizException;
 
     StoringLevelListOutputDto getStoringLevelList(StoringLevelListInputDto inputDto) throws BizException;
+
 }

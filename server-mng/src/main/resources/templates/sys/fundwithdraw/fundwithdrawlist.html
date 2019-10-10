@@ -24,6 +24,14 @@
                         <label class="sr-only">账号</label>
                         <input type="text" placeholder="请输入账号" id="account" class="form-control">
                     </div>
+                    <div class="form-group" style="width: 15%; float: left;">
+                        <label class="sr-only">币种</label>
+                        <select id="symbol" class="form-control">
+                            <option value="BTC" selected="selected">BTC</option>
+                            <option value="ETH">ETH</option>
+                            <option value="EOS">EOS</option>
+                        </select>
+                    </div>
                     <div class="input-group">
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-primary" id="btn_query">搜索</button>
@@ -39,11 +47,11 @@
                             <div class="bootstrap-table">
                                 <div class="fixed-table-toolbar">
                                     <div class="bars pull-left">
-                                        <div class="btn-group hidden-xs" id="toolbar" role="group">
+                                        <!--<div class="btn-group hidden-xs" id="toolbar" role="group">-->
 
-                                            <a class="btn btn-outline btn-default" href="javascript:auditFundWithdraw('Add','0')"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>新增</a>
-                                            <a class="btn btn-outline btn-default" href="javascript:del_ck_confirm('tb_departments','/v1/http/dictype/delete')"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>删除</a>
-                                        </div>
+                                            <!--<a class="btn btn-outline btn-default" href="javascript:auditFundWithdraw('Add','0')"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>新增</a>-->
+                                            <!--<a class="btn btn-outline btn-default" href="javascript:del_ck_confirm('tb_departments','/v1/http/dictype/delete')"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>删除</a>-->
+                                        <!--</div>-->
                                     </div>
                                 </div>
                                 <table id="tb_departments"></table>
@@ -76,6 +84,11 @@
         oTable.Init();
 
         $("#btn_query").click(function () {
+            $('#tb_departments').bootstrapTable('destroy');
+            oTable.Init();
+        });
+
+        $("#symbol").change(function () {
             $('#tb_departments').bootstrapTable('destroy');
             oTable.Init();
         });
@@ -246,7 +259,7 @@
                 page_size: params.limit,   //页面大小
                 current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
                 id: $("#lastId").val(),
-                symbol: "BTC",
+                symbol: $("#symbol").val(),
                 account:$("#account").val()
 
             };

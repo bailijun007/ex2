@@ -13,7 +13,6 @@ G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\informa
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\ExpUserListBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\ExpInformationPageDataBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\klineconfig\def\IKlineConfigService.java
-G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\ExpDicTypeBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\modulelimit\impl\ModuleLimitServiceImpl.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\exception\BizUserException.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\sms\def\ISmsTempBiz.java
@@ -30,7 +29,6 @@ G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\klineco
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\ExpMenuBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\AssetsBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\dic\impl\DicServiceImpl.java
-G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\ExpDicTypeListBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\area\impl\AreaServiceImpl.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\PcAccountCacheBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\ExpModuleLimitListBizBo.java

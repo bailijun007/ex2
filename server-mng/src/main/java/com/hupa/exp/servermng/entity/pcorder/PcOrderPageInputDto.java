@@ -3,6 +3,8 @@ package com.hupa.exp.servermng.entity.pcorder;
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 import com.hupa.exp.daoex2.enums.SortEnum;
 
+import java.math.BigDecimal;
+
 public class PcOrderPageInputDto extends BaseInputDto {
     private String account;
     private Long orderId;
@@ -13,6 +15,15 @@ public class PcOrderPageInputDto extends BaseInputDto {
     private long currentPage;
     private int pageSize;
     private SortEnum sortEnum;
+    private BigDecimal price;
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 
     public String getAccount() {
         return account;

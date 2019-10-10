@@ -2,6 +2,7 @@ com\hupa\exp\servermng\entity\user\EnableUserOutputDto.class
 com\hupa\exp\servermng\entity\dic\DicOutputDto.class
 com\hupa\exp\servermng\entity\pcposition\PcPositionPageInputDto.class
 com\hupa\exp\servermng\entity\sms\SmsTempInfoInputDto.class
+com\hupa\exp\servermng\entity\symbolinterest\SymbolInterestOutputDto.class
 com\hupa\exp\servermng\entity\pcaccount\PcAccountLogInputDto.class
 com\hupa\exp\servermng\entity\sms\SmsTempInputDto.class
 com\hupa\exp\servermng\entity\storinglevel\StoringLevelInputDto.class
@@ -39,7 +40,7 @@ com\hupa\exp\servermng\entity\pcorder\PcOrderPageInputDto.class
 com\hupa\exp\servermng\entity\sms\SmsTempListInputDto.class
 com\hupa\exp\servermng\entity\role\RoleAllOutputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiFundWithdrawController.class
-com\hupa\exp\servermng\entity\dic\DicAllListInputDto.class
+com\hupa\exp\servermng\interceptor\ResponseBodyHandlerImpl.class
 com\hupa\exp\servermng\service\impl\ApiCoinControllerServiceImpl.class
 com\hupa\exp\servermng\entity\fundaccount\FundAccountLogInputDto.class
 com\hupa\exp\servermng\entity\role\RoleInputDto.class
@@ -52,6 +53,7 @@ com\hupa\exp\servermng\entity\login\LoginOutOutputDto.class
 com\hupa\exp\servermng\enums\UserExceptionCode.class
 com\hupa\exp\servermng\entity\assertchange\FundAssertChangeOutputDto.class
 com\hupa\exp\servermng\entity\klineconfig\KlineConfigListInputDto.class
+com\hupa\exp\servermng\entity\symbolinterest\SymbolInterestListOutputDto.class
 com\hupa\exp\servermng\service\impl\ApiDicControllerServiceImpl.class
 com\hupa\exp\servermng\config\dubbo\DubboBeans.class
 com\hupa\exp\servermng\entity\klineconfig\KlineConfigListOutputDto.class
@@ -74,6 +76,7 @@ com\hupa\exp\servermng\entity\tickerlast\PcTickerLastPageDataInputDto.class
 com\hupa\exp\servermng\entity\user\UserOutputDto.class
 com\hupa\exp\servermng\help\SessionHelper.class
 com\hupa\exp\servermng\entity\assertchange\PcAssertChangeListOutputDto.class
+com\hupa\exp\servermng\entity\symbolinterest\SymbolInterestInfoOutputDto.class
 com\hupa\exp\servermng\enums\LoginExceptionCode.class
 com\hupa\exp\servermng\service\def\IApiPcFeeControllerService.class
 com\hupa\exp\servermng\entity\pcorder\PcOrderPageOutputDto.class
@@ -158,7 +161,9 @@ com\hupa\exp\servermng\service\def\IApiPcOrderControllerService.class
 com\hupa\exp\servermng\validate\ILoginValidate.class
 com\hupa\exp\servermng\action\controller\api\ApiFundAccountController.class
 com\hupa\exp\servermng\entity\contract\ContractListOutputPage.class
+com\hupa\exp\servermng\action\controller\api\ApiSymbolInterestController.class
 com\hupa\exp\servermng\entity\assertchange\PcAssertChangeInputDto.class
+com\hupa\exp\servermng\service\def\IApiSymbolInterestControllerService.class
 com\hupa\exp\servermng\entity\fundwithdraw\AuditPassFundWithdrawInputDto.class
 com\hupa\exp\servermng\entity\pcorder\PcOrderInfo.class
 com\hupa\exp\servermng\entity\klineconfig\KlineConfigInfoOutputDto.class
@@ -180,14 +185,18 @@ com\hupa\exp\servermng\exception\LoginException.class
 com\hupa\exp\servermng\entity\pcposition\PcPositionInfo.class
 com\hupa\exp\servermng\action\controller\api\ApiPcAccountController.class
 com\hupa\exp\servermng\entity\storinglevel\StoringLevelListInputDto.class
+com\hupa\exp\servermng\entity\symbolinterest\SymbolInterestInfoInputDto.class
+com\hupa\exp\servermng\entity\symbolinterest\SymbolInterestListInputDto.class
 com\hupa\exp\servermng\entity\storinglevel\StoringLevelInfoInputDto.class
 com\hupa\exp\servermng\entity\role\RoleOutputDto.class
+com\hupa\exp\servermng\entity\symbolinterest\SymbolInterestInputDto.class
 com\hupa\exp\servermng\entity\pcfee\PcFeeInfoOutputDto.class
 com\hupa\exp\servermng\service\def\IApiDicControllerService.class
 com\hupa\exp\servermng\entity\base\DeleteOutputDto.class
 com\hupa\exp\servermng\entity\user\FundAccountInfoInputDto.class
 com\hupa\exp\servermng\service\impl\ApiFundAccountControllerServiceImpl.class
 com\hupa\exp\servermng\validate\SessionValidateImpl.class
+com\hupa\exp\servermng\interceptor\ResponseBodyHandlerWrapBean.class
 com\hupa\exp\servermng\entity\menu\MenuListInputDto.class
 com\hupa\exp\servermng\entity\dic\DicInputDto.class
 com\hupa\exp\servermng\entity\assertchange\PcAssertChangeListInputDto.class
@@ -224,6 +233,7 @@ com\hupa\exp\servermng\entity\information\GetInformationInfoOutputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiLocaleController.class
 com\hupa\exp\servermng\entity\fundaccount\FundAccountLogListInputDto.class
 com\hupa\exp\servermng\entity\modulelimit\ModuleLimitListInputDto.class
+com\hupa\exp\servermng\service\impl\ApiSymbolInterestControllerServiceImpl.class
 com\hupa\exp\servermng\entity\dic\DicListInputDto.class
 com\hupa\exp\servermng\entity\fundwithdraw\AuditFundWithdrawOutputDto.class
 com\hupa\exp\servermng\entity\menu\MenuHtmlInputDto.class

@@ -44,7 +44,7 @@ public class ApiPcOrderControllerServiceImpl implements IApiPcOrderControllerSer
         }
 
         MongoPage<PcOrderPairMongoPo> pos=iPcOrderPairDao.pagePosByParamMng(inputDto.getAccountId(),inputDto.getPair(),
-                inputDto.getOrderId(),inputDto.getCloseFlag(),inputDto.getStatus(),inputDto.getCurrentPage(),
+                inputDto.getOrderId(),inputDto.getCloseFlag(),inputDto.getStatus(),inputDto.getPrice(),inputDto.getCurrentPage(),
                 inputDto.getPageSize(), SortEnum.desc);
 
         List<PcOrderInfo> rows=new ArrayList<>();

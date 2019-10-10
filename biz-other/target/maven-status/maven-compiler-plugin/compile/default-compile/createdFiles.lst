@@ -16,7 +16,6 @@ com\hupa\exp\bizother\entity\ExpKlineConfigListBizBo.class
 com\hupa\exp\BizOtherMainEntrance$1.class
 com\hupa\exp\bizother\entity\PcAccountCacheBizBo.class
 com\hupa\exp\bizother\service\operationlog\def\IExpOperationLogService.class
-com\hupa\exp\bizother\entity\ExpDicTypeBizBo.class
 com\hupa\exp\bizother\service\modulelimit\def\IModuleLimitService.class
 com\hupa\exp\bizother\entity\ExpSmsListBizBo.class
 com\hupa\exp\bizother\entity\ExpOperationLogListBizBo.class
@@ -33,7 +32,6 @@ com\hupa\exp\bizother\entity\ExpKlineConfigBizBo.class
 com\hupa\exp\bizother\entity\ExpLocaleBizBo.class
 com\hupa\exp\bizother\service\user\impl\UserRoleServiceImpl.class
 com\hupa\exp\bizother\service\locale\impl\LocaleServiceImpl.class
-com\hupa\exp\bizother\entity\ExpDicTypeListBizBo.class
 com\hupa\exp\bizother\entity\ExpLocaleListBizBo.class
 com\hupa\exp\bizother\entity\ExpMenuBizBo.class
 com\hupa\exp\bizother\service\dic\def\IDicService.class

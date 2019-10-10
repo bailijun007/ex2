@@ -31,28 +31,23 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
                         <input type="hidden" id="id" value="0">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">类型：</label>
-                            <div class="col-sm-6">
-                                <select id="parentId" class="form-control">
 
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">币种：</label>
+                            <div class="col-sm-6">
+                                <select id="symbol" class="form-control">
+                                    <option value="BTC">BTC</option>
+                                    <option value="ETH">ETH</option>
+                                    <option value="EOS">EOS</option>
                                 </select>
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">键：</label>
-                            <div class="col-sm-6">
-                                <input  class="form-control" type="text" value="" datatype="*1-100" id="key">
-                            </div>
-                            <div class="Validform_checktip"></div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">值：</label>
-                            <div class="col-sm-6">
-                                <input  class="form-control" type="text" value="" datatype="*1-100" id="value">
-                            </div>
-                            <div class="Validform_checktip"></div>
+                            <label class="col-sm-3 control-label">利率：</label>
+                                <div class="col-sm-6">
+                                    <input  class="form-control" type="text" datatype="*" id="symbol_interest">
+                                </div>
                         </div>
 
                         <div class="form-group">
@@ -88,39 +83,15 @@
 
 <script type="text/javascript">
     $(function () {
-        function bindDicType()
-        {
-            $.ajax({
-                type: "get",
-                url: "/v1/http/dic/query_type_list?dic_type_key=ParentDicKey",
-                contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
-                async: false,
-                //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
-                //data:JSON.stringify({id:id}),
-                success: function (data) {
-                    //console.log(data);
-                    var list= data.data.dic_list;
-                    if (list != null) {
-                        var html="<option value='999'>父类</option>";
-                        for(var i=0;i<list.length;i++)
-                        {
-                            html+="<option value='"+list[i].id+"'>"+list[i].value+"</option>"
-                        }
-                        $("#parentId").html(html);
-                    }
-                }
-            })
-        }
-        bindDicType();
         function initData() {
 
             var id = GetQueryString("id");
             var action=GetQueryString("action");
-            if (id != 0&&action=="Edit")//id不为空则需要绑定值
+            if (id != ""&&action=="Edit")//id不为空则需要绑定值
             {
                 $.ajax({
                     type: "get",
-                    url: "/v1/http/dic/query?id=" + id,
+                    url: "/v1/http/symbolinterest/query?id=" + id,
                     contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
                     async: false,
                     //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
@@ -128,44 +99,58 @@
                     success: function (data) {
                         //console.log(data);
                         if (data.data != null) {
-                          $("#id").val(data.data.id);
-                            $("#key").val(data.data.key);
-                            $("#value").val(data.data.value);
-                            $("#parentId").val(data.data.parent_id);
+                            $("#id").val(data.data.id);
+                            $("#symbol").val(data.data.symbol);
+                            $("#symbol_interest").val(data.data.symbolInterest);
                         }
                     }
                 })
             }
         }
-        initData();
         $(".form-horizontal").Validform({ tiptype: 2 });
+        initData();
     });
 
+    // $("#symbol").blur(function(){
+    //     $.ajax({
+    //         type:"post",
+    //         url:"/v1/http/coin/check_has_coin?symbol="+$("#symbol").val(),
+    //         contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+    //         success:function(data) {
+    //             if(data.data.has_coin==true)
+    //             {
+    //                 layer.msg("已存在该币种！");
+    //                 $("#symbol").val("");
+    //             }
+    //         }
+    //     });
+    //
+    // })
+
     $("#BtnSave").click(function(){
-        // var checkVal=$("#ckbIsOnTop").parent().find("a").attr("class");
-        // var isCheck;
+
         var id = GetQueryString("id");
         var action=GetQueryString("action");
         if(action!="Edit")
             id=0;
-        // if(checkVal=="selected")
-        //     isCheck=1;
-        // else
-        //     isCheck=0;
-        var param="?";
+
+
         if($(".Validform_wrong").length>0)
         {
             layer.msg("请确认信息填写是否有误！");
             return false;
         }
-        param+= "id="+id;
-        param+="&key="+$("#key").val();
-        param+="&value="+$("#value").val();
-        param+="&parent_id="+$("#parentId").val();
+
+        var parmes="?";
+        parmes+= "id="+id;
+        parmes+="&symbol="+$("#symbol").val();
+        parmes+="&symbol_interest="+$("#symbol_interest").val();
+
         $.ajax({
             type:"post",
-            url:"/v1/http/dic/create_or_edit"+param,
+            url:"/v1/http/symbolinterest/create_or_edit"+parmes,
             contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+
             success:function(data) {
                 debugger
                 //console.log(data);
