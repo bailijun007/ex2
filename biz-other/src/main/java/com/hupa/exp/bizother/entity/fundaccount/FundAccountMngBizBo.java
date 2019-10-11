@@ -4,7 +4,7 @@ import com.hupa.exp.bizother.entity.assets.AssetsBizBo;
 
 import java.util.List;
 
-public class FundAccountBizBo {
+public class FundAccountMngBizBo {
     private long id;
     private String userName;
     private String realName;

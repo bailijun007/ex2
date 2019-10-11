@@ -13,11 +13,11 @@ public class BizOtherMainEntrance {
 
     public static void main(String[] args){
 
-        stopGracefully();
-
-        ConfigurableApplicationContext ctx = new SpringApplicationBuilder(BizOtherMainEntrance.class)
-                .web(WebApplicationType.NONE)
-                .run(args);
+//        stopGracefully();
+//
+//        ConfigurableApplicationContext ctx = new SpringApplicationBuilder(BizOtherMainEntrance.class)
+//                .web(WebApplicationType.NONE)
+//                .run(args);
 
     }
 

@@ -70,7 +70,6 @@ com\hupa\exp\servermng\service\def\IApiCoinControllerService.class
 com\hupa\exp\servermng\service\def\IApiEarningRateControllerService.class
 com\hupa\exp\servermng\entity\locale\LocaleOutputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiUserController.class
-com\hupa\exp\servermng\entity\contract\PageList.class
 com\hupa\exp\servermng\exception\RoleException.class
 com\hupa\exp\servermng\entity\base\DeleteInputDto.class
 com\hupa\exp\servermng\entity\tickerlast\PcTickerLastPageDataInputDto.class

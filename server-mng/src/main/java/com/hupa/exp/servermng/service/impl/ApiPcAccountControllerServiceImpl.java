@@ -1,8 +1,8 @@
 package com.hupa.exp.servermng.service.impl;
 
-import com.hupa.exp.bizaccount.entity.MongoBo.PcAccountLogMongoBizBo;
-import com.hupa.exp.bizaccount.entity.MongoBo.PcAccountLogMongoPageBizBo;
-import com.hupa.exp.bizaccount.service.def.IPcAccountMongoBiz;
+import com.hupa.exp.bizother.entity.account.MongoBo.PcAccountLogMongoBizBo;
+import com.hupa.exp.bizother.entity.account.MongoBo.PcAccountLogMongoPageBizBo;
+import com.hupa.exp.bizother.service.account.def.IPcAccountMongoBiz;
 import com.hupa.exp.servermng.entity.pcaccount.PcAccountLogListInputDto;
 import com.hupa.exp.servermng.entity.pcaccount.PcAccountLogListOutputDto;
 import com.hupa.exp.servermng.entity.pcaccount.PcAccountLogOutputDto;

@@ -1,6 +1,6 @@
 package com.hupa.exp.servermng.validate;
 
-import com.hupa.exp.bizregister.service.def.IRegisterUserBiz;
+import com.hupa.exp.daoex2.dao.expv2.def.IExpUserDao;
 import com.hupa.exp.servermng.entity.user.UserInputDto;
 import com.hupa.exp.servermng.enums.UserExceptionCode;
 import com.hupa.exp.servermng.exception.UserException;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service("userValidateImpl")
 public class UserValidateImpl implements IValidate<UserInputDto> {
     @Autowired
-    IRegisterUserBiz iRegisterUserBiz;
+    private IExpUserDao iExpUserDao;
     @Override
     public void validate(UserInputDto obj) throws UserException {
 //        if(new SessionHelper().getToken()==null)
@@ -19,9 +19,9 @@ public class UserValidateImpl implements IValidate<UserInputDto> {
 //            throw new UserException(UserExceptionCode.USERNAME_NULL_ERROR);
         if(obj.getPassword()==null||obj.getPassword().isEmpty())
             throw new UserException(UserExceptionCode.PWD_NULL_ERROR);
-        if(iRegisterUserBiz.checkPhone(obj.getPhone()))
+        if(iExpUserDao.getUserInfoByPhone(obj.getPhone())==null)
             throw new UserException(UserExceptionCode.PWD_NULL_ERROR);
-        if(iRegisterUserBiz.checkEmail(obj.getEmail()))
+        if(iExpUserDao.getUserInfoByEmail(obj.getEmail())==null)
             throw new UserException(UserExceptionCode.PWD_NULL_ERROR);
 
 

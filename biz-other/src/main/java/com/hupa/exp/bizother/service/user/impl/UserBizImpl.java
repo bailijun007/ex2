@@ -6,14 +6,15 @@ import com.hupa.exp.base.config.redis.Db1RedisBean;
 import com.hupa.exp.base.enums.ValidateExceptionCode;
 import com.hupa.exp.base.exception.ValidateException;
 import com.hupa.exp.base.helper.security.SecurityPwdHelper;
-import com.hupa.exp.bizaccount.entity.PcAccountBizBo;
-import com.hupa.exp.bizaccount.service.def.IAccountBiz;
+import com.hupa.exp.bizother.entity.account.FundAccountBizBo;
+import com.hupa.exp.bizother.entity.account.PcAccountBizBo;
 import com.hupa.exp.bizother.entity.assets.AssetsBizBo;
-import com.hupa.exp.bizother.entity.fundaccount.FundAccountBizBo;
-import com.hupa.exp.bizother.entity.fundaccount.FundAccountListBizBo;
+import com.hupa.exp.bizother.entity.fundaccount.FundAccountMngBizBo;
+import com.hupa.exp.bizother.entity.fundaccount.FundAccountMngListBizBo;
 import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
 import com.hupa.exp.bizother.entity.user.ExpUserListBizBo;
 import com.hupa.exp.bizother.exception.BizUserException;
+import com.hupa.exp.bizother.service.account.def.IAccountBiz;
 import com.hupa.exp.bizother.service.user.def.IUserBiz;
 import com.hupa.exp.common.component.redis.RedisUtil;
 import com.hupa.exp.common.exception.BizException;
@@ -224,14 +225,14 @@ public class UserBizImpl implements IUserBiz {
     }
 
     @Override
-    public FundAccountListBizBo queryFundAccountList(long currentPage, long pageSize, Integer userType, String userName, Long id) throws BizException {
+    public FundAccountMngListBizBo queryFundAccountList(long currentPage, long pageSize, Integer userType, String userName, Long id) throws BizException {
         List<CoinPo> coinPos = iCoinDao.selectList();//所有交易对
         IPage<ExpUserPo> userPos = iExpUserDao.selectUserList(currentPage, pageSize, userType, userName,id);
-        FundAccountListBizBo fundAccountListBizBo = new FundAccountListBizBo();
+        FundAccountMngListBizBo fundAccountListBizBo = new FundAccountMngListBizBo();
         fundAccountListBizBo.setTotal(userPos.getTotal());
-        List<FundAccountBizBo> fundAccountBizBoList = new ArrayList<>();
+        List<FundAccountMngBizBo> fundAccountBizBoList = new ArrayList<>();
         for (ExpUserPo userPo : userPos.getRecords()) {
-            FundAccountBizBo fundAccountBizBo = new FundAccountBizBo();
+            FundAccountMngBizBo fundAccountBizBo = new FundAccountMngBizBo();
             fundAccountBizBo.setId(userPo.getId());
             String name = !StringUtils.isEmpty(userPo.getPhone()) ? userPo.getPhone() : userPo.getEmail();
             fundAccountBizBo.setUserName(name);
@@ -239,7 +240,7 @@ public class UserBizImpl implements IUserBiz {
             List<AssetsBizBo> assetsBizBos = new ArrayList<>();
 
             for (CoinPo pcPo : coinPos) {
-                com.hupa.exp.bizaccount.entity.FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(userPo.getId(), pcPo.getSymbol());
+               FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(userPo.getId(), pcPo.getSymbol());
                 AssetsBizBo assetsBizBo = new AssetsBizBo();
                 assetsBizBo.setPair(pcPo.getSymbol());
                 if (null != fundAccount) {
@@ -273,14 +274,14 @@ public class UserBizImpl implements IUserBiz {
     }
 
     @Override
-    public FundAccountListBizBo queryFundAccountListByParam(long currentPage, long pageSize, Integer userType, String userName,Long id) throws BizException {
+    public FundAccountMngListBizBo queryFundAccountListByParam(long currentPage, long pageSize, Integer userType, String userName, Long id) throws BizException {
         List<CoinPo> coinPos = iCoinDao.selectList();//所有交易对
         IPage<ExpUserPo> userPos = iExpUserDao.selectUserList(currentPage, pageSize, userType, userName,id);
-        FundAccountListBizBo fundAccountListBizBo = new FundAccountListBizBo();
+        FundAccountMngListBizBo fundAccountListBizBo = new FundAccountMngListBizBo();
         fundAccountListBizBo.setTotal(userPos.getTotal());
-        List<FundAccountBizBo> fundAccountBizBoList = new ArrayList<>();
+        List<FundAccountMngBizBo> fundAccountBizBoList = new ArrayList<>();
         for (ExpUserPo userPo : userPos.getRecords()) {
-            FundAccountBizBo fundAccountBizBo = new FundAccountBizBo();
+            FundAccountMngBizBo fundAccountBizBo = new FundAccountMngBizBo();
             fundAccountBizBo.setId(userPo.getId());
             String name = !StringUtils.isEmpty(userPo.getPhone()) ? userPo.getPhone() : userPo.getEmail();
             fundAccountBizBo.setUserName(name);
@@ -288,7 +289,7 @@ public class UserBizImpl implements IUserBiz {
             List<AssetsBizBo> assetsBizBos = new ArrayList<>();
 
             for (CoinPo pcPo : coinPos) {
-                com.hupa.exp.bizaccount.entity.FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(userPo.getId(), pcPo.getSymbol());
+                FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(userPo.getId(), pcPo.getSymbol());
                 AssetsBizBo assetsBizBo = new AssetsBizBo();
                 assetsBizBo.setPair(pcPo.getSymbol());
                 if (null != fundAccount) {
@@ -322,12 +323,12 @@ public class UserBizImpl implements IUserBiz {
     }
 
     @Override
-    public FundAccountBizBo queryFundAccountById(long id) throws BizException {
+    public FundAccountMngBizBo queryFundAccountById(long id) throws BizException {
         List<CoinPo> coinPos = iCoinDao.selectList();//所有交易对
         ExpUserPo userPo = iExpUserDao.selectPoById(id);
         if(userPo==null)
             return null;
-        FundAccountBizBo fundAccountBizBo = new FundAccountBizBo();
+        FundAccountMngBizBo fundAccountBizBo = new FundAccountMngBizBo();
 
         fundAccountBizBo.setId(userPo.getId());
         String userName = !StringUtils.isEmpty(userPo.getPhone()) ? userPo.getPhone() : userPo.getEmail();
@@ -335,7 +336,7 @@ public class UserBizImpl implements IUserBiz {
         fundAccountBizBo.setRealName(userPo.getRealName());
         List<AssetsBizBo> assetsBizBos = new ArrayList<>();
         for (CoinPo pcPo : coinPos) {
-            com.hupa.exp.bizaccount.entity.FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(userPo.getId(), pcPo.getSymbol());
+            FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(userPo.getId(), pcPo.getSymbol());
             AssetsBizBo assetsBizBo = new AssetsBizBo();
             assetsBizBo.setPair(pcPo.getSymbol());
             if (null != fundAccount) {

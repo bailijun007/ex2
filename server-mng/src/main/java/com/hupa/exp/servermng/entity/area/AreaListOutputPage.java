@@ -1,6 +1,7 @@
 package com.hupa.exp.servermng.entity.area;
 
-import org.apache.pulsar.shade.org.codehaus.jackson.annotate.JsonProperty;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AreaListOutputPage {
     private String id;

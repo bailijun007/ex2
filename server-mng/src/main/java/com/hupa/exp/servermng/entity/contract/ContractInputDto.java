@@ -1,8 +1,6 @@
 package com.hupa.exp.servermng.entity.contract;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
-import io.swagger.models.auth.In;
-import org.apache.pulsar.shade.org.apache.avro.LogicalTypes;
 
 import java.math.BigDecimal;
 

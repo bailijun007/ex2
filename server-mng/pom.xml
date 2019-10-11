@@ -40,22 +40,9 @@
             <artifactId>biz-login</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.hupa.exp</groupId>
-            <artifactId>biz-register</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
 
-        <dependency>
-            <groupId>com.hupa.exp</groupId>
-            <artifactId>biz-pc-contract</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hupa.exp</groupId>
-            <artifactId>biz-account</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
+        <!--self-->
+        <!--exchanger-->
         <dependency>
             <groupId>com.hupa.exchanger</groupId>
             <artifactId>ex-base</artifactId>
@@ -71,11 +58,7 @@
             <artifactId>ex-id-def</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.hupa.exp</groupId>
-            <artifactId>biz-price</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
+
         <dependency>
             <groupId>com.hupa.exchanger</groupId>
             <artifactId>ex-account-def</artifactId>
@@ -87,17 +70,20 @@
             <artifactId>ex-pc-core-def</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
         <dependency>
             <groupId>com.hupa.exchanger</groupId>
             <artifactId>ex-account-core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <!--exchanger-->
+
         <dependency>
             <groupId>org.apache.skywalking</groupId>
             <artifactId>apm-toolkit-trace</artifactId>
             <version>6.2.0</version>
         </dependency>
-        <!--self-->
+
         <!-- spring -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

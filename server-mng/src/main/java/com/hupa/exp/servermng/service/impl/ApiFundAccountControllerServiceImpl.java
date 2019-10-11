@@ -1,8 +1,8 @@
 package com.hupa.exp.servermng.service.impl;
 
-import com.hupa.exp.bizaccount.entity.MongoBo.FundAccountLogMongoBizBo;
-import com.hupa.exp.bizaccount.entity.MongoBo.FundAccountLogMongoPageBizBo;
-import com.hupa.exp.bizaccount.service.def.IFundAccountMongoBiz;
+import com.hupa.exp.bizother.entity.account.MongoBo.FundAccountLogMongoBizBo;
+import com.hupa.exp.bizother.entity.account.MongoBo.FundAccountLogMongoPageBizBo;
+import com.hupa.exp.bizother.service.account.def.IFundAccountMongoBiz;
 import com.hupa.exp.servermng.entity.fundaccount.FundAccountLogListInputDto;
 import com.hupa.exp.servermng.entity.fundaccount.FundAccountLogListOutputDto;
 import com.hupa.exp.servermng.entity.fundaccount.FundAccountLogOutputDto;

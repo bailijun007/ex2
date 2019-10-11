@@ -1,17 +1,16 @@
-package com.hupa.exp.bizother.entity.fundaccount;
+package com.hupa.exp.bizother.entity.account;
 
 import java.util.List;
 
-public class FundAccountListBizBo {
-    private List<FundAccountBizBo> rows;
-
+public class CoinPageListBizBo {
+    private List<CoinBizBo> rows;
     private Long total;
 
-    public List<FundAccountBizBo> getRows() {
+    public List<CoinBizBo> getRows() {
         return rows;
     }
 
-    public void setRows(List<FundAccountBizBo> rows) {
+    public void setRows(List<CoinBizBo> rows) {
         this.rows = rows;
     }
 

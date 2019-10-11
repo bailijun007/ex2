@@ -8,20 +8,18 @@ import com.hupa.exp.account.util.token.Account4ServerTokenUtil;
 import com.hupa.exp.account.util.token.fund.FundAccount4MngTokenUtil;
 import com.hupa.exp.account.util.token.fund.FundAccount4ServerTokenUtil;
 import com.hupa.exp.base.config.redis.Db0RedisBean;
-import com.hupa.exp.base.dic.expv2.AccountTypeDic;
 import com.hupa.exp.base.enums.OperationModule;
 import com.hupa.exp.base.enums.OperationType;
 import com.hupa.exp.base.enums.ValidateExceptionCode;
 import com.hupa.exp.base.exception.ValidateException;
-import com.hupa.exp.bizaccount.entity.PcFeeBizBo;
-import com.hupa.exp.bizaccount.service.def.IAccountBiz;
-import com.hupa.exp.bizaccount.service.def.IPcFeeBiz;
+import com.hupa.exp.bizother.entity.account.PcFeeBizBo;
 import com.hupa.exp.bizother.entity.dic.ExpDicBizBo;
-import com.hupa.exp.bizother.entity.fundaccount.FundAccountBizBo;
-import com.hupa.exp.bizother.entity.fundaccount.FundAccountListBizBo;
+import com.hupa.exp.bizother.entity.fundaccount.FundAccountMngBizBo;
+import com.hupa.exp.bizother.entity.fundaccount.FundAccountMngListBizBo;
 import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
 import com.hupa.exp.bizother.entity.user.ExpUserListBizBo;
 import com.hupa.exp.bizother.entity.user.ExpUserRoleBizBo;
+import com.hupa.exp.bizother.service.account.def.IPcFeeBiz;
 import com.hupa.exp.bizother.service.dic.def.IDicService;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.bizother.service.user.def.IUserBiz;
@@ -37,7 +35,6 @@ import com.hupa.exp.servermng.exception.LoginException;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiUserControllerService;
 import com.hupa.exp.servermng.validate.UserValidateImpl;
-import net.bytebuddy.asm.Advice;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,9 +70,6 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
     @Autowired
     @Qualifier(Db0RedisBean.beanName)
     private RedisUtil redisUtilDb0;
-
-    @Autowired
-    private IAccountBiz iAccountBiz;
 
 
 
@@ -120,7 +114,7 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         expUserBo.setPwdLevel(1);
         expUserBo.setUserType(inputDto.getUserType());
         expUserBo.setStatus(inputDto.getStatus());
-        
+
         expUserBo.setUserpwd(inputDto.getPassword());
         expUserBo.setFundPwd(inputDto.getFundPwd());
         UserOutputDto outputDto = new UserOutputDto();
@@ -253,9 +247,9 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         if (inputDto.getPageSize() > 100)
             inputDto.setPageSize(100);
         FundAccountListOutputDto outputDto = new FundAccountListOutputDto();
-        FundAccountListBizBo listBizBo = iUserBiz.queryFundAccountList(inputDto.getCurrentPage(), inputDto.getPageSize(), 1, inputDto.getUserName(),inputDto.getId());
+        FundAccountMngListBizBo listBizBo = iUserBiz.queryFundAccountList(inputDto.getCurrentPage(), inputDto.getPageSize(), 1, inputDto.getUserName(),inputDto.getId());
         List<FundAccountListOutputPage> pageList = new ArrayList<>();
-        for (FundAccountBizBo bo : listBizBo.getRows()) {
+        for (FundAccountMngBizBo bo : listBizBo.getRows()) {
             FundAccountListOutputPage account = new FundAccountListOutputPage();
             account.setAssets(bo.getAssets());
             account.setId(String.valueOf(bo.getId()));
@@ -275,9 +269,9 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         if (inputDto.getPageSize() > 100)
             inputDto.setPageSize(100);
         FundAccountListOutputDto outputDto = new FundAccountListOutputDto();
-        FundAccountListBizBo listBizBo = iUserBiz.queryFundAccountListByParam(inputDto.getCurrentPage(), inputDto.getPageSize(), inputDto.getUserType(), inputDto.getUserName(),inputDto.getId());
+        FundAccountMngListBizBo listBizBo = iUserBiz.queryFundAccountListByParam(inputDto.getCurrentPage(), inputDto.getPageSize(), inputDto.getUserType(), inputDto.getUserName(),inputDto.getId());
         List<FundAccountListOutputPage> pageList = new ArrayList<>();
-        for (FundAccountBizBo bo : listBizBo.getRows()) {
+        for (FundAccountMngBizBo bo : listBizBo.getRows()) {
             FundAccountListOutputPage account = new FundAccountListOutputPage();
             account.setAssets(bo.getAssets());
             account.setId(String.valueOf(bo.getId()));
@@ -392,7 +386,7 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
 
     @Override
     public FundAccountInfoOutputDto queryFundAccountById(FundAccountInfoInputDto inputDto) throws BizException {
-        FundAccountBizBo bo = iUserBiz.queryFundAccountById(inputDto.getId());
+        FundAccountMngBizBo bo = iUserBiz.queryFundAccountById(inputDto.getId());
         FundAccountInfoOutputDto outputDto = new FundAccountInfoOutputDto();
         outputDto.setAssets(bo.getAssets());
         outputDto.setId(String.valueOf(bo.getId()));
@@ -447,12 +441,12 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
             }
 
             BigDecimal delta = new BigDecimal(fundArr[1]);
-            FundAccountBizBo beforeBo = iUserBiz.queryFundAccountById(inputDto.getId());
+            FundAccountMngBizBo beforeBo = iUserBiz.queryFundAccountById(inputDto.getId());
             //加钱
             boolean bol = fundAccount4MngDef.addAvailableByManager(inputDto.getId(), symbol, delta,
                     FundAccount4MngTokenUtil.genToken4AddAvailableByManager(inputDto.getId(), symbol, delta
                     ));
-            FundAccountBizBo afterBo = iUserBiz.queryFundAccountById(inputDto.getId());
+            FundAccountMngBizBo afterBo = iUserBiz.queryFundAccountById(inputDto.getId());
             ExpUserBizBo user = sessionHelper.getUserInfoBySession();
             //记日志
             logService.createOperationLog(user.getId(), user.getUserName(), OperationModule.User.toString(),
@@ -516,6 +510,4 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
     }
-
-
 }

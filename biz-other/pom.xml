@@ -21,13 +21,6 @@
             <artifactId>dao-ex2</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.hupa.exp</groupId>
-            <artifactId>biz-account</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
         <dependency>
             <groupId>com.hupa.exp</groupId>
             <artifactId>project-util</artifactId>
@@ -35,16 +28,25 @@
         </dependency>
 
         <dependency>
-            <groupId>com.hupa.exchanger</groupId>
-            <artifactId>ex-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
             <groupId>com.hupa.exp</groupId>
             <artifactId>base-ex-project</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <!--self-->
+
+        <!--exchanger-->
+        <dependency>
+            <groupId>com.hupa.exchanger</groupId>
+            <artifactId>ex-pc-pccore</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hupa.exchanger</groupId>
+            <artifactId>ex-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!--exchanger-->
 
         <!-- spring -->
 
@@ -102,19 +104,6 @@
             <artifactId>jackson-annotations</artifactId>
             <version>2.9.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.hupa.exp</groupId>
-            <artifactId>biz-account</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-
-        <!--<dependency>-->
-            <!--<groupId>org.apache.pulsar</groupId>-->
-            <!--<artifactId>pulsar-client</artifactId>-->
-            <!--<version>2.4.0</version>-->
-        <!--</dependency>-->
-
 
         <!-- util -->
 
