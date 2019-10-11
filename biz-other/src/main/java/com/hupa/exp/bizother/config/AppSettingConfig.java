@@ -4,5 +4,5 @@ public class AppSettingConfig {
 
     public static final String app_name="exp";
 
-    public static final String price_model="biz.ticker";
+    public static final String price_model="biz.price";
 }
