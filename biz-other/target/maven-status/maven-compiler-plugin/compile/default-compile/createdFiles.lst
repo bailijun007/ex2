@@ -15,6 +15,7 @@ com\hupa\exp\bizother\service\user\def\IUserBiz.class
 com\hupa\exp\bizother\component\ChainSignComponent$1.class
 com\hupa\exp\bizother\entity\locale\ExpLocaleBizBo.class
 com\hupa\exp\bizother\service\account\impl\PcFeeBizImpl.class
+com\hupa\exp\bizother\entity\login\UserLoginBizBo.class
 com\hupa\exp\bizother\config\AppSettingConfig.class
 com\hupa\exp\BizOtherMainEntrance$1.class
 com\hupa\exp\bizother\component\ChainSignComponent.class
@@ -108,6 +109,7 @@ com\hupa\exp\bizother\entity\account\QueryFundWithdrawAddressBizBo$QueryFundWith
 com\hupa\exp\bizother\service\klineconfig\impl\KlineConfigServiceImpl.class
 com\hupa\exp\BizOtherMainEntrance.class
 com\hupa\exp\bizother\entity\tablefield\TableFieldBizBo.class
+com\hupa\exp\bizother\service\login\def\ILoginBiz.class
 com\hupa\exp\bizother\service\menu\def\IMenuService.class
 com\hupa\exp\bizother\service\account\def\IStoringLevelBiz.class
 com\hupa\exp\bizother\service\account\def\IWithdrawBiz.class
@@ -120,3 +122,5 @@ com\hupa\exp\bizother\entity\account\QueryFundWithdrawHistoryBizBo.class
 com\hupa\exp\bizother\service\sms\impl\SmsTempBizImpl.class
 com\hupa\exp\bizother\entity\account\FundWithdrawAddressBizBo.class
 com\hupa\exp\bizother\entity\account\QueryDepositBizBo$QueryDepositEntry.class
+com\hupa\exp\bizother\entity\login\AdminLoginBizBo.class
+com\hupa\exp\bizother\service\login\impl\LoginBizImpl.class
