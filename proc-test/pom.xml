@@ -19,73 +19,10 @@
         <!--self-->
         <dependency>
             <groupId>com.hupa.exp</groupId>
-            <artifactId>project-util</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hupa.exp</groupId>
-            <artifactId>base-ex-project</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hupa.exp</groupId>
-            <artifactId>biz-other</artifactId>
+            <artifactId>dao-ex2</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.hupa.exp</groupId>
-            <artifactId>biz-login</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hupa.exp</groupId>
-            <artifactId>biz-register</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.hupa.exp</groupId>
-            <artifactId>biz-pc-contract</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hupa.exp</groupId>
-            <artifactId>biz-account</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hupa.exchanger</groupId>
-            <artifactId>ex-base</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hupa.exchanger</groupId>
-            <artifactId>ex-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hupa.exchanger</groupId>
-            <artifactId>ex-id-def</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.hupa.exchanger</groupId>
-            <artifactId>ex-account-def</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.hupa.exchanger</groupId>
-            <artifactId>ex-pc-core-def</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hupa.exchanger</groupId>
-            <artifactId>ex-account-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
         <dependency>
             <groupId>org.apache.skywalking</groupId>
             <artifactId>apm-toolkit-trace</artifactId>

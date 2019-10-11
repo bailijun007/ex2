@@ -17,10 +17,6 @@ public class PcLastPriceBizImpl implements ILastPriceBiz {
 
     public static final  String serviceName="pcLastPriceBizImpl";
 
-
-
-
-
     @Autowired
     private BizPriceSettingConfig settingConfig;
 
