@@ -7,6 +7,8 @@ import com.hupa.exp.common.entity.dto.BaseResultViaApiDto;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
 import com.hupa.exp.servermng.entity.area.*;
+import com.hupa.exp.servermng.entity.base.DeleteInputDto;
+import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiAreaControllerService;
 import io.swagger.annotations.Api;
@@ -46,13 +48,16 @@ public class ApiAreaController {
             @ApiParam(name="area_code",value = "区号",required = true)
             @RequestParam(name = "area_code") String areaCode,
             @ApiParam(name="area_name",value = "区名",required = true)
-            @RequestParam(name = "area_name") String areaName
+            @RequestParam(name = "area_name") String areaName,
+                     @ApiParam(name="enable",value = "是否生效",required = true)
+            @RequestParam(name = "enable") boolean enable
     ){
         AreaOutputDto outputDto=new AreaOutputDto();
         AreaInputDto inputDto=new AreaInputDto();
         inputDto.setAreaCode(areaCode);
         inputDto.setAreaName(areaName);
         inputDto.setId(id);
+        inputDto.setEnable(enable);
         try{
             if(id>0)
                 outputDto = service.editArea(inputDto);
@@ -103,6 +108,26 @@ public class ApiAreaController {
             outputDto = service.getAreaList(inputDto);
         }catch(BizException e){
 
+            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
+        }
+        return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
+    }
+
+    @ApiOperation(value = "删除")
+    @PostMapping("/delete")
+    public BaseResultViaApiDto<DeleteInputDto,DeleteOutputDto> deleteArea(
+            @ApiParam(name="ids",value = "ids",required = true)
+            @RequestParam(name = "ids") String ids
+    ){
+        //logger.info("打印日志--------------------->");
+        DeleteInputDto inputDto=new DeleteInputDto();
+        DeleteOutputDto outputDto=new DeleteOutputDto();
+        inputDto.setIds(ids);
+
+        try{
+            outputDto = service.deleteArea(inputDto);
+
+        }catch(BizException e){
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
         }
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);

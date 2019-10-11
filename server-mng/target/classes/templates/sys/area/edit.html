@@ -32,6 +32,14 @@
                     <div class="ibox-content">
                         <input type="hidden" id="id" value="0">
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">是否启用：</label>
+                            <div class="col-sm-5">
+                                <div class="rule-single-checkbox">
+                                    <input type="checkbox" id="ckbIsOnTop" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-sm-3 control-label">区号：</label>
                             <div class="col-sm-6">
                                 <input  class="form-control" type="text" value="" datatype="*1-100" id="areaCode">
@@ -97,6 +105,8 @@
                           $("#id").val(data.data.id);
                             $("#areaCode").val(data.data.area_code);
                             $("#areaName").val(data.data.area_name);
+                            if (data.data.enable == true)
+                                $("#ckbIsOnTop").attr("checked","checked")
                         }
                     }
                 })
@@ -107,16 +117,16 @@
     });
 
     $("#BtnSave").click(function(){
-        // var checkVal=$("#ckbIsOnTop").parent().find("a").attr("class");
-        // var isCheck;
+         var checkVal=$("#ckbIsOnTop").parent().find("a").attr("class");
+         var isCheck;
         var id = GetQueryString("id");
         var action=GetQueryString("action");
         if(action!="Edit")
             id=0;
-        // if(checkVal=="selected")
-        //     isCheck=1;
-        // else
-        //     isCheck=0;
+        if(checkVal=="selected")
+            isCheck=1;
+        else
+            isCheck=0;
         var param="?";
         if($(".Validform_wrong").length>0)
         {
@@ -126,6 +136,7 @@
         param+= "id="+id;
         param+="&area_name="+$("#areaName").val();
         param+="&area_code="+$("#areaCode").val();
+        param+="&enable="+isCheck;
         $.ajax({
             type:"post",
             url:"/v1/http/area/create_area"+param,

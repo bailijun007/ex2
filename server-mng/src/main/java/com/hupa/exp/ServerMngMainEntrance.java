@@ -14,8 +14,8 @@ import org.springframework.core.env.ConfigurableEnvironment;
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @SpringBootConfiguration
 @EnableDubbo(scanBasePackages = {
-        "com.hupa.exp.account.def",
-        "com.hupa.exp.account.def.fund"})
+        "com.hupa.exp.id.def.transaction",
+        "com.hupa.exp.account.def"})
 public class ServerMngMainEntrance {
 
     public static void main(String[] args){
