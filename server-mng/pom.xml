@@ -35,12 +35,6 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.hupa.exp</groupId>
-            <artifactId>biz-login</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
         <!--self-->
         <!--exchanger-->
         <dependency>

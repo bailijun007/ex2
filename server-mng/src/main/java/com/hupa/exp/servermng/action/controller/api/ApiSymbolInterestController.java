@@ -11,6 +11,8 @@ import com.hupa.exp.servermng.service.def.IApiSymbolInterestControllerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -34,13 +36,18 @@ public class ApiSymbolInterestController {
             @ApiParam(name="symbol",value = "交易对",required = true)
             @RequestParam(name = "symbol") String symbol,
             @ApiParam(name="symbol_interest",value = "档次",required = true)
-            @RequestParam(name = "symbol_interest") BigDecimal symbolInterest
+            @RequestParam(name = "symbol_interest") BigDecimal symbolInterest,
+                   @ApiParam(name="interest_time",value = "时间",required = true)
+            @RequestParam(name = "interest_time") String interestTime
+
     ){
         SymbolInterestOutputDto outputDto=new SymbolInterestOutputDto();
         SymbolInterestInputDto inputDto=new SymbolInterestInputDto();
         inputDto.setId(id);
         inputDto.setSymbol(symbol);
         inputDto.setSymbolInterest(symbolInterest);
+        long dt= DateTime.parse(interestTime+" 00:00:00", DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")).getMillis();
+        inputDto.setInterestTime(dt);
         try{
             outputDto= service.createOrEditSymbolInterest(inputDto);
         }catch(BizException e){

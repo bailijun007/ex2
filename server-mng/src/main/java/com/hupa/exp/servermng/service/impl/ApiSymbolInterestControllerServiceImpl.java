@@ -62,6 +62,7 @@ public class ApiSymbolInterestControllerServiceImpl implements IApiSymbolInteres
         outputDto.setMtime(po.getMtime());
         outputDto.setSymbol(po.getSymbol());
         outputDto.setSymbolInterest(po.getSymbolInterest());
+        outputDto.setInterestTime(po.getInterestTime());
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
     }

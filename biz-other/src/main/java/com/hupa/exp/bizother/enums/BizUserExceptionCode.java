@@ -6,7 +6,7 @@ public enum BizUserExceptionCode implements ExceptionDescribe {
     LoginSuccess(0, "SUCCEED", ""),//成功
     USERNAME_OR_PWD_ERROR(-10005, "USERNAME_OR_PWD_ERROR", ""),//用户名或密码错误
     PWD_ENCRY_ERROR(-10005, "PWD_ENCRY_ERROR", ""),//加密错误
-
+    CREATE_TOKEN_ERROR(-10007, "CREATE_TOKEN_ERROR", ""),//加密错误
     ;
     private int code;
     private String constant;

@@ -8,8 +8,17 @@ public class SymbolInterestInfoOutputDto extends BaseOutputDto {
     private Long id;
     private String symbol;
     private BigDecimal symbolInterest;
+    private Long interestTime;
     private Long ctime;
     private Long mtime;
+
+    public Long getInterestTime() {
+        return interestTime;
+    }
+
+    public void setInterestTime(Long interestTime) {
+        this.interestTime = interestTime;
+    }
 
     public Long getId() {
         return id;

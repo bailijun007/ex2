@@ -49,7 +49,13 @@
                                     <input  class="form-control" type="text" datatype="*" id="symbol_interest">
                                 </div>
                         </div>
-
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">时间：</label>
+                            <div class="col-sm-6">
+                                <input  class="form-control" type="text"   id="interest_time">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-3">
                                 <input type="button" id="BtnSave" value="提交" class="btn btn-primary">
@@ -70,11 +76,20 @@
 <script src="../../../static/js/content.js?v=1.0.0"></script>
 <script src="../../../static/js/plugins/layer/layer.min.js"></script>
 <script src="../../../static/js/LayerTool.js"></script>
+<script src="../../../static/js/plugins/layer/laydate/laydate.js"></script>
 <script type="text/javascript">
     $(function () {
         // $(".form-horizontal").Validform({ tiptype: 2 });
         $(".form-horizontal").Validform({ tiptype: 2 });
+
+        //时间选择器
+        laydate.render({
+            elem: '#interest_time',
+            type: 'date',
+            value:new Date()
+        });
     });
+
 </script>
 
 <!--下拉框检索-->
@@ -102,6 +117,7 @@
                             $("#id").val(data.data.id);
                             $("#symbol").val(data.data.symbol);
                             $("#symbol_interest").val(data.data.symbolInterest);
+                            $("#interest_time").val(getShortDate(data.data.interestTime));
                         }
                     }
                 })
@@ -145,6 +161,7 @@
         parmes+= "id="+id;
         parmes+="&symbol="+$("#symbol").val();
         parmes+="&symbol_interest="+$("#symbol_interest").val();
+        parmes+= "&interest_time="+$("#interest_time").val();
 
         $.ajax({
             type:"post",

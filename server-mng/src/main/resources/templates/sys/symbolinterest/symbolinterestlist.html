@@ -80,7 +80,7 @@
             oTable.Init();
         });
 
-        $("#pair").change(function () {
+        $("#symbol").change(function () {
             $('#tb_departments').bootstrapTable('destroy');
             oTable.Init();
         })
@@ -90,12 +90,8 @@
 
     });
 
-    function ShowParam(id) {
-        alert(id);
-    }
-
     var addCatalogEvent = function (action,id) {
-        var text = "添加手续费信息"
+        var text = "添加利率"
         url = "/sys/symbolinterest/edit.html?id="+id+"&action="+action+"";
 
         parent.layer.open({
@@ -172,6 +168,14 @@
                             }, {
                                 title: '利率',
                                 field: 'symbolInterest'
+                            },
+                            {
+                                title: '时间',
+                                formatter: function (value, row, index) {
+                                    if(row.interestTime!=null)
+                                        return getShortDate(parseInt(row.interestTime));
+                                    return"";
+                                }
                             },
                             {
                                 title: '操作', field: '#', align: 'center',

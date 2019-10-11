@@ -1,7 +1,6 @@
 package com.hupa.exp.servermng.service.impl;
 
 import com.hupa.exp.base.exception.ValidateException;
-import com.hupa.exp.bizlogin.enums.BizLoginExceptionCode;
 import com.hupa.exp.bizother.entity.menu.ExpMenuBizBo;
 import com.hupa.exp.bizother.entity.menu.ExpMenuTreeBizBo;
 import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
@@ -12,6 +11,7 @@ import com.hupa.exp.bizother.service.user.def.IUserRoleService;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.daoex2.entity.po.expv2.ExpRoleMenuPo;
 import com.hupa.exp.servermng.entity.menu.*;
+import com.hupa.exp.servermng.enums.LoginExceptionCode;
 import com.hupa.exp.servermng.enums.MenuExceptionCode;
 import com.hupa.exp.servermng.exception.MenuException;
 import com.hupa.exp.servermng.help.SessionHelper;
@@ -42,7 +42,7 @@ public class ApiMenuControllerServiceImpl implements IApiMenuControllerService {
         ExpUserBizBo user= null;
         user = sessionHelper.getUserInfoBySession();
         if(user==null)
-            throw new ValidateException(BizLoginExceptionCode.HAS_NULL_TOKEN_ERROR);
+            throw new ValidateException(LoginExceptionCode.TOKEN_NULL_ERROR);
         MenuHtmlOutputDto outputDto=new MenuHtmlOutputDto();
         MenuHtmlInputDto inputDto=new MenuHtmlInputDto();
         //获取用户所有权限

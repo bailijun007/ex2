@@ -62,6 +62,7 @@ com\hupa\exp\servermng\entity\user\FundAccountListOutputPage.class
 com\hupa\exp\servermng\entity\klineconfig\KlineConfigInfoInputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiLoginController.class
 com\hupa\exp\servermng\service\def\IApiPcAccountControllerService.class
+com\hupa\exp\servermng\config\dubbo\DubboConfig.class
 com\hupa\exp\servermng\service\def\IApiFundWithdrawControllerService.class
 com\hupa\exp\servermng\enums\ImgExceptionCode.class
 com\hupa\exp\servermng\entity\storinglevel\StoringLevelInfoOutputDto.class
@@ -242,7 +243,6 @@ com\hupa\exp\servermng\action\controller\api\ApiStoringLevelController.class
 com\hupa\exp\servermng\enums\ContarctExceptionCode.class
 com\hupa\exp\servermng\entity\information\GetInformationByTypeOutputDto.class
 com\hupa\exp\servermng\entity\user\UserRoleListInputDto.class
-com\hupa\exp\servermng\config\dubbo\ExpMngDubboSetting.class
 com\hupa\exp\servermng\filter\LoginFilterImpl.class
 com\hupa\exp\servermng\action\controller\api\ApiRoleController.class
 com\hupa\exp\servermng\service\impl\ApiUserControllerServiceImpl.class
