@@ -1,17 +1,15 @@
 package com.hupa.exp.servermng.service.impl;
 
 import com.hupa.exp.base.config.redis.LastPriceRedisConfig;
-import com.hupa.exp.base.config.redis.TickerRedisConfig;
 import com.hupa.exp.base.enums.OperationModule;
 import com.hupa.exp.base.enums.OperationType;
-import com.hupa.exp.bizother.entity.ExpUserBizBo;
+import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.bizpccontract.entity.PcContractBizBo;
 import com.hupa.exp.bizpccontract.entity.PcContractListBizBo;
 import com.hupa.exp.bizpccontract.service.def.IPcContractBiz;
-import com.hupa.exp.bizticker.config.BizTickerSettingConfig;
-import com.hupa.exp.bizticker.entity.PcTickerBizBo;
-import com.hupa.exp.bizticker.service.def.ITickerBiz;
+import com.hupa.exp.bizprice.config.BizPriceSettingConfig;
+import com.hupa.exp.bizprice.service.def.ILastPriceBiz;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.DecimalUtil;
 import com.hupa.exp.common.tool.format.JsonUtil;
@@ -22,7 +20,6 @@ import com.hupa.exp.servermng.service.def.IApiContractControllerService;
 import com.hupa.exp.servermng.validate.ContractValidateImpl;
 import com.hupa.exp.util.convent.ConventObjectUtil;
 import com.hupa.exp.util.redis.RedisUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,11 +38,11 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
     @Autowired
     private SessionHelper sessionHelper;
     @Autowired
-    private ITickerBiz<PcTickerBizBo> iTickerBiz;
+    private ILastPriceBiz iLastPriceBiz;
     @Autowired
     private LastPriceRedisConfig redisConfig;
     @Autowired
-    private BizTickerSettingConfig bizTickerSettingConfig;
+    private BizPriceSettingConfig bizPriceSettingConfig;
 
     @Override
     public ContractOutputDto createOrEditContract(ContractInputDto inputDto) throws BizException {
@@ -76,9 +73,9 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
                     JsonUtil.toJsonString(bo),"");
         }
         //查一下有没有最新成交价
-        if(iTickerBiz.getLastPrice(inputDto.getPair())==null)
+        if(iLastPriceBiz.get(inputDto.getPair())==null)
         {
-            String redisKey= MessageFormat.format(bizTickerSettingConfig.getPcLastPriceRedisKey(),bo.getPair());
+            String redisKey= MessageFormat.format(bizPriceSettingConfig.getPcLastPriceRedisKey(),bo.getPair());
             RedisUtil.redisClientFactory(redisConfig).set(redisKey,DecimalUtil.toTrimLiteral(bo.getLastPrice()));
         }
         ContractOutputDto outputDto=new ContractOutputDto();
@@ -156,7 +153,7 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
     @Override
     public CheckHasLastPriceOutputDto checkHasLastPrice(CheckHasLastPriceInputDto inputDto) throws ContractException {
         CheckHasLastPriceOutputDto outputDto=new CheckHasLastPriceOutputDto();
-        if(iTickerBiz.getLastPrice(inputDto.getPair())!=null)
+        if(iLastPriceBiz.get(inputDto.getPair())!=null)
             outputDto.setHasLastPrice(true);
         else
             outputDto.setHasLastPrice(false);

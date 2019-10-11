@@ -1,7 +1,6 @@
 package com.hupa.exp.bizother.service.operationlog.def;
 
-import com.hupa.exp.bizother.entity.ExpOperationLogBizBo;
-import com.hupa.exp.bizother.entity.ExpOperationLogListBizBo;
+import com.hupa.exp.bizother.entity.operationlog.ExpOperationLogListBizBo;
 
 public interface IExpOperationLogService {
      long createOperationLog(long accountId,String userName,String operationModule,String operationType,

@@ -5,7 +5,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.hupa.exp.base.enums.OperationModule;
 import com.hupa.exp.base.enums.OperationType;
-import com.hupa.exp.bizother.entity.ExpUserBizBo;
+import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.daoex2.dao.expv2.def.IPcSymbolInterestDao;

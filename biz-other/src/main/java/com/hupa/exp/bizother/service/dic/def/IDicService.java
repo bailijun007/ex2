@@ -1,9 +1,7 @@
 package com.hupa.exp.bizother.service.dic.def;
 
-import com.hupa.exp.bizother.entity.ExpAreaBizBo;
-import com.hupa.exp.bizother.entity.ExpAreaListBizBo;
-import com.hupa.exp.bizother.entity.ExpDicBizBo;
-import com.hupa.exp.bizother.entity.ExpDicListBizBo;
+import com.hupa.exp.bizother.entity.dic.ExpDicBizBo;
+import com.hupa.exp.bizother.entity.dic.ExpDicListBizBo;
 import com.hupa.exp.common.exception.BizException;
 
 import java.util.List;

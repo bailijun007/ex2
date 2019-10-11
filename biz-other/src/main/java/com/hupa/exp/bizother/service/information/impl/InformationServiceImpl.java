@@ -1,9 +1,9 @@
 package com.hupa.exp.bizother.service.information.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.hupa.exp.bizother.entity.ExpInformationBizBo;
-import com.hupa.exp.bizother.entity.ExpInformationListBizBo;
-import com.hupa.exp.bizother.entity.ExpInformationPageDataBizBo;
+import com.hupa.exp.bizother.entity.information.ExpInformationBizBo;
+import com.hupa.exp.bizother.entity.information.ExpInformationListBizBo;
+import com.hupa.exp.bizother.entity.information.ExpInformationPageDataBizBo;
 import com.hupa.exp.bizother.service.information.def.IInformationService;
 import com.hupa.exp.daoex2.dao.expv2.def.IExpInformationDao;
 import com.hupa.exp.daoex2.entity.po.expv2.ExpInformationPo;

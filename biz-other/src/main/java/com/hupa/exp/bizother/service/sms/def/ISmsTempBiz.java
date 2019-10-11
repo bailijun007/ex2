@@ -1,7 +1,7 @@
 package com.hupa.exp.bizother.service.sms.def;
 
-import com.hupa.exp.bizother.entity.ExpSmsListBizBo;
-import com.hupa.exp.bizother.entity.ExpSmsTempBizBo;
+import com.hupa.exp.bizother.entity.sms.ExpSmsListBizBo;
+import com.hupa.exp.bizother.entity.sms.ExpSmsTempBizBo;
 import com.hupa.exp.common.exception.BizException;
 
 public interface ISmsTempBiz {

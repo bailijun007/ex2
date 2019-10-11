@@ -1,8 +1,8 @@
 package com.hupa.exp.bizother.service.locale.def;
 
 import com.hupa.exp.base.exception.ValidateException;
-import com.hupa.exp.bizother.entity.ExpLocaleBizBo;
-import com.hupa.exp.bizother.entity.ExpLocaleListBizBo;
+import com.hupa.exp.bizother.entity.locale.ExpLocaleBizBo;
+import com.hupa.exp.bizother.entity.locale.ExpLocaleListBizBo;
 
 public interface ILocaleService {
     long createLocale(ExpLocaleBizBo bizBo) throws ValidateException;

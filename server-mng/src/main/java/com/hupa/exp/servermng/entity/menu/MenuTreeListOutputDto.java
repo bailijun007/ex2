@@ -1,6 +1,6 @@
 package com.hupa.exp.servermng.entity.menu;
 
-import com.hupa.exp.bizother.entity.ExpMenuTreeBizBo;
+import com.hupa.exp.bizother.entity.menu.ExpMenuTreeBizBo;
 import com.hupa.exp.common.entity.dto.output.BaseOutputDto;
 
 import java.util.List;

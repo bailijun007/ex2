@@ -1,16 +1,18 @@
 package com.hupa.exp.bizother.service.user.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.hupa.exp.base.config.redis.Db0RedisBean;
 import com.hupa.exp.base.config.redis.Db1RedisBean;
-import com.hupa.exp.base.config.redis.Db2RedisBean;
 import com.hupa.exp.base.enums.ValidateExceptionCode;
 import com.hupa.exp.base.exception.ValidateException;
 import com.hupa.exp.base.helper.security.SecurityPwdHelper;
 import com.hupa.exp.bizaccount.entity.PcAccountBizBo;
 import com.hupa.exp.bizaccount.service.def.IAccountBiz;
-import com.hupa.exp.bizother.entity.*;
+import com.hupa.exp.bizother.entity.assets.AssetsBizBo;
+import com.hupa.exp.bizother.entity.fundaccount.FundAccountBizBo;
+import com.hupa.exp.bizother.entity.fundaccount.FundAccountListBizBo;
+import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
+import com.hupa.exp.bizother.entity.user.ExpUserListBizBo;
 import com.hupa.exp.bizother.exception.BizUserException;
 import com.hupa.exp.bizother.service.user.def.IUserBiz;
 import com.hupa.exp.common.component.redis.RedisUtil;
@@ -19,9 +21,7 @@ import com.hupa.exp.daoex2.dao.expv2.def.*;
 import com.hupa.exp.daoex2.entity.po.expv2.*;
 import com.hupa.exp.util.convent.ConventObjectUtil;
 import com.hupa.exp.util.math.DecimalUtil;
-import net.bytebuddy.asm.Advice;
 import org.apache.commons.lang3.StringUtils;
-import org.omg.CORBA.PRIVATE_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -136,7 +136,7 @@ public class UserBizImpl implements IUserBiz {
     }
 
     @Override
-    public ExpUserListBizBo queryListByUserType(long currentPage, long pageSize, Integer userType, String userName,Long id) {
+    public ExpUserListBizBo queryListByUserType(long currentPage, long pageSize, Integer userType, String userName, Long id) {
         ExpUserListBizBo listBizBo = new ExpUserListBizBo();
         IPage<ExpUserPo> userPos = iExpUserDao.selectUserList(currentPage, pageSize, userType, userName,id);
         List<ExpUserBizBo> boList = new ArrayList<>();
@@ -224,7 +224,7 @@ public class UserBizImpl implements IUserBiz {
     }
 
     @Override
-    public FundAccountListBizBo queryFundAccountList(long currentPage, long pageSize, Integer userType, String userName,Long id) throws BizException {
+    public FundAccountListBizBo queryFundAccountList(long currentPage, long pageSize, Integer userType, String userName, Long id) throws BizException {
         List<CoinPo> coinPos = iCoinDao.selectList();//所有交易对
         IPage<ExpUserPo> userPos = iExpUserDao.selectUserList(currentPage, pageSize, userType, userName,id);
         FundAccountListBizBo fundAccountListBizBo = new FundAccountListBizBo();

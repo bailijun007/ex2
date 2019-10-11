@@ -2,10 +2,10 @@ package com.hupa.exp.servermng.service.impl;
 
 import com.hupa.exp.base.exception.ValidateException;
 import com.hupa.exp.bizlogin.enums.BizLoginExceptionCode;
-import com.hupa.exp.bizother.entity.ExpMenuBizBo;
-import com.hupa.exp.bizother.entity.ExpMenuTreeBizBo;
-import com.hupa.exp.bizother.entity.ExpUserBizBo;
-import com.hupa.exp.bizother.entity.ExpUserRoleBizBo;
+import com.hupa.exp.bizother.entity.menu.ExpMenuBizBo;
+import com.hupa.exp.bizother.entity.menu.ExpMenuTreeBizBo;
+import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
+import com.hupa.exp.bizother.entity.user.ExpUserRoleBizBo;
 import com.hupa.exp.bizother.service.menu.def.IMenuService;
 import com.hupa.exp.bizother.service.role.def.IRoleMenuService;
 import com.hupa.exp.bizother.service.user.def.IUserRoleService;

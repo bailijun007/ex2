@@ -1,6 +1,6 @@
 package com.hupa.exp.servermng.entity.user;
 
-import com.hupa.exp.bizother.entity.AssetsBizBo;
+import com.hupa.exp.bizother.entity.assets.AssetsBizBo;
 import com.hupa.exp.common.entity.dto.output.BaseOutputDto;
 
 import java.util.List;

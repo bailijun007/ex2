@@ -1,13 +1,11 @@
 package com.hupa.exp.servermng.service.impl;
 
-import com.hupa.exp.bizother.entity.ExpOperationLogBizBo;
-import com.hupa.exp.bizother.entity.ExpOperationLogListBizBo;
+import com.hupa.exp.bizother.entity.operationlog.ExpOperationLogBizBo;
+import com.hupa.exp.bizother.entity.operationlog.ExpOperationLogListBizBo;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.servermng.entity.operationlog.OperationLogListInputDto;
 import com.hupa.exp.servermng.entity.operationlog.OperationLogListOutputDto;
 import com.hupa.exp.servermng.service.def.IApiOperationLogControllerService;
-import org.apache.pulsar.shade.org.apache.avro.generic.GenericData;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

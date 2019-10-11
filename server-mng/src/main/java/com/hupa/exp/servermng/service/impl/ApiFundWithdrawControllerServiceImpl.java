@@ -7,7 +7,7 @@ import com.hupa.exp.base.enums.OperationType;
 import com.hupa.exp.bizaccount.entity.MongoBo.FundWithdrawMongoBizBo;
 import com.hupa.exp.bizaccount.entity.MongoBo.FundWithdrawMongoPageBizBo;
 import com.hupa.exp.bizaccount.service.def.IWithdrawBiz;
-import com.hupa.exp.bizother.entity.ExpUserBizBo;
+import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.JsonUtil;

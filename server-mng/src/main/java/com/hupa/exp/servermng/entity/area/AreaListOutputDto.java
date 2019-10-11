@@ -1,8 +1,5 @@
 package com.hupa.exp.servermng.entity.area;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.hupa.exp.bizother.entity.ExpAreaListBizBo;
-import com.hupa.exp.common.entity.dto.output.BaseOutputDto;
 import com.hupa.exp.common.entity.dto.output.BasePageOutputDto;
 
 public class AreaListOutputDto extends BasePageOutputDto<AreaListOutputPage> {

@@ -2,8 +2,8 @@ package com.hupa.exp.servermng.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.hupa.exp.bizother.entity.ExpRoleBizBo;
-import com.hupa.exp.bizother.entity.ExpRoleListBizBo;
+import com.hupa.exp.bizother.entity.role.ExpRoleBizBo;
+import com.hupa.exp.bizother.entity.role.ExpRoleListBizBo;
 import com.hupa.exp.bizother.service.role.def.IRoleMenuService;
 import com.hupa.exp.bizother.service.role.def.IRoleService;
 import com.hupa.exp.common.exception.BizException;

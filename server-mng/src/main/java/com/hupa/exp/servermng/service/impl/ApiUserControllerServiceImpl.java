@@ -3,8 +3,10 @@ package com.hupa.exp.servermng.service.impl;
 import com.hupa.exp.account.def.Account4ServerDef;
 import com.hupa.exp.account.def.fund.FundAccount4MngDef;
 import com.hupa.exp.account.def.fund.FundAccount4ServerDef;
+import com.hupa.exp.account.service.account.def.FundAccountDef;
 import com.hupa.exp.account.util.token.Account4ServerTokenUtil;
 import com.hupa.exp.account.util.token.fund.FundAccount4MngTokenUtil;
+import com.hupa.exp.account.util.token.fund.FundAccount4ServerTokenUtil;
 import com.hupa.exp.base.config.redis.Db0RedisBean;
 import com.hupa.exp.base.dic.expv2.AccountTypeDic;
 import com.hupa.exp.base.enums.OperationModule;
@@ -14,7 +16,12 @@ import com.hupa.exp.base.exception.ValidateException;
 import com.hupa.exp.bizaccount.entity.PcFeeBizBo;
 import com.hupa.exp.bizaccount.service.def.IAccountBiz;
 import com.hupa.exp.bizaccount.service.def.IPcFeeBiz;
-import com.hupa.exp.bizother.entity.*;
+import com.hupa.exp.bizother.entity.dic.ExpDicBizBo;
+import com.hupa.exp.bizother.entity.fundaccount.FundAccountBizBo;
+import com.hupa.exp.bizother.entity.fundaccount.FundAccountListBizBo;
+import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
+import com.hupa.exp.bizother.entity.user.ExpUserListBizBo;
+import com.hupa.exp.bizother.entity.user.ExpUserRoleBizBo;
 import com.hupa.exp.bizother.service.dic.def.IDicService;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.bizother.service.user.def.IUserBiz;
@@ -30,6 +37,7 @@ import com.hupa.exp.servermng.exception.LoginException;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiUserControllerService;
 import com.hupa.exp.servermng.validate.UserValidateImpl;
+import net.bytebuddy.asm.Advice;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +67,8 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
     private Account4ServerDef account4ServerDef;
     @Reference
     private FundAccount4MngDef fundAccount4MngDef;
+    @Reference
+    private FundAccountDef fundAccountDef;
 
     @Autowired
     @Qualifier(Db0RedisBean.beanName)
@@ -66,6 +76,8 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
 
     @Autowired
     private IAccountBiz iAccountBiz;
+
+
 
     @Autowired
     private IDicService dicService;
@@ -429,8 +441,9 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         if (fundArr.length > 0) {
 
             String symbol = fundArr[0];
-            if (!iAccountBiz.existAccount(inputDto.getId(), symbol, AccountTypeDic.ACCOUNT_TYPE_FUND)) {
-                iAccountBiz.createFundAccount(inputDto.getId(), symbol);
+            if (fundAccountDef.getFundAccount(inputDto.getId(), symbol,true)==null) {
+                fundAccount4ServerDef.createFundAccount(inputDto.getId(), symbol,
+                        FundAccount4ServerTokenUtil.genToken4CreateFundAccount(inputDto.getId(), symbol));
             }
 
             BigDecimal delta = new BigDecimal(fundArr[1]);

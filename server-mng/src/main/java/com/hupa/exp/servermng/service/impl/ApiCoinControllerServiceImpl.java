@@ -6,7 +6,7 @@ import com.hupa.exp.bizaccount.entity.CoinBizBo;
 import com.hupa.exp.bizaccount.entity.CoinPageListBizBo;
 import com.hupa.exp.bizaccount.entity.SymbolListBizBo;
 import com.hupa.exp.bizaccount.service.def.ICoinBiz;
-import com.hupa.exp.bizother.entity.ExpUserBizBo;
+import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.JsonUtil;

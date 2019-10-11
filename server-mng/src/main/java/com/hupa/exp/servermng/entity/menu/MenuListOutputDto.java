@@ -1,9 +1,8 @@
 package com.hupa.exp.servermng.entity.menu;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.hupa.exp.bizother.entity.ExpMenuBizBo;
+import com.hupa.exp.bizother.entity.menu.ExpMenuBizBo;
 import com.hupa.exp.common.entity.dto.output.BaseOutputDto;
-import com.hupa.exp.common.entity.dto.output.BasePageOutputDto;
 
 import java.util.List;
 

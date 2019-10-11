@@ -2,10 +2,9 @@ package com.hupa.exp.servermng.service.impl;
 
 import com.hupa.exp.base.enums.OperationModule;
 import com.hupa.exp.base.enums.OperationType;
-import com.hupa.exp.bizother.entity.ExpInformationBizBo;
-import com.hupa.exp.bizother.entity.ExpInformationListBizBo;
-import com.hupa.exp.bizother.entity.ExpInformationPageDataBizBo;
-import com.hupa.exp.bizother.entity.ExpUserBizBo;
+import com.hupa.exp.bizother.entity.information.ExpInformationBizBo;
+import com.hupa.exp.bizother.entity.information.ExpInformationPageDataBizBo;
+import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
 import com.hupa.exp.bizother.service.information.def.IInformationService;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.common.exception.BizException;

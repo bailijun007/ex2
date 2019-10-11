@@ -1,6 +1,5 @@
 package com.hupa.exp.servermng.service.def;
 
-import com.hupa.exp.bizother.entity.ExpLocaleBizBo;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.servermng.entity.locale.*;
 

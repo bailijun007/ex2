@@ -1,11 +1,8 @@
 package com.hupa.exp.servermng.entity.sms;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.hupa.exp.bizother.entity.ExpSmsListBizBo;
-import com.hupa.exp.bizother.entity.ExpSmsTempBizBo;
+import com.hupa.exp.bizother.entity.sms.ExpSmsListBizBo;
 import com.hupa.exp.common.entity.dto.output.BaseOutputDto;
-
-import java.util.List;
 
 public class SmsTempListOutputDto extends BaseOutputDto {
 

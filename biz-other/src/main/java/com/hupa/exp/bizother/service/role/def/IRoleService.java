@@ -1,8 +1,8 @@
 package com.hupa.exp.bizother.service.role.def;
 
 import com.hupa.exp.base.exception.ValidateException;
-import com.hupa.exp.bizother.entity.ExpRoleBizBo;
-import com.hupa.exp.bizother.entity.ExpRoleListBizBo;
+import com.hupa.exp.bizother.entity.role.ExpRoleBizBo;
+import com.hupa.exp.bizother.entity.role.ExpRoleListBizBo;
 import com.hupa.exp.common.exception.BizException;
 
 import java.util.List;

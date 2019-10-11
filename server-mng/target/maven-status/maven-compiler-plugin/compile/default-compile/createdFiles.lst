@@ -41,6 +41,7 @@ com\hupa\exp\servermng\entity\sms\SmsTempListInputDto.class
 com\hupa\exp\servermng\entity\role\RoleAllOutputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiFundWithdrawController.class
 com\hupa\exp\servermng\interceptor\ResponseBodyHandlerImpl.class
+com\hupa\exp\servermng\entity\dic\DicAllListInputDto.class
 com\hupa\exp\servermng\service\impl\ApiCoinControllerServiceImpl.class
 com\hupa\exp\servermng\entity\fundaccount\FundAccountLogInputDto.class
 com\hupa\exp\servermng\entity\role\RoleInputDto.class

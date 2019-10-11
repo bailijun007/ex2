@@ -3,8 +3,8 @@ package com.hupa.exp.bizother.service.sms.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.hupa.exp.base.enums.ValidateExceptionCode;
 import com.hupa.exp.base.exception.ValidateException;
-import com.hupa.exp.bizother.entity.ExpSmsListBizBo;
-import com.hupa.exp.bizother.entity.ExpSmsTempBizBo;
+import com.hupa.exp.bizother.entity.sms.ExpSmsListBizBo;
+import com.hupa.exp.bizother.entity.sms.ExpSmsTempBizBo;
 import com.hupa.exp.bizother.service.sms.def.ISmsTempBiz;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.daoex2.dao.expv2.def.IExpSmsTempDao;
@@ -13,7 +13,6 @@ import com.hupa.exp.util.convent.ConventObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,8 +1,8 @@
 package com.hupa.exp.servermng.service.impl;
 
 import com.hupa.exp.base.helper.validate.IValidateService;
-import com.hupa.exp.bizother.entity.ExpAreaBizBo;
-import com.hupa.exp.bizother.entity.ExpAreaListBizBo;
+import com.hupa.exp.bizother.entity.area.ExpAreaBizBo;
+import com.hupa.exp.bizother.entity.area.ExpAreaListBizBo;
 import com.hupa.exp.bizother.service.area.def.IAreaService;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.servermng.entity.area.*;

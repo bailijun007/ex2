@@ -1,10 +1,10 @@
 package com.hupa.exp.bizother.service.user.def;
 
 import com.hupa.exp.base.exception.ValidateException;
-import com.hupa.exp.bizother.entity.ExpUserBizBo;
-import com.hupa.exp.bizother.entity.ExpUserListBizBo;
-import com.hupa.exp.bizother.entity.FundAccountBizBo;
-import com.hupa.exp.bizother.entity.FundAccountListBizBo;
+import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
+import com.hupa.exp.bizother.entity.user.ExpUserListBizBo;
+import com.hupa.exp.bizother.entity.fundaccount.FundAccountBizBo;
+import com.hupa.exp.bizother.entity.fundaccount.FundAccountListBizBo;
 import com.hupa.exp.bizother.exception.BizUserException;
 import com.hupa.exp.common.exception.BizException;
 

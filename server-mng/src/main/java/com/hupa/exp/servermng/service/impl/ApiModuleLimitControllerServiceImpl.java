@@ -1,7 +1,7 @@
 package com.hupa.exp.servermng.service.impl;
 
-import com.hupa.exp.bizother.entity.ExpModuleLimitBizBo;
-import com.hupa.exp.bizother.entity.ExpModuleLimitListBizBo;
+import com.hupa.exp.bizother.entity.modulelimit.ExpModuleLimitBizBo;
+import com.hupa.exp.bizother.entity.modulelimit.ExpModuleLimitListBizBo;
 import com.hupa.exp.bizother.service.modulelimit.def.IModuleLimitService;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.servermng.entity.modulelimit.*;

@@ -1,8 +1,8 @@
 package com.hupa.exp.bizother.service.information.def;
 
-import com.hupa.exp.bizother.entity.ExpInformationBizBo;
-import com.hupa.exp.bizother.entity.ExpInformationListBizBo;
-import com.hupa.exp.bizother.entity.ExpInformationPageDataBizBo;
+import com.hupa.exp.bizother.entity.information.ExpInformationBizBo;
+import com.hupa.exp.bizother.entity.information.ExpInformationListBizBo;
+import com.hupa.exp.bizother.entity.information.ExpInformationPageDataBizBo;
 
 public interface IInformationService {
     ExpInformationListBizBo getInformationListByType(int type, int limit);
