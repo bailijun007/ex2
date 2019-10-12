@@ -9,7 +9,7 @@ import com.hupa.exp.bizother.service.menu.def.IMenuService;
 import com.hupa.exp.bizother.service.role.def.IRoleMenuService;
 import com.hupa.exp.bizother.service.user.def.IUserRoleService;
 import com.hupa.exp.common.exception.BizException;
-import com.hupa.exp.daoex2.entity.po.expv2.ExpRoleMenuPo;
+import com.hupa.exp.daomysql.entity.po.expv2.ExpRoleMenuPo;
 import com.hupa.exp.servermng.entity.menu.*;
 import com.hupa.exp.servermng.enums.LoginExceptionCode;
 import com.hupa.exp.servermng.enums.MenuExceptionCode;

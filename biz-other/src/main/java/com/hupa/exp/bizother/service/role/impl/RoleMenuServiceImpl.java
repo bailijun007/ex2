@@ -1,12 +1,11 @@
 package com.hupa.exp.bizother.service.role.impl;
 
-import com.hupa.exp.daoex2.dao.expv2.def.IExpRoleMenuDao;
 import com.hupa.exp.bizother.service.role.def.IRoleMenuService;
-import com.hupa.exp.daoex2.entity.po.expv2.ExpRoleMenuPo;
+import com.hupa.exp.daomysql.dao.expv2.def.IExpRoleMenuDao;
+import com.hupa.exp.daomysql.entity.po.expv2.ExpRoleMenuPo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
 import java.util.List;
 
 @Service

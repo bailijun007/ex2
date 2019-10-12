@@ -18,8 +18,8 @@ import com.hupa.exp.bizother.service.account.def.IAccountBiz;
 import com.hupa.exp.bizother.service.user.def.IUserBiz;
 import com.hupa.exp.common.component.redis.RedisUtil;
 import com.hupa.exp.common.exception.BizException;
-import com.hupa.exp.daoex2.dao.expv2.def.*;
-import com.hupa.exp.daoex2.entity.po.expv2.*;
+import com.hupa.exp.daomysql.dao.expv2.def.*;
+import com.hupa.exp.daomysql.entity.po.expv2.*;
 import com.hupa.exp.util.convent.ConventObjectUtil;
 import com.hupa.exp.util.math.DecimalUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -240,9 +240,9 @@ public class UserBizImpl implements IUserBiz {
             List<AssetsBizBo> assetsBizBos = new ArrayList<>();
 
             for (CoinPo pcPo : coinPos) {
-               FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(userPo.getId(), pcPo.getSymbol());
+               FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(userPo.getId(), pcPo.getCoinName());
                 AssetsBizBo assetsBizBo = new AssetsBizBo();
-                assetsBizBo.setPair(pcPo.getSymbol());
+                assetsBizBo.setPair(pcPo.getCoinName());
                 if (null != fundAccount) {
                     assetsBizBo.setFundAccountAvailable(fundAccount.getAvailable());
                     assetsBizBo.setFundAccountLock(fundAccount.getLock());
@@ -252,7 +252,7 @@ public class UserBizImpl implements IUserBiz {
                     assetsBizBo.setFundAccountLock(new BigDecimal("0"));
                     assetsBizBo.setFundAccountTotal(new BigDecimal("0"));
                 }
-                PcAccountBizBo pcBo = iAccountBiz.getPcAccount(userPo.getId(), pcPo.getSymbol());
+                PcAccountBizBo pcBo = iAccountBiz.getPcAccount(userPo.getId(), pcPo.getCoinName());
                 if (null != pcBo) {
                     assetsBizBo.setPcAccountAvailable(pcBo.getAvailable());
                     assetsBizBo.setPcAccountTotal(pcBo.getTotal());
@@ -289,9 +289,9 @@ public class UserBizImpl implements IUserBiz {
             List<AssetsBizBo> assetsBizBos = new ArrayList<>();
 
             for (CoinPo pcPo : coinPos) {
-                FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(userPo.getId(), pcPo.getSymbol());
+                FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(userPo.getId(), pcPo.getCoinName());
                 AssetsBizBo assetsBizBo = new AssetsBizBo();
-                assetsBizBo.setPair(pcPo.getSymbol());
+                assetsBizBo.setPair(pcPo.getCoinName());
                 if (null != fundAccount) {
                     assetsBizBo.setFundAccountAvailable(fundAccount.getAvailable());
                     assetsBizBo.setFundAccountLock(fundAccount.getLock());
@@ -301,7 +301,7 @@ public class UserBizImpl implements IUserBiz {
                     assetsBizBo.setFundAccountLock(new BigDecimal("0"));
                     assetsBizBo.setFundAccountTotal(new BigDecimal("0"));
                 }
-                PcAccountBizBo pcBo = iAccountBiz.getPcAccount(userPo.getId(), pcPo.getSymbol());
+                PcAccountBizBo pcBo = iAccountBiz.getPcAccount(userPo.getId(), pcPo.getCoinName());
                 if (null != pcBo) {
                     assetsBizBo.setPcAccountAvailable(pcBo.getAvailable());
                     assetsBizBo.setPcAccountTotal(pcBo.getTotal());
@@ -336,9 +336,9 @@ public class UserBizImpl implements IUserBiz {
         fundAccountBizBo.setRealName(userPo.getRealName());
         List<AssetsBizBo> assetsBizBos = new ArrayList<>();
         for (CoinPo pcPo : coinPos) {
-            FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(userPo.getId(), pcPo.getSymbol());
+            FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(userPo.getId(), pcPo.getCoinName());
             AssetsBizBo assetsBizBo = new AssetsBizBo();
-            assetsBizBo.setPair(pcPo.getSymbol());
+            assetsBizBo.setPair(pcPo.getCoinName());
             if (null != fundAccount) {
                 assetsBizBo.setFundAccountAvailable(fundAccount.getAvailable());
                 assetsBizBo.setFundAccountLock(fundAccount.getLock());
@@ -348,7 +348,7 @@ public class UserBizImpl implements IUserBiz {
                 assetsBizBo.setFundAccountLock(new BigDecimal("0"));
                 assetsBizBo.setFundAccountTotal(new BigDecimal("0"));
             }
-            PcAccountBizBo pcBo = iAccountBiz.getPcAccount(userPo.getId(), pcPo.getSymbol());
+            PcAccountBizBo pcBo = iAccountBiz.getPcAccount(userPo.getId(), pcPo.getCoinName());
             if (null != pcBo) {
                 assetsBizBo.setPcAccountAvailable(pcBo.getAvailable());
                 assetsBizBo.setPcAccountTotal(pcBo.getTotal());

@@ -11,10 +11,10 @@ import com.hupa.exp.bizother.entity.account.SymbolListBizBo;
 import com.hupa.exp.bizother.service.account.def.ICoinBiz;
 import com.hupa.exp.common.component.redis.RedisUtil;
 import com.hupa.exp.common.exception.BizException;
-import com.hupa.exp.daoex2.dao.expv2.def.ICoinDao;
-import com.hupa.exp.daoex2.dao.expv2.def.IExpDicDao;
-import com.hupa.exp.daoex2.entity.po.expv2.CoinPo;
-import com.hupa.exp.daoex2.entity.po.expv2.ExpDicPo;
+import com.hupa.exp.daomysql.dao.expv2.def.ICoinDao;
+import com.hupa.exp.daomysql.dao.expv2.def.IExpDicDao;
+import com.hupa.exp.daomysql.entity.po.expv2.CoinPo;
+import com.hupa.exp.daomysql.entity.po.expv2.ExpDicPo;
 import com.hupa.exp.util.convent.ConventObjectUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +38,11 @@ public class CoinBizImpl implements ICoinBiz {
     private RedisUtil redisUtilDb0;
 
     @Override
-    public boolean existBySymbol(String symbol) {
-        if(StringUtils.isEmpty(symbol))
+    public boolean existBySymbol(String coinName) {
+        if(StringUtils.isEmpty(coinName))
             return false;
 
-        CoinPo coinPo = iCoinDao.selectOnePoBySymbol(symbol);
+        CoinPo coinPo = iCoinDao.selectOnePoByCoinName(coinName);
         if(coinPo==null)
             return false;
 
@@ -104,7 +104,7 @@ public class CoinBizImpl implements ICoinBiz {
         List<String> symbolList=new ArrayList<>();
         for(CoinPo po:poList)
         {
-            symbolList.add(po.getSymbol());
+            symbolList.add(po.getCoinName());
         }
         SymbolListBizBo listBizBo=new SymbolListBizBo();
         listBizBo.setSymbolList(symbolList);
@@ -129,8 +129,8 @@ public class CoinBizImpl implements ICoinBiz {
     }
 
     @Override
-    public CoinBizBo queryCoinBySymbol(String symbol) {
-        CoinPo po=iCoinDao.selectOnePoBySymbol(symbol);
+    public CoinBizBo queryCoinBySymbol(String coinName) {
+        CoinPo po=iCoinDao.selectOnePoByCoinName(coinName);
         if(po == null )
             return null;
 
@@ -139,9 +139,9 @@ public class CoinBizImpl implements ICoinBiz {
     }
 
     @Override
-    public CoinBizBo queryCoinByChainSymbolId(int chainSymbolId) {
+    public CoinBizBo queryCoinByChainSymbolId(int chainCoinId) {
 
-        CoinPo coinPo = iCoinDao.selectOnePoByChainSymbolId(chainSymbolId);
+        CoinPo coinPo = iCoinDao.selectOnePoByChainCoinId(chainCoinId);
         if(coinPo == null)
             return null;
 

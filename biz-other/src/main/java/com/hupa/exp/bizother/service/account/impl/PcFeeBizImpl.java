@@ -9,11 +9,11 @@ import com.hupa.exp.bizother.entity.account.UserPcFee;
 import com.hupa.exp.bizother.service.account.def.IPcFeeBiz;
 import com.hupa.exp.common.component.redis.RedisUtil;
 import com.hupa.exp.common.tool.format.JsonUtil;
-import com.hupa.exp.daoex2.dao.expv2.def.*;
-import com.hupa.exp.daoex2.entity.po.expv2.CoinPo;
-import com.hupa.exp.daoex2.entity.po.expv2.ExpUserPo;
-import com.hupa.exp.daoex2.entity.po.expv2.PcFeePo;
-import com.hupa.exp.daoex2.entity.po.expv2mongo.FundWithdrawSymbolMongoPo;
+import com.hupa.exp.daomysql.dao.expv2.def.*;
+import com.hupa.exp.daomysql.entity.po.expv2.CoinPo;
+import com.hupa.exp.daomysql.entity.po.expv2.ExpUserPo;
+import com.hupa.exp.daomysql.entity.po.expv2.PcFeePo;
+import com.hupa.exp.daomysql.entity.po.expv2mongo.FundWithdrawSymbolMongoPo;
 import com.hupa.exp.util.convent.ConventObjectUtil;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -118,17 +118,17 @@ public class PcFeeBizImpl implements IPcFeeBiz {
         BigDecimal sumWithdrawVolume=new BigDecimal("0");
         for(CoinPo coinPo:coinPoList)
         {
-           List<FundWithdrawSymbolMongoPo> fundWithdrawList=  iFundWithdrawSymbolDao.selectFundWithdrawPoByTime(id,coinPo.getSymbol(),nowDay);
+           List<FundWithdrawSymbolMongoPo> fundWithdrawList=  iFundWithdrawSymbolDao.selectFundWithdrawPoByTime(id,coinPo.getCoinName(),nowDay);
             for(FundWithdrawSymbolMongoPo fundWithdrawPo:fundWithdrawList)
             {
                 BigDecimal volume=new BigDecimal("0");
-                if(coinPo.getSymbol().equals("BTC"))
+                if(coinPo.getCoinName().equals("BTC"))
                 {
                     volume=fundWithdrawPo.getVolume();
                 }
                 else {
                     volume=  bizAccountComponent.calcAssetValuationBtc("BTC",
-                            coinPo.getSymbol(), fundWithdrawPo.getVolume());
+                            coinPo.getCoinName(), fundWithdrawPo.getVolume());
                 }
                 sumWithdrawVolume.add(volume);
             }

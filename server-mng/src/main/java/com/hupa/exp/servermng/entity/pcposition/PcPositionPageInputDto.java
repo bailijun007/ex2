@@ -1,7 +1,7 @@
 package com.hupa.exp.servermng.entity.pcposition;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
-import com.hupa.exp.daoex2.enums.SortEnum;
+import com.hupa.exp.daomysql.enums.SortEnum;
 
 public class PcPositionPageInputDto extends BaseInputDto{
    private String pair;

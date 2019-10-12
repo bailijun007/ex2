@@ -1,6 +1,6 @@
 package com.hupa.exp.bizother.service.role.def;
 
-import com.hupa.exp.daoex2.entity.po.expv2.ExpRoleMenuPo;
+import com.hupa.exp.daomysql.entity.po.expv2.ExpRoleMenuPo;
 
 import java.util.List;
 

@@ -8,12 +8,11 @@ import com.hupa.exp.base.exception.ValidateException;
 import com.hupa.exp.bizother.entity.contract.PcContractBizBo;
 import com.hupa.exp.bizother.entity.contract.PcContractListBizBo;
 import com.hupa.exp.bizother.service.contract.def.IPcContractBiz;
-
 import com.hupa.exp.common.component.redis.RedisUtil;
-import com.hupa.exp.daoex2.dao.expv2.def.IExpDicDao;
-import com.hupa.exp.daoex2.dao.expv2.def.IPcContractDao;
-import com.hupa.exp.daoex2.entity.po.expv2.ExpDicPo;
-import com.hupa.exp.daoex2.entity.po.expv2.PcContractPo;
+import com.hupa.exp.daomysql.dao.expv2.def.IExpDicDao;
+import com.hupa.exp.daomysql.dao.expv2.def.IPcContractDao;
+import com.hupa.exp.daomysql.entity.po.expv2.ExpDicPo;
+import com.hupa.exp.daomysql.entity.po.expv2.PcContractPo;
 import com.hupa.exp.util.convent.ConventObjectUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +51,7 @@ public class PcContractBizImpl implements IPcContractBiz
     @Override
     public String conventToDisplayName(String pair) {
 
-        PcContractPo po = iPcContractDao.selectOnePo(pair);
+        PcContractPo po = iPcContractDao.selectOnePo("",pair);
         if (po == null)
             return StringUtils.EMPTY;
 
@@ -62,11 +61,11 @@ public class PcContractBizImpl implements IPcContractBiz
     @Override
     public String conventToPairName(String displayName) {
 
-        PcContractPo po = iPcContractDao.selectOnePoByDisplayName(displayName);
+        PcContractPo po = iPcContractDao.selectOnePoByDisplayName("",displayName);
         if (po == null)
             return StringUtils.EMPTY;
 
-        return po.getPair();
+        return po.getSymbol();
     }
 
 //    @Override
@@ -77,7 +76,7 @@ public class PcContractBizImpl implements IPcContractBiz
     @Override
     public boolean exist(String pair) {
 
-        if (iPcContractDao.selectOnePo(pair) == null)
+        if (iPcContractDao.selectOnePo("",pair) == null)
             return false;
 
         return true;
@@ -86,7 +85,7 @@ public class PcContractBizImpl implements IPcContractBiz
     @Override
     public boolean existByDisplayName(String displayName) {
 
-        if (iPcContractDao.selectOnePoByDisplayName(displayName) == null)
+        if (iPcContractDao.selectOnePoByDisplayName("",displayName) == null)
             return false;
 
         return true;
@@ -95,7 +94,7 @@ public class PcContractBizImpl implements IPcContractBiz
     @Override
     public void ifNoExistException(String pair) throws ValidateException {
 
-        if (iPcContractDao.selectOnePo(pair) == null) {
+        if (iPcContractDao.selectOnePo("",pair) == null) {
             throw new ValidateException(ValidateExceptionCode.VALIDATE_PARAM_VALUE_ERROR, ValidateExceptionCode.buildMap_VALIDATE_PARAM_VALUE_ERROR("pair"));
         }
 
@@ -104,7 +103,7 @@ public class PcContractBizImpl implements IPcContractBiz
     @Override
     public PcContractBizBo get(String pair) {
 
-        PcContractPo po = iPcContractDao.selectOnePo(pair);
+        PcContractPo po = iPcContractDao.selectOnePo("",pair);
         if (po == null)
             return null;
 
@@ -115,7 +114,7 @@ public class PcContractBizImpl implements IPcContractBiz
 
     @Override
     public PcContractBizBo getByDisplayName(String displayName) {
-        PcContractPo pcContractPo = iPcContractDao.selectOnePoByDisplayName(displayName);
+        PcContractPo pcContractPo = iPcContractDao.selectOnePoByDisplayName("",displayName);
         if (pcContractPo == null)
             return null;
 
@@ -135,7 +134,7 @@ public class PcContractBizImpl implements IPcContractBiz
         ExpDicPo dicPo= dicDao.selectDicByKey("ContractRedisKey");
         if(dicPo!=null)
         {
-            redisUtilDb0.hset(dicPo.getValue(),po.getPair(), JSON.toJSONString(po));
+            redisUtilDb0.hset(dicPo.getValue(),po.getSymbol(), JSON.toJSONString(po));
         }
         ExpDicPo dicPoDisplay= dicDao.selectDicByKey("DisplayNameRedisKey");
         if(dicPoDisplay!=null)
@@ -162,8 +161,8 @@ public class PcContractBizImpl implements IPcContractBiz
         {
             //redisUtilDb0.del(dicPo.getValue());
             //redisUtilDb0.hmset(dicPo.getValue(),pairMap);
-            redisUtilDb0.hdel(dicPo.getValue(),oldPo.getPair());
-            redisUtilDb0.hset(dicPo.getValue(),po.getPair(),po);
+            redisUtilDb0.hdel(dicPo.getValue(),oldPo.getSymbol());
+            redisUtilDb0.hset(dicPo.getValue(),po.getSymbol(),po);
         }
         ExpDicPo dicPoDisplay= dicDao.selectDicByKey("DisplayNameRedisKey");
         if(dicPoDisplay!=null)
@@ -189,7 +188,7 @@ public class PcContractBizImpl implements IPcContractBiz
 
     @Override
     public PcContractListBizBo selectPosPageByParam(String pair, long currentPage, long pageSize) {
-        IPage<PcContractPo> poList = iPcContractDao.selectPosPageByParam(pair, currentPage, pageSize);
+        IPage<PcContractPo> poList = iPcContractDao.selectPosPageByParam("",pair, currentPage, pageSize);
         PcContractListBizBo listBizBo = new PcContractListBizBo();
         List<PcContractBizBo> boList = new ArrayList<>();
         for (PcContractPo po : poList.getRecords()) {
@@ -203,7 +202,7 @@ public class PcContractBizImpl implements IPcContractBiz
 
     @Override
     public boolean checkHasContract(String pair) {
-        return iPcContractDao.checkHasContract(pair);
+        return iPcContractDao.checkHasContract("",pair);
     }
 
     @Override

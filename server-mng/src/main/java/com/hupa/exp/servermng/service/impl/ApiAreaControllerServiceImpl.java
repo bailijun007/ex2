@@ -9,7 +9,7 @@ import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
 import com.hupa.exp.bizother.service.area.def.IAreaService;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.common.exception.BizException;
-import com.hupa.exp.daoex2.dao.expv2.def.IExpAreaDao;
+import com.hupa.exp.daomysql.dao.expv2.def.IExpAreaDao;
 import com.hupa.exp.servermng.entity.area.*;
 import com.hupa.exp.servermng.entity.base.DeleteInputDto;
 import com.hupa.exp.servermng.entity.base.DeleteOutputDto;

@@ -1,20 +1,11 @@
 package com.hupa.exp.bizother.service.account.impl;
 
-import com.hupa.exp.base.enums.WithdrawStatusEnum;
-import com.hupa.exp.bizother.entity.account.CoinBizBo;
-import com.hupa.exp.bizother.entity.account.FundWithdrawAddressBizBo;
 import com.hupa.exp.bizother.entity.account.MongoBo.FundWithdrawMongoBizBo;
 import com.hupa.exp.bizother.entity.account.MongoBo.FundWithdrawMongoPageBizBo;
-import com.hupa.exp.bizother.entity.account.QueryFundWithdrawAddressBizBo;
-import com.hupa.exp.bizother.entity.account.QueryFundWithdrawHistoryBizBo;
-import com.hupa.exp.bizother.service.account.def.ICoinBiz;
 import com.hupa.exp.bizother.service.account.def.IWithdrawBiz;
-import com.hupa.exp.daoex2.dao.expv2.def.IFundWithdrawAddressSymbolDao;
-import com.hupa.exp.daoex2.dao.expv2.def.IFundWithdrawSymbolDao;
-import com.hupa.exp.daoex2.entity.po.expv2mongo.FundWithdrawAddressSymbolMongoPo;
-import com.hupa.exp.daoex2.entity.po.expv2mongo.FundWithdrawSymbolMongoPo;
-import com.hupa.exp.daoex2.entity.po.expv2mongo.MongoPage;
-import com.hupa.exp.daoex2.enums.SortEnum;
+import com.hupa.exp.daomysql.dao.expv2.def.IFundWithdrawSymbolDao;
+import com.hupa.exp.daomysql.entity.po.expv2mongo.FundWithdrawSymbolMongoPo;
+import com.hupa.exp.daomysql.entity.po.expv2mongo.MongoPage;
 import com.hupa.exp.util.convent.ConventObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

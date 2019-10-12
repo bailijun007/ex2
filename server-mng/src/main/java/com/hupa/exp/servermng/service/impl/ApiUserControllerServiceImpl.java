@@ -27,7 +27,7 @@ import com.hupa.exp.bizother.service.user.def.IUserRoleService;
 import com.hupa.exp.common.component.redis.RedisUtil;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.JsonUtil;
-import com.hupa.exp.daoex2.dao.expv2.def.IExpUserDao;
+import com.hupa.exp.daomysql.dao.expv2.def.IExpUserDao;
 import com.hupa.exp.id.def.account.AccountIdDef;
 import com.hupa.exp.servermng.entity.user.*;
 import com.hupa.exp.servermng.enums.LoginExceptionCode;

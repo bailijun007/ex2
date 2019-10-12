@@ -8,14 +8,15 @@ import com.hupa.exp.base.enums.OperationType;
 import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.common.exception.BizException;
-import com.hupa.exp.daoex2.dao.expv2.def.IPcSymbolInterestDao;
-import com.hupa.exp.daoex2.entity.po.expv2.PcSymbolInterestPo;
+import com.hupa.exp.daomysql.dao.expv2.def.IPcSymbolInterestDao;
+import com.hupa.exp.daomysql.entity.po.expv2.PcSymbolInterestPo;
 import com.hupa.exp.servermng.entity.base.DeleteInputDto;
 import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.symbolinterest.*;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiSymbolInterestControllerService;
 import com.hupa.exp.util.convent.ConventObjectUtil;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ import java.util.List;
 @Service
 public class ApiSymbolInterestControllerServiceImpl implements IApiSymbolInterestControllerService {
 
-    @Autowired
+    @Reference
     private IPcSymbolInterestDao iPcSymbolInterestDao;
 
     @Autowired

@@ -2,8 +2,8 @@ package com.hupa.exp.bizother.service.user.impl;
 
 import com.hupa.exp.bizother.entity.user.ExpUserRoleBizBo;
 import com.hupa.exp.bizother.service.user.def.IUserRoleService;
-import com.hupa.exp.daoex2.dao.expv2.def.IExpUserRoleDao;
-import com.hupa.exp.daoex2.entity.po.expv2.ExpUserRolePo;
+import com.hupa.exp.daomysql.dao.expv2.def.IExpUserRoleDao;
+import com.hupa.exp.daomysql.entity.po.expv2.ExpUserRolePo;
 import com.hupa.exp.util.convent.ConventObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

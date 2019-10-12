@@ -18,7 +18,7 @@
         <!--self-->
         <dependency>
             <groupId>com.hupa.exp</groupId>
-            <artifactId>dao-ex2</artifactId>
+            <artifactId>dao-mysql</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>

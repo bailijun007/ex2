@@ -1,7 +1,6 @@
 package com.hupa.exp.servermng.entity.user;//package com.hupa.exp.bizpc.entity;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
-import com.hupa.exp.daoex2.entity.po.expv2.ExpUserPo;
 
 import java.util.List;
 

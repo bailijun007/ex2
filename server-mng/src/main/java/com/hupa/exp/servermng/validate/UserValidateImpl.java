@@ -1,6 +1,6 @@
 package com.hupa.exp.servermng.validate;
 
-import com.hupa.exp.daoex2.dao.expv2.def.IExpUserDao;
+import com.hupa.exp.daomysql.dao.expv2.def.IExpUserDao;
 import com.hupa.exp.servermng.entity.user.UserInputDto;
 import com.hupa.exp.servermng.enums.UserExceptionCode;
 import com.hupa.exp.servermng.exception.UserException;
