@@ -11,6 +11,4 @@ public interface IIndexPriceBiz{
     BigDecimal get(String pair);
 
     void save(String pair, BigDecimal price);
-
-    BigDecimal calc(String pair);
 }

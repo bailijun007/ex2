@@ -16,16 +16,6 @@ public class UserRoleServiceImpl implements IUserRoleService{
 
     @Autowired
     IExpUserRoleDao iExpUserRoleDao;
-    @Override
-    public long createUserRole(ExpUserRolePo expUserRolePo) {
-        return iExpUserRoleDao.insert(expUserRolePo);
-    }
-
-    @Override
-    public int deleteById(long id) {
-        return iExpUserRoleDao.deleteById(id);
-    }
-
    @Override
     public List<ExpUserRoleBizBo> queryPosByUserId(long userId) {
         List<ExpUserRolePo> poList=iExpUserRoleDao.selectPosByUserId(userId);
@@ -36,10 +26,5 @@ public class UserRoleServiceImpl implements IUserRoleService{
            boList.add(expUserBo);
        }
         return boList;
-    }
-
-    @Override
-    public Integer deleteUserRoleByUserId(long userId) {
-        return iExpUserRoleDao.deleteUserRoleByUserId(userId);
     }
 }

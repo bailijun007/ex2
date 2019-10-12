@@ -31,21 +31,6 @@ public class MenuServiceImpl implements IMenuService {
     }
 
     @Override
-    public List<ExpMenuPo> queryMenuLsitByParm(boolean enable) {
-        return null;
-    }
-
-    @Override
-    public List<ExpMenuPo> queryMenuLsit() {
-        return iExpMenuDao.selectList();
-    }
-
-    @Override
-    public List<ExpMenuPo> queryMenuLsitByParent(Integer parendId, boolean enable) {
-        return null;
-    }
-
-    @Override
     public List<ExpMenuTreeBizBo> queryTreeView(Integer pid) {
         List<ExpMenuTree> menuTrees=iExpMenuDao.selectTreeView(pid);
         List<ExpMenuTreeBizBo> boList=new ArrayList<>();
@@ -76,21 +61,6 @@ public class MenuServiceImpl implements IMenuService {
             return null;
         ExpMenuBizBo bo= ConventObjectUtil.conventObject(po,ExpMenuBizBo.class);
         return bo;
-    }
-
-    @Override
-    public ExpMenuListBizBo pagePosByParam(long parentId, int currentPage, int pageSize) {
-        IPage<ExpMenuPo> menuPos=iExpMenuDao.pagePosByParam(parentId,currentPage,pageSize);
-        ExpMenuListBizBo listBizBo=new ExpMenuListBizBo();
-        listBizBo.setTotal(menuPos.getTotal());
-        List<ExpMenuBizBo> boList=new ArrayList<>();
-        for(ExpMenuPo po:menuPos.getRecords())
-        {
-            ExpMenuBizBo bo=ConventObjectUtil.conventObject(po,ExpMenuBizBo.class);
-            boList.add(bo);
-        }
-        listBizBo.setRows(boList);
-        return listBizBo;
     }
 
     @Override

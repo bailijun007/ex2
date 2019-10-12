@@ -53,18 +53,6 @@ public class AreaServiceImpl implements IAreaService {
     }
 
     @Override
-    public List<ExpAreaBizBo>  queryEnableAreaList() throws BizException {
-        List<ExpAreaPo> list=iExpAreaDao.selectEnableAreaList();
-        List<ExpAreaBizBo> boList=new ArrayList();
-        for(ExpAreaPo po:list)
-        {
-            ExpAreaBizBo bo=ConventObjectUtil.conventObject(po,ExpAreaBizBo.class);
-            boList.add(bo);
-        }
-        return boList;
-    }
-
-    @Override
     public ExpAreaBizBo queryAreaById(long id) throws BizException {
         ExpAreaPo po=iExpAreaDao.selectPoById(id);
         if(po==null)

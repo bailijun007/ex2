@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public class CoinBizBo {
     private Long id;
-    private String symbol;
+
     private Integer chainSymbolId;
     private String coinName;
     private String displayName;
@@ -58,13 +58,7 @@ public class CoinBizBo {
         this.id = id;
     }
 
-    public String getSymbol() {
-        return symbol;
-    }
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
 
     public String getCoinName() {
         return coinName;

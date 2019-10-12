@@ -12,6 +12,4 @@ public interface ISmsTempBiz {
 
     ExpSmsTempBizBo querySmsTempById(long id)throws BizException;
 
-    ExpSmsTempBizBo querySmsTempByCode(String code)throws BizException;
-
 }

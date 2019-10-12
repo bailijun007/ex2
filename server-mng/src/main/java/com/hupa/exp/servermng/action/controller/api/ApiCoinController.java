@@ -60,7 +60,7 @@ public class ApiCoinController {
     {
         CoinInputDto inputDto=new CoinInputDto();
         inputDto.setId(id);
-        inputDto.setSymbol(symbol);
+        //inputDto.setSymbol(symbol);
         inputDto.setChainSymbolId(chainSymbolId);
         inputDto.setCoinName(coinName);
         inputDto.setDisplaynName(displayName);

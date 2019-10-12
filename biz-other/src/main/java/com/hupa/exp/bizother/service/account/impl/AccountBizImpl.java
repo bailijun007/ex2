@@ -26,14 +26,6 @@ import java.math.BigDecimal;
 public class AccountBizImpl implements IAccountBiz {
 
 
-//    @Autowired
-//    private AccountBizSettingConfig accountBizSettingConfig;
-//
-//    @Autowired
-//    private FundAccountRedisConfig fundAccountRedisConfig;
-//
-//    @Autowired
-//    private PcAccountRedisConfig pcAccountRedisConfig;
 
 
     @Autowired
@@ -56,31 +48,6 @@ public class AccountBizImpl implements IAccountBiz {
     @Override
     public boolean existAccount(long userId, String symbol,  int accountType) {
 
-//        String redisKey = getAccountKey(userId,symbol,accountType);
-//        if(StringUtils.isEmpty(redisKey))
-//            return false;
-//
-//        String val;
-//        //判断资金账户
-//        if(accountType== AccountTypeDic.ACCOUNT_TYPE_FUND){
-//
-//            val = RedisUtil.redisClientFactory(fundAccountRedisConfig).get(redisKey);
-//
-//        }
-//        //判断pc
-//        else  if (accountType== AccountTypeDic.ACCOUNT_TYPE_PC){
-//
-//            val = RedisUtil.redisClientFactory(pcAccountRedisConfig).get(redisKey);
-//        }else{
-//
-//            val =StringUtils.EMPTY;
-//        }
-//
-//
-//        if(StringUtils.isEmpty(val))
-//            return false;
-//        else
-//            return true;
 
 
         if(accountType== AccountTypeDic.ACCOUNT_TYPE_FUND){
@@ -120,37 +87,13 @@ public class AccountBizImpl implements IAccountBiz {
         }
     }
 
-    @Override
-    public void createPcAccount(long userId, String symbol) throws PcAccountException {
-        boolean bl = existAccount(userId, symbol, AccountTypeDic.ACCOUNT_TYPE_PC);
-        if(bl)
-            return;
 
-        pcAccount4ServerDef.createPcAccount(userId,symbol,
-                PcAccount4ServerTokenUtil.genToken4CreatePcAccount(userId,symbol));
-    }
 
-    @Override
-    public void createFundAccount(long userId, String symbol) throws FundAccountException {
 
-        boolean bl = existAccount(userId, symbol, AccountTypeDic.ACCOUNT_TYPE_FUND);
-        if(bl)
-            return;
-
-        fundAccount4ServerDef.createFundAccount(userId,symbol,
-                FundAccount4ServerTokenUtil.genToken4CreateFundAccount(userId, symbol));
-    }
 
 
     @Override
     public PcAccountBizBo getPcAccount(long userId, String symbol) {
-
-//
-//        String accountKey = getAccountKey(userId, symbol, AccountTypeDic.ACCOUNT_TYPE_PC);
-//        String val = RedisUtil.redisClientFactory(pcAccountRedisConfig).get(accountKey);
-//
-//        if(StringUtils.isEmpty(val))
-//            return null;
 
         PcAccountBo pcAccountBo =null;
         try {
@@ -195,25 +138,11 @@ public class AccountBizImpl implements IAccountBiz {
         bizBo.setOrderMargin(orderMargin);
         bizBo.setPosMargin(posMargin);
 
-
-//        bizBo.setTotal(accountJson.getBigDecimal("total"));
-//        bizBo.setAvailable(accountJson.getBigDecimal("available"));
-//        bizBo.setOrderMargin(accountJson.getBigDecimal("orderMargin"));
-//        bizBo.setPosMargin(accountJson.getBigDecimal("posMargin"));
-
         return bizBo;
     }
 
     @Override
     public FundAccountBizBo getFundAccount(long userId, String symbol) {
-
-//        String accountKey = getAccountKey(userId, symbol, AccountTypeDic.ACCOUNT_TYPE_FUND);
-//        String val = RedisUtil.redisClientFactory(fundAccountRedisConfig).get(accountKey);
-//
-//
-//        if(StringUtils.isEmpty(val)) {
-//            return null;
-//        }
 
         FundAccountBo fundAccount=null;
         try {
@@ -247,35 +176,7 @@ public class AccountBizImpl implements IAccountBiz {
         bizBo.setAvailable(available);
         bizBo.setLock(lock);
 
-//        JSONObject accountJson = JSON.parseObject(val);
-//        FundAccountBizBo bizBo = new FundAccountBizBo();
-//
-//
-//        bizBo.setSymbol(symbol);
-//        bizBo.setTotal(Optional.ofNullable(accountJson.getBigDecimal("total")).orElse(BigDecimal.ZERO));
-//        bizBo.setAvailable(Optional.ofNullable(accountJson.getBigDecimal("available")).orElse(BigDecimal.ZERO));
-//        bizBo.setLock(Optional.ofNullable(accountJson.getBigDecimal("lock")).orElse(BigDecimal.ZERO));
-
         return bizBo;
     }
 
-
-//    private String getAccountKey(long userId,String symbol, int accountType){
-//
-//        String redisKey;
-//
-//        if(accountType==AccountTypeDic.ACCOUNT_TYPE_FUND){
-//
-//            redisKey = accountBizSettingConfig.getFundAccountRedisKey();
-//            redisKey = MessageFormat.format(redisKey,symbol,String.valueOf(userId));
-//            return redisKey;
-//        }else  if(accountType==AccountTypeDic.ACCOUNT_TYPE_PC){
-//            redisKey = accountBizSettingConfig.getPcAccountRedisKey();
-//            redisKey = MessageFormat.format(redisKey,symbol,String.valueOf(userId));
-//            return redisKey;
-//        }else{
-//
-//            return StringUtils.EMPTY;
-//        }
-//    }
 }

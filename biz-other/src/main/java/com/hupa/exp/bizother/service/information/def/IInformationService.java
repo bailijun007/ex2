@@ -5,7 +5,6 @@ import com.hupa.exp.bizother.entity.information.ExpInformationListBizBo;
 import com.hupa.exp.bizother.entity.information.ExpInformationPageDataBizBo;
 
 public interface IInformationService {
-    ExpInformationListBizBo getInformationListByType(int type, int limit);
     ExpInformationPageDataBizBo getInformationPageData(Integer type,String title, int currentPage, int pageSize);
     ExpInformationBizBo getInformationById(long id);
     long createInformation(ExpInformationBizBo bizBo);

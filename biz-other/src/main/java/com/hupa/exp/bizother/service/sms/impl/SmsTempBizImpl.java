@@ -59,13 +59,4 @@ public class SmsTempBizImpl implements ISmsTempBiz {
         ExpSmsTempBizBo bo=ConventObjectUtil.conventObject(po,ExpSmsTempBizBo.class);
         return bo;
     }
-
-    @Override
-    public ExpSmsTempBizBo querySmsTempByCode(String code) throws BizException {
-        ExpSmsTempPo po =  iExpSmsTempDao.selectSmsTempByCode(code);
-        if(po==null)
-            return null;
-        ExpSmsTempBizBo bo=ConventObjectUtil.conventObject(po,ExpSmsTempBizBo.class);
-        return bo;
-    }
 }

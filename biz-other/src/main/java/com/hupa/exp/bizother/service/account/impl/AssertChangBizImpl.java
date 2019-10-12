@@ -52,98 +52,6 @@ public class AssertChangBizImpl implements IAssertChangBiz {
     }
 
     @Override
-    public PcAssertChangeMongoPageBizBo queryBizBoByOrderId(Long userId, long orderId, String pair) {
-
-        List<PcAssertChangeMongoPo> pos = iPcAssertChangeDao.selectPosByOrderId(userId, orderId, OtherHelper.getSymbol(pair));
-
-        return getBizBo(pos);
-    }
-
-    @Override
-    public PcAssertChangeMongoPageBizBo queryBizBoByTrade(long userId, String pair, String symbol, Collection<Integer> tradeTypeArray, Integer bidFlag, Integer closeFlag, long startDate, long endDate, long currentPage, int pageSize) {
-        MongoPage<PcAssertChangeMongoPo> mongoPagePo = iPcAssertChangeDao.pagePosByParam(
-                userId,pair,symbol,tradeTypeArray,bidFlag,closeFlag,startDate,endDate,currentPage,pageSize, SortEnum.desc
-        );
-
-        return getBizBo(mongoPagePo);
-    }
-
-    @Override
-    public PcAssertChangeMongoPageBizBo queryBizBoByTrade(long userId, String pair,String symbol, int tradeType, int bidFlag, int closeFlag, long startDate, long endDate, long currentPage, int pageSize) {
-        MongoPage<PcAssertChangeMongoPo> mongoPagePo = iPcAssertChangeDao.pagePosByParam(
-                userId,pair,symbol,tradeType,bidFlag,closeFlag,startDate,endDate,currentPage,pageSize, SortEnum.desc
-        );
-        return getBizBo(mongoPagePo);
-    }
-
-    @Override
-    public PcAssertChangeMongoPageBizBo queryBizBoByTrans(long userId, String pair, String symbol, Collection<Integer> tradeTypeArray, Boolean transVolumeMore, long startDate, long endDate, long currentPage, int pageSize) {
-        MongoPage<PcAssertChangeMongoPo> mongoPagePo = iPcAssertChangeDao.pagePosByParam(
-                userId,pair,symbol,tradeTypeArray,transVolumeMore,startDate,endDate,currentPage,pageSize, SortEnum.desc
-        );
-
-        return getBizBo(mongoPagePo);
-    }
-
-    @Override
-    public PcAssertChangeMongoPageBizBo queryBizBoByTrans(long userId, String pair,String symbol, int tradeType, Boolean transVolumeMore, long startDate, long endDate, long currentPage, int pageSize) {
-
-        MongoPage<PcAssertChangeMongoPo> mongoPagePo = iPcAssertChangeDao.pagePosByParam(
-                userId,pair,symbol,tradeType,transVolumeMore,startDate,endDate,currentPage,pageSize, SortEnum.desc
-        );
-
-        return getBizBo(mongoPagePo);
-    }
-
-    @Override
-    public PcAssertChangeMongoPageBizBo queryBizBoByLiq(long userId, String pair, String symbol, Collection<Integer> tradeTypeArray, Integer longFlag, long startDate, long endDate, long currentPage, int pageSize) {
-
-
-        MongoPage<PcAssertChangeMongoPo> mongoPagePo = iPcAssertChangeDao.pagePosByParam(
-                userId,
-                pair,
-                symbol,
-                tradeTypeArray,
-                longFlag,
-                startDate, endDate,currentPage, pageSize, SortEnum.desc);
-
-
-        return getBizBo(mongoPagePo);
-    }
-
-    @Override
-    public PcAssertChangeMongoPageBizBo queryBizBoByLiq(long userId, String pair, String symbol, int tradeType, int longFlag, long startDate, long endDate, long currentPage, int pageSize) {
-        MongoPage<PcAssertChangeMongoPo> mongoPagePo = iPcAssertChangeDao.pagePosByParam(
-                userId,
-                pair,
-                symbol,
-                tradeType,
-                longFlag,
-                startDate, endDate,currentPage, pageSize, SortEnum.desc);
-
-        return getBizBo(mongoPagePo);
-    }
-
-    @Override
-    public PcAssertChangeMongoPageBizBo queryBizBoByAll(long userId, String pair, String symbol, Collection<Integer> tradeTypeArray, long startDate, long endDate, long currentPage, int pageSize) {
-
-        MongoPage<PcAssertChangeMongoPo> mongoPagePo = iPcAssertChangeDao.pagePosByParam(userId, pair, symbol,tradeTypeArray,  startDate, endDate,currentPage, pageSize, SortEnum.desc);
-        return getBizBo(mongoPagePo);
-
-    }
-
-//    @Override
-//    public PcAssertChangeMongoPageBizBo queryBizBoByAll(long userId, String pair,String symbol, long startDate, long endDate, long currentPage, int pageSize) {
-//
-//        MongoPage<PcAssertChangeMongoPo> mongoPagePo = iPcAssertChangeDao.pagePosByParam(userId, pair, symbol, startDate, endDate,currentPage, pageSize, SortEnum.desc);
-//        return getBizBo(mongoPagePo);
-//    }
-
-
-
-
-
-    @Override
     public PcAssertChangeMongoPageBizBo queryPcAssertPageData(String symbol, long id, long currentPage, int pageSize) {
         MongoPage<PcAssertChangeMongoPo> pageData=iPcAssertChangeDao.pagePosByParam(symbol,id,
                 currentPage,pageSize
@@ -168,7 +76,6 @@ public class AssertChangBizImpl implements IAssertChangBiz {
         return bo;
     }
 
-
     private PcAssertChangeMongoPageBizBo getBizBo(MongoPage<PcAssertChangeMongoPo> mongoPagePo ){
 
         PcAssertChangeMongoPageBizBo bizBo = new PcAssertChangeMongoPageBizBo();
@@ -185,7 +92,6 @@ public class AssertChangBizImpl implements IAssertChangBiz {
         bizBo.setPageSize(mongoPagePo.getPageSize());
         return bizBo;
     }
-
 
     public PcAssertChangeMongoPageBizBo getBizBo(List<PcAssertChangeMongoPo> pos){
 

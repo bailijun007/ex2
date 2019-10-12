@@ -39,11 +39,6 @@ public class UserBizImpl implements IUserBiz {
     private IExpUserDao iExpUserDao;
     @Autowired
     private IExpUserRoleDao iExpUserRoleDao;
-    @Autowired
-    private IPcContractDao iPcContractDao;
-    @Autowired
-    @Qualifier(Db1RedisBean.beanName)
-    private RedisUtil redisUtilDb1;
 
     @Autowired
     private IAccountBiz iAccountBiz;
@@ -200,24 +195,6 @@ public class UserBizImpl implements IUserBiz {
     @Override
     public ExpUserBizBo queryById(long id) {
         ExpUserPo expUserPo = iExpUserDao.selectPoById(id);
-        if(expUserPo==null)
-            return null;
-        ExpUserBizBo expUserBo = ConventObjectUtil.conventObject(expUserPo, ExpUserBizBo.class);
-        return expUserBo;
-    }
-
-    @Override
-    public ExpUserBizBo queryUserInfoByPhone(String phone) throws BizException {
-        ExpUserPo expUserPo = iExpUserDao.selectUserInfoByPhone(phone);
-        if(expUserPo==null)
-            return null;
-        ExpUserBizBo expUserBo = ConventObjectUtil.conventObject(expUserPo, ExpUserBizBo.class);
-        return expUserBo;
-    }
-
-    @Override
-    public ExpUserBizBo queryUserInfoByEmail(String email) throws BizException {
-        ExpUserPo expUserPo = iExpUserDao.selectUserInfoByEmail(email);
         if(expUserPo==null)
             return null;
         ExpUserBizBo expUserBo = ConventObjectUtil.conventObject(expUserPo, ExpUserBizBo.class);

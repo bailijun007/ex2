@@ -11,19 +11,11 @@ import java.util.List;
 public interface IMenuService {
     long createMenu(ExpMenuBizBo menuPo) throws ValidateException;
 
-    List<ExpMenuPo> queryMenuLsitByParm(boolean enable);
-
-    List<ExpMenuPo> queryMenuLsit();
-
-    List<ExpMenuPo> queryMenuLsitByParent(Integer parendId, boolean enable);
-
     List<ExpMenuTreeBizBo> queryTreeView(Integer pid);
 
     List<ExpMenuBizBo> queryArrTreeView(Integer pid);
 
     ExpMenuBizBo queryPoById(long id);
-
-    ExpMenuListBizBo pagePosByParam(long parentId, int currentPage, int pageSize);
 
     long editById(ExpMenuBizBo expMenuPo) throws ValidateException;
 

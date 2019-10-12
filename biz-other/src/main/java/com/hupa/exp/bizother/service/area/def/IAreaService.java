@@ -12,7 +12,5 @@ public interface IAreaService {
 
     ExpAreaListBizBo queryAreaList(long currentPage, long pageSize)throws BizException;
 
-    List<ExpAreaBizBo> queryEnableAreaList()throws BizException;
-
     ExpAreaBizBo queryAreaById(long id)throws BizException;
 }

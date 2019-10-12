@@ -39,10 +39,6 @@ public class PcLastPriceBizImpl implements ILastPriceBiz {
         RedisUtil.redisClientFactory(lastPriceRedisConfig).set(redisKey, DecimalUtil.trimZeroPlainString(price));
     }
 
-    @Override
-    public BigDecimal calc(String pair) {
-        return null;
-    }
 
 
     private BigDecimal queryLastPrice(String pair){

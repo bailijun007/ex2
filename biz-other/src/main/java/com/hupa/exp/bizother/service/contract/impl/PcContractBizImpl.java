@@ -36,70 +36,6 @@ public class PcContractBizImpl implements IPcContractBiz
     @Qualifier(Db0RedisBean.beanName)
     private RedisUtil redisUtilDb0;
 
-//    @Override
-//    public void saveToCache() {
-//        List<PcContractPo> pos = iPcContractDao.selectPos();
-//
-//        for(PcContractPo po: pos){
-//
-//            PcContractBizBo bizBo = ConventObjectUtil.conventObject(po,PcContractBizBo.class);
-//
-//            IPcContractBiz.cache.put(bizBo.getPair(),bizBo);
-//        }
-//    }
-
-    @Override
-    public String conventToDisplayName(String pair) {
-
-        PcContractPo po = iPcContractDao.selectOnePo("",pair);
-        if (po == null)
-            return StringUtils.EMPTY;
-
-        return po.getDisplayName();
-    }
-
-    @Override
-    public String conventToPairName(String displayName) {
-
-        PcContractPo po = iPcContractDao.selectOnePoByDisplayName("",displayName);
-        if (po == null)
-            return StringUtils.EMPTY;
-
-        return po.getSymbol();
-    }
-
-//    @Override
-//    public int getPrecisionByPair(String pair) {
-//        return this.get(pair).getPrecision();
-//    }
-
-    @Override
-    public boolean exist(String pair) {
-
-        if (iPcContractDao.selectOnePo("",pair) == null)
-            return false;
-
-        return true;
-    }
-
-    @Override
-    public boolean existByDisplayName(String displayName) {
-
-        if (iPcContractDao.selectOnePoByDisplayName("",displayName) == null)
-            return false;
-
-        return true;
-    }
-
-    @Override
-    public void ifNoExistException(String pair) throws ValidateException {
-
-        if (iPcContractDao.selectOnePo("",pair) == null) {
-            throw new ValidateException(ValidateExceptionCode.VALIDATE_PARAM_VALUE_ERROR, ValidateExceptionCode.buildMap_VALIDATE_PARAM_VALUE_ERROR("pair"));
-        }
-
-    }
-
     @Override
     public PcContractBizBo get(String pair) {
 
@@ -111,18 +47,6 @@ public class PcContractBizImpl implements IPcContractBiz
 
         return bizBo;
     }
-
-    @Override
-    public PcContractBizBo getByDisplayName(String displayName) {
-        PcContractPo pcContractPo = iPcContractDao.selectOnePoByDisplayName("",displayName);
-        if (pcContractPo == null)
-            return null;
-
-        PcContractBizBo bizBo = ConventObjectUtil.conventObject(pcContractPo, PcContractBizBo.class);
-
-        return bizBo;
-    }
-
 
 
     @Override
@@ -204,21 +128,5 @@ public class PcContractBizImpl implements IPcContractBiz
     public boolean checkHasContract(String pair) {
         return iPcContractDao.checkHasContract("",pair);
     }
-
-    @Override
-    public List<PcContractBizBo> queryActiveBo() {
-
-        List<PcContractBizBo> bos = new ArrayList<>();
-        List<PcContractPo> pos = iPcContractDao.selectPos(1);
-
-        for (PcContractPo po : pos) {
-
-            PcContractBizBo bo = ConventObjectUtil.conventObject(po, PcContractBizBo.class);
-            bos.add(bo);
-        }
-
-        return bos;
-    }
-
 
 }

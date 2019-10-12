@@ -4,7 +4,7 @@ import com.hupa.exp.base.enums.OperationModule;
 import com.hupa.exp.base.enums.OperationType;
 import com.hupa.exp.bizother.entity.account.CoinBizBo;
 import com.hupa.exp.bizother.entity.account.CoinPageListBizBo;
-import com.hupa.exp.bizother.entity.account.SymbolListBizBo;
+import com.hupa.exp.bizother.entity.account.CoinListBizBo;
 import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
 import com.hupa.exp.bizother.service.account.def.ICoinBiz;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
@@ -37,7 +37,7 @@ public class ApiCoinControllerServiceImpl implements IApiCoinControllerService {
 
         CoinBizBo bo= ConventObjectUtil.conventObject(inputDto,CoinBizBo.class);
         bo.setId(inputDto.getId());
-        bo.setSymbol(inputDto.getSymbol());
+        //bo.setSymbol(inputDto.getSymbol());
         bo.setChainSymbolId(inputDto.getChainSymbolId());
         bo.setChainName(inputDto.getChainNname());
         bo.setCoinName(inputDto.getCoinName());
@@ -66,7 +66,7 @@ public class ApiCoinControllerServiceImpl implements IApiCoinControllerService {
 
         CoinBizBo afterBo=new CoinBizBo();
         afterBo.setId(inputDto.getId());
-        afterBo.setSymbol(inputDto.getSymbol());
+        //afterBo.setSymbol(inputDto.getSymbol());
         afterBo.setChainSymbolId(inputDto.getChainSymbolId());
         afterBo.setChainName(inputDto.getChainNname());
         afterBo.setCoinName(inputDto.getCoinName());
@@ -95,7 +95,7 @@ public class ApiCoinControllerServiceImpl implements IApiCoinControllerService {
         CoinBizBo bo=  iCoinService.queryCoinById(inputDto.getId());
         GetCoinOutputDto outputDto=new GetCoinOutputDto();
         outputDto.setId(String.valueOf(bo.getId()));
-        outputDto.setSymbol(bo.getSymbol());
+        //outputDto.setSymbol(bo.getSymbol());
         outputDto.setChainSymbolId(String.valueOf(bo.getChainSymbolId()));
         outputDto.setChainName(bo.getChainName());
         outputDto.setCoinName(bo.getCoinName());
@@ -120,7 +120,7 @@ public class ApiCoinControllerServiceImpl implements IApiCoinControllerService {
         {
             CoinListOutputPage po=new CoinListOutputPage();
             po.setId(String.valueOf(bo.getId()));
-            po.setSymbol(bo.getSymbol());
+            //po.setSymbol(bo.getSymbol());
             po.setChainSymbolId(String.valueOf(bo.getChainSymbolId()));
             po.setChainName(bo.getChainName());
             po.setCoinName(bo.getCoinName());
@@ -142,7 +142,7 @@ public class ApiCoinControllerServiceImpl implements IApiCoinControllerService {
 
     @Override
     public SymbolListOutPutDto getSymbolList(SymbolListInputDto inputDto) throws BizException {
-        SymbolListBizBo bizBo= iCoinService.querySymbolList();
+        CoinListBizBo bizBo= iCoinService.queryCoinNameList();
         SymbolListOutPutDto outPutDto=new SymbolListOutPutDto();
         outPutDto.setSymbolListBizBo(bizBo);
         outPutDto.setTime(String.valueOf(System.currentTimeMillis()));

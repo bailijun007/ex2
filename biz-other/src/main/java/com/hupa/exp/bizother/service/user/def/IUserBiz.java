@@ -22,13 +22,6 @@ public interface IUserBiz {
 
     ExpUserBizBo queryById(long id);
 
-
-    ExpUserBizBo queryUserInfoByPhone(String phone) throws BizException;
-
-    ExpUserBizBo queryUserInfoByEmail(String email) throws BizException;
-
-
-
     FundAccountMngListBizBo queryFundAccountList(long currentPage, long pageSize, Integer userType, String userName, Long id)throws BizException;
 
     FundAccountMngListBizBo queryFundAccountListByParam(long currentPage, long pageSize, Integer userType, String userName, Long id)throws BizException;

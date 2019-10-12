@@ -21,20 +21,6 @@ public class InformationServiceImpl implements IInformationService {
     private IExpInformationDao informationDao;
 
     @Override
-    public ExpInformationListBizBo getInformationListByType(int type, int limit) {
-        List<ExpInformationPo> poList= informationDao.selectListByType(type,limit);
-        ExpInformationListBizBo bizBo=new ExpInformationListBizBo();
-        List<ExpInformationBizBo> bizBoList=new ArrayList<>();
-        for(ExpInformationPo po:poList)
-        {
-            ExpInformationBizBo bo=ConventObjectUtil.conventObject(po,ExpInformationBizBo.class);
-            bizBoList.add(bo);
-        }
-        bizBo.setRows(bizBoList);
-        return bizBo;
-    }
-
-    @Override
     public ExpInformationPageDataBizBo getInformationPageData(Integer type,String title, int currentPage, int pageSize) {
         IPage<ExpInformationPo> pageData=informationDao.selectPageDataByType(type,title,currentPage,pageSize);
         ExpInformationPageDataBizBo bizBo=new ExpInformationPageDataBizBo();

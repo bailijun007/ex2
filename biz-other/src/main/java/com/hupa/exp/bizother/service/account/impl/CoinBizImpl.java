@@ -6,8 +6,8 @@ import com.hupa.exp.base.config.redis.Db0RedisBean;
 import com.hupa.exp.base.enums.ValidateExceptionCode;
 import com.hupa.exp.base.exception.ValidateException;
 import com.hupa.exp.bizother.entity.account.CoinBizBo;
+import com.hupa.exp.bizother.entity.account.CoinListBizBo;
 import com.hupa.exp.bizother.entity.account.CoinPageListBizBo;
-import com.hupa.exp.bizother.entity.account.SymbolListBizBo;
 import com.hupa.exp.bizother.service.account.def.ICoinBiz;
 import com.hupa.exp.common.component.redis.RedisUtil;
 import com.hupa.exp.common.exception.BizException;
@@ -16,7 +16,6 @@ import com.hupa.exp.daomysql.dao.expv2.def.IExpDicDao;
 import com.hupa.exp.daomysql.entity.po.expv2.CoinPo;
 import com.hupa.exp.daomysql.entity.po.expv2.ExpDicPo;
 import com.hupa.exp.util.convent.ConventObjectUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -38,18 +37,6 @@ public class CoinBizImpl implements ICoinBiz {
     private RedisUtil redisUtilDb0;
 
     @Override
-    public boolean existBySymbol(String coinName) {
-        if(StringUtils.isEmpty(coinName))
-            return false;
-
-        CoinPo coinPo = iCoinDao.selectOnePoByCoinName(coinName);
-        if(coinPo==null)
-            return false;
-
-        return true;
-    }
-
-    @Override
     public long createCoin(CoinBizBo coinBizBo) throws BizException {
         CoinPo po= ConventObjectUtil.conventObject(coinBizBo,CoinPo.class);
         po.setCtime(System.currentTimeMillis());
@@ -58,7 +45,7 @@ public class CoinBizImpl implements ICoinBiz {
         {
             if(dicPo!=null)
             {
-                redisUtilDb0.hset(dicPo.getValue(),coinBizBo.getSymbol(), JSON.toJSONString(coinBizBo));
+                redisUtilDb0.hset(dicPo.getValue(),coinBizBo.getCoinName(), JSON.toJSONString(coinBizBo));
             }
         }
         else
@@ -75,7 +62,7 @@ public class CoinBizImpl implements ICoinBiz {
         {
             if(dicPo!=null)
             {
-                redisUtilDb0.hset(dicPo.getValue(),coinBizBo.getSymbol(), JSON.toJSONString(coinBizBo));
+                redisUtilDb0.hset(dicPo.getValue(),coinBizBo.getCoinName(), JSON.toJSONString(coinBizBo));
             }
         }
         else
@@ -99,27 +86,18 @@ public class CoinBizImpl implements ICoinBiz {
     }
 
     @Override
-    public SymbolListBizBo querySymbolList() {
+    public CoinListBizBo queryCoinNameList() {
         List<CoinPo> poList=iCoinDao.selectList();
-        List<String> symbolList=new ArrayList<>();
+        List<String> coinList=new ArrayList<>();
         for(CoinPo po:poList)
         {
-            symbolList.add(po.getCoinName());
+            coinList.add(po.getCoinName());
         }
-        SymbolListBizBo listBizBo=new SymbolListBizBo();
-        listBizBo.setSymbolList(symbolList);
+        CoinListBizBo listBizBo=new CoinListBizBo();
+        listBizBo.setCoinList(coinList);
         return listBizBo;
     }
 
-    @Override
-    public SymbolListBizBo querySymbolByWithdraw(long userId) {
-        return querySymbolList();
-    }
-
-    @Override
-    public SymbolListBizBo querySymbolByDeposit(long userId) {
-        return querySymbolList();
-    }
 
     @Override
     public CoinBizBo queryCoinById(long id) {
@@ -129,28 +107,7 @@ public class CoinBizImpl implements ICoinBiz {
     }
 
     @Override
-    public CoinBizBo queryCoinBySymbol(String coinName) {
-        CoinPo po=iCoinDao.selectOnePoByCoinName(coinName);
-        if(po == null )
-            return null;
-
-        CoinBizBo bo=ConventObjectUtil.conventObject(po,CoinBizBo.class);
-        return bo;
-    }
-
-    @Override
-    public CoinBizBo queryCoinByChainSymbolId(int chainCoinId) {
-
-        CoinPo coinPo = iCoinDao.selectOnePoByChainCoinId(chainCoinId);
-        if(coinPo == null)
-            return null;
-
-        CoinBizBo bizBo = ConventObjectUtil.conventObject(coinPo,CoinBizBo.class);
-        return bizBo;
-    }
-
-    @Override
-    public boolean checkHasCoin(String symbol) {
-        return iCoinDao.checkHasCoin(symbol);
+    public boolean checkHasCoin(String coinName) {
+        return iCoinDao.checkHasCoin(coinName);
     }
 }
