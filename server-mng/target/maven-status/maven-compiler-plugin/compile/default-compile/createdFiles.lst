@@ -4,18 +4,21 @@ com\hupa\exp\servermng\entity\pcposition\PcPositionPageInputDto.class
 com\hupa\exp\servermng\entity\sms\SmsTempInfoInputDto.class
 com\hupa\exp\servermng\entity\symbolinterest\SymbolInterestOutputDto.class
 com\hupa\exp\servermng\entity\pcaccount\PcAccountLogInputDto.class
+com\hupa\exp\servermng\service\impl\ApiMongoDbControllerServiceImpl.class
 com\hupa\exp\servermng\entity\sms\SmsTempInputDto.class
 com\hupa\exp\servermng\entity\storinglevel\StoringLevelInputDto.class
 com\hupa\exp\servermng\validate\UserValidateImpl.class
 com\hupa\exp\servermng\validate\LocaleValidateImpl.class
 com\hupa\exp\servermng\entity\contract\ContractListOutputDto.class
 com\hupa\exp\servermng\service\def\IApiLoginControllerService.class
+com\hupa\exp\servermng\enums\MngExceptionCode.class
 com\hupa\exp\servermng\service\def\IApiStoringLevelControllerService.class
 com\hupa\exp\servermng\entity\modulelimit\ModuleLimitListOutputDto.class
 com\hupa\exp\servermng\entity\menu\MenuInputDto.class
 com\hupa\exp\servermng\service\def\IApiFundAccountControllerService.class
 com\hupa\exp\servermng\entity\pcfee\PcFeeInputDto.class
 com\hupa\exp\servermng\entity\operationlog\OperationLogListOutputDto.class
+com\hupa\exp\servermng\service\def\IApiMongoDbControllerService.class
 com\hupa\exp\servermng\entity\menu\GetMenuInputDto.class
 com\hupa\exp\servermng\entity\user\UserRoleListOutputDto.class
 com\hupa\exp\servermng\config\WebMvcConfig.class
@@ -23,6 +26,7 @@ com\hupa\exp\servermng\config\AppSettingConfig.class
 com\hupa\exp\servermng\entity\user\UserListOutputPage.class
 com\hupa\exp\servermng\entity\menu\MenuListOutputPage.class
 com\hupa\exp\servermng\service\def\IApiRoleControllerService.class
+com\hupa\exp\servermng\entity\mongodb\MongoCollectionNamesOutputDto.class
 com\hupa\exp\servermng\entity\contract\GetContractInputDto.class
 com\hupa\exp\servermng\service\def\IApiAssertChangeControllerService.class
 com\hupa\exp\servermng\entity\pcfee\PcFeeOutputDto.class
@@ -52,7 +56,9 @@ com\hupa\exp\servermng\entity\contract\CheckHasLastPriceOutputDto.class
 com\hupa\exp\servermng\entity\operationlog\OperationLogListInputDto.class
 com\hupa\exp\servermng\entity\login\LoginOutOutputDto.class
 com\hupa\exp\servermng\enums\UserExceptionCode.class
+com\hupa\exp\servermng\exception\MongoDbException.class
 com\hupa\exp\servermng\entity\assertchange\FundAssertChangeOutputDto.class
+com\hupa\exp\servermng\exception\MngException.class
 com\hupa\exp\servermng\entity\klineconfig\KlineConfigListInputDto.class
 com\hupa\exp\servermng\entity\symbolinterest\SymbolInterestListOutputDto.class
 com\hupa\exp\servermng\service\impl\ApiDicControllerServiceImpl.class
@@ -62,6 +68,7 @@ com\hupa\exp\servermng\entity\user\FundAccountListOutputPage.class
 com\hupa\exp\servermng\entity\klineconfig\KlineConfigInfoInputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiLoginController.class
 com\hupa\exp\servermng\service\def\IApiPcAccountControllerService.class
+com\hupa\exp\servermng\entity\mongodb\MongoDataOutputDto.class
 com\hupa\exp\servermng\config\dubbo\DubboConfig.class
 com\hupa\exp\servermng\service\def\IApiFundWithdrawControllerService.class
 com\hupa\exp\servermng\enums\ImgExceptionCode.class
@@ -108,6 +115,7 @@ com\hupa\exp\servermng\annotation\CheckLogin.class
 com\hupa\exp\servermng\entity\information\DeleteInformationInputDto.class
 com\hupa\exp\servermng\entity\area\AreaListOutputDto.class
 com\hupa\exp\servermng\validate\IValidate.class
+com\hupa\exp\servermng\enums\MongoDbExceptionCode.class
 com\hupa\exp\servermng\action\controller\api\ApiInformationController.class
 com\hupa\exp\servermng\help\Swagger2Helper.class
 com\hupa\exp\servermng\entity\locale\LocaleListInputDto.class
@@ -118,6 +126,7 @@ com\hupa\exp\servermng\entity\tickerlast\PcTickerLastPageDataOutputDto.class
 com\hupa\exp\servermng\entity\information\InformationOutputDto.class
 com\hupa\exp\servermng\service\impl\IApiPcFeeControllerServiceImpl.class
 com\hupa\exp\servermng\entity\fundaccount\FundAccountLogOutputDto.class
+com\hupa\exp\servermng\entity\mongodb\MongoCollectionFieldInputDto.class
 com\hupa\exp\servermng\entity\coin\CoinListOutputDto.class
 com\hupa\exp\servermng\entity\dic\DicListOutputDto.class
 com\hupa\exp\servermng\service\impl\ApiStoringLevelControllerServiceImpl.class
@@ -173,6 +182,7 @@ com\hupa\exp\servermng\entity\menu\GetMenuOutputDto.class
 com\hupa\exp\servermng\service\impl\ApiPcOrderControllerServiceImpl.class
 com\hupa\exp\servermng\entity\information\InformationInputDto.class
 com\hupa\exp\servermng\entity\coin\GetCoinOutputDto.class
+com\hupa\exp\servermng\action\controller\api\ApiMongoDbController.class
 com\hupa\exp\servermng\entity\user\UserListInputDto.class
 com\hupa\exp\servermng\entity\modulelimit\ModuleLimitOutputDto.class
 com\hupa\exp\servermng\service\def\IApiAreaControllerService.class
@@ -211,6 +221,7 @@ com\hupa\exp\servermng\action\controller\api\ApiMenuController.class
 com\hupa\exp\servermng\entity\area\AreaListOutputPage.class
 com\hupa\exp\servermng\entity\user\FundAccountListInputDto.class
 com\hupa\exp\servermng\entity\locale\LocaleDeleteOutputDto.class
+com\hupa\exp\servermng\entity\mongodb\MongoCollectionFieldOutputDto.class
 com\hupa\exp\servermng\service\def\IApiOperationLogControllerService.class
 com\hupa\exp\servermng\entity\storinglevel\StoringLevelOutputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiPcOrderController.class
@@ -256,6 +267,7 @@ com\hupa\exp\servermng\entity\earningrate\PcEarningRatePageDataOutputDto.class
 com\hupa\exp\servermng\service\impl\ApiOperationLogControllerServiceImpl.class
 com\hupa\exp\servermng\entity\pcposition\PcPositionPageOutputDto.class
 com\hupa\exp\servermng\entity\assertchange\PcAssertChangeOutputDto.class
+com\hupa\exp\servermng\entity\mongodb\MongoDataInputDto.class
 com\hupa\exp\servermng\entity\login\ExistLoginInputDto.class
 com\hupa\exp\servermng\entity\sms\SmsTempInfoOutputDto.class
 com\hupa\exp\servermng\exception\ImgException.class
@@ -301,3 +313,4 @@ com\hupa\exp\servermng\entity\user\CreateAccountOutputDto.class
 com\hupa\exp\servermng\entity\user\FundAccountInfoOutputDto.class
 com\hupa\exp\servermng\service\impl\ApiUploadControllerServiceImpl.class
 com\hupa\exp\servermng\entity\contract\CheckHasLastPriceInputDto.class
+com\hupa\exp\servermng\entity\mongodb\MongoCollectionNamesInputDto.class

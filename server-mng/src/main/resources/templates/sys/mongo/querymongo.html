@@ -25,10 +25,13 @@
                             <div class="bootstrap-table">
                                 <div class="fixed-table-toolbar">
                                     <div class="pull-left search">
-                                        <select class="form-control input-outline" id="symbol">
-                                            <option value="BTC" selected="selected">BTC</option>
-                                            <option value="ETH">ETH</option>
-                                            <option value="EOS">EOS</option>
+                                        <select class="form-control input-outline" id="collection">
+
+                                        </select>
+                                    </div>
+                                    <div class="pull-left search">
+                                        <select class="form-control input-outline" id="collection_field">
+
                                         </select>
                                     </div>
                                     <div class="columns columns-left btn-group pull-left">
@@ -52,183 +55,139 @@
 <script src="../../../static/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
 <script src="../../../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
 <script src="../../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
-<script src="../../../static/js/fixed-columns/js/bootstrap-table-fixed-columns.js"></script>
 <script src="../../../static/js/plugins/layer/layer.min.js"></script>
 <script src="../../../static/js/LayerTool.js"></script>
 </body>
 </html>
 <script type="text/javascript">
     var oTable;
+    var myColumns=[];
     $(function () {
         //1.初始化Table
         oTable = new TableInit();
-        oTable.Init();
+        // oTable.Init();
 
         $("#btn_query").click(function () {
             $('#tb_departments').bootstrapTable('destroy');
             oTable.Init();
         });
-
+        $("#collection").change(function () {
+            bindCollectionField();
+        })
 
     });
 
+    function bindCollection() {
+        $.ajax({
+            type:"get",
+            async:false,
+            url:"/v1/http/mongo/get_collections",
+            contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+            success:function(data) {
+                console.log(data)
+                if(data.data.collectionNames!=null)
+                {
+                    var html="";
+                    var collectionNames=data.data.collectionNames;
+                    for(var i=0;i<collectionNames.length;i++)
+                    {
+                        if(i==0)
+                        {
+                            html+="<option value='"+collectionNames[i]+"' selected='selected'>"+collectionNames[i]+"</option>";
+                        }
 
-    var addCatalogEvent = function (action,id) {
-        var text = "添加币种"
-        url = "/sys/coin/edit.html?id="+id+"&action="+action+"";
-
-        parent.layer.open({
-            type: 2,
-            title: text,
-            shadeClose: true,
-            shade: 0.8,
-            area: ['800px', '65%'],
-            content: url,
-            success: function (layero, index) {
-
-            },
-            end: function () {
-                $('#tb_departments').bootstrapTable('destroy');
-                oTable.Init();
+                        else
+                            html+="<option value='"+collectionNames[i]+"'>"+collectionNames[i]+"</option>";
+                    }
+                    $("#collection").append(html);
+                }
             }
-        });
+        })
     }
+    bindCollection();
+    function bindCollectionField() {
+        var param="?collection_name="+$("#collection").val();
+        $.ajax({
+            type:"get",
+            url:"/v1/http/mongo/get_collection_fields"+param,
+            contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+            success:function(data) {
+                console.log(data)
+                if(data.data.fields!=null)
+                {
+                    var html="";
+                    var fields=data.data.fields;
+                    for(var i=0;i<fields.length;i++)
+                    {
+                        if(i==0)
+                            html+="<option value='"+fields[i]+"' selected='selected'>"+fields[i]+"</option>";
+                        else
+                            html+="<option value='"+fields[i]+"'>"+fields[i]+"</option>";
+                        var field=fields[i];
+                        if(field=="_id")
+                            field="id";
+                        myColumns.push({
+                            title: field,
+                            field: field
+                        });
+                    }
+                    $("#collection_field").append(html);
+                }
+            }
+        })
+    }
+    bindCollectionField();
 
     var TableInit = function () {
         var oTableInit = new Object();
         //初始化Table
         oTableInit.Init = function () {
-                    $('#tb_departments').bootstrapTable({
-                         url: '/v1/http/pcaccount/query_pc_account_log_list',//+param,         //请求后台的URL（*）
-                         method: 'get',                      //请求方式（*）
-                        //toolbar: '#toolbar',                //工具按钮用哪个容器
-                        //striped: true,                      //是否显示行间隔色
-                        //cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
-                        pagination: true,                   //是否显示分页（*）
-                        //sortable: true,                     //是否启用排序
-                        //sortOrder: "asc",                   //排序方式
-                        queryParams: oTableInit.queryParams,//传递参数（*）
-                        sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
-                        pageNumber: 1,                       //初始化加载第一页，默认第一页
-                        pageSize: 10,                       //每页的记录行数（*）
-                        pageList: [10, 20, 50, 100],        //可供选择的每页的行数（*）
-                        //search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
-                        //strictSearch: true,
-                        //showColumns: true,                  //是否显示所有的列
-                        showRefresh: true,                  //是否显示刷新按钮
-                        //minimumCountColumns: 2,             //最少允许的列数
-                        //clickToSelect: false,               //是否启用点击选中行
-                        //singleSelect:false,
-                        //height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-                        uniqueId: "id",                     //每一行的唯一标识，一般为主键列
-                        //showToggle: true,                    //是否显示详细视图和列表视图的切换按钮
-                        //cardView: false,                    //是否显示详细视图
-                        //detailView: false,                   //是否显示父子表
-                        // fixedColumns: true,
-                        // fixedNumber: 1,
-                        columns: [
-                            {
-                                checkbox: true
-                            }
-                            , {
-                                title: '账户Id',
-                                field: 'accountId'
-                            }
-                            , {
-                                title: '币的符号',
-                                field: 'symbol'
-                            }, {
-                                title: 'tradeVolume',
-                                field: 'tradeVolume'
-                            }
-                            , {
-                                title: 'tradeType',
-                                field: 'tradeType'
-                            }
-                            , {
-                                title: 'objectId',
-                                field: 'objectId'
-                            }
-                            , {
-                                title: 'fee',
-                                field: 'fee'
-                            }
-                            , {
-                                title: 'accTotalPre',
-                                field: 'accTotalPre'
-                            }
-                            , {
-                                title: 'accTotal',
-                                field: 'accTotal'
-                            }
-                            , {
-                                title: 'accAvailPre',
-                                field: 'accAvailPre'
-                            }
-                            , {
-                                title: 'accAvail',
-                                field: 'accAvail'
-                            }
-                            , {
-                                title: 'tradeTime',
-                                field: 'tradeTime'
-                            }
-                            , {
-                                title: 'ctime',
-                                field: 'ctime'
-                            }
-                            , {
-                                title: 'mtime',
-                                field: 'mtime'
-                            }
-                            // , {
-                            //     title: '操作', field: '#', align: 'center',
-                            //     formatter: function (value, row, index) {
-                            //         var d = "<a href=\"javascript:addCatalogEvent('Edit'," + row.id + ")\">修改</a>";
-                            //         return d;
-                            //     }
-                            // }
-                            ],
-                        responseHandler:function(res) {
-                            return res.data;
-                        }
-                    });
+
+            $('#tb_departments').bootstrapTable({
+                url: '/v1/http/mongo/get_mongo_data',         //请求后台的URL（*）
+                method: 'get',                      //请求方式（*）
+                //toolbar: '#toolbar',                //工具按钮用哪个容器
+                //striped: true,                      //是否显示行间隔色
+                //cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true,                   //是否显示分页（*）
+                //sortable: true,                     //是否启用排序
+                //sortOrder: "asc",                   //排序方式
+                queryParams: oTableInit.queryParams,//传递参数（*）
+                sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
+                pageSize: 100,                       //每页的记录行数（*）
+                pageList: [10, 20, 50, 100],        //可供选择的每页的行数（*）
+                //search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                //strictSearch: true,
+                //showColumns: true,                  //是否显示所有的列
+                showRefresh: true,                  //是否显示刷新按钮
+                //minimumCountColumns: 2,             //最少允许的列数
+                //clickToSelect: false,               //是否启用点击选中行
+                //singleSelect:false,
+                //height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                uniqueId: "id",                     //每一行的唯一标识，一般为主键列
+                //showToggle: true,                    //是否显示详细视图和列表视图的切换按钮
+                //cardView: false,                    //是否显示详细视图
+                //detailView: false,                   //是否显示父子表
+                columns:  myColumns,
+                responseHandler:function(res) {
+                var data=JSON.parse(res.data.page_data);
+                return data.rows;
+            }
+            });
         };
         oTableInit.queryParams = function (params) {
             var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-                page_size: params.limit,   //页面大小
-                current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
-                id: 0,
-                symbol: $("#symbol").val()
+                // page_size: params.limit,   //页面大小
+                // current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
+                // id: 0,
+                collection_name: $("#collection").val()
             };
             //console.log(temp);
             return temp;
         };
         return oTableInit;
     };
-
-    $('#tb_departments').on('load-success.bs.table', function (e) {
-        //debugger;
-        //alert("1213");
-        //$(".fixed-table-loading").attr("style","display:none");//不知道什么鬼原因  反正先加载时候先去掉
-        // ...
-        removePageSize();
-
-    });
-
-
-
-    function GetQueryString(name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-        var r = window.location.search.substr(1).match(reg);  //获取url中"?"符后的字符串并正则匹配
-        var context = "";
-        if (r != null)
-            context = r[2];
-        reg = null;
-        r = null;
-        return context == null || context == "" || context == "undefined" ? "" : context;
-    }//获取连接中的参数
-
 
 </script>
 

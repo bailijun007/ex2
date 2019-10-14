@@ -31,7 +31,9 @@ import com.hupa.exp.daomysql.dao.expv2.def.IExpUserDao;
 import com.hupa.exp.id.def.account.AccountIdDef;
 import com.hupa.exp.servermng.entity.user.*;
 import com.hupa.exp.servermng.enums.LoginExceptionCode;
+import com.hupa.exp.servermng.enums.MngExceptionCode;
 import com.hupa.exp.servermng.exception.LoginException;
+import com.hupa.exp.servermng.exception.MngException;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiUserControllerService;
 import com.hupa.exp.servermng.validate.UserValidateImpl;
@@ -64,13 +66,12 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
     private Account4ServerDef account4ServerDef;
     @Reference
     private FundAccount4MngDef fundAccount4MngDef;
-    @Reference
+    @Autowired
     private FundAccountDef fundAccountDef;
 
     @Autowired
     @Qualifier(Db0RedisBean.beanName)
     private RedisUtil redisUtilDb0;
-
 
 
     @Autowired
@@ -88,7 +89,6 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
 //    @Autowired
 //    @Qualifier(Db1RedisBean.beanName)
 //    private RedisUtil redisUtilDb1;
-
 
 
     @Autowired
@@ -138,8 +138,12 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
                     OperationType.Insert.toString(), JsonUtil.toJsonString(expUserBo),
                     "");
             if (inputDto.getUserType() != 0) {
-                account4ServerDef.createAccount(id, Account4ServerTokenUtil.genToken4CreateAccount(id));
-                //fundAccount4ServerDef.createFundAccount(id, "BTC", FundAccount4ServerTokenUtil.genToken4CreateFundAccount(id, "BTC"));
+                try {
+                    account4ServerDef.createAccount(id, Account4ServerTokenUtil.genToken4CreateAccount(id));
+                    //fundAccount4ServerDef.createFundAccount(id, "BTC", FundAccount4ServerTokenUtil.genToken4CreateFundAccount(id, "BTC"));
+                } catch (Exception e) {
+                    throw new MngException(MngExceptionCode.DUBBO_SERVER_ERROR);
+                }
             }
         }
         outputDto.setId(String.valueOf(id));
@@ -154,7 +158,7 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         UserListOutputDto outputDto = new UserListOutputDto();
 
         ExpUserListBizBo listBizBo = iUserBiz.queryListByUserType(inputDto.getCurrentPage(), inputDto.getPageSize(),
-                0, inputDto.getUserName(),inputDto.getId());
+                0, inputDto.getUserName(), inputDto.getId());
         List<UserListOutputPage> pageList = new ArrayList<>();
         for (ExpUserBizBo bo : listBizBo.getRows()) {
             UserListOutputPage user = new UserListOutputPage();
@@ -247,7 +251,7 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         if (inputDto.getPageSize() > 100)
             inputDto.setPageSize(100);
         FundAccountListOutputDto outputDto = new FundAccountListOutputDto();
-        FundAccountMngListBizBo listBizBo = iUserBiz.queryFundAccountList(inputDto.getCurrentPage(), inputDto.getPageSize(), 1, inputDto.getUserName(),inputDto.getId());
+        FundAccountMngListBizBo listBizBo = iUserBiz.queryFundAccountList(inputDto.getCurrentPage(), inputDto.getPageSize(), 1, inputDto.getUserName(), inputDto.getId());
         List<FundAccountListOutputPage> pageList = new ArrayList<>();
         for (FundAccountMngBizBo bo : listBizBo.getRows()) {
             FundAccountListOutputPage account = new FundAccountListOutputPage();
@@ -269,7 +273,7 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         if (inputDto.getPageSize() > 100)
             inputDto.setPageSize(100);
         FundAccountListOutputDto outputDto = new FundAccountListOutputDto();
-        FundAccountMngListBizBo listBizBo = iUserBiz.queryFundAccountListByParam(inputDto.getCurrentPage(), inputDto.getPageSize(), inputDto.getUserType(), inputDto.getUserName(),inputDto.getId());
+        FundAccountMngListBizBo listBizBo = iUserBiz.queryFundAccountListByParam(inputDto.getCurrentPage(), inputDto.getPageSize(), inputDto.getUserType(), inputDto.getUserName(), inputDto.getId());
         List<FundAccountListOutputPage> pageList = new ArrayList<>();
         for (FundAccountMngBizBo bo : listBizBo.getRows()) {
             FundAccountListOutputPage account = new FundAccountListOutputPage();
@@ -301,17 +305,15 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
     }
 
     @Override
-    public CreateAccountOutputDto createAccount(CreateAccountInputDto inputDto) {
-        List<ExpUserBizBo> bizBos= iUserBiz.queryList();
-        for(ExpUserBizBo bo:bizBos)
-        {
+    public CreateAccountOutputDto createAccount(CreateAccountInputDto inputDto) throws MngException {
+        List<ExpUserBizBo> bizBos = iUserBiz.queryList();
+        for (ExpUserBizBo bo : bizBos) {
             if (bo.getUserType() != 0) {
-               try {
-                   account4ServerDef.createAccount(bo.getId(), Account4ServerTokenUtil.genToken4CreateAccount(bo.getId()));
-               }catch (Exception ex)
-               {
-                   System.out.println(ex);
-               }
+                try {
+                    account4ServerDef.createAccount(bo.getId(), Account4ServerTokenUtil.genToken4CreateAccount(bo.getId()));
+                } catch (Exception e) {
+                    throw new MngException(MngExceptionCode.DUBBO_SERVER_ERROR);
+                }
 
                 //fundAccount4ServerDef.createFundAccount(id, "BTC", FundAccount4ServerTokenUtil.genToken4CreateFundAccount(id, "BTC"));
             }
@@ -321,52 +323,46 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
 
     @Override
     public GenFeeOutputDto genFee(GenFeeInputDto inputDto) throws BizException {
-        List<ExpUserBizBo> bizBos= iUserBiz.queryList();
+        List<ExpUserBizBo> bizBos = iUserBiz.queryList();
         ExpDicBizBo dicBizBo = dicService.queryDicByKey("PcFeeRedisKey");
-        String redisKey=dicBizBo.getValue();
-        List<PcFeeBizBo>  pcFeeBizBoList= iPcFeeBiz.getAllPcFee();
-        Map<Integer, PcFeeBizBo> feeMap = pcFeeBizBoList.stream().collect(Collectors.toMap(PcFeeBizBo::getTier, a -> a,(k1, k2)->k1));
-        BigDecimal redistakerFee=new BigDecimal("0");
-        BigDecimal redismakerFee=new BigDecimal("0");
-        BigDecimal dbtakerFee=new BigDecimal("0");
-        BigDecimal dbmakerFee=new BigDecimal("0");
-        for(ExpUserBizBo userBizBo:bizBos)
-        {
+        String redisKey = dicBizBo.getValue();
+        List<PcFeeBizBo> pcFeeBizBoList = iPcFeeBiz.getAllPcFee();
+        Map<Integer, PcFeeBizBo> feeMap = pcFeeBizBoList.stream().collect(Collectors.toMap(PcFeeBizBo::getTier, a -> a, (k1, k2) -> k1));
+        BigDecimal redistakerFee = new BigDecimal("0");
+        BigDecimal redismakerFee = new BigDecimal("0");
+        BigDecimal dbtakerFee = new BigDecimal("0");
+        BigDecimal dbmakerFee = new BigDecimal("0");
+        for (ExpUserBizBo userBizBo : bizBos) {
 
             if (userBizBo.getUserType() != 0) {
 
                 //默认一级
-                if(userBizBo.getFeeLevel()==null)
-                {
-                    redistakerFee=feeMap.get(1).getTakerFee().divide(new BigDecimal("100"));
-                    redismakerFee=feeMap.get(1).getMakerFee().divide(new BigDecimal("100"));
-                    dbtakerFee=feeMap.get(1).getTakerFee();
-                    dbmakerFee=feeMap.get(1).getMakerFee();
+                if (userBizBo.getFeeLevel() == null) {
+                    redistakerFee = feeMap.get(1).getTakerFee().divide(new BigDecimal("100"));
+                    redismakerFee = feeMap.get(1).getMakerFee().divide(new BigDecimal("100"));
+                    dbtakerFee = feeMap.get(1).getTakerFee();
+                    dbmakerFee = feeMap.get(1).getMakerFee();
                     userBizBo.setFeeLevel(feeMap.get(1).getTier());
-                }
-                else {
-                    redistakerFee=feeMap.get(userBizBo.getFeeLevel()).getTakerFee().divide(new BigDecimal("100"));
-                    redismakerFee=feeMap.get(userBizBo.getFeeLevel()).getMakerFee().divide(new BigDecimal("100"));
-                    dbtakerFee=feeMap.get(userBizBo.getFeeLevel()).getTakerFee();
-                    dbmakerFee=feeMap.get(userBizBo.getFeeLevel()).getMakerFee();
+                } else {
+                    redistakerFee = feeMap.get(userBizBo.getFeeLevel()).getTakerFee().divide(new BigDecimal("100"));
+                    redismakerFee = feeMap.get(userBizBo.getFeeLevel()).getMakerFee().divide(new BigDecimal("100"));
+                    dbtakerFee = feeMap.get(userBizBo.getFeeLevel()).getTakerFee();
+                    dbmakerFee = feeMap.get(userBizBo.getFeeLevel()).getMakerFee();
                     userBizBo.setFeeLevel(feeMap.get(userBizBo.getFeeLevel()).getTier());
                 }
-                if(!StringUtils.isEmpty(userBizBo.getReferrerId()))
-                {
+                if (!StringUtils.isEmpty(userBizBo.getReferrerId())) {
                     userBizBo.setTakerFee(dbtakerFee.multiply(new BigDecimal("0.95")));
                     userBizBo.setMakerFee(dbmakerFee.multiply(new BigDecimal("0.95")));
-                    redisUtilDb0.hset(redisKey,"t_"+userBizBo.getId(),
+                    redisUtilDb0.hset(redisKey, "t_" + userBizBo.getId(),
                             redistakerFee.multiply(new BigDecimal("0.95")));
-                    redisUtilDb0.hset(redisKey,"m_"+userBizBo.getId(),
+                    redisUtilDb0.hset(redisKey, "m_" + userBizBo.getId(),
                             redismakerFee.multiply(new BigDecimal("0.95")));
-                }
-                else
-                {
+                } else {
                     userBizBo.setTakerFee(dbtakerFee);
                     userBizBo.setMakerFee(dbmakerFee);
-                    redisUtilDb0.hset(redisKey,"t_"+userBizBo.getId(),
+                    redisUtilDb0.hset(redisKey, "t_" + userBizBo.getId(),
                             redistakerFee);
-                    redisUtilDb0.hset(redisKey,"m_"+userBizBo.getId(),
+                    redisUtilDb0.hset(redisKey, "m_" + userBizBo.getId(),
                             redismakerFee);
                 }
                 iUserBiz.editById(userBizBo);
@@ -377,9 +373,9 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
 
     @Override
     public CheckExistUserOutputDto checkExistUser(CheckExistUserInputDto inputDto) throws BizException {
-        CheckExistUserOutputDto outputDto=new CheckExistUserOutputDto();
+        CheckExistUserOutputDto outputDto = new CheckExistUserOutputDto();
         outputDto.setHasUser(false);
-        if(iExpUserDao.selectUserByAccount(inputDto.getAccount())!=null)
+        if (iExpUserDao.selectUserByAccount(inputDto.getAccount()) != null)
             outputDto.setHasUser(true);
         return outputDto;
     }
@@ -433,25 +429,28 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         }
         String[] fundArr = fundStr.split("[|]");
         if (fundArr.length > 0) {
+            try {
+                String symbol = fundArr[0];
+                if (fundAccountDef.getFundAccount(inputDto.getId(), symbol, true) == null) {
+                    fundAccount4ServerDef.createFundAccount(inputDto.getId(), symbol,
+                            FundAccount4ServerTokenUtil.genToken4CreateFundAccount(inputDto.getId(), symbol));
+                }
 
-            String symbol = fundArr[0];
-            if (fundAccountDef.getFundAccount(inputDto.getId(), symbol,true)==null) {
-                fundAccount4ServerDef.createFundAccount(inputDto.getId(), symbol,
-                        FundAccount4ServerTokenUtil.genToken4CreateFundAccount(inputDto.getId(), symbol));
+                BigDecimal delta = new BigDecimal(fundArr[1]);
+                FundAccountMngBizBo beforeBo = iUserBiz.queryFundAccountById(inputDto.getId());
+                //加钱
+                boolean bol = fundAccount4MngDef.addAvailableByManager(inputDto.getId(), symbol, delta,
+                        FundAccount4MngTokenUtil.genToken4AddAvailableByManager(inputDto.getId(), symbol, delta
+                        ));
+                FundAccountMngBizBo afterBo = iUserBiz.queryFundAccountById(inputDto.getId());
+                ExpUserBizBo user = sessionHelper.getUserInfoBySession();
+                //记日志
+                logService.createOperationLog(user.getId(), user.getUserName(), OperationModule.User.toString(),
+                        OperationType.Insert.toString(), JsonUtil.toJsonString(beforeBo),
+                        JsonUtil.toJsonString(afterBo));
+            } catch (Exception e) {
+                throw new MngException(MngExceptionCode.DUBBO_SERVER_ERROR);
             }
-
-            BigDecimal delta = new BigDecimal(fundArr[1]);
-            FundAccountMngBizBo beforeBo = iUserBiz.queryFundAccountById(inputDto.getId());
-            //加钱
-            boolean bol = fundAccount4MngDef.addAvailableByManager(inputDto.getId(), symbol, delta,
-                    FundAccount4MngTokenUtil.genToken4AddAvailableByManager(inputDto.getId(), symbol, delta
-                    ));
-            FundAccountMngBizBo afterBo = iUserBiz.queryFundAccountById(inputDto.getId());
-            ExpUserBizBo user = sessionHelper.getUserInfoBySession();
-            //记日志
-            logService.createOperationLog(user.getId(), user.getUserName(), OperationModule.User.toString(),
-                    OperationType.Insert.toString(), JsonUtil.toJsonString(beforeBo),
-                    JsonUtil.toJsonString(afterBo));
         }
         EditFundAccountOutputDto outputDto = new EditFundAccountOutputDto();
         return outputDto;
@@ -460,7 +459,7 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
     @Override
     public UserListOutputDto queryListByUserType(UserListInputDto inputDto) throws BizException {
         ExpUserListBizBo listBizBo = iUserBiz.queryListByUserType(inputDto.getCurrentPage(), inputDto.getPageSize(),
-                inputDto.getUserType(), inputDto.getUserName(),inputDto.getId());
+                inputDto.getUserType(), inputDto.getUserName(), inputDto.getId());
         List<UserListOutputPage> pageList = new ArrayList<>();
         for (ExpUserBizBo bo : listBizBo.getRows()) {
             UserListOutputPage user = new UserListOutputPage();

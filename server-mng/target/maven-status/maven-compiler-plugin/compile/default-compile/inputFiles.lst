@@ -8,6 +8,7 @@ G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\dic\Di
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\config\WebDefaultView.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\menu\MenuInputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\tickerlast\PcTickerLastPageDataInputDto.java
+G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\mongodb\MongoDataInputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\contract\ContractOutputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\validate\UserValidateImpl.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\user\FundAccountInfoOutputDto.java
@@ -19,6 +20,7 @@ G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\contra
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\user\EditFundAccountOutputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\locale\LocaleListOutputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\impl\ApiCoinControllerServiceImpl.java
+G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\mongodb\MongoCollectionNamesInputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\enums\ImgExceptionCode.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\action\controller\api\ApiPcOrderController.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\action\controller\api\ApiStoringLevelController.java
@@ -42,11 +44,13 @@ G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\assert
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\pcaccount\PcAccountLogListOutputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\exception\MenuException.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\user\FundAccountListOutputDto.java
+G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\enums\MngExceptionCode.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\def\IApiFundAccountControllerService.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\pcfee\PcFeeInfoOutputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\def\IApiKlineConfigControllerService.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\def\IApiPcPositionControllerService.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\role\RoleInputDto.java
+G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\exception\MngException.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\enums\LocaleExceptionCode.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\earningrate\PcEarningRatePageDataInputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\assertchange\PcAssertChangeOutputDto.java
@@ -72,6 +76,7 @@ G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\pcacco
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\action\controller\api\ApiEarningRateController.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\def\IApiSmsTempControllerService.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\validate\LoginValidateImpl.java
+G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\mongodb\MongoCollectionFieldOutputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\information\DeleteInformationInputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\assertchange\FundAssertChangeListInputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\modulelimit\GetModuleLimitInputDto.java
@@ -95,6 +100,7 @@ G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\user\G
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\action\controller\api\ApiRegisterController.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\user\CreateAccountInputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\dic\DicInfoInputDto.java
+G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\mongodb\MongoDataOutputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\exception\RoleException.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\menu\MenuListOutputPage.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\role\RoleListOutputPage.java
@@ -119,6 +125,7 @@ G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\user\U
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\symbolinterest\SymbolInterestInfoInputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\exception\LoginException.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\menu\MenuListInputDto.java
+G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\action\controller\api\ApiMongoDbController.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\locale\LocaleListInputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\modulelimit\ModuleLimitListOutputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\action\controller\api\ApiContractController.java
@@ -140,6 +147,7 @@ G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\validate\Sess
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\def\IApiSymbolInterestControllerService.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\locale\LocaleDeleteOutputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\pcposition\PcPositionPageOutputDto.java
+G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\enums\MongoDbExceptionCode.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\def\IApiRoleControllerService.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\earningrate\PcEarningRateInfoOutputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\tickerlast\PcTickerLastPageDataOutputDto.java
@@ -214,13 +222,16 @@ G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\operat
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\storinglevel\StoringLevelInputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\contract\ContractInputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\login\ExistLoginInputDto.java
+G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\impl\ApiMongoDbControllerServiceImpl.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\assertchange\FundAssertChangeListOutputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\storinglevel\StoringLevelOutputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\information\GetInformationInfoInputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\user\FundAccountListOutputPage.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\contract\CheckHasLastPriceInputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\assertchange\FundAssertChangeInputDto.java
+G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\mongodb\MongoCollectionFieldInputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\pcaccount\PcAccountLogListInputDto.java
+G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\def\IApiMongoDbControllerService.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\exception\ContractException.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\area\GetAreaOutputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\def\IApiPcOrderControllerService.java
@@ -252,8 +263,10 @@ G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\module
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\symbolinterest\SymbolInterestOutputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\enums\RoleExceptionCode.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\def\IApiAssertChangeControllerService.java
+G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\exception\MongoDbException.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\menu\MenuTreeListOutputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\dic\DicInfoOutputDto.java
+G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\mongodb\MongoCollectionNamesOutputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\action\controller\api\ApiFundAccountController.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\validate\LocaleValidateImpl.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\symbolinterest\SymbolInterestInputDto.java

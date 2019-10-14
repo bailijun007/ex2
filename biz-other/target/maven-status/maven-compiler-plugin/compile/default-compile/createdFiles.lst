@@ -81,6 +81,7 @@ com\hupa\exp\bizother\service\account\impl\FundAccountMongoBizImpl.class
 com\hupa\exp\bizother\service\contract\def\IPcContractBiz.class
 com\hupa\exp\bizother\entity\operationlog\ExpOperationLogBizBo.class
 com\hupa\exp\bizother\entity\menu\ExpMenuTreeBizBo.class
+com\hupa\exp\bizother\entity\account\CoinListBizBo.class
 com\hupa\exp\bizother\entity\modulelimit\ExpModuleLimitBizBo.class
 com\hupa\exp\bizother\entity\account\MongoBo\PcAccountLogMongoPageBizBo.class
 com\hupa\exp\bizother\entity\fundaccount\FundAccountMngBizBo.class
@@ -103,7 +104,6 @@ com\hupa\exp\bizother\service\menu\impl\MenuServiceImpl.class
 com\hupa\exp\bizother\service\area\impl\AreaServiceImpl.class
 com\hupa\exp\bizother\entity\account\QueryDepositBizBo.class
 com\hupa\exp\bizother\service\user\impl\UserBizImpl.class
-com\hupa\exp\bizother\entity\account\SymbolListBizBo.class
 com\hupa\exp\bizother\entity\menu\ExpMenuListBizBo.class
 com\hupa\exp\bizother\entity\account\QueryFundWithdrawAddressBizBo$QueryFundWithdrawAddressEntry.class
 com\hupa\exp\bizother\service\klineconfig\impl\KlineConfigServiceImpl.class

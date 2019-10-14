@@ -2,6 +2,7 @@ package com.hupa.exp.servermng.service.def;
 
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.servermng.entity.user.*;
+import com.hupa.exp.servermng.exception.MngException;
 
 public interface IApiUserControllerService {
     UserOutputDto createUser(UserInputDto expUserInputDto) throws  BizException;
@@ -24,7 +25,7 @@ public interface IApiUserControllerService {
 
     EnableUserOutputDto enableUser(EnableUserInputDto inputDto) throws BizException;
 
-    CreateAccountOutputDto createAccount(CreateAccountInputDto inputDto) ;
+    CreateAccountOutputDto createAccount(CreateAccountInputDto inputDto) throws MngException;
 
     GenFeeOutputDto genFee(GenFeeInputDto inputDto) throws BizException;
 

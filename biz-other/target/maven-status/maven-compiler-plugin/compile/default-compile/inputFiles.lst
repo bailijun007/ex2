@@ -56,7 +56,6 @@ G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\role\de
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\MongoBo\FundWithdrawMongoBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\user\def\IUserBiz.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\QueryFundWithdrawAddressBizBo.java
-G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\SymbolListBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\role\ExpRoleMenuBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\UserPcFee.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\menu\ExpMenuListBizBo.java
@@ -113,6 +112,7 @@ G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\account\def\IPcFeeBiz.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\login\AdminLoginBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\MongoBo\FundAccountLogMongoPageBizBo.java
+G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\CoinListBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\information\ExpInformationBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\information\ExpInformationListBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\klineconfig\ExpKlineConfigListBizBo.java
