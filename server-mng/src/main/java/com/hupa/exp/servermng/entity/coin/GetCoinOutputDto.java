@@ -4,19 +4,27 @@ import com.hupa.exp.common.entity.dto.output.BaseOutputDto;
 
 public class GetCoinOutputDto extends BaseOutputDto {
     private String id;
-    private String symbol;
-    private String chainSymbolId;
+    private String chainCoinId;
     private String coinName;
     private String displayName;
     private String chainName;
     private String precision;
     private String privilege;
     private String status;
+    private String sort;
     private String minWithdrawVolume;
     private String  withdrawFee;
     private String chainTransactionUrl;
     private String ctime;
     private String mtime;
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
 
     public String getChainTransactionUrl() {
         return chainTransactionUrl;
@@ -42,12 +50,12 @@ public class GetCoinOutputDto extends BaseOutputDto {
         this.withdrawFee = withdrawFee;
     }
 
-    public String getChainSymbolId() {
-        return chainSymbolId;
+    public String getChainCoinId() {
+        return chainCoinId;
     }
 
-    public void setChainSymbolId(String chainSymbolId) {
-        this.chainSymbolId = chainSymbolId;
+    public void setChainCoinId(String chainCoinId) {
+        this.chainCoinId = chainCoinId;
     }
 
     public String getId() {
@@ -58,13 +66,7 @@ public class GetCoinOutputDto extends BaseOutputDto {
         this.id = id;
     }
 
-    public String getSymbol() {
-        return symbol;
-    }
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
 
     public String getCoinName() {
         return coinName;

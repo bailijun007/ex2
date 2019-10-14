@@ -5,18 +5,27 @@ import java.math.BigDecimal;
 public class CoinBizBo {
     private Long id;
 
-    private Integer chainSymbolId;
+    private Integer chainCoinId;
     private String coinName;
     private String displayName;
     private String chainName;
     private BigDecimal precision;
     private Integer privilege;
     private Integer status;
+    private Integer sort;
     private BigDecimal minWithdrawVolume;
     private BigDecimal  withdrawFee;
     private String chainTransactionUrl;
     private Long ctime;
     private Long mtime;
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
 
     public String getChainTransactionUrl() {
         return chainTransactionUrl;
@@ -42,12 +51,12 @@ public class CoinBizBo {
         this.withdrawFee = withdrawFee;
     }
 
-    public Integer getChainSymbolId() {
-        return chainSymbolId;
+    public Integer getChainCoinId() {
+        return chainCoinId;
     }
 
-    public void setChainSymbolId(Integer chainSymbolId) {
-        this.chainSymbolId = chainSymbolId;
+    public void setChainCoinId(Integer chainCoinId) {
+        this.chainCoinId = chainCoinId;
     }
 
     public Long getId() {

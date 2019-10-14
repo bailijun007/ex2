@@ -26,8 +26,6 @@ public class TestProc {
         try {
             //查询条件
             Map<String, Map<String, Object>> filedMap = new HashMap<>();
-
-
             //动态获取类
             Class getClass = Class.forName("com.hupa.exp.base.entity.bo.pc.PcTradeBo");
             //传进来的参数

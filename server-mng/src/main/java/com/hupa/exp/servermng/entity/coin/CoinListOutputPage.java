@@ -10,11 +10,20 @@ public class CoinListOutputPage  {
     private String precision;
     private String privilege;
     private String status;
+    private String sort;
     private String minWithdrawVolume;
     private String  withdrawFee;
     private String chainTransactionUrl;
     private String ctime;
     private String mtime;
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
 
     public String getChainTransactionUrl() {
         return chainTransactionUrl;

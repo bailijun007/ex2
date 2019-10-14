@@ -38,13 +38,14 @@ public class ApiCoinControllerServiceImpl implements IApiCoinControllerService {
         CoinBizBo bo= ConventObjectUtil.conventObject(inputDto,CoinBizBo.class);
         bo.setId(inputDto.getId());
         //bo.setSymbol(inputDto.getSymbol());
-        bo.setChainSymbolId(inputDto.getChainSymbolId());
+        bo.setChainCoinId(inputDto.getChainCoinId());
         bo.setChainName(inputDto.getChainNname());
         bo.setCoinName(inputDto.getCoinName());
         bo.setDisplayName(inputDto.getDisplaynName());
         bo.setPrecision(inputDto.getPrecision());
         bo.setPrivilege(inputDto.getPrivilege());
         bo.setStatus(inputDto.getStatus());
+        bo.setSort(inputDto.getSort());
         bo.setMinWithdrawVolume(inputDto.getMinWithdrawVolume());
         bo.setWithdrawFee(inputDto.getWithdrawFee());
         bo.setMtime(System.currentTimeMillis());
@@ -67,13 +68,14 @@ public class ApiCoinControllerServiceImpl implements IApiCoinControllerService {
         CoinBizBo afterBo=new CoinBizBo();
         afterBo.setId(inputDto.getId());
         //afterBo.setSymbol(inputDto.getSymbol());
-        afterBo.setChainSymbolId(inputDto.getChainSymbolId());
+        afterBo.setChainCoinId(inputDto.getChainCoinId());
         afterBo.setChainName(inputDto.getChainNname());
         afterBo.setCoinName(inputDto.getCoinName());
         afterBo.setDisplayName(inputDto.getDisplaynName());
         afterBo.setPrecision(inputDto.getPrecision());
         afterBo.setPrivilege(inputDto.getPrivilege());
         afterBo.setStatus(inputDto.getStatus());
+        afterBo.setSort(inputDto.getSort());
         afterBo.setMinWithdrawVolume(inputDto.getMinWithdrawVolume());
         afterBo.setWithdrawFee(inputDto.getWithdrawFee());
         afterBo.setChainTransactionUrl(inputDto.getChainTransactionUrl());
@@ -96,13 +98,14 @@ public class ApiCoinControllerServiceImpl implements IApiCoinControllerService {
         GetCoinOutputDto outputDto=new GetCoinOutputDto();
         outputDto.setId(String.valueOf(bo.getId()));
         //outputDto.setSymbol(bo.getSymbol());
-        outputDto.setChainSymbolId(String.valueOf(bo.getChainSymbolId()));
+        outputDto.setChainCoinId(String.valueOf(bo.getChainCoinId()));
         outputDto.setChainName(bo.getChainName());
         outputDto.setCoinName(bo.getCoinName());
         outputDto.setDisplayName(bo.getDisplayName());
         outputDto.setPrecision(String.valueOf(bo.getPrecision()));
         outputDto.setPrivilege(String.valueOf(bo.getPrivilege()));
         outputDto.setStatus(String.valueOf(bo.getStatus()));
+        outputDto.setSort(String.valueOf(bo.getSort()));
         outputDto.setMtime(String.valueOf(System.currentTimeMillis()));
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         outputDto.setMinWithdrawVolume(DecimalUtil.trimZeroPlainString(bo.getMinWithdrawVolume()));
@@ -121,7 +124,7 @@ public class ApiCoinControllerServiceImpl implements IApiCoinControllerService {
             CoinListOutputPage po=new CoinListOutputPage();
             po.setId(String.valueOf(bo.getId()));
             //po.setSymbol(bo.getSymbol());
-            po.setChainSymbolId(String.valueOf(bo.getChainSymbolId()));
+            po.setChainSymbolId(String.valueOf(bo.getChainCoinId()));
             po.setChainName(bo.getChainName());
             po.setCoinName(bo.getCoinName());
             po.setDisplayName(bo.getDisplayName());
@@ -130,6 +133,7 @@ public class ApiCoinControllerServiceImpl implements IApiCoinControllerService {
             po.setStatus(String.valueOf(bo.getStatus()));
             po.setMtime(String.valueOf(bo.getMtime()));
             po.setCtime(String.valueOf(bo.getCtime()));
+            po.setSort(String.valueOf(bo.getSort()));
             po.setMinWithdrawVolume(DecimalUtil.trimZeroPlainString(bo.getMinWithdrawVolume()));
             po.setWithdrawFee(DecimalUtil.trimZeroPlainString(bo.getWithdrawFee()));
             po.setChainTransactionUrl(bo.getChainTransactionUrl());
@@ -151,7 +155,7 @@ public class ApiCoinControllerServiceImpl implements IApiCoinControllerService {
 
     @Override
     public CheckHasCoinOutputDto checkHasCoin(CheckHasCoinInputDto inputDto) throws BizException {
-        boolean hasCoin=iCoinService.checkHasCoin(inputDto.getSymbol());
+        boolean hasCoin=iCoinService.checkHasCoin(inputDto.getCoinName());
         CheckHasCoinOutputDto outputDto=new CheckHasCoinOutputDto();
         outputDto.setHasCoin(hasCoin);
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));

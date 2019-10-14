@@ -34,10 +34,10 @@ public class ApiCoinController {
     public BaseResultViaApiDto<CoinInputDto,CoinOutputDto> createOrEditCoin(
             @ApiParam(name="id",value = "币Id",required = true)
             @RequestParam(name = "id") long id,
-            @ApiParam(name="symbol",value = "币的符号",required = true)
-            @RequestParam(name = "symbol") String symbol,
-            @ApiParam(name="chain_symbol_id",value = "链上服务的symbolId",required = true)
-            @RequestParam(name = "chain_symbol_id") Integer chainSymbolId,
+//            @ApiParam(name="symbol",value = "币的符号",required = true)
+//            @RequestParam(name = "symbol") String symbol,
+            @ApiParam(name="chain_coin_id",value = "链上服务的CoinId",required = true)
+            @RequestParam(name = "chain_coin_id") Integer chainCoinId,
             @ApiParam(name="coin_name",value = "币的名称",required = true)
             @RequestParam(name = "coin_name") String coinName,
             @ApiParam(name="display_name",value = "币的展示名",required = true)
@@ -50,6 +50,8 @@ public class ApiCoinController {
             @RequestParam(name = "privilege") Integer privilege,
             @ApiParam(name="stat",value = "是否生效",required = true)
             @RequestParam(name = "stat") Integer status,
+            @ApiParam(name="sort",value = "是否生效",required = true)
+            @RequestParam(name = "sort") Integer sort,
             @ApiParam(name="min_withdraw_volume",value = "最小提币额",required = true)
             @RequestParam(name = "min_withdraw_volume") BigDecimal minWithdrawVolume,
             @ApiParam(name="withdraw_fee",value = "提币手续费",required = true)
@@ -61,13 +63,14 @@ public class ApiCoinController {
         CoinInputDto inputDto=new CoinInputDto();
         inputDto.setId(id);
         //inputDto.setSymbol(symbol);
-        inputDto.setChainSymbolId(chainSymbolId);
+        inputDto.setChainCoinId(chainCoinId);
         inputDto.setCoinName(coinName);
         inputDto.setDisplaynName(displayName);
         inputDto.setChainNname(chainName);
         inputDto.setPrecision(precision);
         inputDto.setPrivilege(privilege);
         inputDto.setStatus(status);
+        inputDto.setSort(sort);
         inputDto.setMinWithdrawVolume(minWithdrawVolume);
         inputDto.setWithdrawFee(withdrawFee);
         inputDto.setChainTransactionUrl(chainTransactionUrl);
@@ -103,12 +106,12 @@ public class ApiCoinController {
     @ApiOperation(value = "检测币种是否已经存在了")
     @PostMapping(path = "/check_has_coin")
     public BaseResultViaApiDto<CheckHasCoinInputDto,CheckHasCoinOutputDto> checkHasCoin(
-            @ApiParam(name="symbol",value = "币id",required = true)
-            @RequestParam(name = "symbol") String symbol
+            @ApiParam(name="coin_name",value = "币id",required = true)
+            @RequestParam(name = "coin_name") String coinName
     )
     {
         CheckHasCoinInputDto inputDto=new CheckHasCoinInputDto();
-        inputDto.setSymbol(symbol);
+        inputDto.setCoinName(coinName);
         CheckHasCoinOutputDto outputDto=new CheckHasCoinOutputDto();
         try {
             outputDto=iApiCoinControllerService.checkHasCoin(inputDto);
