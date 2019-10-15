@@ -31,17 +31,17 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
                         <input type="hidden" id="id" value="0">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">币的符号：</label>
-                            <div class="col-sm-6">
-                                <input  class="form-control" type="text" id="symbol">
-                            </div>
-                            <div class="Validform_checktip"></div>
-                        </div>
+                        <!--<div class="form-group">-->
+                            <!--<label class="col-sm-3 control-label">币的符号：</label>-->
+                            <!--<div class="col-sm-6">-->
+                                <!--<input  class="form-control" type="text" id="symbol">-->
+                            <!--</div>-->
+                            <!--<div class="Validform_checktip"></div>-->
+                        <!--</div>-->
                         <div class="form-group">
                             <label class="col-sm-3 control-label">链上服务的symbolId：</label>
                             <div class="col-sm-6">
-                                <input  class="form-control" type="text" datatype="n1-10" id="chain_symbol_id">
+                                <input  class="form-control" type="text" datatype="n1-10" id="chain_coin_id">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
@@ -97,6 +97,13 @@
                             <label class="col-sm-3 control-label">以太坊地址：</label>
                             <div class="col-sm-6">
                                 <input class="form-control" id="chain_transaction_url" type="text" datatype="*1-500" errormsg="合约面值最多100位">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">排序：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="sort" type="text" datatype="*1-10" errormsg="排序最多十位">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
@@ -160,16 +167,17 @@
                         //console.log(data);
                         if (data.data != null) {
                             $("#id").val(data.data.id);
-                            $("#symbol").val(data.data.symbol);
+                            //$("#symbol").val(data.data.symbol);
                             $("#coin_name").val(data.data.coinName);
                             $("#display_name").val(data.data.displayName);
                             $("#chain_name").val(data.data.chainName);
                             $("#precision").val(data.data.precision);
                             $("#privilege").val(data.data.privilege);
-                            $("#chain_symbol_id").val(data.data.chainSymbolId);
+                            $("#chain_coin_id").val(data.data.chainCoinId);
                             $("#withdraw_fee").val(data.data.withdrawFee);
                             $("#min_withdraw_volume").val(data.data.minWithdrawVolume);
                             $("#chain_transaction_url").val(data.data.chainTransactionUrl);
+                            $("#sort").val(data.data.sort);
                             if (data.data.status == "1")
                                 $("#ckbIsOnTop").parent().find("a").attr("class", "selected")
                         }
@@ -184,14 +192,14 @@
     $("#symbol").blur(function(){
         $.ajax({
             type:"post",
-            url:"/v1/http/coin/check_has_coin?symbol="+$("#symbol").val(),
+            url:"/v1/http/coin/check_has_coin?coin_name="+$("#coin_name").val(),
             contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
             success:function(data) {
                 if(data.data.has_coin==true)
                 {
                     layer.msg("已存在该币种！");
-                    $("#symbol").val("");
-                    $("#symbol").parent().next().children().remove();
+                    $("#coin_name").val("");
+                    $("#coin_name").parent().next().children().remove();
                 }
             }
         });
@@ -218,14 +226,15 @@
 
         var parmes="?";
         parmes+= "id="+id;
-        parmes+="&symbol="+$("#symbol").val();
-        parmes+="&chain_symbol_id="+$("#chain_symbol_id").val();
+        //parmes+="&symbol="+$("#symbol").val();
+        parmes+="&chain_coin_id="+$("#chain_coin_id").val();
         parmes+="&coin_name="+$("#coin_name").val();
         parmes+="&display_name="+$("#display_name").val();
         parmes+="&chain_name="+$("#chain_name").val();
         parmes+="&pre="+$("#precision").val();
         parmes+="&privilege="+$("#privilege").val();
         parmes+="&stat="+isCheck;
+        parmes+="&sort="+$("#sort").val();
         parmes+="&withdraw_fee="+$("#withdraw_fee").val();
         parmes+="&min_withdraw_volume="+  $("#min_withdraw_volume").val();
         parmes+="&chain_transaction_url="+  $("#chain_transaction_url").val();

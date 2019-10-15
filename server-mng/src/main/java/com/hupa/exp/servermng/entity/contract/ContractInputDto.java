@@ -6,9 +6,10 @@ import java.math.BigDecimal;
 
 public class ContractInputDto extends BaseInputDto {
     private Long id;
-    private String pair;
-    private Integer pairType;
-    private String currency;
+    private String symbol;
+    private Integer symbolType;
+    private String asset;
+//    private String currency;
     private Integer precision;
     private String contractName;
     private String displayName;
@@ -22,6 +23,23 @@ public class ContractInputDto extends BaseInputDto {
     private Integer privilege;
     private Long ctime;
     private Long mtime;
+
+
+    public Integer getSymbolType() {
+        return symbolType;
+    }
+
+    public void setSymbolType(Integer symbolType) {
+        this.symbolType = symbolType;
+    }
+
+    public String getAsset() {
+        return asset;
+    }
+
+    public void setAsset(String asset) {
+        this.asset = asset;
+    }
 
     public BigDecimal getLastPrice() {
         return lastPrice;
@@ -71,29 +89,14 @@ public class ContractInputDto extends BaseInputDto {
         this.id = id;
     }
 
-    public String getPair() {
-        return pair;
+    public String getSymbol() {
+        return symbol;
     }
 
-    public void setPair(String pair) {
-        this.pair = pair;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
-    public Integer getPairType() {
-        return pairType;
-    }
-
-    public void setPairType(Integer pairType) {
-        this.pairType = pairType;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
 
     public String getContractName() {
         return contractName;

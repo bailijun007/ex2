@@ -60,12 +60,21 @@ public class ApiMongoDbController {
     @GetMapping("/get_mongo_data")
     public BaseResultViaApiDto<MongoDataInputDto,MongoDataOutputDto> getMongoData(
             @ApiParam(name="collection_name",value = "collection_name",required = true)
-            @RequestParam(name = "collection_name") String collectionName
+            @RequestParam(name = "collection_name") String collectionName,
+            @ApiParam(name="query_str",value = "query_str",required = true)
+            @RequestParam(name = "query_str") String queryStr,
+            @ApiParam(name="page_size",value = "page_size",required = true)
+            @RequestParam(name = "page_size") Integer pageSize,
+            @ApiParam(name="current_page",value = "current_page",required = true)
+            @RequestParam(name = "current_page") Integer currentPage
     ){
         //logger.info("打印日志--------------------->");
         MongoDataInputDto inputDto=new MongoDataInputDto();
         MongoDataOutputDto outputDto=new MongoDataOutputDto();
         inputDto.setCollectionName(collectionName);
+        inputDto.setQueryStr(queryStr);
+        inputDto.setPageSize(pageSize);
+        inputDto.setCurrentPage(currentPage);
         try{
             outputDto = service.getMongoData(inputDto);
 

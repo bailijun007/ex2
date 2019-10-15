@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class ContractValidateImpl implements IValidate<ContractInputDto> {
     @Override
     public void validate(ContractInputDto obj) throws ContractException {
-        if(obj.getPair()==null||obj.getPair().isEmpty())
+        if(obj.getSymbol()==null||obj.getSymbol().isEmpty())
             throw new ContractException(ContarctExceptionCode.Success);
     }
 }

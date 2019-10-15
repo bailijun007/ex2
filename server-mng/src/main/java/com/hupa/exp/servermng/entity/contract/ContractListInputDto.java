@@ -22,13 +22,13 @@ public class ContractListInputDto extends BaseInputDto {
         this.currentPage = currentPage;
     }
 
-    public String getPair() {
-        return pair;
+    public String getSymbol() {
+        return symbol;
     }
 
-    public void setPair(String pair) {
-        this.pair = pair;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
-    private String pair;
+    private String symbol;
 }

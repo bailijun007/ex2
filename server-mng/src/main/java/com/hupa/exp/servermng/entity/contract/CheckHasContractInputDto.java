@@ -3,13 +3,13 @@ package com.hupa.exp.servermng.entity.contract;
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 
 public class CheckHasContractInputDto extends BaseInputDto {
-    private String pair;
+    private String symbol;
 
-    public String getPair() {
-        return pair;
+    public String getSymbol() {
+        return symbol;
     }
 
-    public void setPair(String pair) {
-        this.pair = pair;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 }

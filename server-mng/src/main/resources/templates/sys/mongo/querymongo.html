@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head runat="server">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -9,47 +10,46 @@
     <link href="../../../static/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
     <link href="../../../static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
     <link href="../../../static/css/style.css?v=4.1.0" rel="stylesheet">
-    <link rel="stylesheet" href="../../../static/js/fixed-columns/css/bootstrap-table-fixed-columns.css">
-
-</head>
+    <link rel="stylesheet" href="../../../static/js/fixed-columns/css/bootstrap-table-fixed-columns.css"></head>
 
 <body class="gray-bg">
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="ibox float-e-margins">
         <div class="ibox-content">
             <div class="row row-lg">
+                <div class="col-sm-11" >
+                    <div class="form-group" style="width:20%; float: left;">
+                        <div class="col-sm-12">
+                        <select class="form-control input-outline" id="collection"></select>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-info" id="btn_addCondition">添加查询条件</button>
+                            <button type="button" class="btn btn-primary" id="btn_query">搜索</button>
+                        </span>
+                    </div>
+                </div>
+                    <div id="search">
+                    <select class="form-control input-outline" style="display: none" id="field"></select>
+                </div>
                 <div class="col-sm-12">
-
                     <div class="example-wrap">
                         <div class="example">
                             <div class="bootstrap-table">
                                 <div class="fixed-table-toolbar">
-                                    <div class="pull-left search">
-                                        <select class="form-control input-outline" id="collection">
-
-                                        </select>
-                                    </div>
-                                    <div class="pull-left search">
-                                        <select class="form-control input-outline" id="collection_field">
-
-                                        </select>
-                                    </div>
-                                    <div class="columns columns-left btn-group pull-left">
-                                        <button type="button" class="btn btn-primary" id="btn_query">搜索</button>
-                                    </div>
+                                    <div class="columns columns-left btn-group pull-left"></div>
                                 </div>
                                 <table id="tb_departments"></table>
                             </div>
                             <div class="clearfix"></div>
                         </div>
                     </div>
-                    <!-- End Example Events -->
-                </div>
+                    <!-- End Example Events --></div>
             </div>
         </div>
     </div>
-    <!-- End Panel Other -->
-</div>
+    <!-- End Panel Other --></div>
 <script src="../../../static/js/jquery.min.js?v=2.1.4"></script>
 <script src="../../../static/js/bootstrap.min.js?v=3.3.6"></script>
 <script src="../../../static/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
@@ -57,140 +57,218 @@
 <script src="../../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
 <script src="../../../static/js/plugins/layer/layer.min.js"></script>
 <script src="../../../static/js/LayerTool.js"></script>
-</body>
-</html>
-<script type="text/javascript">
-    var oTable;
-    var myColumns=[];
-    $(function () {
-        //1.初始化Table
-        oTable = new TableInit();
-        // oTable.Init();
+<!--下拉框检索-->
+<link href="../../../static/js/plugins/jquery.searchableSelect/jquery.searchableSelect.css" rel="stylesheet" />
+<script src="../../../static/js/plugins/jquery.searchableSelect/jquery.searchableSelect.js"></script>
 
-        $("#btn_query").click(function () {
-            $('#tb_departments').bootstrapTable('destroy');
-            oTable.Init();
-        });
-        $("#collection").change(function () {
-            bindCollectionField();
-        })
+</body>
+
+</html>
+<script type="text/javascript">var oTable;
+var myColumns = [];
+var condition=1;
+$(function() {
+    //1.初始化Table
+    oTable = new TableInit();
+    // oTable.Init();
+    //查询
+    $("#btn_query").click(function() {
+        $('#tb_departments').bootstrapTable('destroy');
+        oTable.Init();
 
     });
+    // //表名变更
+    // $("#collection").change(function() {
+    //     bindCollectionField("field",$(this).val());
+    //     $("#search").html("");
+    //     $('#tb_departments').bootstrapTable('destroy');
+    //     oTable.Init();
+    //
+    // })
 
-    function bindCollection() {
-        $.ajax({
-            type:"get",
-            async:false,
-            url:"/v1/http/mongo/get_collections",
-            contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
-            success:function(data) {
-                console.log(data)
-                if(data.data.collectionNames!=null)
-                {
-                    var html="";
-                    var collectionNames=data.data.collectionNames;
-                    for(var i=0;i<collectionNames.length;i++)
-                    {
-                        if(i==0)
-                        {
-                            html+="<option value='"+collectionNames[i]+"' selected='selected'>"+collectionNames[i]+"</option>";
-                        }
-
-                        else
-                            html+="<option value='"+collectionNames[i]+"'>"+collectionNames[i]+"</option>";
-                    }
-                    $("#collection").append(html);
-                }
+    $('#collection').searchableSelect(
+        {
+            //下拉索引修改后
+            afterSelectItem: function(){
+                bindCollectionField("field",this.holder.data("value"));
+                $("#search").html("");
+                $('#tb_departments').bootstrapTable('destroy');
+                oTable.Init();
+                condition=1;
             }
-        })
-    }
-    bindCollection();
-    function bindCollectionField() {
-        var param="?collection_name="+$("#collection").val();
-        $.ajax({
-            type:"get",
-            url:"/v1/http/mongo/get_collection_fields"+param,
-            contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
-            success:function(data) {
-                console.log(data)
-                if(data.data.fields!=null)
-                {
-                    var html="";
-                    var fields=data.data.fields;
-                    for(var i=0;i<fields.length;i++)
-                    {
-                        if(i==0)
-                            html+="<option value='"+fields[i]+"' selected='selected'>"+fields[i]+"</option>";
-                        else
-                            html+="<option value='"+fields[i]+"'>"+fields[i]+"</option>";
-                        var field=fields[i];
-                        if(field=="_id")
-                            field="id";
-                        myColumns.push({
-                            title: field,
-                            field: field
-                        });
+        }
+    );
+
+
+    //新增查询条件
+    $("#btn_addCondition").click(function () {
+        var html="";
+        html+='<div class="col-sm-11 search_div">';
+        html+='<div class="form-group" style="width: 15%; float: left;">';
+        html+='<div class="col-sm-12">';
+        html+='<select class="form-control input-outline search_field" id="field_'+condition+'"></select>';
+        html+='</div>';
+        html+='</div>';
+        html+='<div class="form-group" style="width: 15%; float: left;">';
+        html+='<select class="form-control input-outline search_condition" id="condition_'+condition+'">';
+        html+='<option value="=">=</option>'
+        html+='<option value=">">></option>'
+        html+='<option value="<"><</option>'
+        html+='<option value="≥">≥</option>'
+        html+='<option value="≤">≤</option>'
+        html+='</select>';
+        html+='</div>';
+        html+='<div class="form-group" style="width: 15%; float: left;">';
+        html+=' <input type="text" placeholder="请输入值" id="value_'+condition+'" class="form-control search_value">';
+        html+='</div>';
+        html+='</div>';
+        $("#search").append(html);
+        bindCollectionField("field_"+condition,$("#collection").val());
+        condition=condition+1;
+    })
+
+});
+
+function bindCollection() {
+    var first="";
+    $.ajax({
+        type: "get",
+        async: false,
+        url: "/v1/http/mongo/get_collections",
+        contentType: "application/json;charset=UTF-8",
+        //发送信息至服务器时内容编码类型。
+        success: function(data) {
+            console.log(data);
+            if (data.data.collectionNames != null) {
+                var html = "";
+                var collectionNames = data.data.collectionNames;
+                for (var i = 0; i < collectionNames.length; i++) {
+                    if (i == 0) {
+                        first=collectionNames[i];
+                        html += "<option value='" + collectionNames[i] + "' selected='selected'>" + collectionNames[i] + "</option>";
                     }
-                    $("#collection_field").append(html);
+
+                    else html += "<option value='" + collectionNames[i] + "'>" + collectionNames[i] + "</option>";
                 }
+                $("#collection").append(html);
             }
-        })
-    }
-    bindCollectionField();
+        }
+    })
+    bindCollectionField("field",first);
+}
 
-    var TableInit = function () {
-        var oTableInit = new Object();
-        //初始化Table
-        oTableInit.Init = function () {
+bindCollection();
 
-            $('#tb_departments').bootstrapTable({
-                url: '/v1/http/mongo/get_mongo_data',         //请求后台的URL（*）
-                method: 'get',                      //请求方式（*）
-                //toolbar: '#toolbar',                //工具按钮用哪个容器
-                //striped: true,                      //是否显示行间隔色
-                //cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
-                pagination: true,                   //是否显示分页（*）
-                //sortable: true,                     //是否启用排序
-                //sortOrder: "asc",                   //排序方式
-                queryParams: oTableInit.queryParams,//传递参数（*）
-                sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
-                pageNumber: 1,                       //初始化加载第一页，默认第一页
-                pageSize: 100,                       //每页的记录行数（*）
-                pageList: [10, 20, 50, 100],        //可供选择的每页的行数（*）
-                //search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
-                //strictSearch: true,
-                //showColumns: true,                  //是否显示所有的列
-                showRefresh: true,                  //是否显示刷新按钮
-                //minimumCountColumns: 2,             //最少允许的列数
-                //clickToSelect: false,               //是否启用点击选中行
-                //singleSelect:false,
-                //height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-                uniqueId: "id",                     //每一行的唯一标识，一般为主键列
-                //showToggle: true,                    //是否显示详细视图和列表视图的切换按钮
-                //cardView: false,                    //是否显示详细视图
-                //detailView: false,                   //是否显示父子表
-                columns:  myColumns,
-                responseHandler:function(res) {
-                var data=JSON.parse(res.data.page_data);
+function bindCollectionField(id,collection) {
+    myColumns=[];
+    var param = "?collection_name=" + collection;
+    $("#"+id+"").html();
+    $.ajax({
+        type: "get",
+        url: "/v1/http/mongo/get_collection_fields" + param,
+        contentType: "application/json;charset=UTF-8",
+        async:false,
+        //发送信息至服务器时内容编码类型。
+        success: function(data) {
+            console.log(data) ;
+            if(data.data.code!=0)
+
+            if (data.data.fields != null) {
+                var html = "";
+                var fields = data.data.fields;
+                for (var i = 0; i < fields.length; i++) {
+                    if (i == 0)
+                        html += "<option value='" + fields[i] + "' selected='selected'>" + fields[i] + "</option>";
+                    else
+                        html += "<option value='" + fields[i] + "'>" + fields[i] + "</option>";
+                    var field = fields[i];
+                    if (field == "_id") field = "id";
+                    myColumns.push({
+                        title: field,
+                        field: field
+                    });
+                }
+                $("#"+id+"").append(html);
+            }
+        }
+    })
+    // if(id!="field")
+    // {
+    //     $("#"+id+"").searchableSelect();
+    // }
+}
+
+var TableInit = function() {
+    var oTableInit = new Object();
+    //初始化Table
+    oTableInit.Init = function() {
+
+        $('#tb_departments').bootstrapTable({
+            url: '/v1/http/mongo/get_mongo_data',
+            //请求后台的URL（*）
+            method: 'get',
+            //请求方式（*）
+            //toolbar: '#toolbar',                //工具按钮用哪个容器
+            //striped: true,                      //是否显示行间隔色
+            //cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+            pagination: true,
+            //是否显示分页（*）
+            //sortable: true,                     //是否启用排序
+            //sortOrder: "asc",                   //排序方式
+            queryParams: oTableInit.queryParams,
+            //传递参数（*）
+            sidePagination: "client",
+            //分页方式：client客户端分页，server服务端分页（*）
+            pageNumber: 1,
+            //初始化加载第一页，默认第一页
+            pageSize: 10,
+            //每页的记录行数（*）
+            pageList: [10, 20, 50, 100],
+            //可供选择的每页的行数（*）
+            //search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+            //strictSearch: true,
+            //showColumns: true,                  //是否显示所有的列
+            showRefresh: true,
+            //是否显示刷新按钮
+            //minimumCountColumns: 2,             //最少允许的列数
+            //clickToSelect: false,               //是否启用点击选中行
+            //singleSelect:false,
+            //height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            uniqueId: "id",
+            //每一行的唯一标识，一般为主键列
+            //showToggle: true,                    //是否显示详细视图和列表视图的切换按钮
+            //cardView: false,                    //是否显示详细视图
+            //detailView: false,                   //是否显示父子表
+            columns: myColumns,
+            responseHandler: function(res) {
+                var data = JSON.parse(res.data.page_data);
                 return data.rows;
             }
-            });
-        };
-        oTableInit.queryParams = function (params) {
-            var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-                // page_size: params.limit,   //页面大小
-                // current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
-                // id: 0,
-                collection_name: $("#collection").val()
-            };
-            //console.log(temp);
-            return temp;
-        };
-        return oTableInit;
+        });
     };
+    oTableInit.queryParams = function(params) {
+        var queryStr= getSearch();
+        var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+            page_size: params.limit,   //页面大小
+            current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
+            query_str: queryStr,
+            collection_name: $("#collection").val()
+        };
+        //console.log(temp);
+        return temp;
+    };
+    return oTableInit;
+};
+function getSearch() {
+    var queryStr="";
+    $("#search .search_div").each(function () {
+        var field= $($(this).find(".search_field")).val();
+        var con= $($(this).find(".search_condition")).val();
+        var val= $($(this).find(".search_value")).val();
+        queryStr+=field+"|"+con+"|"+val+",";
+    })
+    //alert(queryStr);
+    return queryStr;
+}
 
 </script>
-
-
-
-

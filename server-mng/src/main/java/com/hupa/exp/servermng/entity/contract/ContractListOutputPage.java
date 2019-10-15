@@ -6,9 +6,10 @@ import java.math.BigDecimal;
 
 public class ContractListOutputPage {
     private String id;
-    private String pair;
-    @JsonProperty("pair_type")
-    private String pairType;
+    private String symbol;
+    @JsonProperty("symbol_type")
+    private String symbolType;
+    private String asset;
     private String currency;
     private String precision;
     @JsonProperty("contract_name")
@@ -29,6 +30,14 @@ public class ContractListOutputPage {
     private String privilege;
     private String ctime;
     private String mtime;
+
+    public String getAsset() {
+        return asset;
+    }
+
+    public void setAsset(String asset) {
+        this.asset = asset;
+    }
 
     public String getLastPrice() {
         return lastPrice;
@@ -70,20 +79,20 @@ public class ContractListOutputPage {
         this.id = id;
     }
 
-    public String getPair() {
-        return pair;
+    public String getSymbol() {
+        return symbol;
     }
 
-    public void setPair(String pair) {
-        this.pair = pair;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
-    public String getPairType() {
-        return pairType;
+    public String getSymbolType() {
+        return symbolType;
     }
 
-    public void setPairType(String pairType) {
-        this.pairType = pairType;
+    public void setSymbolType(String symbolType) {
+        this.symbolType = symbolType;
     }
 
     public String getCurrency() {

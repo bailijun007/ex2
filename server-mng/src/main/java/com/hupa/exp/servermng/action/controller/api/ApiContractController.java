@@ -34,12 +34,14 @@ public class ApiContractController {
     public BaseResultViaApiDto<ContractInputDto,ContractOutputDto> createOrEditContract(
             @ApiParam(name="id",value = "永续合约Id",required = true)
             @RequestParam(name = "id") long id,
-            @ApiParam(name="pair",value = "标的符号",required = true)
-            @RequestParam(name = "pair") String pair,
-            @ApiParam(name="pair_type",value = "标的类型",required = true)
-            @RequestParam(name = "pair_type") Integer pairType,
-            @ApiParam(name="currency",value = "计价货币符号",required = true)
-            @RequestParam(name = "currency") String currency,
+            @ApiParam(name="symbol",value = "标的符号",required = true)
+            @RequestParam(name = "symbol") String symbol,
+            @ApiParam(name="symbol_type",value = "标的类型",required = true)
+            @RequestParam(name = "symbol_type") Integer symbolType,
+            @ApiParam(name="asset",value = "标的类型",required = true)
+            @RequestParam(name = "asset") String asset,
+//            @ApiParam(name="currency",value = "计价货币符号",required = true)
+//            @RequestParam(name = "currency") String currency,
             @ApiParam(name="precision",value = "精度",required = true)
             @RequestParam(name = "precision") Integer precision,
             @ApiParam(name="contract_name",value = "合约名称",required = true)
@@ -66,9 +68,10 @@ public class ApiContractController {
     {
         ContractInputDto inputDto=new ContractInputDto();
         inputDto.setId(id);
-        inputDto.setPair(pair);
-        inputDto.setPairType(pairType);
-        inputDto.setCurrency(currency);
+        inputDto.setSymbol(symbol);
+        inputDto.setSymbolType(symbolType);
+        inputDto.setAsset(asset);
+        //inputDto.setCurrency(currency);
         inputDto.setPrecision(precision);
         inputDto.setContractName(contractName);
         inputDto.setDisplayName(displayName);
@@ -110,8 +113,8 @@ public class ApiContractController {
     @ApiOperation(value = "获取交易对列表")
     @GetMapping(path = "/query_list")
     public BaseResultViaApiDto<ContractListInputDto,ContractListOutputDto> getContractList(//
-            @ApiParam(name="pair",value = "标的符号",required = true)
-            @RequestParam(name = "pair",required = false) String pair,
+            @ApiParam(name="symbol",value = "标的符号",required = true)
+            @RequestParam(name = "symbol",required = false) String symbol,
             @ApiParam(name="page_size",value = "条数",required = true)
             @RequestParam(name = "page_size") Integer pageSize,
             @ApiParam(name="current_page",value = "页码",required = true)
@@ -119,7 +122,7 @@ public class ApiContractController {
     )
     {
         ContractListInputDto inputDto=new ContractListInputDto();
-        inputDto.setPair(pair);
+        inputDto.setSymbol(symbol);
         inputDto.setPageSize(pageSize);
         inputDto.setCurrentPage(currentPage);
         ContractListOutputDto outputDto=new ContractListOutputDto();
@@ -134,12 +137,12 @@ public class ApiContractController {
     @ApiOperation(value = "检查是否已存在")
     @PostMapping(path = "/check_has_contract")
     public BaseResultViaApiDto<CheckHasContractInputDto,CheckHasContractOutputDto> checkHasContract(//
-                                                                                                    @ApiParam(name="pair",value = "标的符号",required = true)
-                                                                                                    @RequestParam(name = "pair",required = false) String pair
+        @ApiParam(name="symbol",value = "标的符号",required = true)
+        @RequestParam(name = "symbol",required = false) String symbol
     )
     {
         CheckHasContractInputDto inputDto=new CheckHasContractInputDto();
-        inputDto.setPair(pair);
+        inputDto.setSymbol(symbol);
         CheckHasContractOutputDto outputDto=new CheckHasContractOutputDto();
         try {
             outputDto=iApiContractControllerService.checkHasContract(inputDto);
@@ -152,12 +155,12 @@ public class ApiContractController {
     @ApiOperation(value = "检查是否已存在")
     @PostMapping(path = "/check_last_price")
     public BaseResultViaApiDto<CheckHasLastPriceInputDto,CheckHasLastPriceOutputDto> checkHasLastPrice(//
-       @ApiParam(name="pair",value = "标的符号",required = true)
-       @RequestParam(name = "pair",required = false) String pair
+       @ApiParam(name="symbol",value = "标的符号",required = true)
+       @RequestParam(name = "symbol",required = false) String symbol
     )
     {
         CheckHasLastPriceInputDto inputDto=new CheckHasLastPriceInputDto();
-        inputDto.setPair(pair);
+        inputDto.setSymbol(symbol);
         CheckHasLastPriceOutputDto outputDto=new CheckHasLastPriceOutputDto();
         try {
             outputDto=iApiContractControllerService.checkHasLastPrice(inputDto);

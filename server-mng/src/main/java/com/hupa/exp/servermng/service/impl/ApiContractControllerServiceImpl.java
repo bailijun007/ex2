@@ -73,9 +73,9 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
                     JsonUtil.toJsonString(bo),"");
         }
         //查一下有没有最新成交价
-        if(iLastPriceBiz.get(inputDto.getPair())==null)
+        if(iLastPriceBiz.get(inputDto.getSymbol())==null)
         {
-            String redisKey= MessageFormat.format(bizPriceSettingConfig.getPcLastPriceRedisKey(),bo.getPair());
+            String redisKey= MessageFormat.format(bizPriceSettingConfig.getPcLastPriceRedisKey(),bo.getSymbol());
             RedisUtil.redisClientFactory(redisConfig).set(redisKey,DecimalUtil.toTrimLiteral(bo.getLastPrice()));
         }
         ContractOutputDto outputDto=new ContractOutputDto();
@@ -89,8 +89,9 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
         PcContractBizBo bo=iPcContractBiz.getContractById(inputDto.getId());
         GetContractOutputDto outputDto=new GetContractOutputDto();
         outputDto.setId(String.valueOf(bo.getId()));
-        outputDto.setPair(bo.getPair());
-        outputDto.setPairType(String.valueOf(bo.getPairType()));
+        outputDto.setSymbol(bo.getSymbol());
+        outputDto.setSymbolType(String.valueOf(bo.getSymbolType()));
+        outputDto.setAsset(bo.getAsset());
         outputDto.setCurrency(bo.getCurrency());
         outputDto.setPrecision(String.valueOf(bo.getPrecision()));
         outputDto.setContractName(bo.getContractName());
@@ -110,15 +111,16 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
 
     @Override
     public ContractListOutputDto selectPosPageByParam(ContractListInputDto inputDto) throws ContractException  {
-        PcContractListBizBo listBizBo= iPcContractBiz.selectPosPageByParam(inputDto.getPair(),inputDto.getCurrentPage(),inputDto.getPageSize());
+        PcContractListBizBo listBizBo= iPcContractBiz.selectPosPageByParam(inputDto.getSymbol(),inputDto.getCurrentPage(),inputDto.getPageSize());
         ContractListOutputDto outputDto=new ContractListOutputDto();
         List<ContractListOutputPage> pageList=new ArrayList<>();
         for(PcContractBizBo bo:listBizBo.getRows())
         {
             ContractListOutputPage po=new ContractListOutputPage();
             po.setId(String.valueOf(bo.getId()));
-            po.setPair(bo.getPair());
-            po.setPairType(String.valueOf(bo.getPairType()));
+            po.setSymbol(bo.getSymbol());
+            po.setSymbolType(String.valueOf(bo.getSymbolType()));
+            po.setAsset(bo.getAsset());
             po.setCurrency(bo.getCurrency());
             po.setPrecision(String.valueOf(bo.getPrecision()));
             po.setContractName(bo.getContractName());
@@ -143,7 +145,7 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
 
     @Override
     public CheckHasContractOutputDto checkHasContract(CheckHasContractInputDto inputDto) throws ContractException {
-        boolean hasContract = iPcContractBiz.checkHasContract(inputDto.getPair());
+        boolean hasContract = iPcContractBiz.checkHasContract(inputDto.getSymbol());
         CheckHasContractOutputDto outputDto=new CheckHasContractOutputDto();
         outputDto.setHasContract(hasContract);
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
@@ -153,7 +155,7 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
     @Override
     public CheckHasLastPriceOutputDto checkHasLastPrice(CheckHasLastPriceInputDto inputDto) throws ContractException {
         CheckHasLastPriceOutputDto outputDto=new CheckHasLastPriceOutputDto();
-        if(iLastPriceBiz.get(inputDto.getPair())!=null)
+        if(iLastPriceBiz.get(inputDto.getSymbol())!=null)
             outputDto.setHasLastPrice(true);
         else
             outputDto.setHasLastPrice(false);

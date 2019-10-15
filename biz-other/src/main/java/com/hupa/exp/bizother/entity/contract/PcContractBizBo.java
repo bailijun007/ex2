@@ -5,8 +5,9 @@ import java.math.BigDecimal;
 public class PcContractBizBo {
 
     private Long id;
-    private String pair;
-    private Integer pairType;
+    private String symbol;
+    private Integer symbolType;
+    private String asset;
     private String currency;
     private Integer precision;
     private String contractName;
@@ -22,6 +23,13 @@ public class PcContractBizBo {
     private Long ctime;
     private Long mtime;
 
+    public String getAsset() {
+        return asset;
+    }
+
+    public void setAsset(String asset) {
+        this.asset = asset;
+    }
 
     public BigDecimal getLastPrice() {
         return lastPrice;
@@ -63,20 +71,20 @@ public class PcContractBizBo {
         this.id = id;
     }
 
-    public String getPair() {
-        return pair;
+    public String getSymbol() {
+        return symbol;
     }
 
-    public void setPair(String pair) {
-        this.pair = pair;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
-    public Integer getPairType() {
-        return pairType;
+    public Integer getSymbolType() {
+        return symbolType;
     }
 
-    public void setPairType(Integer pairType) {
-        this.pairType = pairType;
+    public void setSymbolType(Integer symbolType) {
+        this.symbolType = symbolType;
     }
 
     public String getCurrency() {
