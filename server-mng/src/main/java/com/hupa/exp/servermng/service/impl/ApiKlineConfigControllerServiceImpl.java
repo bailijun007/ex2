@@ -31,10 +31,11 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
 
     @Override
     public KlineConfigInfoOutputDto queryKlineConfigById(KlineConfigInfoInputDto inputDto) throws BizException {
-        ExpKlineConfigBizBo bo=configService.querySmsTempById(inputDto.getId());
+        ExpKlineConfigBizBo bo=configService.queryKlineConfigById(inputDto.getId());
         KlineConfigInfoOutputDto outputDto=new KlineConfigInfoOutputDto();
         outputDto.setId(String.valueOf(bo.getId()));
-        outputDto.setPair(bo.getPair());
+        outputDto.setSymbol(bo.getSymbol());
+        outputDto.setAsset(bo.getAsset());
         outputDto.setStatus(String.valueOf(bo.getStatus()));
         outputDto.setKlineInterval(bo.getKlineInterval());
         outputDto.setStatTime(String.valueOf(bo.getStatTime()));
@@ -55,13 +56,14 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
     @Override
     public KlineConfigListOutputDto queryKlineConfigList(KlineConfigListInputDto inputDto) throws BizException {
         KlineConfigListOutputDto outputDto=new KlineConfigListOutputDto();
-        ExpKlineConfigListBizBo boList=configService.querySmsTempList(inputDto.getCurrentPage(),inputDto.getPageSize());
+        ExpKlineConfigListBizBo boList=configService.queryKlineConfigList(inputDto.getCurrentPage(),inputDto.getPageSize());
         List<KlineConfigListOutputPage> pageList=new ArrayList<>();
         for(ExpKlineConfigBizBo bo:boList.getRows())
         {
             KlineConfigListOutputPage po=new KlineConfigListOutputPage();
             po.setId(String.valueOf(bo.getId()));
-            po.setPair(bo.getPair());
+            po.setSymbol(bo.getSymbol());
+            po.setAsset(bo.getAsset());
             po.setStatus(String.valueOf(bo.getStatus()));
             po.setKlineInterval(bo.getKlineInterval());
             po.setStatTime(String.valueOf(bo.getStatTime()));

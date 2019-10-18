@@ -4,12 +4,29 @@ import org.omg.PortableInterceptor.INACTIVE;
 
 public class ExpKlineConfigBizBo {
     private long id;
-    private String pair;
+    private String symbol;
+    private String asset;
     private Integer status;
     private Integer type;
     private String klineInterval;
     private Long statTime;
     private Long endTime;
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public String getAsset() {
+        return asset;
+    }
+
+    public void setAsset(String asset) {
+        this.asset = asset;
+    }
 
     public Integer getType() {
         return type;
@@ -43,13 +60,6 @@ public class ExpKlineConfigBizBo {
         this.id = id;
     }
 
-    public String getPair() {
-        return pair;
-    }
-
-    public void setPair(String pair) {
-        this.pair = pair;
-    }
 
     public Integer getStatus() {
         return status;

@@ -9,7 +9,7 @@ public interface IKlineConfigService {
 
     long editKlineConfig(ExpKlineConfigBizBo bo) throws BizException;
 
-    ExpKlineConfigListBizBo querySmsTempList(long currentPage, long pageSize)throws BizException;
+    ExpKlineConfigListBizBo queryKlineConfigList(long currentPage, long pageSize)throws BizException;
 
-    ExpKlineConfigBizBo querySmsTempById(long id)throws BizException;
+    ExpKlineConfigBizBo queryKlineConfigById(long id)throws BizException;
 }

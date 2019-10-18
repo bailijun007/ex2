@@ -105,12 +105,15 @@
                         }),
                     success: function (data) {
                         //console.log(data);
-                        document.cookie
-                        sessionStorage.setItem('token',data.data.loginBizBo.token);
+
                         if(data.code==0)
+                        {
+                            document.cookie
+                            sessionStorage.setItem('token',data.data.loginBizBo.token);
                             window.location.href="index.html";
+                        }
                         else
-                            layer.msg(data.error.patternName);
+                            layer.msg(data.msg, { offset: '37.5%' });
                     }
                 });
             }

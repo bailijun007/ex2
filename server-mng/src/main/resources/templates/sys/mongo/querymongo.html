@@ -25,7 +25,8 @@
                     </div>
                     <div class="input-group">
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-info" id="btn_addCondition">添加查询条件</button>
+                            <button type="button" class="btn btn-primary" id="btn_addCondition">添加查询条件</button>
+                            <button type="button" class="btn btn-warning" id="btn_clearCondition">清除查询条件</button>
                             <button type="button" class="btn btn-primary" id="btn_query">搜索</button>
                         </span>
                     </div>
@@ -67,6 +68,8 @@
 <script type="text/javascript">var oTable;
 var myColumns = [];
 var condition=1;
+var searcheDiv=1;
+var searcheChildDiv=1;
 $(function() {
     //1.初始化Table
     oTable = new TableInit();
@@ -75,8 +78,8 @@ $(function() {
     $("#btn_query").click(function() {
         $('#tb_departments').bootstrapTable('destroy');
         oTable.Init();
-
     });
+
     // //表名变更
     // $("#collection").change(function() {
     //     bindCollectionField("field",$(this).val());
@@ -95,6 +98,8 @@ $(function() {
                 $('#tb_departments').bootstrapTable('destroy');
                 oTable.Init();
                 condition=1;
+                searcheDiv=1;
+                searcheChildDiv=1;
             }
         }
     );
@@ -102,29 +107,19 @@ $(function() {
 
     //新增查询条件
     $("#btn_addCondition").click(function () {
-        var html="";
-        html+='<div class="col-sm-11 search_div">';
-        html+='<div class="form-group" style="width: 15%; float: left;">';
-        html+='<div class="col-sm-12">';
-        html+='<select class="form-control input-outline search_field" id="field_'+condition+'"></select>';
-        html+='</div>';
-        html+='</div>';
-        html+='<div class="form-group" style="width: 15%; float: left;">';
-        html+='<select class="form-control input-outline search_condition" id="condition_'+condition+'">';
-        html+='<option value="=">=</option>'
-        html+='<option value=">">></option>'
-        html+='<option value="<"><</option>'
-        html+='<option value="≥">≥</option>'
-        html+='<option value="≤">≤</option>'
-        html+='</select>';
-        html+='</div>';
-        html+='<div class="form-group" style="width: 15%; float: left;">';
-        html+=' <input type="text" placeholder="请输入值" id="value_'+condition+'" class="form-control search_value">';
-        html+='</div>';
-        html+='</div>';
+        var html=getSearchDiv();
         $("#search").append(html);
         bindCollectionField("field_"+condition,$("#collection").val());
         condition=condition+1;
+    })
+    //移除查询条件
+    $("#btn_clearCondition").click(function () {
+        $("#search").html("");
+        condition=1;
+        searcheDiv=1;
+        searcheChildDiv=1;
+        $('#tb_departments').bootstrapTable('destroy');
+        oTable.Init();
     })
 
 });
@@ -198,6 +193,138 @@ function bindCollectionField(id,collection) {
     // }
 }
 
+
+
+function conditionChange(obj) {
+    var id=$(obj).parent().parent().attr("id");
+    alert(id);
+    if($(obj).val()=="and"||$(obj).val()=="or")
+    {
+        $(obj).parent().parent().html("");
+        var html=getSearchChildDiv();
+        html+='<div class="col-sm-11 search_child_condition_div">';
+        html+='<div class="form-group" style="width: 15%; float: left;">';
+        html+='<select class="form-control input-outline parent_search_condition"  onchange="parentConditionChange(this)" id="condition_'+condition+'">';
+        html+='<option value="=">=</option>';
+        html+='<option value=">">></option>';
+        html+='<option value="<"><</option>';
+        html+='<option value="≥">≥</option>';
+        html+='<option value="≤">≤</option>';
+        if($(obj).val()=="and")
+        {
+            html+='<option value="and" selected="selected">and</option>';
+        }
+        else
+        {
+            html+='<option value="and">and</option>';
+        }
+        if($(obj).val()=="or") {
+            html += '<option value="or" selected="selected">or</option>';
+        }
+        else
+        {
+            html += '<option value="or">or</option>';
+        }
+        html+='</select>';
+        html+='</div>';
+        // if($("#btn_"+$(obj).attr("id")+"").length>0)
+        //     return;
+        html+='<div class="form-group" style="width: 15%; float: left;">';
+        html+='<input type="button" onclick="parentConditionClick(this)" value="添加键值" id="btn_'+$(obj).attr("id")+'" class="btn btn-info">';
+        html+='</div>';
+        html+='</div>';
+        $("#"+id+"").append(html);
+        bindCollectionField("field_"+condition,$("#collection").val());
+        condition=condition+1;
+    }
+    else
+    {
+        $("#"+id+"").html("");
+        var html=getSearchDiv();
+        $("#"+id+"").append(html);
+        bindCollectionField("field_"+condition,$("#collection").val());
+    }
+}
+
+function parentConditionChange(obj) {
+    var id=$(obj).parent().parent().parent().attr("id");
+    $("#"+id+"").html("");
+    var html=getSearchDiv();
+    $("#"+id+"").append(html);
+    bindCollectionField("field_"+condition,$("#collection").val());
+}
+
+function btnConditionClick(obj) {
+    //var valueNo=$(obj).parent().parent().find("input[type=text]").length +1;
+    var html=getSearchDiv();
+    $(obj).parent().parent().before(html);
+    //$("#search").append(html);
+    bindCollectionField("field_"+condition,$("#collection").val());
+    condition=condition+1;
+}
+
+function parentConditionClick(obj) {
+    //var valueNo=$(obj).parent().parent().find("input[type=text]").length +1;
+    var html=getSearchChildDiv();
+    $(obj).parent().parent().before(html);
+    //$("#search").append(html);
+    bindCollectionField("field_"+condition,$("#collection").val());
+    condition=condition+1;
+}
+//查询条件的HTML
+function getSearchDiv() {
+    var html="";
+    html+='<div class="col-sm-11 search_div" id="searcheDiv_'+searcheDiv+'">';
+    html+='<div class="form-group" style="width: 15%; float: left;">';
+    html+='<select class="form-control input-outline search_field" id="field_'+condition+'"></select>';
+    html+='</div>';
+    html+='<div class="form-group" style="width: 15%; float: left;">';
+    html+='<select class="form-control input-outline search_condition"  onchange="conditionChange(this)" id="condition_'+condition+'">';
+    html+='<option value="=">=</option>';
+    html+='<option value=">">></option>';
+    html+='<option value="<"><</option>';
+    html+='<option value="≥">≥</option>';
+    html+='<option value="≤">≤</option>';
+    html+='<option value="and">and</option>';
+    html+='<option value="or">or</option>';
+    html+='</select>';
+    html+='</div>';
+    html+='<div class="form-group" style="width: 15%; float: left;">';
+    html+=' <input type="text" placeholder="请输入值" id="value_'+condition+'" class="form-control search_value">';
+    html+='</div>';
+    html+='</div>';
+    // condition=condition+1;
+    searcheDiv=searcheDiv+1;
+    return html;
+}
+
+//查询条件的HTML
+function getSearchChildDiv() {
+    var html="";
+    html+='<div class="col-sm-11 search_child_div" id="searcheChildDiv_'+searcheChildDiv+'">';
+    html+='<div class="form-group" style="width: 15%; float: left;">';
+    html+='<select class="form-control input-outline search_field" id="field_'+condition+'"></select>';
+    html+='</div>';
+    html+='<div class="form-group" style="width: 15%; float: left;">';
+    html+='<select class="form-control input-outline search_condition"  onchange="conditionChange(this)" id="condition_'+condition+'">';
+    html+='<option value="=">=</option>';
+    html+='<option value=">">></option>';
+    html+='<option value="<"><</option>';
+    html+='<option value="≥">≥</option>';
+    html+='<option value="≤">≤</option>';
+    html+='<option value="and">and</option>';
+    html+='<option value="or">or</option>';
+    html+='</select>';
+    html+='</div>';
+    html+='<div class="form-group" style="width: 15%; float: left;">';
+    html+=' <input type="text" placeholder="请输入值" id="value_'+condition+'" class="form-control search_value">';
+    html+='</div>';
+    html+='</div>';
+    // condition=condition+1;
+    searcheChildDiv=searcheChildDiv+1;
+    return html;
+}
+
 var TableInit = function() {
     var oTableInit = new Object();
     //初始化Table
@@ -262,12 +389,28 @@ var TableInit = function() {
 function getSearch() {
     var queryStr="";
     $("#search .search_div").each(function () {
-        var field= $($(this).find(".search_field")).val();
-        var con= $($(this).find(".search_condition")).val();
-        var val= $($(this).find(".search_value")).val();
-        queryStr+=field+"|"+con+"|"+val+",";
+        if($(this).find(".search_child_div").length>0)
+        {
+            var searchCondition= $($(this).find(".search_child_condition_div").find(".parent_search_condition")).val();
+            queryStr+=searchCondition+"-";
+            $(this).find(".search_child_div").each(function () {
+                var field= $($(this).find(".search_field")).val();
+                var con= $($(this).find(".search_condition")).val();
+                var val= $($(this).find(".search_value")).val();
+                queryStr+=field+"|"+con+"|"+val+",";
+            })
+            queryStr=queryStr.substr(0,queryStr.length-1)+";"
+        }
+        else
+        {
+            var field= $($(this).find(".search_field")).val();
+            var con= $($(this).find(".search_condition")).val();
+            var val= $($(this).find(".search_value")).val();
+            queryStr+=field+"|"+con+"|"+val+";";
+        }
     })
-    //alert(queryStr);
+    queryStr=queryStr.substr(0,queryStr.length-1);
+    alert(queryStr);
     return queryStr;
 }
 

@@ -9,11 +9,15 @@ import com.hupa.exp.bizother.entity.account.UserPcFee;
 import com.hupa.exp.bizother.service.account.def.IPcFeeBiz;
 import com.hupa.exp.common.component.redis.RedisUtil;
 import com.hupa.exp.common.tool.format.JsonUtil;
-import com.hupa.exp.daomysql.dao.expv2.def.*;
-import com.hupa.exp.daomysql.entity.po.expv2.CoinPo;
+import com.hupa.exp.daomongo.dao.expv2.def.IFundWithdrawSymbolMongoDao;
+import com.hupa.exp.daomongo.entity.po.expv2mongo.FundWithdrawSymbolMongoPo;
+import com.hupa.exp.daomysql.dao.expv2.def.IAssetDao;
+import com.hupa.exp.daomysql.dao.expv2.def.IExpUserDao;
+import com.hupa.exp.daomysql.dao.expv2.def.IPcFeeDao;
+import com.hupa.exp.daomysql.dao.expv2.def.IPcTradeVolumeDao;
+import com.hupa.exp.daomysql.entity.po.expv2.AssetPo;
 import com.hupa.exp.daomysql.entity.po.expv2.ExpUserPo;
 import com.hupa.exp.daomysql.entity.po.expv2.PcFeePo;
-import com.hupa.exp.daomysql.entity.po.expv2mongo.FundWithdrawSymbolMongoPo;
 import com.hupa.exp.util.convent.ConventObjectUtil;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -40,10 +44,10 @@ public class PcFeeBizImpl implements IPcFeeBiz {
     private IExpUserDao iExpUserDao;
 
     @Autowired
-    private ICoinDao iCoinDao;
+    private IAssetDao iCoinDao;
 
     @Autowired
-    private IFundWithdrawSymbolDao iFundWithdrawSymbolDao;
+    private IFundWithdrawSymbolMongoDao iFundWithdrawSymbolDao;
 
     @Autowired
     private BizAccountComponent bizAccountComponent;
@@ -114,21 +118,21 @@ public class PcFeeBizImpl implements IPcFeeBiz {
         userPcFee.setTakerFee(user.getTakerFee());
         String minTime=DateTime.now().toString("yyyy-MM-dd "+"00:00:00");
         long nowDay=DateTime.parse(minTime, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")).getMillis();
-        List<CoinPo> coinPoList= iCoinDao.selectList();
+        List<AssetPo> coinPoList= iCoinDao.selectList();
         BigDecimal sumWithdrawVolume=new BigDecimal("0");
-        for(CoinPo coinPo:coinPoList)
+        for(AssetPo coinPo:coinPoList)
         {
-           List<FundWithdrawSymbolMongoPo> fundWithdrawList=  iFundWithdrawSymbolDao.selectFundWithdrawPoByTime(id,coinPo.getCoinName(),nowDay);
+           List<FundWithdrawSymbolMongoPo> fundWithdrawList=  iFundWithdrawSymbolDao.selectFundWithdrawPoByTime(id,coinPo.getRealName(),nowDay);
             for(FundWithdrawSymbolMongoPo fundWithdrawPo:fundWithdrawList)
             {
                 BigDecimal volume=new BigDecimal("0");
-                if(coinPo.getCoinName().equals("BTC"))
+                if(coinPo.getRealName().equals("BTC"))
                 {
                     volume=fundWithdrawPo.getVolume();
                 }
                 else {
                     volume=  bizAccountComponent.calcAssetValuationBtc("BTC",
-                            coinPo.getCoinName(), fundWithdrawPo.getVolume());
+                            coinPo.getRealName(), fundWithdrawPo.getVolume());
                 }
                 sumWithdrawVolume.add(volume);
             }

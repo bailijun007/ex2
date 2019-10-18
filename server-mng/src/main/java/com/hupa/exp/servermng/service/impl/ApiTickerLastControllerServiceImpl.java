@@ -5,7 +5,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.daomysql.dao.expv2.def.IPcTickerLastDataDao;
-import com.hupa.exp.daomysql.entity.po.PcTickerLastDataPo;
+import com.hupa.exp.daomysql.entity.po.expv2.PcTickerLastDataPo;
 import com.hupa.exp.servermng.entity.tickerlast.PcTickerLastPageDataInputDto;
 import com.hupa.exp.servermng.entity.tickerlast.PcTickerLastPageDataOutputDto;
 import com.hupa.exp.servermng.service.def.IApiTickerLastControllerService;

@@ -2,22 +2,46 @@ package com.hupa.exp.bizother.entity.account;
 
 import java.math.BigDecimal;
 
-public class CoinBizBo {
+public class AssetBizBo {
     private Long id;
-
-    private Integer chainCoinId;
-    private String coinName;
+    private Integer chainAppointId;
+    private String realName;
     private String displayName;
     private String chainName;
     private BigDecimal precision;
     private Integer privilege;
     private Integer status;
     private Integer sort;
+    private BigDecimal minDepositVolume;
     private BigDecimal minWithdrawVolume;
     private BigDecimal  withdrawFee;
     private String chainTransactionUrl;
     private Long ctime;
     private Long mtime;
+
+    public Integer getChainAppointId() {
+        return chainAppointId;
+    }
+
+    public void setChainAppointId(Integer chainAppointId) {
+        this.chainAppointId = chainAppointId;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public BigDecimal getMinDepositVolume() {
+        return minDepositVolume;
+    }
+
+    public void setMinDepositVolume(BigDecimal minDepositVolume) {
+        this.minDepositVolume = minDepositVolume;
+    }
 
     public Integer getSort() {
         return sort;
@@ -51,13 +75,6 @@ public class CoinBizBo {
         this.withdrawFee = withdrawFee;
     }
 
-    public Integer getChainCoinId() {
-        return chainCoinId;
-    }
-
-    public void setChainCoinId(Integer chainCoinId) {
-        this.chainCoinId = chainCoinId;
-    }
 
     public Long getId() {
         return id;
@@ -67,15 +84,6 @@ public class CoinBizBo {
         this.id = id;
     }
 
-
-
-    public String getCoinName() {
-        return coinName;
-    }
-
-    public void setCoinName(String coinName) {
-        this.coinName = coinName;
-    }
 
     public String getDisplayName() {
         return displayName;

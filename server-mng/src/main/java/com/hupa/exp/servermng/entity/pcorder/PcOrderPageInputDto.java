@@ -1,7 +1,7 @@
 package com.hupa.exp.servermng.entity.pcorder;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
-import com.hupa.exp.daomysql.enums.SortEnum;
+import com.hupa.exp.daomongo.enums.MongoSortEnum;
 
 import java.math.BigDecimal;
 
@@ -9,13 +9,22 @@ public class PcOrderPageInputDto extends BaseInputDto {
     private String account;
     private Long orderId;
     private Long accountId;
-    private String pair;
+    private String asset;
+    private String symbol;
     private Integer closeFlag;
     private Integer status;
     private long currentPage;
     private int pageSize;
-    private SortEnum sortEnum;
+    private MongoSortEnum sortEnum;
     private BigDecimal price;
+
+    public String getAsset() {
+        return asset;
+    }
+
+    public void setAsset(String asset) {
+        this.asset = asset;
+    }
 
     public BigDecimal getPrice() {
         return price;
@@ -49,13 +58,15 @@ public class PcOrderPageInputDto extends BaseInputDto {
         this.accountId = accountId;
     }
 
-    public String getPair() {
-        return pair;
+    public String getSymbol() {
+        return symbol;
     }
 
-    public void setPair(String pair) {
-        this.pair = pair;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
+
+
 
     public Integer getCloseFlag() {
         return closeFlag;
@@ -89,11 +100,11 @@ public class PcOrderPageInputDto extends BaseInputDto {
         this.pageSize = pageSize;
     }
 
-    public SortEnum getSortEnum() {
+    public MongoSortEnum getSortEnum() {
         return sortEnum;
     }
 
-    public void setSortEnum(SortEnum sortEnum) {
+    public void setSortEnum(MongoSortEnum sortEnum) {
         this.sortEnum = sortEnum;
     }
 }

@@ -43,8 +43,10 @@ public class ApiPcOrderController {
             @RequestParam(name = "order_id") Long orderId,
             @ApiParam(name="account_id",value ="账户id" ,required = true)
             @RequestParam(name = "account_id") Long accountId,
-            @ApiParam(name="pair",value ="交易对" ,required = true)
-            @RequestParam(name = "pair") String pair,
+            @ApiParam(name="symbol",value ="交易对" ,required = true)
+            @RequestParam(name = "symbol") String symbol,
+            @ApiParam(name="asset",value ="交易对" ,required = true)
+            @RequestParam(name = "asset") String asset,
             @ApiParam(name="close_flag",value ="状态" ,required = true)
             @RequestParam(name = "close_flag") Integer closeFlag,
             @ApiParam(name="status",value ="状态" ,required = true)
@@ -62,7 +64,8 @@ public class ApiPcOrderController {
         inputDto.setAccount(account);
         inputDto.setOrderId(orderId);
         inputDto.setAccountId(accountId);
-        inputDto.setPair(pair);
+        inputDto.setSymbol(symbol);
+        inputDto.setAsset(asset);
         inputDto.setCloseFlag(closeFlag);
         inputDto.setStatus(status);
         price=price==null?new BigDecimal("0"):price;

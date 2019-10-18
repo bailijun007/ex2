@@ -38,7 +38,7 @@ public class KlineConfigServiceImpl implements IKlineConfigService {
     }
 
     @Override
-    public ExpKlineConfigListBizBo querySmsTempList(long currentPage, long pageSize) throws BizException {
+    public ExpKlineConfigListBizBo queryKlineConfigList(long currentPage, long pageSize) throws BizException {
         ExpKlineConfigListBizBo listBizBo=new ExpKlineConfigListBizBo();
         List<ExpKlineConfigBizBo> boList=new ArrayList();
         IPage<ExpKlineRequestConfigPo> list=configDao.selectConfigList(currentPage,pageSize);
@@ -54,7 +54,7 @@ public class KlineConfigServiceImpl implements IKlineConfigService {
     }
 
     @Override
-    public ExpKlineConfigBizBo querySmsTempById(long id) throws BizException {
+    public ExpKlineConfigBizBo queryKlineConfigById(long id) throws BizException {
         ExpKlineRequestConfigPo po= configDao.selectPoById(id);
         if(po==null)
             return null;

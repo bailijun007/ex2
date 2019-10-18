@@ -20,7 +20,7 @@ public class ApiAssertChangeControllerServiceImpl implements IApiAssertChangeCon
     private IAssertChangBiz iAssertChangBiz;
     @Override
     public FundAssertChangeOutputDto getFundAssertChange(FundAssertChangeInputDto inputDto) {
-        FundAssertChangeMongoBizBo bo= iAssertChangBiz.queryFundAssertChangePoById(
+        FundAssertChangeMongoBizBo bo= iAssertChangBiz.queryFundAssetChangePoById(
                 inputDto.getId(), inputDto.getSymbol());
         FundAssertChangeOutputDto outputDto=new FundAssertChangeOutputDto();
         if(bo!=null)
@@ -50,7 +50,7 @@ public class ApiAssertChangeControllerServiceImpl implements IApiAssertChangeCon
 
     @Override
     public FundAssertChangeListOutputDto getFundAssertChangeList(FundAssertChangeListInputDto inputDto) {
-        FundAssertChangeMongoPageBizBo pageBizBo= iAssertChangBiz.queryFundAssertPageData(
+        FundAssertChangeMongoPageBizBo pageBizBo= iAssertChangBiz.queryFundAssetPageData(
                 inputDto.getSymbol(),inputDto.getId(),
                 inputDto.getCurrentPage(),inputDto.getPageSize());
         List<FundAssertChangeOutputDto> list=new ArrayList<>();

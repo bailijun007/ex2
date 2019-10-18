@@ -92,7 +92,7 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
         outputDto.setSymbol(bo.getSymbol());
         outputDto.setSymbolType(String.valueOf(bo.getSymbolType()));
         outputDto.setAsset(bo.getAsset());
-        outputDto.setCurrency(bo.getCurrency());
+        //outputDto.setCurrency(bo.getCurrency());
         outputDto.setPrecision(String.valueOf(bo.getPrecision()));
         outputDto.setContractName(bo.getContractName());
         outputDto.setDisplayName(bo.getDisplayName());
@@ -121,7 +121,7 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
             po.setSymbol(bo.getSymbol());
             po.setSymbolType(String.valueOf(bo.getSymbolType()));
             po.setAsset(bo.getAsset());
-            po.setCurrency(bo.getCurrency());
+            //po.setCurrency(bo.getCurrency());
             po.setPrecision(String.valueOf(bo.getPrecision()));
             po.setContractName(bo.getContractName());
             po.setDisplayName(bo.getDisplayName());

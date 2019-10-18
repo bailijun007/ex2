@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @Component
-public class LoginFilterImpl extends HandlerInterceptorAdapter {
+public class AuthSecurityInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
     private SessionHelper sessionHelper;
@@ -31,6 +31,9 @@ public class LoginFilterImpl extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler)throws Exception
     {
+        RequestWrapper requestWrapper = new RequestWrapper(request);
+        String body = requestWrapper.getBody();
+        System.out.println("请求链接："+request.getRequestURL()+"请求方式："+request.getMethod()+"请求参数："+body);
         //System.out.println("我是拦截器：我证明我进来了");
         if(!request.getRequestURI().equals("/")&&!request.getRequestURI().contains("login"))
         {

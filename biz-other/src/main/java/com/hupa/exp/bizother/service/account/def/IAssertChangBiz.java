@@ -13,9 +13,9 @@ import java.util.Collection;
  */
 public interface IAssertChangBiz {
 
-    FundAssertChangeMongoPageBizBo queryFundAssertPageData(String symbol, long id, long currentPage, int pageSize);
+    FundAssertChangeMongoPageBizBo queryFundAssetPageData(String symbol, long id, long currentPage, int pageSize);
 
-    FundAssertChangeMongoBizBo queryFundAssertChangePoById(long id, String symbol);
+    FundAssertChangeMongoBizBo queryFundAssetChangePoById(long id, String symbol);
 
     PcAssertChangeMongoPageBizBo queryPcAssertPageData(String symbol, long id, long currentPage, int pageSize);
 

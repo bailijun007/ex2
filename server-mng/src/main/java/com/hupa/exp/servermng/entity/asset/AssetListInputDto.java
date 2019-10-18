@@ -1,10 +1,19 @@
-package com.hupa.exp.servermng.entity.coin;
+package com.hupa.exp.servermng.entity.asset;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 
-public class CoinListInputDto extends BaseInputDto {
+public class AssetListInputDto extends BaseInputDto {
+    private String realName;
     private Integer pageSize;
     private Integer currentPage;
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
 
     public Integer getPageSize() {
         return pageSize;

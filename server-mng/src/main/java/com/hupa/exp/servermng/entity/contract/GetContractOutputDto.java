@@ -11,7 +11,7 @@ public class GetContractOutputDto extends BaseOutputDto {
     @JsonProperty("symbol_type")
     private String symbolType;
     private String asset;
-    private String currency;
+//    private String currency;
     private String precision;
     @JsonProperty("contract_name")
     private String contractName;
@@ -95,14 +95,14 @@ public class GetContractOutputDto extends BaseOutputDto {
     public void setSymbolType(String symbolType) {
         this.symbolType = symbolType;
     }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
+//
+//    public String getCurrency() {
+//        return currency;
+//    }
+//
+//    public void setCurrency(String currency) {
+//        this.currency = currency;
+//    }
 
     public String getContractName() {
         return contractName;

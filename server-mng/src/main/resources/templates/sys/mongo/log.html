@@ -100,6 +100,21 @@
         </div>
     </div>
 </div>
+
+
+<div class="col-sm-11 search_div" id="searcheDiv_1">
+<div class="form-group" style="width: 15%; float: left; ">
+<select class="form-control input-outline search_field " id="field_1 "></select></div><div class="form-group " style="width: 15%; float: left; "><select class="form-control input-outline search_condition "  onchange="conditionChange(this) " id="condition_1 "><option value="=">=</option><option value=">">></option>
+    <option value="<">
+        <</option>
+    <option value="≥">≥</option>
+    <option value="≤">≤</option>
+    <option value="and">and</option>
+    <option value="or">or</option></select>
+</div>
+<div class="form-group" style="width: 15%; float: left;">
+    <input type="text" placeholder="请输入值" id="value_1" class="form-control search_value"></div>
+</div>
 <!-- 全局js -->
 <script src="../../../static/js/jquery.min.js"></script>
 <script src="../../../static/js/bootstrap.min.js"></script>
@@ -140,7 +155,7 @@
                         if (data.data != null) {
                             $("#id").val(data.data.id);
                             $("#symbol").val(data.data.symbol);
-                            $("#coin_name").val(data.data.coinName);
+                            $("#coin_name").val(data.data.assetName);
                             $("#display_name").val(data.data.displayName);
                             $("#chain_name").val(data.data.chainName);
                             $("#precision").val(data.data.precision);

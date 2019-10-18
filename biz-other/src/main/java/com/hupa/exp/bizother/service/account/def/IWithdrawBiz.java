@@ -12,7 +12,7 @@ import com.hupa.exp.bizother.entity.account.QueryFundWithdrawHistoryBizBo;
  */
 public interface IWithdrawBiz {
 
-    FundWithdrawMongoPageBizBo selectFundWithdrawPageData(String account, String symbol, long id, long currentPage, int pageSize);
+    FundWithdrawMongoPageBizBo selectFundWithdrawPageData(Long accountId, String symbol, long id, long currentPage, int pageSize);
 
 
     FundWithdrawMongoBizBo selectFundWithdrawById(long id, String symbol);

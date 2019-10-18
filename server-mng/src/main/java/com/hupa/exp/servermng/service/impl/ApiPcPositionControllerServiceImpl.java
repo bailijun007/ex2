@@ -3,12 +3,12 @@ package com.hupa.exp.servermng.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.hupa.exp.common.exception.BizException;
+import com.hupa.exp.daomongo.dao.expv2.def.IPcPosAssetSymbolMongoDao;
+import com.hupa.exp.daomongo.entity.po.expv2mongo.MongoPage;
+import com.hupa.exp.daomongo.entity.po.expv2mongo.PcPosAssetSymbolMongoPo;
+import com.hupa.exp.daomongo.enums.MongoSortEnum;
 import com.hupa.exp.daomysql.dao.expv2.def.IExpUserDao;
-import com.hupa.exp.daomysql.dao.expv2.def.IPcPosPairDao;
 import com.hupa.exp.daomysql.entity.po.expv2.ExpUserPo;
-import com.hupa.exp.daomysql.entity.po.expv2mongo.MongoPage;
-import com.hupa.exp.daomysql.entity.po.expv2mongo.PcPosPairMongoPo;
-import com.hupa.exp.daomysql.enums.SortEnum;
 import com.hupa.exp.servermng.entity.pcposition.PcPositionInfo;
 import com.hupa.exp.servermng.entity.pcposition.PcPositionPageInputDto;
 import com.hupa.exp.servermng.entity.pcposition.PcPositionPageOutputDto;
@@ -24,7 +24,7 @@ import java.util.List;
 @Service
 public class ApiPcPositionControllerServiceImpl implements IApiPcPositionControllerService {
     @Autowired
-    private IPcPosPairDao iPcPosPairDao;
+    private IPcPosAssetSymbolMongoDao iPcPosAssetSymbolMongoDao;
     @Autowired
     private IExpUserDao iExpUserDao;
     @Override
@@ -35,10 +35,10 @@ public class ApiPcPositionControllerServiceImpl implements IApiPcPositionControl
             inputDto.setAccountId(userPo.getId());
         }
 
-       MongoPage<PcPosPairMongoPo> pos= iPcPosPairDao.selectPosByParamMng(inputDto.getPair(),inputDto.getPosId(),inputDto.getAccountId(),inputDto.getLiqStatus(),
-                inputDto.getCurrentPage(),inputDto.getPageSize(), SortEnum.desc);
+       MongoPage<PcPosAssetSymbolMongoPo> pos= iPcPosAssetSymbolMongoDao.selectPosByParamMng(inputDto.getPair(),inputDto.getPosId(),inputDto.getAccountId(),inputDto.getLiqStatus(),
+                inputDto.getCurrentPage(),inputDto.getPageSize(), MongoSortEnum.desc);
         List<PcPositionInfo> rows=new ArrayList<>();
-       for(PcPosPairMongoPo po:pos.getRows())
+       for(PcPosAssetSymbolMongoPo po:pos.getRows())
        {
            PcPositionInfo row= ConventObjectUtil.conventObject(po,PcPositionInfo.class);
            rows.add(row);

@@ -152,7 +152,7 @@
         oTableInit.Init = function () {
             var myColumns=[];
             $.ajax({
-                url :  "/v1/http/coin/query_symbol_list",
+                url :  "/v1/http/asset/query_asset_list",
                 type : 'get',
                 dataType : "json",
                 async : false,
@@ -197,8 +197,8 @@
                     //         }
                     //     }
                     // )
-                    var arr = returnValue.data.symbolListBizBo.coinList;
-                    //console.log(arr);
+                    var arr = returnValue.data.realNameListBizBo.assetList;
+                    console.log(arr);
                     $.each(arr, function(i, item) {
                         myColumns.push({
                             "title" : item,

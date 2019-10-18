@@ -1,7 +1,7 @@
 package com.hupa.exp.servermng.entity.pcposition;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
-import com.hupa.exp.daomysql.enums.SortEnum;
+import com.hupa.exp.daomongo.enums.MongoSortEnum;
 
 public class PcPositionPageInputDto extends BaseInputDto{
    private String pair;
@@ -10,7 +10,7 @@ public class PcPositionPageInputDto extends BaseInputDto{
    private Integer liqStatus;
    private Integer currentPage;
    private Integer pageSize;
-   private SortEnum sortEnum;
+   private MongoSortEnum sortEnum;
    private String account;
 
     public String getAccount() {
@@ -69,11 +69,11 @@ public class PcPositionPageInputDto extends BaseInputDto{
         this.pageSize = pageSize;
     }
 
-    public SortEnum getSortEnum() {
+    public MongoSortEnum getSortEnum() {
         return sortEnum;
     }
 
-    public void setSortEnum(SortEnum sortEnum) {
+    public void setSortEnum(MongoSortEnum sortEnum) {
         this.sortEnum = sortEnum;
     }
 }

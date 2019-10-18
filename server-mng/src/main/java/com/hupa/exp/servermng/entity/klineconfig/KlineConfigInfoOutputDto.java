@@ -5,7 +5,8 @@ import com.hupa.exp.common.entity.dto.output.BaseOutputDto;
 
 public class KlineConfigInfoOutputDto extends BaseOutputDto {
     private String id;
-    private String pair;
+    private String symbol;
+    private String asset;
     private String status;
     private String klineInterval;
     @JsonProperty("stat_time")
@@ -46,12 +47,20 @@ public class KlineConfigInfoOutputDto extends BaseOutputDto {
         this.id = id;
     }
 
-    public String getPair() {
-        return pair;
+    public String getSymbol() {
+        return symbol;
     }
 
-    public void setPair(String pair) {
-        this.pair = pair;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public String getAsset() {
+        return asset;
+    }
+
+    public void setAsset(String asset) {
+        this.asset = asset;
     }
 
     public String getStatus() {

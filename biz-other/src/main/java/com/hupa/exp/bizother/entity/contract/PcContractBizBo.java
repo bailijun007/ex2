@@ -8,7 +8,7 @@ public class PcContractBizBo {
     private String symbol;
     private Integer symbolType;
     private String asset;
-    private String currency;
+//    private String currency;
     private Integer precision;
     private String contractName;
     private String displayName;
@@ -87,13 +87,13 @@ public class PcContractBizBo {
         this.symbolType = symbolType;
     }
 
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
+//    public String getCurrency() {
+//        return currency;
+//    }
+//
+//    public void setCurrency(String currency) {
+//        this.currency = currency;
+//    }
 
     public String getContractName() {
         return contractName;

@@ -1,25 +1,33 @@
-package com.hupa.exp.servermng.entity.coin;
+package com.hupa.exp.servermng.entity.asset;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 
 import java.math.BigDecimal;
 
-public class CoinInputDto extends BaseInputDto {
+public class AssetInputDto extends BaseInputDto {
     private Long id;
-    //private String symbol;
-    private Integer chainCoinId;
-    private String coinName;
+    private Integer chainAppointId;
+    private String realName;
     private String displayName;
     private String chainName;
     private BigDecimal precision;
     private Integer privilege;
     private Integer status;
     private Integer sort;
+    private BigDecimal minDepositVolume;
     private BigDecimal minWithdrawVolume;
     private BigDecimal  withdrawFee;
     private String chainTransactionUrl;
     private Long ctime;
     private Long mtime;
+
+    public BigDecimal getMinDepositVolume() {
+        return minDepositVolume;
+    }
+
+    public void setMinDepositVolume(BigDecimal minDepositVolume) {
+        this.minDepositVolume = minDepositVolume;
+    }
 
     public Integer getSort() {
         return sort;
@@ -69,12 +77,12 @@ public class CoinInputDto extends BaseInputDto {
         this.withdrawFee = withdrawFee;
     }
 
-    public Integer getChainCoinId() {
-        return chainCoinId;
+    public Integer getChainAppointId() {
+        return chainAppointId;
     }
 
-    public void setChainCoinId(Integer chainCoinId) {
-        this.chainCoinId = chainCoinId;
+    public void setChainAppointId(Integer chainAppointId) {
+        this.chainAppointId = chainAppointId;
     }
 
     public Long getId() {
@@ -93,12 +101,13 @@ public class CoinInputDto extends BaseInputDto {
 //        this.symbol = symbol;
 //    }
 
-    public String getCoinName() {
-        return coinName;
+
+    public String getRealName() {
+        return realName;
     }
 
-    public void setCoinName(String coinName) {
-        this.coinName = coinName;
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 
     public String getDisplaynName() {

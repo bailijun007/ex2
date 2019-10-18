@@ -3,14 +3,14 @@ package com.hupa.exp.bizother.entity.account;
 import java.util.List;
 
 public class CoinPageListBizBo {
-    private List<CoinBizBo> rows;
+    private List<AssetBizBo> rows;
     private Long total;
 
-    public List<CoinBizBo> getRows() {
+    public List<AssetBizBo> getRows() {
         return rows;
     }
 
-    public void setRows(List<CoinBizBo> rows) {
+    public void setRows(List<AssetBizBo> rows) {
         this.rows = rows;
     }
 

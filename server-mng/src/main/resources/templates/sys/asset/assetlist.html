@@ -20,7 +20,7 @@
                 <div class="col-sm-11">
                     <div class="form-group" style="width: 15%; float: left;">
                         <label class="sr-only">标的符号</label>
-                        <input type="text" placeholder="请输入标的符号" id="pair" class="form-control">
+                        <input type="text" placeholder="请输入标的符号" id="real_name" class="form-control">
                     </div>
                     <div class="input-group">
 
@@ -39,7 +39,7 @@
                                         <div class="btn-group hidden-xs" id="toolbar" role="group">
 
                                             <a class="btn btn-outline btn-default" href="javascript:addCatalogEvent('Add','0')"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>新增</a>
-                                            <a class="btn btn-outline btn-default" href="javascript:del_ck_confirm('tb_departments','/v1/http/dictype/delete')"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>删除</a>
+                                            <a class="btn btn-outline btn-default" href="javascript:del_ck_confirm('tb_departments','/v1/http/asset/delete')"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>删除</a>
                                         </div>
                                     </div>
                                 </div>
@@ -87,7 +87,7 @@
 
     var addCatalogEvent = function (action,id) {
         var text = "添加币种"
-        url = "/sys/coin/edit.html?id="+id+"&action="+action+"";
+        url = "/sys/asset/edit.html?id="+id+"&action="+action+"";
 
         parent.layer.open({
             type: 2,
@@ -125,7 +125,7 @@
         //初始化Table
         oTableInit.Init = function () {
                     $('#tb_departments').bootstrapTable({
-                         url: '/v1/http/coin/query_list',//+param,         //请求后台的URL（*）
+                         url: '/v1/http/asset/query_list',//+param,         //请求后台的URL（*）
                          method: 'get',                      //请求方式（*）
                         //toolbar: '#toolbar',                //工具按钮用哪个容器
                         //striped: true,                      //是否显示行间隔色
@@ -160,7 +160,7 @@
                             // }
                             , {
                                 title: '币的名称',
-                                field: 'coinName'
+                                field: 'realName'
                             }
                             , {
                                 title: '币的展示名',
@@ -169,6 +169,10 @@
                             , {
                                 title: '币所属的链',
                                 field: 'chainName'
+                            }
+                            , {
+                                title: '链上服务的约定的id',
+                                field: 'chainAppointId'
                             }
                             , {
                                 title: '精度',
@@ -194,6 +198,10 @@
                             , {
                                 title: '提币最小值',
                                 field: 'minWithdrawVolume'
+                            }
+                            , {
+                                title: '充币最小值',
+                                field: 'minDepositVolume'
                             }
                             , {
                                 title: '提币手续费',
@@ -223,7 +231,7 @@
             var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                 page_size: params.limit,   //页面大小
                 current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
-                //pair: $("#pair").val()
+                real_name: $("#real_name").val()
                 //action: "GetBakModuleList"
 
             };

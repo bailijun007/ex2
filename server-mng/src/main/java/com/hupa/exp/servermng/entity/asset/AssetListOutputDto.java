@@ -1,8 +1,8 @@
-package com.hupa.exp.servermng.entity.coin;
+package com.hupa.exp.servermng.entity.asset;
 
 import com.hupa.exp.common.entity.dto.output.BasePageOutputDto;
 
-public class CoinListOutputDto extends BasePageOutputDto<CoinListOutputPage> {
+public class AssetListOutputDto extends BasePageOutputDto<AssetListOutputPage> {
 //    @JsonProperty("page_data")
 //    private CoinPageListBizBo pageData;
 //

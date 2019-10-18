@@ -11,10 +11,13 @@ import com.hupa.exp.bizother.service.account.def.IWithdrawBiz;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.JsonUtil;
+import com.hupa.exp.daomysql.dao.expv2.def.IExpUserDao;
+import com.hupa.exp.daomysql.entity.po.expv2.ExpUserPo;
 import com.hupa.exp.servermng.entity.fundwithdraw.*;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiFundWithdrawControllerService;
 import com.hupa.exp.util.math.DecimalUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,12 +39,25 @@ public class ApiFundWithdrawControllerServiceImpl implements IApiFundWithdrawCon
     @Autowired
     private SessionHelper sessionHelper;
 
+    @Autowired
+    private IExpUserDao iExpUserDao;
+
 
 
     @Override
     public FundWithdrawListOutputDto getFundWithdrawList(FundWithdrawListInputDto inputDto) throws BizException {
+        ExpUserPo userPo=new ExpUserPo();
+        Long accountId=null;
+        if(!StringUtils.isEmpty(inputDto.getAccount()))
+        {
+            userPo=iExpUserDao.selectUserByAccount(inputDto.getAccount());
+            if(userPo!=null)
+            {
+                accountId=userPo.getId();
+            }
+        }
         FundWithdrawMongoPageBizBo pageBizBo=iWithdrawBiz.selectFundWithdrawPageData(
-                inputDto.getAccount(),
+                accountId,
                 inputDto.getSymbol(),inputDto.getId(),
                 inputDto.getCurrentPage(),inputDto.getPageSize());
         List<FundWithdrawOutputDto> list=new ArrayList<>();

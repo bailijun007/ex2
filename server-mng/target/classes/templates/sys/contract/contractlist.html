@@ -20,7 +20,7 @@
                 <div class="col-sm-11">
                     <div class="form-group" style="width: 15%; float: left;">
                         <label class="sr-only">标的符号</label>
-                        <input type="text" placeholder="请输入标的符号" id="pair" class="form-control">
+                        <input type="text" placeholder="请输入标的符号" id="symbol" class="form-control">
                     </div>
                     <div class="input-group">
 
@@ -165,10 +165,10 @@
                             }
                             , {
                                 title: '标的符号',
-                                field: 'pair'
+                                field: 'symbol'
                             }, {
                                 title: '标的类型',
-                                field: 'pair_type'
+                                field: 'symbol_type'
                             },
                             {
                                 title: '精度',
@@ -176,7 +176,7 @@
                             }
                             , {
                                 title: '计价货币符号',
-                                field: 'currency'
+                                field: 'asset'
                             }
                             , {
                                 title: '合约名称',
@@ -228,7 +228,7 @@
             var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                 page_size: params.limit,   //页面大小
                 current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
-                //pair: $("#pair").val()
+                symbol: $("#symbol").val()
             };
             return temp;
         };
