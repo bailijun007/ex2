@@ -60,12 +60,19 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
     private IUserRoleService iUserRoleService;
     @Autowired
     private UserValidateImpl userValidate;
+
     @Reference
     private AccountIdDef accountIdDef;
+
     @Reference
     private Account4ServerDef account4ServerDef;
+
     @Reference
     private FundAccount4MngDef fundAccount4MngDef;
+
+    @Reference
+    private FundAccount4ServerDef fundAccount4ServerDef;
+
     @Autowired
     private FundAccountDef fundAccountDef;
 
@@ -83,8 +90,7 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
     @Autowired
     private IExpUserDao iExpUserDao;
 
-    @Reference
-    private FundAccount4ServerDef fundAccount4ServerDef;
+
 //
 //    @Autowired
 //    @Qualifier(Db1RedisBean.beanName)

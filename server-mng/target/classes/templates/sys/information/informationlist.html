@@ -103,7 +103,7 @@
             text = "修改资讯"
         url = "/sys/information/edit.html?id="+id+"&action="+action+"";
 
-        parent.layer.open({
+        layer.open({
             type: 2,
             title: text,
             shadeClose: true,
@@ -111,9 +111,14 @@
             area: ['800px', '65%'],
             content: url,
             success: function (layero, index) {
-
+               //  alert(123);
+               //  alert($("#oldImg").val()) ;
+               //  alert(  $("#cover_img").attr("src"));
             },
             end: function () {
+                // alert(456);
+                // alert($("#oldImg").val()) ;
+                // alert($("#cover_img").attr("src"));
                 $('#tb_departments').bootstrapTable('destroy');
                 oTable.Init();
             }

@@ -32,11 +32,11 @@ public class ApiUploadController {
 
     @ApiOperation(value = "上传图片")
     @PostMapping("/img")
-    public String headImgUpload(HttpServletRequest request,
-                                  MultipartFile file) {
+    public String headImgUpload(MultipartFile file,String oldImg) {//HttpServletRequest request,
         Map<String, Object> value = new HashMap<String, Object>();
         try {
             String url = service.updateHead(file);
+            service.deleteFile(oldImg);
             value.put("data", url);
             value.put("code", 0);
             value.put("msg", "图片上传成功");

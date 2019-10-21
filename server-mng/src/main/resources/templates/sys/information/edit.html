@@ -71,6 +71,7 @@
                             <!--<div class="Validform_checktip"></div>-->
                         <!--</div>-->
                         <input type="hidden" id="oldImg" value="">
+                        <input type="hidden" id="upImg" value="">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">封面图片：</label>
                             <div class="col-sm-6">
@@ -185,6 +186,7 @@
         }
         param+= "id="+id;
         param+="&title="+$("#title").val();
+        param+="&old_img="+$("#oldImg").val();
         param+="&cover_img="+$("#cover_img").attr("src");
         param+="&content="+$("#content").val();
         param+="&type="+$("#type").val();
@@ -211,7 +213,7 @@
 
     function uploadImg(obj)
     {
-        var oldImgName=$("#oldImg").val();
+        var oldImgName=$("#upImg").val();
         var f=$(obj).val();
         alert(f);
         console.log(obj);
@@ -229,6 +231,8 @@
         $.each($(obj)[0].files,function(i,file){
             data.append('file', file);
         });
+        //其实不应该写在这   应该写在提交哪里
+        data.append('oldImg', oldImgName);
         $.ajax({
             url: "/v1/http/upload/img",
             method: 'POST',
@@ -240,6 +244,7 @@
                 if(data.code==0)
                 {
                     $("#cover_img").attr("src",data.data);
+                    $("#upImg").val(data.data);
                     layer.msg("上传成功");
                 }
                 else

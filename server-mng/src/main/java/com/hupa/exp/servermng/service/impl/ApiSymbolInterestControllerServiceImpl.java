@@ -26,7 +26,7 @@ import java.util.List;
 @Service
 public class ApiSymbolInterestControllerServiceImpl implements IApiSymbolInterestControllerService {
 
-    @Reference
+    @Autowired
     private IPcSymbolInterestDao iPcSymbolInterestDao;
 
     @Autowired

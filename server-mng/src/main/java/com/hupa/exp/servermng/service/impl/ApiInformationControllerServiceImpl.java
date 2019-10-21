@@ -11,9 +11,11 @@ import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.servermng.entity.base.DeleteInputDto;
 import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.information.*;
+import com.hupa.exp.servermng.help.OSSClientUtil;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiInformationControllerService;
 import com.hupa.exp.util.convent.ConventObjectUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +33,9 @@ public class ApiInformationControllerServiceImpl implements IApiInformationContr
 
     @Autowired
     private SessionHelper sessionHelper;
+
+    @Autowired
+    private OSSClientUtil ossClientUtil;
 
     @Override
     public GetInformationByTypeOutputDto getInformationByType(GetInformationByTypeInputDto inputDto) throws BizException {
@@ -91,6 +96,11 @@ public class ApiInformationControllerServiceImpl implements IApiInformationContr
             bizBo.setMtime(System.currentTimeMillis());
             bizBo.setCtime(System.currentTimeMillis());
             informationService.createInformation(bizBo);
+        }
+        if(StringUtils.isEmpty(inputDto.getOldImg()))
+        {
+            String[] strArr=inputDto.getOldImg().split("/");
+            ossClientUtil.deleteFile(strArr[strArr.length-1]);//把旧图片删掉
         }
         InformationOutputDto outputDto=new InformationOutputDto();
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));

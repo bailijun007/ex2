@@ -213,8 +213,16 @@
                                 }
                             }],
                         responseHandler:function(res) {
-                            //console.log(res);
+                            console.log(res);
+                            if(res.code<0)
+                            {
+                               layer.msg(res.msg);
+                                return false;
+                            }
                             return res.data;
+                        },
+                        onLoadError:function (res) {
+                            alert(123);
                         }
                     });
                // }
@@ -235,6 +243,14 @@
         };
         return oTableInit;
     };
+
+    $('#tb_departments').on('load-error.bs.table', function (e) {
+        //debugger;
+        //alert("1213");
+        $(".fixed-table-loading").attr("style","display:none");//不知道什么鬼原因  反正先加载时候先去掉
+        // ...
+        alert("123456")
+    });
 
     var ButtonInit = function () {
         var oInit = new Object();

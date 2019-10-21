@@ -4,7 +4,6 @@ com\hupa\exp\bizother\entity\account\QueryFundWithdrawHistoryBizBo$QueryFundWith
 com\hupa\exp\bizother\entity\account\MongoBo\PcAssertChangeMongoBizBo.class
 com\hupa\exp\bizother\service\sms\def\ISmsTempBiz.class
 com\hupa\exp\bizother\service\contract\impl\PcContractBizImpl.class
-com\hupa\exp\bizother\entity\account\CoinBizBo.class
 com\hupa\exp\bizother\entity\account\PcAccountBizBo.class
 com\hupa\exp\bizother\config\BizPriceSettingConfig.class
 com\hupa\exp\bizother\service\price\def\ILastPriceBiz.class
@@ -26,6 +25,7 @@ com\hupa\exp\bizother\service\account\def\IPcFeeBiz.class
 com\hupa\exp\bizother\entity\account\QueryAccountTransferBizBo.class
 com\hupa\exp\bizother\entity\account\MongoBo\PcAccountLogMongoBizBo.class
 com\hupa\exp\bizother\entity\fundaccount\FundAccountMngListBizBo.class
+com\hupa\exp\bizother\service\account\impl\AssetBizImpl.class
 com\hupa\exp\bizother\service\role\def\IRoleMenuService.class
 com\hupa\exp\bizother\entity\information\ExpInformationBizBo.class
 com\hupa\exp\bizother\entity\sms\ExpSmsTempBizBo.class
@@ -40,6 +40,7 @@ com\hupa\exp\bizother\service\user\impl\UserRoleServiceImpl.class
 com\hupa\exp\bizother\service\locale\impl\LocaleServiceImpl.class
 com\hupa\exp\bizother\entity\account\StoringLevelPageListBizBo.class
 com\hupa\exp\bizother\entity\area\ExpAreaBizBo.class
+com\hupa\exp\bizother\entity\account\AssetListBizBo.class
 com\hupa\exp\bizother\entity\account\PcStoringLevelBizBo.class
 com\hupa\exp\bizother\entity\dic\ExpDicListBizBo.class
 com\hupa\exp\bizother\service\dic\def\IDicService.class
@@ -62,10 +63,10 @@ com\hupa\exp\bizother\entity\role\ExpRoleMenuBizBo.class
 com\hupa\exp\bizother\service\account\def\IPcAccountMongoBiz.class
 com\hupa\exp\bizother\entity\account\MongoBo\FundAccountLogMongoBizBo.class
 com\hupa\exp\bizother\enums\BizUserExceptionCode.class
-com\hupa\exp\bizother\service\account\impl\CoinBizImpl.class
 com\hupa\exp\bizother\entity\contract\PcContractListBizBo.class
 com\hupa\exp\bizother\entity\user\ExpUserListBizBo.class
 com\hupa\exp\bizother\entity\information\ExpInformationPageDataBizBo.class
+com\hupa\exp\bizother\entity\account\AssetBizBo.class
 com\hupa\exp\bizother\service\dic\impl\DicServiceImpl.class
 com\hupa\exp\bizother\component\BizAccountComponent.class
 com\hupa\exp\bizother\entity\fundaccount\FundAccountCacheBizBo.class
@@ -81,11 +82,11 @@ com\hupa\exp\bizother\service\account\impl\FundAccountMongoBizImpl.class
 com\hupa\exp\bizother\service\contract\def\IPcContractBiz.class
 com\hupa\exp\bizother\entity\operationlog\ExpOperationLogBizBo.class
 com\hupa\exp\bizother\entity\menu\ExpMenuTreeBizBo.class
-com\hupa\exp\bizother\entity\account\CoinListBizBo.class
 com\hupa\exp\bizother\entity\modulelimit\ExpModuleLimitBizBo.class
 com\hupa\exp\bizother\entity\account\MongoBo\PcAccountLogMongoPageBizBo.class
 com\hupa\exp\bizother\entity\fundaccount\FundAccountMngBizBo.class
 com\hupa\exp\bizother\entity\fundaccount\PcAccountCacheBizBo.class
+com\hupa\exp\bizother\service\account\def\IAssetBiz.class
 com\hupa\exp\bizother\service\user\def\IUserRoleService.class
 com\hupa\exp\bizother\entity\account\MongoBo\FundAssertChangeMongoBizBo.class
 com\hupa\exp\bizother\service\locale\def\ILocaleService.class
@@ -99,7 +100,6 @@ com\hupa\exp\bizother\entity\user\ExpUserRoleBizBo.class
 com\hupa\exp\bizother\service\price\def\IIndexPriceBiz.class
 com\hupa\exp\bizother\service\account\impl\AssertChangBizImpl.class
 com\hupa\exp\bizother\entity\account\MongoBo\FundAccountLogMongoPageBizBo.class
-com\hupa\exp\bizother\service\account\def\ICoinBiz.class
 com\hupa\exp\bizother\service\menu\impl\MenuServiceImpl.class
 com\hupa\exp\bizother\service\area\impl\AreaServiceImpl.class
 com\hupa\exp\bizother\entity\account\QueryDepositBizBo.class

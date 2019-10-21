@@ -1,10 +1,11 @@
-package com.hupa.exp.servermng.config.aliyunoss;
+package com.hupa.exp.servermng.help;
 
 import java.io.*;
 import java.net.URL;
 import java.util.Date;
 import java.util.Random;
 
+import com.hupa.exp.servermng.config.aliyunoss.OSSClientConfig;
 import com.hupa.exp.servermng.enums.ImgExceptionCode;
 import com.hupa.exp.servermng.exception.ImgException;
 import org.slf4j.Logger;
@@ -13,34 +14,40 @@ import org.slf4j.LoggerFactory;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.PutObjectResult;
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-
+@Service
 public class OSSClientUtil {
+
+    @Autowired
+    private OSSClientConfig ossClientConfig;
     public static final Logger logger = LoggerFactory.getLogger(OSSClientUtil.class);
-    // endpoint
-    private String endpoint = "oss-cn-hangzhou.aliyuncs.com";
-    // accessKey
-    private String accessKeyId = "LTAI4FwGXXjNbNhYwtDzk9kD";
-    private String accessKeySecret = "wQPEZJzzrpcYQEorAbASop3AWZ4i8j";
-    // 空间
-    private String bucketName = "gte-images";
-    // 文件存储目录
-    private String filedir = "information/";
+    //改成读配置了
+//    // endpoint
+//    private String endpoint = "oss-cn-hangzhou.aliyuncs.com";
+//    // accessKey
+//    private String accessKeyId = "LTAI4FwGXXjNbNhYwtDzk9kD";
+//    private String accessKeySecret = "wQPEZJzzrpcYQEorAbASop3AWZ4i8j";
+//    // 空间
+//    private String bucketName = "gte-images";
+//    // 文件存储目录
+//    private String filedir = "information/";
 
     private OSSClient ossClient;
 
-    public OSSClientUtil() {
-        ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
-    }
+//    public OSSClientUtil() {
+//        ossClient = new OSSClient(ossClientConfig.getEndpoint(),ossClientConfig.getAccessKeyId(),ossClientConfig.getAccessKeySecret());
+//    }
 
     /**
      * 初始化
      */
     public void init() {
-        ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
+        ossClient = new OSSClient(ossClientConfig.getEndpoint(),ossClientConfig.getAccessKeyId(),ossClientConfig.getAccessKeySecret());
     }
 
     /**
@@ -95,21 +102,21 @@ public class OSSClientUtil {
         System.out.println(fileUrl);
         if (!StringUtils.isEmpty(fileUrl)) {
             String[] split = fileUrl.split("/");
-            return this.getUrl(this.filedir + split[split.length - 1]);
+            return this.getUrl(ossClientConfig.getFiledir() + split[split.length - 1]);
         }
         return null;
     }
 
     /**
      * 根据key删除OSS服务器上的文件
-     * @param ossClient  oss连接
-     * @param bucketName  存储空间
-     * @param folder  模拟文件夹名 如"qj_nanjing/"
+//     * @param ossClient  oss连接
+//     * @param bucketName  存储空间
+//     * @param folder  模拟文件夹名 如"qj_nanjing/"
      * @param key Bucket下的文件的路径名+文件名 如："upload/cake.jpg"
      */
     public void deleteFile(String key){
-        ossClient.deleteObject(bucketName, filedir + key);
-        logger.info("删除" + bucketName + "下的文件" + filedir + key + "成功");
+        ossClient.deleteObject(ossClientConfig.getBucketName(), ossClientConfig.getFiledir() + key);
+        logger.info("删除" + ossClientConfig.getBucketName() + "下的文件" + ossClientConfig.getFiledir() + key + "成功");
     }
 
     /**
@@ -132,7 +139,7 @@ public class OSSClientUtil {
             objectMetadata.setContentType(getcontentType(fileName.substring(fileName.lastIndexOf("."))));
             objectMetadata.setContentDisposition("inline;filename=" + fileName);
             // 上传文件
-            PutObjectResult putResult = ossClient.putObject(bucketName, filedir + fileName, instream, objectMetadata);
+            PutObjectResult putResult = ossClient.putObject(ossClientConfig.getBucketName(), ossClientConfig.getFiledir() + fileName, instream, objectMetadata);
             ret = putResult.getETag();
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
@@ -198,7 +205,7 @@ public class OSSClientUtil {
 
         Date expiration = new Date(System.currentTimeMillis() + 3600L * 1000 * 24 * 365 * 10);
         // 生成URL
-        URL url = ossClient.generatePresignedUrl(bucketName, key, expiration);
+        URL url = ossClient.generatePresignedUrl(ossClientConfig.getBucketName(), key, expiration);
         if (url != null) {
             return url.toString();
         }

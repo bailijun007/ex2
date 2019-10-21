@@ -1,6 +1,14 @@
 package com.hupa.exp.servermng.filter;
 
+import com.alibaba.fastjson.JSON;
 import com.hupa.exp.base.helper.request.RequestHelper;
+import com.hupa.exp.common.entity.dto.BaseResultDto;
+import com.hupa.exp.common.entity.dto.BaseResultViaApiDto;
+import com.hupa.exp.common.entity.dto.input.BaseInputDto;
+import com.hupa.exp.common.entity.dto.output.BaseOutputDto;
+import com.hupa.exp.daomysql.dao.expv2.def.IExpDicDao;
+import com.hupa.exp.daomysql.dao.expv2.def.IExpLocaleDao;
+import com.hupa.exp.daomysql.entity.po.expv2.ExpLocalePo;
 import com.hupa.exp.servermng.action.controller.api.ApiAreaController;
 import com.hupa.exp.servermng.help.SessionHelper;
 import org.slf4j.Logger;
@@ -14,12 +22,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @Component
 public class AuthSecurityInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
     private SessionHelper sessionHelper;
+
+    @Autowired
+    private IExpLocaleDao localeDao;
 
     private Logger logger = null;
 
@@ -31,10 +43,6 @@ public class AuthSecurityInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler)throws Exception
     {
-        RequestWrapper requestWrapper = new RequestWrapper(request);
-        String body = requestWrapper.getBody();
-        System.out.println("请求链接："+request.getRequestURL()+"请求方式："+request.getMethod()+"请求参数："+body);
-        //System.out.println("我是拦截器：我证明我进来了");
         if(!request.getRequestURI().equals("/")&&!request.getRequestURI().contains("login"))
         {
             String webSession= RequestHelper.getHeaderByLoginToken(request);//获取前端ajax请求中的token
@@ -54,9 +62,9 @@ public class AuthSecurityInterceptor extends HandlerInterceptorAdapter {
 //            if(referer==null|| !referer.contains("http://localhost:8081"))
 //            {
 //                System.out.println("我证明这是一个跨站伪造的请求");
-//            redirect(request,response);
+//                redirect(request,response);
 //            //response.sendRedirect(request.getContextPath()+"/login.html");
-//            return false;
+//                return false;
 //            }
             //System.out.println("重置Session时间:"+ DateTime.now());
             session.setMaxInactiveInterval(1*60*60*2);
@@ -98,5 +106,35 @@ public class AuthSecurityInterceptor extends HandlerInterceptorAdapter {
         }else{
             response.sendRedirect(basePath + "/login.html");
         }
+    }
+
+    public void checkRequest(HttpServletRequest request,
+                             HttpServletResponse response) throws IOException {
+                RequestWrapper requestWrapper = new RequestWrapper(request);
+        String body = requestWrapper.getBody();
+        if(body.contains("current_page"))
+        {
+            //重置返回值
+            response.reset();
+            //返回编码
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/json;charset=UTF-8");
+            PrintWriter pw = response.getWriter();
+            BaseResultViaApiDto resp=new BaseResultViaApiDto();
+            resp.setCode(-99999);
+            ExpLocalePo localePo= localeDao.selectOnePo(-99999);
+            if(localePo!=null)
+                resp.setMsg(JSON.parseObject(localePo.getLocaleContent()).getString("zh_cn"));
+            else
+                resp.setMsg("server error");
+            resp.setTime(System.currentTimeMillis());
+
+            pw.write(JSON.toJSONString(resp));
+            pw.flush();
+            pw.close();
+        }
+        System.out.println("请求链接："+request.getRequestURL()+"请求方式："+request.getMethod()+"请求参数："+body);
+        System.out.println("我是拦截器：我证明我进来了");
+
     }
 }

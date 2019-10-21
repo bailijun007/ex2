@@ -5,6 +5,7 @@ import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 public class InformationInputDto extends BaseInputDto {
     private Long id;
     private String title;
+    private String oldImg;
     private String coverImg;
     private String content;
     private Integer type;
@@ -12,6 +13,14 @@ public class InformationInputDto extends BaseInputDto {
     private Integer sort;
     private Long ctime;
     private Long mtime;
+
+    public String getOldImg() {
+        return oldImg;
+    }
+
+    public void setOldImg(String oldImg) {
+        this.oldImg = oldImg;
+    }
 
     public Long getId() {
         return id;
