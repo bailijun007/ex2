@@ -64,12 +64,14 @@ public class ApiFundWithdrawController {
     @ApiOperation(value = "获取fundwithdraw")
     @GetMapping("/query_account_fund_withdraw_list")
     public BaseResultViaApiDto<FundWithdrawAccountListInputDto,FundWithdrawAccountListOutputDto> getAccountAllFundWith(
+            @ApiParam(name="asset",value = "用户id",required = true)
+            @RequestParam(name = "asset") String asset,
             @ApiParam(name="account_id",value = "用户id",required = true)
             @RequestParam(name = "account_id") Long accountId,
-            @ApiParam(name="start_time",value = "start_time",required = true)
-            @RequestParam(name = "start_time") Long startTime,
-            @ApiParam(name="end_time",value = "end_time",required = true)
-            @RequestParam(name = "end_time") Long endTime,
+            @ApiParam(name="withdraw_time",value = "withdraw_time",required = true)
+            @RequestParam(name = "withdraw_time") Long withdrawTime,
+            @ApiParam(name="withdraw_id",value = "withdraw_id",required = true)
+            @RequestParam(name = "withdraw_id") Long withdrawId,
             @ApiParam(name="page_status",value = "条数",required = true)
             @RequestParam(name = "page_status") Integer pageStatus,
             @ApiParam(name="page_size",value = "条数",required = true)
@@ -79,13 +81,13 @@ public class ApiFundWithdrawController {
     ){
         FundWithdrawAccountListOutputDto outputDto=new FundWithdrawAccountListOutputDto();
         FundWithdrawAccountListInputDto inputDto=new FundWithdrawAccountListInputDto();
+        inputDto.setAsset(asset);
+        inputDto.setWithdrawTime(withdrawTime);
+        inputDto.setWithdrawId(withdrawId);
         inputDto.setAccountId(accountId);
-        inputDto.setStartTime(startTime);
-        inputDto.setEndTime(endTime);
         inputDto.setPageStatus(pageStatus);
         inputDto.setCurrentPage(currentPage);
         inputDto.setPageSize(pageSize);
-        inputDto.setSortEnum(MongoSortEnum.desc);
 
         try{
             outputDto = service.getAccountAllFundWith(inputDto);

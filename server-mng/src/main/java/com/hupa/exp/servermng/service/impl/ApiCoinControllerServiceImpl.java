@@ -152,7 +152,7 @@ public class ApiCoinControllerServiceImpl implements IApiAssetControllerService 
     public RealNameListOutPutDto getRealNameList(RealNameListInputDto inputDto) throws BizException {
         AssetListBizBo bizBo= iAssetBiz.queryRealNameList();
         RealNameListOutPutDto outPutDto=new RealNameListOutPutDto();
-        outPutDto.setRealNameListBizBo(bizBo);
+        outPutDto.setAssetList(bizBo);
         outPutDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outPutDto;
     }

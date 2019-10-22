@@ -124,7 +124,7 @@ public class ApiAssetController {
         return  BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
 
-    @ApiOperation(value = "获取交易对列表")
+    @ApiOperation(value = "获取币列表")
     @GetMapping(path = "/query_list")
     public BaseResultViaApiDto<AssetListInputDto,AssetListOutputDto> getAssetList(//
     @ApiParam(name="real_name",value = "币的真实名称",required = true)

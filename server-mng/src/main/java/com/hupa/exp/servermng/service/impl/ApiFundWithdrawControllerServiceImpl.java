@@ -59,30 +59,25 @@ public class ApiFundWithdrawControllerServiceImpl implements IApiFundWithdrawCon
     private IAssetDao iAssetDao;
 
 
-
-
     @Override
     public FundWithdrawListOutputDto getFundWithdrawList(FundWithdrawListInputDto inputDto) throws BizException {
-        ExpUserPo userPo=new ExpUserPo();
-        Long accountId=null;
-        if(!StringUtils.isEmpty(inputDto.getAccount()))
-        {
-            userPo=iExpUserDao.selectUserByAccount(inputDto.getAccount());
-            if(userPo!=null)
-            {
-                accountId=userPo.getId();
+        ExpUserPo userPo = new ExpUserPo();
+        Long accountId = null;
+        if (!StringUtils.isEmpty(inputDto.getAccount())) {
+            userPo = iExpUserDao.selectUserByAccount(inputDto.getAccount());
+            if (userPo != null) {
+                accountId = userPo.getId();
             }
         }
-        FundWithdrawMongoPageBizBo pageBizBo=iWithdrawBiz.selectFundWithdrawPageData(
+        FundWithdrawMongoPageBizBo pageBizBo = iWithdrawBiz.selectFundWithdrawPageData(
                 accountId,
-                inputDto.getSymbol(),inputDto.getId(),
-                inputDto.getCurrentPage(),inputDto.getPageSize());
-        List<FundWithdrawOutputDto> list=new ArrayList<>();
-        for(FundWithdrawMongoBizBo bo:pageBizBo.getRows())
-        {
-            FundWithdrawOutputDto info=new FundWithdrawOutputDto();
+                inputDto.getSymbol(), inputDto.getId(),
+                inputDto.getCurrentPage(), inputDto.getPageSize());
+        List<FundWithdrawOutputDto> list = new ArrayList<>();
+        for (FundWithdrawMongoBizBo bo : pageBizBo.getRows()) {
+            FundWithdrawOutputDto info = new FundWithdrawOutputDto();
             info.setId(String.valueOf(bo.getId()));
-            info.setSymbol(bo.getSymbol());
+            info.setAsset(bo.getSymbol());
             info.setAccountId(String.valueOf(bo.getAccountId()));
             info.setTargetAddr(bo.getTargetAddr());
             info.setVolume(DecimalUtil.trimZeroPlainString(bo.getVolume()));
@@ -93,27 +88,27 @@ public class ApiFundWithdrawControllerServiceImpl implements IApiFundWithdrawCon
             info.setMtime(String.valueOf(bo.getMtime()));
             list.add(info);
         }
-        FundWithdrawListOutputDto outputDto=new FundWithdrawListOutputDto();
+        FundWithdrawListOutputDto outputDto = new FundWithdrawListOutputDto();
         outputDto.setSizePerPage(Integer.valueOf(String.valueOf(pageBizBo.getPageSize())));
         outputDto.setTotal(pageBizBo.getTotal());
         outputDto.setRows(list);
-        return  outputDto;
+        return outputDto;
     }
 
     @Override
     public AuditFundWithdrawOutputDto auditPassFundWithdraw(AuditPassFundWithdrawInputDto inputDto) throws BizException {
-        FundWithdrawMongoBizBo beforeBo= iWithdrawBiz.selectFundWithdrawById(inputDto.getWithdrawId(),inputDto.getSymbol());
-        boolean bol= fundAccount4MngDef.withdrawAuditPass(inputDto.getAccountId(),inputDto.getSymbol()
-                ,inputDto.getWithdrawId(), FundAccount4MngTokenUtil.genToken4WithdrawAuditPass(inputDto.getAccountId(),inputDto.getSymbol()
-                        ,inputDto.getWithdrawId()));
-        FundWithdrawMongoBizBo afterBo= iWithdrawBiz.selectFundWithdrawById(inputDto.getWithdrawId(),inputDto.getSymbol());
-        ExpUserBizBo user= sessionHelper.getUserInfoBySession();
+        FundWithdrawMongoBizBo beforeBo = iWithdrawBiz.selectFundWithdrawById(inputDto.getWithdrawId(), inputDto.getSymbol());
+        boolean bol = fundAccount4MngDef.withdrawAuditPass(inputDto.getAccountId(), inputDto.getSymbol()
+                , inputDto.getWithdrawId(), FundAccount4MngTokenUtil.genToken4WithdrawAuditPass(inputDto.getAccountId(), inputDto.getSymbol()
+                        , inputDto.getWithdrawId()));
+        FundWithdrawMongoBizBo afterBo = iWithdrawBiz.selectFundWithdrawById(inputDto.getWithdrawId(), inputDto.getSymbol());
+        ExpUserBizBo user = sessionHelper.getUserInfoBySession();
 
-        logService.createOperationLog(user.getId(),user.getUserName(),
+        logService.createOperationLog(user.getId(), user.getUserName(),
                 OperationModule.FundAccount.toString(),
                 OperationType.Audit.toString(),
-                JsonUtil.toJsonString(beforeBo),JsonUtil.toJsonString(afterBo));
-        AuditFundWithdrawOutputDto outputDto=new AuditFundWithdrawOutputDto();
+                JsonUtil.toJsonString(beforeBo), JsonUtil.toJsonString(afterBo));
+        AuditFundWithdrawOutputDto outputDto = new AuditFundWithdrawOutputDto();
         outputDto.setAuditStatus(bol);
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
@@ -121,96 +116,85 @@ public class ApiFundWithdrawControllerServiceImpl implements IApiFundWithdrawCon
 
     @Override
     public AuditFundWithdrawOutputDto auditFailFundWithdraw(AuditFailFundWithdrawInputDto inputDto) throws BizException {
-        FundWithdrawMongoBizBo beforeBo= iWithdrawBiz.selectFundWithdrawById(inputDto.getWithdrawId(),inputDto.getSymbol());
-        boolean bol= fundAccount4MngDef.withdrawAuditFail(inputDto.getAccountId(), inputDto.getSymbol(), inputDto.getWithdrawId(),
+        FundWithdrawMongoBizBo beforeBo = iWithdrawBiz.selectFundWithdrawById(inputDto.getWithdrawId(), inputDto.getSymbol());
+        boolean bol = fundAccount4MngDef.withdrawAuditFail(inputDto.getAccountId(), inputDto.getSymbol(), inputDto.getWithdrawId(),
                 inputDto.getReason(),
                 FundAccount4MngTokenUtil.genToken4WithdrawAuditFail(inputDto.getAccountId(), inputDto.getSymbol(), inputDto.getWithdrawId(),
                         inputDto.getReason()));
-        FundWithdrawMongoBizBo afterBo= iWithdrawBiz.selectFundWithdrawById(inputDto.getWithdrawId(),inputDto.getSymbol());
-        ExpUserBizBo user= sessionHelper.getUserInfoBySession();
-        logService.createOperationLog(user.getId(),user.getUserName(),
+        FundWithdrawMongoBizBo afterBo = iWithdrawBiz.selectFundWithdrawById(inputDto.getWithdrawId(), inputDto.getSymbol());
+        ExpUserBizBo user = sessionHelper.getUserInfoBySession();
+        logService.createOperationLog(user.getId(), user.getUserName(),
                 OperationModule.FundAccount.toString(),
                 OperationType.Audit.toString(),
-                JsonUtil.toJsonString(beforeBo),JsonUtil.toJsonString(afterBo));
-        AuditFundWithdrawOutputDto outputDto=new AuditFundWithdrawOutputDto();
+                JsonUtil.toJsonString(beforeBo), JsonUtil.toJsonString(afterBo));
+        AuditFundWithdrawOutputDto outputDto = new AuditFundWithdrawOutputDto();
         outputDto.setAuditStatus(bol);
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
     }
 
     @Override
-    public FundWithdrawAccountListOutputDto getAccountAllFundWith(FundWithdrawAccountListInputDto inputDto) throws BizException{
-        List<AssetPo> assetPos=iAssetDao.selectActiveList();
-        List<FundWithdrawSymbolMongoPo> withdrawSymbolMongoPoList=new ArrayList<>();
-        int counts=0;
-        MongoSortEnum sort= MongoSortEnum.desc;
+    public FundWithdrawAccountListOutputDto getAccountAllFundWith(FundWithdrawAccountListInputDto inputDto) throws BizException {
+        List<AssetPo> assetPos = iAssetDao.selectActiveList();
+        List<FundWithdrawSymbolMongoPo> withdrawSymbolMongoPoList = new ArrayList<>();
+        int counts = 0;
+        MongoSortEnum sort = MongoSortEnum.desc;
         List<FundWithdrawSymbolMongoPo> newList = new ArrayList<>();
-        //翻上一页的时候数据量少于10条的时候，反查一次
-        if(inputDto.getCurrentPage()==1&&inputDto.getPageStatus()==-1)//上一页
-        {
-            sort=MongoSortEnum.desc;
-            List<FundWithdrawSymbolMongoPo> withdrawSymbolMongoPoListPre=new ArrayList<>();
-            //查出来的上一页的数据的第一条的时间作为开始时间
-            for(AssetPo assetPo:assetPos) {
-                MongoPage<FundWithdrawSymbolMongoPo> withdrawSymbolMongoPoMongoPage = withdrawSymbolMongoDao.pageAllFundWithdrawPosByAccountId(
-                        inputDto.getAccountId(), assetPo.getRealName(),
-                        null, null,
-                        inputDto.getPageStatus(), inputDto.getCurrentPage(), inputDto.getPageSize(),
-                        sort
-                );
-                withdrawSymbolMongoPoListPre.addAll(withdrawSymbolMongoPoMongoPage.getRows());
-                counts+=withdrawSymbolMongoPoMongoPage.getTotalCount();
-            }
-            newList = withdrawSymbolMongoPoListPre.stream().sorted(Comparator.comparing(FundWithdrawSymbolMongoPo::getWithdrawTime).reversed())
-                    .collect(Collectors.toList());
-            if(newList.size()>10)
-            {
-                newList=newList.subList(0,10);
-            }
-            else
-            {
-                newList=newList.subList(0,newList.size());
-            }
+        if (inputDto.getPageStatus() == -1)
+            sort = MongoSortEnum.asc;
+        //为第一页的时候重置查询条件
+        if (inputDto.getCurrentPage() == 1) {
+            sort = MongoSortEnum.desc;
+            inputDto.setWithdrawTime(null);
+            inputDto.setWithdrawId(null);
         }
-        else
-        {
-            if(inputDto.getPageStatus()==-1)
-            sort=MongoSortEnum.asc;
-            for(AssetPo assetPo:assetPos)
-            {
-                MongoPage<FundWithdrawSymbolMongoPo> withdrawSymbolMongoPoMongoPage= withdrawSymbolMongoDao.pageAllFundWithdrawPosByAccountId(
-                        inputDto.getAccountId(),assetPo.getRealName(),
-                        inputDto.getStartTime(),inputDto.getEndTime(),
-                        inputDto.getPageStatus(),
-                        inputDto.getCurrentPage(),inputDto.getPageSize(),
-                        sort
-                );
-                withdrawSymbolMongoPoList.addAll(withdrawSymbolMongoPoMongoPage.getRows());
-                counts+=withdrawSymbolMongoPoMongoPage.getTotalCount();
+        for (AssetPo assetPo : assetPos) {
+            //如果传进来的币种部位空的时候  只查传进来的币种
+            if (!StringUtils.isEmpty(inputDto.getAsset())) {
+                if (!assetPo.getRealName().equals(inputDto.getAsset()))
+                    continue;
             }
-            newList= withdrawSymbolMongoPoList.stream().sorted(Comparator.comparing(FundWithdrawSymbolMongoPo::getWithdrawTime).reversed())
-                    .collect(Collectors.toList());
-            if(newList.size()>10)
-            {
-                if(inputDto.getPageStatus()==-1)
-                    newList=newList.subList(newList.size()-10,newList.size());
-                else
-                    newList=newList.subList(0,10);
-
-            }
+            MongoPage<FundWithdrawSymbolMongoPo> withdrawSymbolMongoPoMongoPage = withdrawSymbolMongoDao.pageAllFundWithdrawPosByAccountId(
+                    inputDto.getAccountId(), assetPo.getRealName(),
+                    inputDto.getWithdrawTime(), inputDto.getWithdrawId(),
+                    inputDto.getPageStatus(),
+                    inputDto.getCurrentPage(), inputDto.getPageSize(),
+                    sort
+            );
+            withdrawSymbolMongoPoList.addAll(withdrawSymbolMongoPoMongoPage.getRows());
+            counts += withdrawSymbolMongoPoMongoPage.getTotalCount();
+        }
+        newList = withdrawSymbolMongoPoList.stream().sorted(Comparator.comparing(FundWithdrawSymbolMongoPo::getId).reversed())
+                //Comparator.comparing(FundWithdrawSymbolMongoPo::getWithdrawTime
+                .collect(Collectors.toList());
+        if (newList.size() > 10) {
+            if (inputDto.getPageStatus() == -1&&inputDto.getCurrentPage()!=1)
+                newList = newList.subList(newList.size() - 10, newList.size());
             else
-            {
-                newList=newList.subList(0,newList.size());
-            }
+                newList = newList.subList(0, 10);
+
+        } else {
+            newList = newList.subList(0, newList.size());
         }
 
-        FundWithdrawAccountListOutputDto outputDto=new FundWithdrawAccountListOutputDto();
+        FundWithdrawAccountListOutputDto outputDto = new FundWithdrawAccountListOutputDto();
         outputDto.setTotal(Long.parseLong(String.valueOf(counts)));
         outputDto.setTotalCount(Long.parseLong(String.valueOf(counts)));
-        List<FundWithdrawOutputDto> list=new ArrayList<>();
-        for(FundWithdrawSymbolMongoPo po:newList )
-        {
-            FundWithdrawOutputDto row= ConventObjectUtil.conventObject(po,FundWithdrawOutputDto.class);
+        List<FundWithdrawOutputDto> list = new ArrayList<>();
+        for (FundWithdrawSymbolMongoPo po : newList) {
+            FundWithdrawOutputDto row = new FundWithdrawOutputDto();
+
+            row.setId(String.valueOf(po.getId()));
+            row.setAsset(po.getSymbol());
+            row.setAccountId(String.valueOf(po.getAccountId()));
+            row.setTargetAddr(po.getTargetAddr());
+            row.setVolume(DecimalUtil.trimZeroPlainString(po.getVolume()));
+            row.setFee(DecimalUtil.trimZeroPlainString(po.getFee()));
+            row.setWithdrawTime(String.valueOf(po.getWithdrawTime()));
+            row.setStatus(String.valueOf(po.getStatus()));
+            row.setCtime(String.valueOf(po.getCtime()));
+            row.setMtime(String.valueOf(po.getMtime()));
+
             list.add(row);
         }
         outputDto.setRows(list);

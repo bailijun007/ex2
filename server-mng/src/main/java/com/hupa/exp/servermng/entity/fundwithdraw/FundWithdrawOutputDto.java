@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 public class FundWithdrawOutputDto extends BaseOutputDto{
     private String id;
-    private String symbol;
+    private String asset;
     private String accountId;
     private String targetAddr;
     private String volume;
@@ -16,12 +16,12 @@ public class FundWithdrawOutputDto extends BaseOutputDto{
     private String ctime;
     private String mtime;
 
-    public String getSymbol() {
-        return symbol;
+    public String getAsset() {
+        return asset;
     }
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
+    public void setAsset(String asset) {
+        this.asset = asset;
     }
 
     public String getId() {

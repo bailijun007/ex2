@@ -1,17 +1,16 @@
-package com.hupa.exp.servermng.entity.fundwithdraw;
+package com.hupa.exp.servermng.entity.funddeposit;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 import com.hupa.exp.daomongo.enums.MongoSortEnum;
 
-public class FundWithdrawAccountListInputDto extends BaseInputDto {
+public class FundDepositListInputDto extends BaseInputDto {
     private String asset;
     private Long accountId;
-    private Long withdrawTime;
-    private Long withdrawId;
+    private Long depositTime;
+    private Long depositId;
     private long currentPage;
     private int pageSize;
     private Integer pageStatus;
-
 
     public String getAsset() {
         return asset;
@@ -29,20 +28,20 @@ public class FundWithdrawAccountListInputDto extends BaseInputDto {
         this.accountId = accountId;
     }
 
-    public Long getWithdrawTime() {
-        return withdrawTime;
+    public Long getDepositTime() {
+        return depositTime;
     }
 
-    public void setWithdrawTime(Long withdrawTime) {
-        this.withdrawTime = withdrawTime;
+    public void setDepositTime(Long depositTime) {
+        this.depositTime = depositTime;
     }
 
-    public Long getWithdrawId() {
-        return withdrawId;
+    public Long getDepositId() {
+        return depositId;
     }
 
-    public void setWithdrawId(Long withdrawId) {
-        this.withdrawId = withdrawId;
+    public void setDepositId(Long depositId) {
+        this.depositId = depositId;
     }
 
     public long getCurrentPage() {
@@ -68,6 +67,5 @@ public class FundWithdrawAccountListInputDto extends BaseInputDto {
     public void setPageStatus(Integer pageStatus) {
         this.pageStatus = pageStatus;
     }
-
 
 }

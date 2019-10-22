@@ -115,6 +115,7 @@
         pageNumber=1;
     }
 
+
 function bindAsset()
 {
         $.ajax({
@@ -146,7 +147,7 @@ bindAsset();
         //初始化Table
         oTableInit.Init = function () {
             $('#tb_departments').bootstrapTable({
-                url: '/v1/http/fundwithdraw/query_account_fund_withdraw_list',//+param,         //请求后台的URL（*）
+                url: '/v1/http/funddeposit/query_account_fund_deposit_list',//+param,         //请求后台的URL（*）
                 method: 'get',                      //请求方式（*）
                 //toolbar: '#toolbar',                //工具按钮用哪个容器
                 //striped: true,                      //是否显示行间隔色
@@ -189,22 +190,19 @@ bindAsset();
                         title: '币的符号',
                         field: 'asset'
                     }, {
-                        title: 'targetAddr',
-                        field: 'targetAddr'
+                        title: 'address',
+                        field: 'address'
                     }
                     , {
                         title: 'volume',
                         field: 'volume'
                     }
+
                     , {
-                        title: 'fee',
-                        field: 'fee'
-                    }
-                    , {
-                        title: 'withdrawTime',
+                        title: 'lastConfirmTime',
                         formatter: function (value, row, index) {
-                            if(row.withdrawTime!=null)
-                                return time(parseInt(row.withdrawTime));
+                            if(row.lastConfirmTime!=null)
+                                return time(parseInt(row.lastConfirmTime));
                             return"";
                         }
                     }
@@ -251,11 +249,11 @@ bindAsset();
                     {
                         //倒序
                         //开始时间为本页最后一条
-                        startTime=res.data.rows[res.data.rows.length-1].withdrawTime;
+                        startTime=res.data.rows[res.data.rows.length-1].lastConfirmTime;
                         startId=res.data.rows[res.data.rows.length-1].id;
                         console.log(startTime);
                         //结束时间为本页第一条
-                        endTime=res.data.rows[0].withdrawTime;
+                        endTime=res.data.rows[0].lastConfirmTime;
                         endId=res.data.rows[0].id;
                         console.log(endTime);
                     }
@@ -283,16 +281,15 @@ bindAsset();
                 queryTime=endId;
                 queryId=endId;
             }
-
             pageNumber=current_page;
             var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                 asset:$("#asset").val(),
-                account_id:$("#accountId").val(),
-                withdraw_time:queryTime,
-                withdraw_id:queryId,
-                page_status:pageStatus,
                 page_size: params.limit,   //页面大小
-                current_page: current_page  //页码
+                current_page: current_page,  //页码
+                deposit_time:queryTime,
+                deposit_id:queryId,
+                page_status:pageStatus,
+                account_id:$("#accountId").val()
             };
             //console.log(temp);
             return temp;
@@ -325,16 +322,6 @@ bindAsset();
 
 
 
-    function GetQueryString(name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-        var r = window.location.search.substr(1).match(reg);  //获取url中"?"符后的字符串并正则匹配
-        var context = "";
-        if (r != null)
-            context = r[2];
-        reg = null;
-        r = null;
-        return context == null || context == "" || context == "undefined" ? "" : context;
-    }//获取连接中的参数
 
 
 </script>
