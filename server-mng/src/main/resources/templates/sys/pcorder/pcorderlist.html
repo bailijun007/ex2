@@ -36,7 +36,7 @@
                     </div>
                     <div class="form-group" style="width: 15%; float: left;">
                         <label class="sr-only">交易对</label>
-                        <select id="pair" class="form-control">
+                        <select id="symbol" class="form-control">
                             <option value="BTC_USD" selected="selected">BTC_USD</option>
                             <option value="ETH_USD">ETH_USD</option>
                             <option value="EOS_USD">EOS_USD</option>
@@ -119,7 +119,7 @@
             $('#tb_departments').bootstrapTable('destroy');
             oTable.Init();
         });
-        $("#pair").change(function () {
+        $("#symbol").change(function () {
             $('#tb_departments').bootstrapTable('destroy');
             oTable.Init();
         })
@@ -265,8 +265,8 @@
                                 title: 'orderType',
                                 field: 'orderType'
                             }, {
-                                title: 'pair',
-                                field: 'pair'
+                                title: 'symbol',
+                                field: 'symbol'
                             }, {
                                 title: 'price',
                                 field: 'price'
@@ -312,7 +312,8 @@
             var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                 page_size: params.limit,   //页面大小
                 current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
-                pair:$("#pair").val(),
+                asset:"",
+                symbol:$("#symbol").val(),
                 order_id:$("#orderId").val(),
                 account_id:$("#accountId").val(),
                 account:$("#account").val(),

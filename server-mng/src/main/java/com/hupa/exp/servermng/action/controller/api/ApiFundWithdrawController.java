@@ -7,6 +7,7 @@ import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.common.entity.dto.BaseResultViaApiDto;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
+import com.hupa.exp.daomongo.enums.MongoSortEnum;
 import com.hupa.exp.servermng.entity.fundwithdraw.*;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiFundWithdrawControllerService;
@@ -59,6 +60,42 @@ public class ApiFundWithdrawController {
         }
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
+
+    @ApiOperation(value = "获取fundwithdraw")
+    @GetMapping("/query_account_fund_withdraw_list")
+    public BaseResultViaApiDto<FundWithdrawAccountListInputDto,FundWithdrawAccountListOutputDto> getAccountAllFundWith(
+            @ApiParam(name="account_id",value = "用户id",required = true)
+            @RequestParam(name = "account_id") Long accountId,
+            @ApiParam(name="start_time",value = "start_time",required = true)
+            @RequestParam(name = "start_time") Long startTime,
+            @ApiParam(name="end_time",value = "end_time",required = true)
+            @RequestParam(name = "end_time") Long endTime,
+            @ApiParam(name="page_status",value = "条数",required = true)
+            @RequestParam(name = "page_status") Integer pageStatus,
+            @ApiParam(name="page_size",value = "条数",required = true)
+            @RequestParam(name = "page_size") Integer pageSize,
+            @ApiParam(name="current_page",value = "页码",required = true)
+            @RequestParam(name = "current_page") Integer currentPage
+    ){
+        FundWithdrawAccountListOutputDto outputDto=new FundWithdrawAccountListOutputDto();
+        FundWithdrawAccountListInputDto inputDto=new FundWithdrawAccountListInputDto();
+        inputDto.setAccountId(accountId);
+        inputDto.setStartTime(startTime);
+        inputDto.setEndTime(endTime);
+        inputDto.setPageStatus(pageStatus);
+        inputDto.setCurrentPage(currentPage);
+        inputDto.setPageSize(pageSize);
+        inputDto.setSortEnum(MongoSortEnum.desc);
+
+        try{
+            outputDto = service.getAccountAllFundWith(inputDto);
+        }catch(BizException e){
+
+            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
+        }
+        return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
+    }
+
     @ApiOperation(value = "获取fundwithdraw")
     @PostMapping("/audit_fail")
     public BaseResultViaApiDto<AuditFailFundWithdrawInputDto,AuditFundWithdrawOutputDto> auditFailFundWithdraw(

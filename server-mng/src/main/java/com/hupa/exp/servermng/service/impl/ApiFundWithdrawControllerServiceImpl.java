@@ -11,19 +11,29 @@ import com.hupa.exp.bizother.service.account.def.IWithdrawBiz;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.JsonUtil;
+import com.hupa.exp.daomongo.dao.expv2.def.IFundWithdrawSymbolMongoDao;
+import com.hupa.exp.daomongo.entity.po.expv2mongo.FundWithdrawSymbolMongoPo;
+import com.hupa.exp.daomongo.entity.po.expv2mongo.MongoPage;
+import com.hupa.exp.daomongo.enums.MongoSortEnum;
+import com.hupa.exp.daomysql.dao.expv2.def.IAssetDao;
 import com.hupa.exp.daomysql.dao.expv2.def.IExpUserDao;
+import com.hupa.exp.daomysql.entity.po.expv2.AssetPo;
 import com.hupa.exp.daomysql.entity.po.expv2.ExpUserPo;
 import com.hupa.exp.servermng.entity.fundwithdraw.*;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiFundWithdrawControllerService;
+import com.hupa.exp.util.convent.ConventObjectUtil;
 import com.hupa.exp.util.math.DecimalUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.print.DocFlavor;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ApiFundWithdrawControllerServiceImpl implements IApiFundWithdrawControllerService {
@@ -41,6 +51,13 @@ public class ApiFundWithdrawControllerServiceImpl implements IApiFundWithdrawCon
 
     @Autowired
     private IExpUserDao iExpUserDao;
+
+    @Autowired
+    private IFundWithdrawSymbolMongoDao withdrawSymbolMongoDao;
+
+    @Autowired
+    private IAssetDao iAssetDao;
+
 
 
 
@@ -117,6 +134,87 @@ public class ApiFundWithdrawControllerServiceImpl implements IApiFundWithdrawCon
                 JsonUtil.toJsonString(beforeBo),JsonUtil.toJsonString(afterBo));
         AuditFundWithdrawOutputDto outputDto=new AuditFundWithdrawOutputDto();
         outputDto.setAuditStatus(bol);
+        outputDto.setTime(String.valueOf(System.currentTimeMillis()));
+        return outputDto;
+    }
+
+    @Override
+    public FundWithdrawAccountListOutputDto getAccountAllFundWith(FundWithdrawAccountListInputDto inputDto) throws BizException{
+        List<AssetPo> assetPos=iAssetDao.selectActiveList();
+        List<FundWithdrawSymbolMongoPo> withdrawSymbolMongoPoList=new ArrayList<>();
+        int counts=0;
+        MongoSortEnum sort= MongoSortEnum.desc;
+        List<FundWithdrawSymbolMongoPo> newList = new ArrayList<>();
+        //翻上一页的时候数据量少于10条的时候，反查一次
+        if(inputDto.getCurrentPage()==1&&inputDto.getPageStatus()==-1)//上一页
+        {
+            sort=MongoSortEnum.desc;
+            List<FundWithdrawSymbolMongoPo> withdrawSymbolMongoPoListPre=new ArrayList<>();
+            //查出来的上一页的数据的第一条的时间作为开始时间
+            for(AssetPo assetPo:assetPos) {
+                MongoPage<FundWithdrawSymbolMongoPo> withdrawSymbolMongoPoMongoPage = withdrawSymbolMongoDao.pageAllFundWithdrawPosByAccountId(
+                        inputDto.getAccountId(), assetPo.getRealName(),
+                        null, null,
+                        inputDto.getPageStatus(), inputDto.getCurrentPage(), inputDto.getPageSize(),
+                        sort
+                );
+                withdrawSymbolMongoPoListPre.addAll(withdrawSymbolMongoPoMongoPage.getRows());
+                counts+=withdrawSymbolMongoPoMongoPage.getTotalCount();
+            }
+            newList = withdrawSymbolMongoPoListPre.stream().sorted(Comparator.comparing(FundWithdrawSymbolMongoPo::getWithdrawTime).reversed())
+                    .collect(Collectors.toList());
+            if(newList.size()>10)
+            {
+                newList=newList.subList(0,10);
+            }
+            else
+            {
+                newList=newList.subList(0,newList.size());
+            }
+        }
+        else
+        {
+            if(inputDto.getPageStatus()==-1)
+            sort=MongoSortEnum.asc;
+            for(AssetPo assetPo:assetPos)
+            {
+                MongoPage<FundWithdrawSymbolMongoPo> withdrawSymbolMongoPoMongoPage= withdrawSymbolMongoDao.pageAllFundWithdrawPosByAccountId(
+                        inputDto.getAccountId(),assetPo.getRealName(),
+                        inputDto.getStartTime(),inputDto.getEndTime(),
+                        inputDto.getPageStatus(),
+                        inputDto.getCurrentPage(),inputDto.getPageSize(),
+                        sort
+                );
+                withdrawSymbolMongoPoList.addAll(withdrawSymbolMongoPoMongoPage.getRows());
+                counts+=withdrawSymbolMongoPoMongoPage.getTotalCount();
+            }
+            newList= withdrawSymbolMongoPoList.stream().sorted(Comparator.comparing(FundWithdrawSymbolMongoPo::getWithdrawTime).reversed())
+                    .collect(Collectors.toList());
+            if(newList.size()>10)
+            {
+                if(inputDto.getPageStatus()==-1)
+                    newList=newList.subList(newList.size()-10,newList.size());
+                else
+                    newList=newList.subList(0,10);
+
+            }
+            else
+            {
+                newList=newList.subList(0,newList.size());
+            }
+        }
+
+        FundWithdrawAccountListOutputDto outputDto=new FundWithdrawAccountListOutputDto();
+        outputDto.setTotal(Long.parseLong(String.valueOf(counts)));
+        outputDto.setTotalCount(Long.parseLong(String.valueOf(counts)));
+        List<FundWithdrawOutputDto> list=new ArrayList<>();
+        for(FundWithdrawSymbolMongoPo po:newList )
+        {
+            FundWithdrawOutputDto row= ConventObjectUtil.conventObject(po,FundWithdrawOutputDto.class);
+            list.add(row);
+        }
+        outputDto.setRows(list);
+        outputDto.setSizePerPage(inputDto.getPageSize());
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
     }

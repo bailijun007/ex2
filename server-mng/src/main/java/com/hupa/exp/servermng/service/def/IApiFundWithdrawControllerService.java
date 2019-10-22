@@ -10,4 +10,6 @@ public interface IApiFundWithdrawControllerService {
 
     AuditFundWithdrawOutputDto auditFailFundWithdraw(AuditFailFundWithdrawInputDto inputDto) throws BizException;
 
+    FundWithdrawAccountListOutputDto getAccountAllFundWith(FundWithdrawAccountListInputDto inputDto)throws BizException;
+
 }
