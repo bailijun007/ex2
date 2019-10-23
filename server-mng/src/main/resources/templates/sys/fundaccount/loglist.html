@@ -23,10 +23,7 @@
                             <div class="bootstrap-table">
                                 <div class="fixed-table-toolbar">
                                     <div class="pull-left search">
-                                        <select class="form-control input-outline" id="symbol">
-                                            <option value="BTC" selected="selected">BTC</option>
-                                            <option value="ETH">ETH</option>
-                                            <option value="EOS">EOS</option>
+                                        <select class="form-control input-outline" id="asset">
                                         </select>
                                     </div>
                                     <div class="columns columns-left btn-group pull-left">
@@ -67,7 +64,7 @@
 
 
     });
-
+bindAsset("asset");
 
     var addCatalogEvent = function (action,id) {
         var text = "添加币种"
@@ -195,7 +192,7 @@
                 page_size: params.limit,   //页面大小
                 current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
                 id: 0,
-                symbol: $("#symbol").val()
+                symbol: $("#asset").val()
 
             };
             //console.log(temp);

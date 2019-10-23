@@ -37,11 +37,11 @@
                             <div class="bootstrap-table">
                                 <div class="fixed-table-toolbar">
                                     <div class="bars pull-left">
-                                        <select id="pair" class="form-control">
+                                        <select id="symbol" class="form-control">
                                             <option value="" selected="selected">请选择交易对</option>
-                                             <option value="BTC_USD" >BTC_USD</option>
-                                             <option value="ETH_USD">ETH_USD</option>
-                                             <option value="EOS_USD">EOS_USD</option>
+                                             <!--<option value="BTC_USD" >BTC_USD</option>-->
+                                             <!--<option value="ETH_USD">ETH_USD</option>-->
+                                             <!--<option value="EOS_USD">EOS_USD</option>-->
                                         </select>
 
                                     </div>
@@ -93,7 +93,7 @@
         // oButtonInit.Init();
 
     });
-
+    bindSymbol("symbol");
     function ShowParam(id) {
         alert(id);
     }
@@ -203,7 +203,7 @@
             var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                 page_size: params.limit,   //页面大小
                 current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
-                pair:$("#pair").val()
+                pair:$("#symbol").val()
                 //pair: $("#pair").val()
             };
             //console.log(temp);
