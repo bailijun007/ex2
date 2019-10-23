@@ -168,7 +168,7 @@
                             $("#usertype").val(data.data.userType);
                             $("#id").val(data.data.id);
                             if (data.data.status == true)
-                                $("#ckbIsOnTop").attr("checked","checked")//$("#ckbIsOnTop").parent().find("a").attr("class", "selected");
+                                 $("#ckbIsOnTop").parent().find("a").attr("class","selected")//$("#ckbIsOnTop").parent().find("a").attr("class", "selected");
                             getRoleList(data.data.roleList);
                         }
                     }

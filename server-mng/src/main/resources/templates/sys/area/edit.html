@@ -106,7 +106,7 @@
                             $("#areaCode").val(data.data.area_code);
                             $("#areaName").val(data.data.area_name);
                             if (data.data.enable == true)
-                                $("#ckbIsOnTop").attr("checked","checked")
+                                $("#ckbIsOnTop").parent().find("a").attr("class","selected")
                         }
                     }
                 })

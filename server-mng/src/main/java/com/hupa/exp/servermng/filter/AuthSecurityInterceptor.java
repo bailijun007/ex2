@@ -49,7 +49,7 @@ public class AuthSecurityInterceptor extends HandlerInterceptorAdapter {
             //System.out.println(webSession);
             HttpSession session=request.getSession();
             Object token=session.getAttribute("token");
-            if(token==null||!webSession.toString().equals(token.toString()))
+            if(token==null||webSession==null||!webSession.toString().equals(token.toString()))
             {
                 //System.out.println("我证明用户没有登录");
                 redirect(request,response);
