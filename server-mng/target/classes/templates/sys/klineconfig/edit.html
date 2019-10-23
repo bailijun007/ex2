@@ -162,7 +162,7 @@
                             $("#end_time").val(data.data.end_time=="null"?"":data.data.end_time);
                             $("#id").val(data.data.id);
                             if (data.data.status == "1")
-                                $("#ckbIsOnTop").attr("checked","checked")//$("#ckbIsOnTop").parent().find("a").attr("class", "selected");
+                                 $("#ckbIsOnTop").parent().find("a").attr("class","selected")//$("#ckbIsOnTop").parent().find("a").attr("class", "selected");
                             var arr= data.data.klineInterval.split(",");
                             $("input[name='type'][value='"+data.data.type+"']").attr("checked",true);
                             for(var i=0;i<arr.length;i++)
