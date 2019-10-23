@@ -31,28 +31,44 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
                         <input type="hidden" id="id" value="0">
-
                         <div class="form-group">
                             <label class="col-sm-3 control-label">币种：</label>
                             <div class="col-sm-6">
-                                <select id="symbol" class="form-control">
-                                    <option value="BTC">BTC</option>
-                                    <option value="ETH">ETH</option>
-                                    <option value="EOS">EOS</option>
+                                <select id="asset" class="form-control">
+                                    <!--<option value="BTC">BTC</option>-->
+                                    <!--<option value="ETH">ETH</option>-->
+                                    <!--<option value="EOS">EOS</option>-->
                                 </select>
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">利率：</label>
+                            <label class="col-sm-3 control-label">交易对：</label>
+                            <div class="col-sm-6">
+                                <select id="symbol" class="form-control">
+                                    <!--<option value="BTC">BTC</option>-->
+                                    <!--<option value="ETH">ETH</option>-->
+                                    <!--<option value="EOS">EOS</option>-->
+                                </select>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">基础利率：</label>
                                 <div class="col-sm-6">
-                                    <input  class="form-control" type="text" datatype="*" id="symbol_interest">
+                                    <input  class="form-control" type="text" datatype="*" id="base_rate">
                                 </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">计价利率利率：</label>
+                            <div class="col-sm-6">
+                                <input  class="form-control" type="text" datatype="*" id="valuation_rate">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">时间：</label>
                             <div class="col-sm-6">
-                                <input  class="form-control" type="text"   id="interest_time">
+                                <input  class="form-control" type="text"   id="rate_time">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
@@ -98,8 +114,9 @@
 
 <script type="text/javascript">
     $(function () {
-        bindDrop("SymbolInterest","symbol");
-        $("#symbol option[value='']").remove(); //删除Select中Value='3'的Optiona
+        bindAsset("asset");
+        bindSymbol("symbol");
+        //$("#symbol option[value='']").remove(); //删除Select中Value='3'的Optiona
         function initData() {
 
             var id = GetQueryString("id");
@@ -108,7 +125,7 @@
             {
                 $.ajax({
                     type: "get",
-                    url: "/v1/http/symbolinterest/query?id=" + id,
+                    url: "/v1/http/symbolrate/query?id=" + id,
                     contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
                     async: false,
                     //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
@@ -117,9 +134,11 @@
                         //console.log(data);
                         if (data.data != null) {
                             $("#id").val(data.data.id);
+                            $("#asset").val(data.data.asset);
                             $("#symbol").val(data.data.symbol);
-                            $("#symbol_interest").val(data.data.symbolInterest);
-                            $("#interest_time").val(getShortDate(data.data.interestTime));
+                            $("#base_rate").val(data.data.base_rate);
+                            $("#valuation_rate").val(data.data.valuation_rate);
+                            $("#rate_time").val(getShortDate(data.data.rate_time));
                         }
                     }
                 })
@@ -161,13 +180,15 @@
 
         var parmes="?";
         parmes+= "id="+id;
+        parmes+="&asset="+$("#asset").val();
         parmes+="&symbol="+$("#symbol").val();
-        parmes+="&symbol_interest="+$("#symbol_interest").val();
-        parmes+= "&interest_time="+$("#interest_time").val();
+        parmes+="&base_rate="+$("#base_rate").val();
+        parmes+="&valuation_rate="+$("#valuation_rate").val();
+        parmes+= "&rate_time="+$("#rate_time").val();
 
         $.ajax({
             type:"post",
-            url:"/v1/http/symbolinterest/create_or_edit"+parmes,
+            url:"/v1/http/symbolrate/create_or_edit"+parmes,
             contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
 
             success:function(data) {

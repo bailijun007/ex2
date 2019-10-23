@@ -21,9 +21,9 @@
                     <div class="form-group" style="width: 15%; float: left;">
                         <label class="sr-only">交易对</label>
                         <select class="form-control" id="pair">
-                            <option value="BTC_USD" selected="selected">BTC_USD</option>
-                            <option value="ETH_USD">ETH_USD</option>
-                            <option value="EOS_USD">EOS_USD</option>
+                            <!--<option value="BTC_USD" selected="selected">BTC_USD</option>-->
+                            <!--<option value="ETH_USD">ETH_USD</option>-->
+                            <!--<option value="EOS_USD">EOS_USD</option>-->
                         </select>
                     </div>
                     <div class="input-group">
@@ -85,9 +85,7 @@
 
     });
 
-    function ShowParam(id) {
-        alert(id);
-    }
+  bindSymbol("pair");
 
     var addCatalogEvent = function (action,id) {
         var text = "添加档位信息"
