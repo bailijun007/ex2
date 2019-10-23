@@ -11,6 +11,8 @@ public interface IApiContractControllerService {
 
     ContractListOutputDto selectPosPageByParam(ContractListInputDto inputDto) throws ContractException;
 
+    GetAllSymbolOutputDto selectAllSymbolList(GetAllSymbolInputDto inputDto) throws ContractException;
+
     CheckHasContractOutputDto checkHasContract(CheckHasContractInputDto inputDto)throws ContractException;
 
     CheckHasLastPriceOutputDto checkHasLastPrice(CheckHasLastPriceInputDto inputDto)throws ContractException;

@@ -31,6 +31,8 @@ public interface IPcContractBiz {
 
 
     PcContractListBizBo selectPosPageByParam(String pair, long currentPage, long pageSize);
+    List<String> selectAllSymbol();
+
 
     boolean checkHasContract(String pair);
 

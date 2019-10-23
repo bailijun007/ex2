@@ -116,31 +116,8 @@
     }
 
 
-function bindAsset()
-{
-        $.ajax({
-        type: "get",
-        url: "/v1/http/asset/query_asset_list",
-        contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
-        async: false,
-        //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
-        //data:JSON.stringify({id:id}),
-        success: function (data) {
-            if(data.data.asset_list!=null)
-            {
-                var list=data.data.asset_list;
-                var html="";
-                for(var i=0;i<list.assetList.length;i++)
-                {
-                    html+="<option value='"+list.assetList[i]+"'>"+list.assetList[i]+"</option>";
-                }
-                $("#asset").append(html);
-            }
-        }
-
-    })
-}
-bindAsset();
+ 
+bindAsset("asset");
 
     var TableInit = function () {
         var oTableInit = new Object();

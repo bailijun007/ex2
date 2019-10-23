@@ -1,9 +1,9 @@
-package com.hupa.exp.servermng.entity.symbolinterest;
+package com.hupa.exp.servermng.entity.symbolrate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hupa.exp.common.entity.dto.output.BasePageOutputDto;
 
-public class SymbolInterestListOutputDto extends BasePageOutputDto<SymbolInterestInfoOutputDto> {
+public class SymbolRateListOutputDto extends BasePageOutputDto<SymbolRateInfoOutputDto> {
     @JsonProperty("page_data")
     private String pageData;
 

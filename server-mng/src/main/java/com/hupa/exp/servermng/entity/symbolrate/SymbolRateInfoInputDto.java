@@ -1,8 +1,8 @@
-package com.hupa.exp.servermng.entity.symbolinterest;
+package com.hupa.exp.servermng.entity.symbolrate;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 
-public class SymbolInterestInfoInputDto extends BaseInputDto {
+public class SymbolRateInfoInputDto extends BaseInputDto {
     private long id;
 
     public long getId() {

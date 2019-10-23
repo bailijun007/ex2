@@ -5,6 +5,7 @@ import com.hupa.exp.common.exception.ExceptionDescribe;
 public enum MngExceptionCode implements ExceptionDescribe {
     Success(0, "SUCCEED", ""),//成功
     DUBBO_SERVER_ERROR(-90001, "DUBBO_SERVER_ERROR", ""),//连接Dubbo服务错误
+    COLLECT_FEE_NUM_ERROR(-90002,"COLLECT_FEE_NUM_ERROR",""),
     TOKEN_NULL_ERROR(-10004,"TOKEN_NULL_ERROR","")
 
     ;

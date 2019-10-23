@@ -515,7 +515,7 @@ function bindDrop(type,id)
             var list= data.data.dic_list;
             dicTypeList=list;
             if (list != null) {
-                var html="<option value=''>请选择</option>";
+                var html="<option value=''>全部</option>";
                 for(var i=0;i<list.length;i++)
                 {
                     html+="<option value='"+list[i].key+"'>"+list[i].value+"</option>"
@@ -526,6 +526,54 @@ function bindDrop(type,id)
     })
 }
 
+function bindAsset(id)
+{
+    $.ajax({
+        type: "get",
+        url: "/v1/http/asset/query_asset_list",
+        contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+        async: false,
+        //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+        //data:JSON.stringify({id:id}),
+        success: function (data) {
+            //console.log(data);
+            var list= data.data.asset_list;
+            if (list != null) {
+                var html="<option value=''>全部</option>";
+                for(var i=0;i<list.assetList.length;i++)
+                {
+                    html+="<option value='"+list.assetList[i]+"'>"+list.assetList[i]+"</option>"
+                }
+                $("#"+id+"").html(html);
+            }
+        }
+    })
+}
+
+function bindSymbol(id)
+{
+    $.ajax({
+        type: "get",
+        url: "/v1/http/contract/get_all_symbol",
+        contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+        async: false,
+        //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+        //data:JSON.stringify({id:id}),
+        success: function (data) {
+            //console.log(data);
+            var list= data.data.symbol_list;
+            dicTypeList=list;
+            if (list != null) {
+                var html="<option value=''>全部</option>";
+                for(var i=0;i<list.length;i++)
+                {
+                    html+="<option value='"+list[i]+"'>"+list[i]+"</option>"
+                }
+                $("#"+id+"").html(html);
+            }
+        }
+    })
+}
 function time(time) {
     var date = new Date(time+1000*60*60*8);
     return date.toJSON().substr(0, 19).replace('T', ' ');//.replace(/-/g, '.')

@@ -8,15 +8,14 @@ import com.hupa.exp.base.enums.OperationType;
 import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.common.exception.BizException;
-import com.hupa.exp.daomysql.dao.expv2.def.IPcSymbolInterestDao;
-import com.hupa.exp.daomysql.entity.po.expv2.PcSymbolInterestPo;
+import com.hupa.exp.daomysql.dao.expv2.def.IPcSymbolRateDao;
+import com.hupa.exp.daomysql.entity.po.expv2.PcSymbolRatePo;
 import com.hupa.exp.servermng.entity.base.DeleteInputDto;
 import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
-import com.hupa.exp.servermng.entity.symbolinterest.*;
+import com.hupa.exp.servermng.entity.symbolrate.*;
 import com.hupa.exp.servermng.help.SessionHelper;
-import com.hupa.exp.servermng.service.def.IApiSymbolInterestControllerService;
+import com.hupa.exp.servermng.service.def.IApiSymbolRateControllerService;
 import com.hupa.exp.util.convent.ConventObjectUtil;
-import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ApiSymbolInterestControllerServiceImpl implements IApiSymbolInterestControllerService {
+public class ApiSymbolRateControllerServiceImpl implements IApiSymbolRateControllerService {
 
     @Autowired
-    private IPcSymbolInterestDao iPcSymbolInterestDao;
+    private IPcSymbolRateDao iPcSymbolRateDao;
 
     @Autowired
     private IExpOperationLogService logService;
@@ -36,47 +35,49 @@ public class ApiSymbolInterestControllerServiceImpl implements IApiSymbolInteres
     private SessionHelper sessionHelper;
 
     @Override
-    public SymbolInterestOutputDto createOrEditSymbolInterest(SymbolInterestInputDto inputDto) throws BizException {
-        PcSymbolInterestPo po= ConventObjectUtil.conventObject(inputDto,PcSymbolInterestPo.class);
+    public SymbolRateOutputDto createOrEditSymbolRate(SymbolRateInputDto inputDto) throws BizException {
+        PcSymbolRatePo po= ConventObjectUtil.conventObject(inputDto,PcSymbolRatePo.class);
         if(po.getId()>0)
         {
             po.setMtime(System.currentTimeMillis());
-            iPcSymbolInterestDao.updateById(po);
+            iPcSymbolRateDao.updateById(po);
         }
         else
         {
             po.setCtime(System.currentTimeMillis());
             po.setMtime(System.currentTimeMillis());
-            iPcSymbolInterestDao.insert(po);
+            iPcSymbolRateDao.insert(po);
         }
-        SymbolInterestOutputDto outputDto=new SymbolInterestOutputDto();
+        SymbolRateOutputDto outputDto=new SymbolRateOutputDto();
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
     }
 
     @Override
-    public SymbolInterestInfoOutputDto getSymbolInterest(SymbolInterestInfoInputDto inputDto) throws BizException {
-        PcSymbolInterestPo po=iPcSymbolInterestDao.selectPoById(inputDto.getId());
-        SymbolInterestInfoOutputDto outputDto=new SymbolInterestInfoOutputDto();
+    public SymbolRateInfoOutputDto getSymbolRate(SymbolRateInfoInputDto inputDto) throws BizException {
+        PcSymbolRatePo po= iPcSymbolRateDao.selectPoById(inputDto.getId());
+        SymbolRateInfoOutputDto outputDto=new SymbolRateInfoOutputDto();
         outputDto.setId(po.getId());
+        outputDto.setAsset(po.getAsset());
+        outputDto.setSymbol(po.getSymbol());
+        outputDto.setBaseRate(po.getBaseRate());
+        outputDto.setValuationRate(po.getValuationRate());
+        outputDto.setRateTime(po.getRateTime());
         outputDto.setCtime(po.getCtime());
         outputDto.setMtime(po.getMtime());
-        outputDto.setSymbol(po.getSymbol());
-        outputDto.setSymbolInterest(po.getSymbolInterest());
-        outputDto.setInterestTime(po.getInterestTime());
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
     }
 
     @Override
-    public SymbolInterestListOutputDto getSymbolInterestList(SymbolInterestListInputDto inputDto) throws BizException {
-        SymbolInterestListOutputDto outputDto=new SymbolInterestListOutputDto();
-        IPage<PcSymbolInterestPo> listBizBo=iPcSymbolInterestDao.selectPcSymbolInterestPage(inputDto.getSymbol(),
+    public SymbolRateListOutputDto getSymbolRateList(SymbolRateListInputDto inputDto) throws BizException {
+        SymbolRateListOutputDto outputDto=new SymbolRateListOutputDto();
+        IPage<PcSymbolRatePo> listBizBo= iPcSymbolRateDao.selectPosPage(inputDto.getAsset(),inputDto.getSymbol(),
                 inputDto.getCurrentPage(),inputDto.getPageSize());
-        List<SymbolInterestInfoOutputDto> rows=new ArrayList<>();
-        for(PcSymbolInterestPo po:listBizBo.getRecords())
+        List<SymbolRateInfoOutputDto> rows=new ArrayList<>();
+        for(PcSymbolRatePo po:listBizBo.getRecords())
         {
-            SymbolInterestInfoOutputDto row= ConventObjectUtil.conventObject(po,SymbolInterestInfoOutputDto.class);
+            SymbolRateInfoOutputDto row= ConventObjectUtil.conventObject(po,SymbolRateInfoOutputDto.class);
             rows.add(row);
         }
         outputDto.setRows(rows);
@@ -87,11 +88,11 @@ public class ApiSymbolInterestControllerServiceImpl implements IApiSymbolInteres
     }
 
     @Override
-    public DeleteOutputDto deleteSymbolInterest(DeleteInputDto inputDto) throws BizException {
+    public DeleteOutputDto deleteSymbolRate(DeleteInputDto inputDto) throws BizException {
         String[] ids=inputDto.getIds().split(",");
         for(String id:ids)
         {
-            iPcSymbolInterestDao.deleteById(Long.parseLong(id));
+            iPcSymbolRateDao.deleteById(Long.parseLong(id));
         }
         ExpUserBizBo user=sessionHelper.getUserInfoBySession();
         logService.createOperationLog(user.getId(),user.getUserName(),

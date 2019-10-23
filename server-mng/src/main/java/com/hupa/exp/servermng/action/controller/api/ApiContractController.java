@@ -170,4 +170,20 @@ public class ApiContractController {
         return  BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
 
+    @ApiOperation(value = "检查是否已存在")
+    @GetMapping(path = "/get_all_symbol")
+    public BaseResultViaApiDto<GetAllSymbolInputDto,GetAllSymbolOutputDto> getActiveSymbol()
+    {
+        GetAllSymbolInputDto inputDto=new GetAllSymbolInputDto();
+
+        GetAllSymbolOutputDto outputDto=new GetAllSymbolOutputDto();
+        try {
+            outputDto=iApiContractControllerService.selectAllSymbolList(inputDto);
+        } catch (ContractException e) {
+            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
+        }
+        return  BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
+    }
+
+
 }

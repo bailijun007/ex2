@@ -5,9 +5,8 @@ import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
 import com.hupa.exp.servermng.entity.base.DeleteInputDto;
 import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
-import com.hupa.exp.servermng.entity.storinglevel.*;
-import com.hupa.exp.servermng.entity.symbolinterest.*;
-import com.hupa.exp.servermng.service.def.IApiSymbolInterestControllerService;
+import com.hupa.exp.servermng.entity.symbolrate.*;
+import com.hupa.exp.servermng.service.def.IApiSymbolRateControllerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -19,37 +18,43 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 
-@Api(tags = {"apiStoringLevelController"})
+@Api(tags = {"apiSymbolRateController"})
 @RestController
-@RequestMapping(path = "/v1/http/symbolinterest",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class ApiSymbolInterestController {
+@RequestMapping(path = "/v1/http/symbolrate",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+public class ApiSymbolRateController {
     @Autowired
-    private IApiSymbolInterestControllerService service;
+    private IApiSymbolRateControllerService service;
     /**
      * 插入菜单数据
      */
-    @ApiOperation(value = "插入用户")
+    @ApiOperation(value = "插入或修改利率")
     @PostMapping("/create_or_edit")
-    public BaseResultViaApiDto<SymbolInterestInputDto,SymbolInterestOutputDto> createOrEditStoringLevel(
+    public BaseResultViaApiDto<SymbolRateInputDto,SymbolRateOutputDto> createOrEditSymbolRate(
             @ApiParam(name="id",value = "id",required = true)
             @RequestParam(name = "id") Long id,
+            @ApiParam(name="asset",value = "币种",required = true)
+            @RequestParam(name = "asset") String asset,
             @ApiParam(name="symbol",value = "交易对",required = true)
             @RequestParam(name = "symbol") String symbol,
-            @ApiParam(name="symbol_interest",value = "档次",required = true)
-            @RequestParam(name = "symbol_interest") BigDecimal symbolInterest,
-                   @ApiParam(name="interest_time",value = "时间",required = true)
-            @RequestParam(name = "interest_time") String interestTime
+            @ApiParam(name="base_rate",value = "基础利率",required = true)
+            @RequestParam(name = "base_rate") BigDecimal baseRate,
+            @ApiParam(name="valuation_rate",value = "计价利率",required = true)
+            @RequestParam(name = "valuation_rate") BigDecimal valuationRate,
+                   @ApiParam(name="rate_time",value = "利率时间",required = true)
+            @RequestParam(name = "rate_time") String rateTime
 
     ){
-        SymbolInterestOutputDto outputDto=new SymbolInterestOutputDto();
-        SymbolInterestInputDto inputDto=new SymbolInterestInputDto();
+        SymbolRateOutputDto outputDto=new SymbolRateOutputDto();
+        SymbolRateInputDto inputDto=new SymbolRateInputDto();
         inputDto.setId(id);
+        inputDto.setAsset(asset);
         inputDto.setSymbol(symbol);
-        inputDto.setSymbolInterest(symbolInterest);
-        long dt= DateTime.parse(interestTime+" 00:00:00", DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")).getMillis();
-        inputDto.setInterestTime(dt);
+        inputDto.setBaseRate(baseRate);
+        inputDto.setValuationRate(valuationRate);
+        long dt= DateTime.parse(rateTime+" 00:00:00", DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")).getMillis();
+        inputDto.setRateTime(dt);
         try{
-            outputDto= service.createOrEditSymbolInterest(inputDto);
+            outputDto= service.createOrEditSymbolRate(inputDto);
         }catch(BizException e){
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
         }
@@ -58,16 +63,16 @@ public class ApiSymbolInterestController {
 
     @ApiOperation(value = "查询")
     @GetMapping("/query")
-    public BaseResultViaApiDto<SymbolInterestInfoInputDto,SymbolInterestInfoOutputDto> queryStoringLevel(
+    public BaseResultViaApiDto<SymbolRateInfoInputDto,SymbolRateInfoOutputDto> querySymbolRate(
             @ApiParam(name="id",value = "id",required = true)
             @RequestParam(name = "id") Long id
 
     ){
-        SymbolInterestInfoOutputDto outputDto=new SymbolInterestInfoOutputDto();
-        SymbolInterestInfoInputDto inputDto=new SymbolInterestInfoInputDto();
+        SymbolRateInfoOutputDto outputDto=new SymbolRateInfoOutputDto();
+        SymbolRateInfoInputDto inputDto=new SymbolRateInfoInputDto();
         inputDto.setId(id);
         try{
-            outputDto= service.getSymbolInterest(inputDto);
+            outputDto= service.getSymbolRate(inputDto);
         }catch(BizException e){
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
         }
@@ -76,7 +81,9 @@ public class ApiSymbolInterestController {
 
     @ApiOperation(value = "查询列表")
     @GetMapping("/query_list")
-    public BaseResultViaApiDto<SymbolInterestListInputDto,SymbolInterestListOutputDto> queryStoringLevelList(
+    public BaseResultViaApiDto<SymbolRateListInputDto,SymbolRateListOutputDto> querySymbolRateList(
+            @ApiParam(name="asset",value = "asset",required = true)
+            @RequestParam(name = "asset") String asset,
             @ApiParam(name="symbol",value = "symbol",required = true)
             @RequestParam(name = "symbol") String symbol,
             @ApiParam(name="page_size",value = "条数",required = true)
@@ -85,13 +92,14 @@ public class ApiSymbolInterestController {
             @RequestParam(name = "current_page") Integer currentPage
 
     ){
-        SymbolInterestListOutputDto outputDto=new SymbolInterestListOutputDto();
-        SymbolInterestListInputDto inputDto=new SymbolInterestListInputDto();
+        SymbolRateListOutputDto outputDto=new SymbolRateListOutputDto();
+        SymbolRateListInputDto inputDto=new SymbolRateListInputDto();
+        inputDto.setAsset(asset);
         inputDto.setSymbol(symbol);
         inputDto.setCurrentPage(currentPage);
         inputDto.setPageSize(pageSize);
         try{
-            outputDto= service.getSymbolInterestList(inputDto);
+            outputDto= service.getSymbolRateList(inputDto);
         }catch(BizException e){
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
         }
@@ -101,7 +109,7 @@ public class ApiSymbolInterestController {
 
     @ApiOperation(value = "删除")
     @PostMapping("/delete")
-    public BaseResultViaApiDto<DeleteInputDto,DeleteOutputDto> deleteDic(
+    public BaseResultViaApiDto<DeleteInputDto,DeleteOutputDto> deleteSymbolRate(
             @ApiParam(name="ids",value = "ids",required = true)
             @RequestParam(name = "ids") String ids
     ){
@@ -111,7 +119,7 @@ public class ApiSymbolInterestController {
         inputDto.setIds(ids);
 
         try{
-            outputDto = service.deleteSymbolInterest(inputDto);
+            outputDto = service.deleteSymbolRate(inputDto);
 
         }catch(BizException e){
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);

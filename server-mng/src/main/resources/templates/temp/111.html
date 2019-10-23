@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script type="text/javascript">
+    function initTable() {
+        $('#prjLogBookProblemParentTable').bootstrapTable('destroy').bootstrapTable({
+            columns: [{
+                field: 'id',
+                title: '自增id',
+                width: 25,
+                align: 'center',
+            }, {
+                field: 'projectName',
+                title: '项目名称',
+                width: 250,
+                align: 'center',
+            }, {
+                field: 'jobcontentName',
+                title: '工作内容',
+                width: 250,
+                align: 'center',
+            }, {
+                field: 'initiatorName',
+                title: '发起人',
+                width: 50,
+                align: 'center',
+            }, {
+                field: 'operatorName',
+                title: '经办人',
+                width: 50,
+                align: 'center',
+            }, {
+                field: 'terminatorName',
+                title: '终结者',
+                width: 50,
+                align: 'center',
+            }, {
+                field: 'problems',
+                title: '问题描述',
+                width: 150,
+                align: 'center',
+            }, {
+                field: 'solution',
+                title: '解决方案',
+                width: 150,
+                align: 'center',
+            }, {
+                field: 'timeConsuming',
+                title: '耗时(小时)',
+                width: 25,
+                align: 'center',
+            }, {
+                field: 'type',
+                title: '状态',
+                width: 50,
+                align: 'center',
+                formatter: function (value, row, index) {
+                    if (value == 0) {
+                        return "<button class=\"btn btn-danger disabled\">结束</button>";
+                    } else if (value == 1) {
+                        return "<button class=\"btn btn-success disabled\">发起</button>";
+                    } else if (value == 2) {
+                        return "<button class=\"btn btn-warning disabled\">流转</button>";
+                    }
+                }
+            }],
+            url: basePath + 'project/logBookProblemsParent/list',
+            method: 'post', //请求方式(*)
+            striped: true, //是否显示行间隔色
+            cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性(*)
+            pagination: true, //是否显示分页(*)
+            sortable: true, //是否启用排序
+            sortOrder: "desc", //排序方式
+            queryParams: initTable.queryParams,//传递参数(*)
+            sidePagination: "client", //分页方式：client客户端分页，server服务端分页(*)
+            pageNumber: 1, //初始化加载第一页，默认第一页
+            pageSize: 10, //每页的记录行数(*)
+            pageList: [20, 50, 100], //可供选择的每页的行数(*)
+            search: false, //是否显示表格搜索，此搜索是客户端搜索
+            strictSearch: true, //精确查找
+            showColumns: false, //是否显示所有的列
+            showRefresh: false, //是否显示刷新按钮
+            minimumCountColumns: 2, //最少允许的列数
+            clickToSelect: true, //是否启用点击选中行
+            height: 800,
+            uniqueId: "id", //每一行的唯一标识，一般为主键列
+            showToggle: false, //是否显示详细视图和列表视图的切换按钮
+            cardView: false, //是否显示详细视图
+            detailView: true, //是否显示父子表
+            showExport: true,//按格式导出
+            exportDataType: "basic",
+            exportTypes: ['txt', 'doc', 'excel', 'xlsx'],
+            queryParamsType: "limit",
+//                      toolbar: tb, //工具按钮用哪个容器
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            checkboxHeader: true,
+            search: false,
+            singleSelect: true,
+            striped: true,
+            showColumns: true, // 开启自定义列显示功能
+            onCheck: function (row) {
+
+            },
+            queryParams: function queryParams(params) {   //设置查询参数
+                var param = {
+// 这里是在ajax发送请求的时候设置一些参数 params有什么东西，自己看看源码就知道了
+                    sort: "id",
+                    order: params.order,
+//operator : loginUserId,
+                    projectName: $("#projectName").val(),
+                    type: $("#type").val(),
+                };
+                return param;
+            },
+            onLoadSuccess: function () {  //加载成功时执行
+                layer.msg("数据加载成功!", {time: 1500, icon: 6});
+            },
+            onLoadError: function () {  //加载失败时执行
+                layer.msg("加载数据失败", {time: 1500, icon: 5});
+            },
+//注册加载子表的事件。注意下这里的三个参数！
+            onExpandRow: function (index, row, $detail) {
+                console.log(index);
+                console.log(row);
+                onclick = row.id;
+                var parentId = row.id;
+                var prjLogBookProblemTable = $detail.html('<table></table>').find('table');
+                $(prjLogBookProblemTable).bootstrapTable({
+                    columns: [{
+                        field: 'id',
+                        title: '自增id',
+                        align: 'center',
+                        visible: false, //隐藏列
+                    }, {
+                        field: 'previousPeopleName',
+                        title: '上一节点处理人',
+                        align: 'center',
+                    }, {
+                        field: 'operatorName',
+                        title: '当前处理人',
+                        align: 'center',
+                    }, {
+                        field: 'nextPeopleName',
+                        title: '下一个节点处理人',
+                        align: 'center',
+                    } , {
+                        field: 'solution',
+                        title: '解决方案',
+                        align: 'center',
+                    }, {
+                        field: 'timeConsuming',
+                        title: '耗时(小时)',
+                        align: 'center',
+                    }, {
+                        field: '_op',
+                        title: '操作',
+                        align: 'center',
+                        formatter: function (value, row, index) {
+                            if (row.type == 0) {
+                                return '<button class=\'btn btn-info disabled\'>已流转</button>';
+                            } else if (row.type == 4) {
+                                return '<button class=\'btn btn-danger disabled\'>已结束</button>';
+                            } else {
+                                var row = JSON.stringify(row);
+                                return '<button class=\'btn btn-success\' οnclick=\'next(' + row + ')\'>流转</button>&nbsp;&nbsp;<button class=\'btn btn-danger\' οnclick=\'end(' + row + ')\'>结束</button>';
+                            }
+                        }
+                    }],
+                    url: basePath + 'project/logBookProblems/list',
+                    method: 'POST', //请求方式(*)
+                    sortable: true, //是否启用排序
+                    sortName: 'id',
+                    sortOrder: 'asc', //排序方式
+                    clickToSelect: true, //是否启用点击选中行
+                    uniqueId: "id", //每一行的唯一标识，一般为主键列
+                    ajaxOptions: {parentId: parentId},
+                    queryParams: {parentId: parentId},
+                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                    onLoadError: function () {  //加载失败时执行
+                        layer.msg("加载数据出错!", {time: 1500, icon: 5});
+                    }
+                });
+            },
+        });
+    }
+</script>

@@ -125,6 +125,17 @@ public class PcContractBizImpl implements IPcContractBiz
     }
 
     @Override
+    public List<String> selectAllSymbol() {
+        List<PcContractPo> listPo= iPcContractDao.selectPosByStatus(1);
+        List<String> symbolList=new ArrayList<>();
+        for(PcContractPo po:listPo)
+        {
+            symbolList.add(po.getSymbol());
+        }
+        return symbolList;
+    }
+
+    @Override
     public boolean checkHasContract(String pair) {
         return iPcContractDao.checkHasContract("",pair);
     }

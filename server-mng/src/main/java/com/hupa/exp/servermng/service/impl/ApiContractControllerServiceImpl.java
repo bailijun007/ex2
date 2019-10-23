@@ -144,6 +144,14 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
     }
 
     @Override
+    public GetAllSymbolOutputDto selectAllSymbolList(GetAllSymbolInputDto inputDto) throws ContractException {
+        List<String> symbolList= iPcContractBiz.selectAllSymbol();
+        GetAllSymbolOutputDto outputDto=new GetAllSymbolOutputDto();
+        outputDto.setSymbolList(symbolList);
+        return outputDto;
+    }
+
+    @Override
     public CheckHasContractOutputDto checkHasContract(CheckHasContractInputDto inputDto) throws ContractException {
         boolean hasContract = iPcContractBiz.checkHasContract(inputDto.getSymbol());
         CheckHasContractOutputDto outputDto=new CheckHasContractOutputDto();

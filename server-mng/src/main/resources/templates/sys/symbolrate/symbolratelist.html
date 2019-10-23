@@ -20,11 +20,20 @@
                 <div class="col-sm-11">
                     <div class="form-group" style="width: 15%; float: left;">
                         <label class="sr-only">币</label>
+                        <select id="asset" class="form-control">
+                            <!--<option value="" selected="selected">全部</option>-->
+                            <!--<option value="BTC" >BTC</option>-->
+                            <!--<option value="ETH">ETH</option>-->
+                            <!--<option value="EOS">EOS</option>-->
+                        </select>
+                    </div>
+                    <div class="form-group" style="width: 15%; float: left;">
+                        <label class="sr-only">币</label>
                         <select id="symbol" class="form-control">
-                            <option value="" selected="selected">全部</option>
-                             <option value="BTC" >BTC</option>
-                             <option value="ETH">ETH</option>
-                             <option value="EOS">EOS</option>
+                            <!--<option value="" selected="selected">全部</option>-->
+                             <!--<option value="BTC" >BTC</option>-->
+                             <!--<option value="ETH">ETH</option>-->
+                             <!--<option value="EOS">EOS</option>-->
                         </select>
                     </div>
                     <div class="input-group">
@@ -43,7 +52,7 @@
                                         <div class="btn-group hidden-xs" id="toolbar" role="group">
 
                                             <a class="btn btn-outline btn-default" href="javascript:addCatalogEvent('Add','0')"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>新增</a>
-                                            <a class="btn btn-outline btn-default" href="javascript:del_ck_confirm('tb_departments','/v1/http/symbolinterest/delete')"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>删除</a>
+                                            <a class="btn btn-outline btn-default" href="javascript:del_ck_confirm('tb_departments','/v1/http/symbolrate/delete')"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>删除</a>
                                         </div>
                                     </div>
                                 </div>
@@ -87,12 +96,14 @@
 
         // var oButtonInit = new ButtonInit();
         // oButtonInit.Init();
-    bindDrop("SymbolInterest","symbol")
+        bindAsset("asset");
+        bindSymbol("symbol");
+
     });
 
     var addCatalogEvent = function (action,id) {
         var text = "添加利率"
-        url = "/sys/symbolinterest/edit.html?id="+id+"&action="+action+"";
+        url = "/sys/symbolrate/edit.html?id="+id+"&action="+action+"";
 
         parent.layer.open({
             type: 2,
@@ -112,25 +123,12 @@
     }
 
 
-
-    function DoAction(action) {
-        var RowSelects = $('#tb_departments').bootstrapTable('getSelections'); //获取表选择的行
-        var SelectRow = $.parseJSON(JSON.stringify(RowSelects));
-
-        if (action == "add")
-            window.location.href = "ModuleEdit.aspx?action=Add&typeId=" + GetQueryString('typeId') + "";
-        else if (SelectRow.length != 0)
-            window.location.href = "ModuleEdit.aspx?id=" + SelectRow[0].id + "&action=Edit";
-        else
-            alert("请勾选要操作的记录");
-    }
-
     var TableInit = function () {
         var oTableInit = new Object();
         //初始化Table
         oTableInit.Init = function () {
                     $('#tb_departments').bootstrapTable({
-                         url: '/v1/http/symbolinterest/query_list',//+param,         //请求后台的URL（*）
+                         url: '/v1/http/symbolrate/query_list',//+param,         //请求后台的URL（*）
                          method: 'get',                      //请求方式（*）
                         //toolbar: '#toolbar',                //工具按钮用哪个容器
                         //striped: true,                      //是否显示行间隔色
@@ -163,17 +161,24 @@
                                 title: 'id',
                                 field: 'id'
                             }, {
+                                title: '币种',
+                                field: 'asset'
+                            }, {
                                 title: 'symbol',
                                 field: 'symbol'
                             }, {
-                                title: '利率',
-                                field: 'symbolInterest'
+                                title: '基础利率',
+                                field: 'baseRate'
+                            }
+                            , {
+                                title: '计价利率',
+                                field: 'valuationRate'
                             },
                             {
                                 title: '时间',
                                 formatter: function (value, row, index) {
-                                    if(row.interestTime!=null)
-                                        return getShortDate(parseInt(row.interestTime));
+                                    if(row.rateTime!=null)
+                                        return getShortDate(parseInt(row.rateTime));
                                     return"";
                                 }
                             },
@@ -191,16 +196,13 @@
                             //return res.data;
                         }
                     });
-
-
-
-
         };
         oTableInit.queryParams = function (params) {
             var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                 page_size: params.limit,   //页面大小
                 current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
                 symbol:$("#symbol").val(),
+                asset:$("#asset").val(),
                 //pair: $("#pair").val()
             };
             //console.log(temp);
@@ -208,24 +210,6 @@
         };
         return oTableInit;
     };
-
-
-
-
-    function GetQueryString(name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-        var r = window.location.search.substr(1).match(reg);  //获取url中"?"符后的字符串并正则匹配
-        var context = "";
-        if (r != null)
-            context = r[2];
-        reg = null;
-        r = null;
-        return context == null || context == "" || context == "undefined" ? "" : context;
-    }//获取连接中的参数
-
-
-
-
 </script>
 
 
