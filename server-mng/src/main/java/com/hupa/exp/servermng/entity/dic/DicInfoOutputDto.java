@@ -9,6 +9,8 @@ public class DicInfoOutputDto  extends BaseOutputDto {
     private String value;
     @JsonProperty("parent_id")
     private String parentId;
+    private String parent;
+    private String remarks;
 
     public String getId() {
         return id;
@@ -40,5 +42,21 @@ public class DicInfoOutputDto  extends BaseOutputDto {
 
     public void setParentId(String parentId) {
         this.parentId = parentId;
+    }
+
+    public String getParent() {
+        return parent;
+    }
+
+    public void setParent(String parent) {
+        this.parent = parent;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 }

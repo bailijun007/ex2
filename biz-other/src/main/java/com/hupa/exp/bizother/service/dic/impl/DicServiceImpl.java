@@ -64,6 +64,18 @@ public class DicServiceImpl implements IDicService {
     }
 
     @Override
+    public List<ExpDicBizBo> queryParentDic() throws BizException {
+        List<ExpDicPo> list=iExpDicDao.selectParentDic();
+        List<ExpDicBizBo> boList=new ArrayList<>();
+        for(ExpDicPo po:list)
+        {
+            ExpDicBizBo bo=ConventObjectUtil.conventObject(po,ExpDicBizBo.class);
+            boList.add(bo);
+        }
+        return boList;
+    }
+
+    @Override
     public ExpDicBizBo queryDicById(long id) throws BizException {
         ExpDicPo po=iExpDicDao.selectPoById(id);
         if(po==null)

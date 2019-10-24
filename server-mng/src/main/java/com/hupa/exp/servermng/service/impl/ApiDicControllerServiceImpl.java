@@ -48,10 +48,33 @@ public class ApiDicControllerServiceImpl implements IApiDicControllerService {
             pageData.setKey(bo.getKey());
             pageData.setValue(bo.getValue());
             pageData.setParentId(String.valueOf(bo.getParentId()));
+            pageData.setParent(bo.isParent()==true?"1":"0");
+            pageData.setRemarks(bo.getRemarks());
             pageList.add(pageData);
         }
 
         outputDto.setDicList(pageList);
+        return outputDto;
+    }
+
+    @Override
+    public DicAllListOutputDto queryParentDic(DicAllListInputDto inputDto) throws BizException {
+        DicAllListOutputDto outputDto=new DicAllListOutputDto();
+        List<ExpDicBizBo> list =dicService.queryParentDic();
+        List<DicInfoOutputDto> rows=new ArrayList<>();
+        for(ExpDicBizBo bo:list)
+        {
+            DicInfoOutputDto row=new DicInfoOutputDto();
+            row.setId(String.valueOf(bo.getId()));
+            row.setKey(bo.getKey());
+            row.setValue(bo.getValue());
+            row.setParentId(String.valueOf(bo.getParentId()));
+            row.setParent(bo.isParent()==true?"1":"0");
+            row.setRemarks(bo.getRemarks());
+            rows.add(row);
+        }
+
+        outputDto.setDicList(rows);
         return outputDto;
     }
 
@@ -75,6 +98,8 @@ public class ApiDicControllerServiceImpl implements IApiDicControllerService {
         bo.setParentId(inputDto.getParentId());
         bo.setKey(inputDto.getKey());
         bo.setValue(inputDto.getValue());
+        bo.setParent(inputDto.isParent());
+        bo.setRemarks(inputDto.getRemarks());
         String after=JSON.toJSONString(bo);
         ExpUserBizBo user=sessionHelper.getUserInfoBySession();
         logService.createOperationLog(user.getId(),user.getUserName(),
@@ -94,6 +119,8 @@ public class ApiDicControllerServiceImpl implements IApiDicControllerService {
         outputDto.setId(String.valueOf(bo.getId()));
         outputDto.setKey(bo.getKey());
         outputDto.setValue(bo.getValue());
+        outputDto.setParent(bo.isParent()==true?"1":"0");
+        outputDto.setRemarks(bo.getRemarks());
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
     }
@@ -109,6 +136,8 @@ public class ApiDicControllerServiceImpl implements IApiDicControllerService {
             pageData.setKey(bo.getKey());
             pageData.setValue(bo.getValue());
             pageData.setParentId(String.valueOf(bo.getParentId()));
+            pageData.setRemarks(bo.getRemarks());
+            pageData.setParent(bo.isParent()==true?"1":"0");
             pageList.add(pageData);
         }
         DicListOutputDto outputDto=new DicListOutputDto();

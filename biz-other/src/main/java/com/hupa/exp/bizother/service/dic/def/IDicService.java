@@ -15,6 +15,8 @@ public interface IDicService {
 
     List<ExpDicBizBo> queryDicListByType(int type)throws BizException;
 
+    List<ExpDicBizBo> queryParentDic()throws BizException;
+
     ExpDicBizBo queryDicById(long id)throws BizException;
 
     boolean deleteById(long id)throws BizException;

@@ -8,6 +8,8 @@ import com.hupa.exp.servermng.entity.dic.*;
 public interface IApiDicControllerService {
    DicAllListOutputDto queryDicListByType(DicAllListInputDto inputDto) throws BizException;
 
+   DicAllListOutputDto queryParentDic(DicAllListInputDto inputDto) throws BizException;
+
    DicOutputDto createDic(DicInputDto inputDto) throws BizException;
 
    DicOutputDto editDic(DicInputDto inputDto) throws BizException;

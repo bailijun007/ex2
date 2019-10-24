@@ -7,6 +7,8 @@ public class DicInputDto extends BaseInputDto {
     private String key;
     private String value;
     private Integer parentId;
+    private boolean parent;
+    private String remarks;
 
     public Long getId() {
         return id;
@@ -38,5 +40,21 @@ public class DicInputDto extends BaseInputDto {
 
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
+    }
+
+    public boolean isParent() {
+        return parent;
+    }
+
+    public void setParent(boolean parent) {
+        this.parent = parent;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 }

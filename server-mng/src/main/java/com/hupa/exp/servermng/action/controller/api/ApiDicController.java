@@ -48,6 +48,21 @@ public class ApiDicController {
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
 
+    @ApiOperation(value = "通过字典类型获取字典信息")
+    @GetMapping("/query_parent_list")
+    public BaseResultViaApiDto<DicAllListInputDto,DicAllListOutputDto> getParentDicList(
+    ){
+        //logger.info("打印日志--------------------->");
+        DicAllListInputDto inputDto=new DicAllListInputDto();
+        DicAllListOutputDto outputDto=new DicAllListOutputDto();
+        try{
+            outputDto = service.queryParentDic(inputDto);
+        }catch(BizException e){
+            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
+        }
+        return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
+    }
+
     @ApiOperation(value = "获取字典信息")
     @GetMapping("/query_list")
     public BaseResultViaApiDto<DicListInputDto,DicListOutputDto> getAreaList(
@@ -82,7 +97,11 @@ public class ApiDicController {
             @ApiParam(name="value",value = "值",required = true)
             @RequestParam(name = "value") String value,
             @ApiParam(name="parent_id",value = "类型",required = true)
-            @RequestParam(name = "parent_id") Integer parentId
+            @RequestParam(name = "parent_id") Integer parentId,
+             @ApiParam(name="parent",value = "是否为父类",required = true)
+            @RequestParam(name = "parent") boolean parent,
+            @ApiParam(name="remarks",value = "备注",required = true)
+            @RequestParam(name = "remarks") String remarks
     ){
         //logger.info("打印日志--------------------->");
         DicInputDto inputDto=new DicInputDto();
@@ -91,6 +110,8 @@ public class ApiDicController {
         inputDto.setKey(key);
         inputDto.setValue(value);
         inputDto.setParentId(parentId);
+        inputDto.setParent(parent);
+        inputDto.setRemarks(remarks);
         try{
             if(id>0)
                 outputDto = service.editDic(inputDto);
