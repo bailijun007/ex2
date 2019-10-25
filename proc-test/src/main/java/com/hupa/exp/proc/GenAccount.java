@@ -62,8 +62,8 @@ public class GenAccount {
     @Autowired
     private IUserApiKeyBiz iUserApiKeyBiz;
 
-    @Autowired
-    private IExpAreaDao iExpAreaDao;
+//    @Autowired
+//    private IExpAreaDao iExpAreaDao;
 
     @PostConstruct
     private void stat()
