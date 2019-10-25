@@ -16,8 +16,10 @@ import com.hupa.exp.bizuser.exception.BizUserException;
 import com.hupa.exp.bizuser.service.def.IUserApiKeyBiz;
 import com.hupa.exp.common.component.redis.RedisUtil;
 import com.hupa.exp.daomysql.dao.expv2.def.IAssetDao;
+import com.hupa.exp.daomysql.dao.expv2.def.IExpAreaDao;
 import com.hupa.exp.daomysql.dao.expv2.def.IExpUserDao;
 import com.hupa.exp.daomysql.entity.po.expv2.AssetPo;
+import com.hupa.exp.daomysql.entity.po.expv2.ExpAreaPo;
 import com.hupa.exp.daomysql.entity.po.expv2.ExpUserPo;
 import com.hupa.exp.help.IdCardGenerator;
 import com.hupa.exp.help.RandomValueUtil;
@@ -60,10 +62,18 @@ public class GenAccount {
     @Autowired
     private IUserApiKeyBiz iUserApiKeyBiz;
 
+    @Autowired
+    private IExpAreaDao iExpAreaDao;
+
     @PostConstruct
     private void stat()
     {
-        List<AssetPo> coinPoList= iAssetDao.selectActiveList();
+//        ExpAreaPo po1=new ExpAreaPo();
+//        po1.setAreaCode("444");
+//        po1.setAreaName("阿拉善");
+//        po1.setEnable(false);
+//        iExpAreaDao.insert(po1);
+        List<AssetPo> assetPoList= iAssetDao.selectActiveList();
         IdCardGenerator g = new IdCardGenerator();
         for(int i=0;i<1000;i++)
         {
@@ -98,7 +108,7 @@ public class GenAccount {
             try {
                 //创建账户
                 account4ServerDef.createAccount(id, Account4ServerTokenUtil.genToken4CreateAccount(id));
-                for(AssetPo po:coinPoList)
+                for(AssetPo po:assetPoList)
                 {
                     //创建资金账号
                     fundAccount4ServerDef.createFundAccount(id,po.getRealName(),

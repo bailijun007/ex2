@@ -203,99 +203,111 @@
                                 title: 'id',
                                 field: 'id'
                             }, {
-                                title: 'accountId',
+                                title: '账户Id',
                                 field: 'accountId'
                             }, {
-                                title: 'amt',
+                                title: '委托金额',
                                 field: 'amt'
                             }
                             , {
-                                title: 'bidFlag',
+                                title: '是否买卖',
                                 field: 'bidFlag'
                             }
                             , {
-                                title: 'cancelAmt',
+                                title: '待取消金额',
                                 field: 'cancelAmt'
                             }
                             , {
-                                title: 'clientOrderId',
+                                title: '客户自定义委托ID',
                                 field: 'clientOrderId'
                             }, {
-                                title: 'closeFlag',
+                                title: '是否平仓',
                                 field: 'closeFlag'
                             }, {
-                                title: 'ctime',
-                                field: 'ctime'
+                                title: '创建时间',
+                                // field: 'ctime'
+                                formatter: function (value, row, index) {
+                                    if(row.ctime!=null)
+                                        return time(parseInt(row.ctime));
+                                    return"";
+                                }
                             }, {
-                                title: 'displayAmt',
+                                title: '展示量',
                                 field: 'displayAmt'
                             }, {
-                                title: 'feeCost',
+                                title: '实收手续费',
                                 field: 'feeCost'
                             }, {
-                                title: 'filledAmt',
+                                title: '已成交金额',
                                 field: 'filledAmt'
                             }
                             , {
-                                title: 'filledVolume',
+                                title: '已成交量',
                                 field: 'filledVolume'
                             }, {
-                                title: 'leverage',
+                                title: '初始杠杆',
                                 field: 'leverage'
                             }, {
-                                title: 'liqOrderId',
+                                title: '关联的强平',
                                 field: 'liqOrderId'
                             }
                             , {
-                                title: 'liqPosId',
+                                title: '关联的强平仓位ID',
                                 field: 'liqPosId'
                             }
                             , {
-                                title: 'marginMode',
+                                title: '保证金模式',
                                 field: 'marginMode'
                             }
                             , {
-                                title: 'orderMargin',
+                                title: '委托保证金',
                                 field: 'orderMargin'
                             }
                             , {
-                                title: 'orderType',
+                                title: '永续合约委托类型',
                                 field: 'orderType'
                             }, {
-                                title: 'symbol',
+                                title: '币种',
                                 field: 'symbol'
                             }, {
-                                title: 'price',
+                                title: '合约交易对',
                                 field: 'price'
                             }, {
-                                title: 'rejectReason',
+                                title: '拒绝理由',
                                 field: 'rejectReason'
                             }, {
-                                title: 'remark',
+                                title: '备注',
                                 field: 'remark'
                             }, {
-                                title: 'src',
+                                title: '来源',
                                 field: 'src'
                             }, {
-                                title: 'status',
+                                title: '委托状态',
                                 field: 'status'
                             }, {
-                                title: 'stopPrice',
+                                title: '触发价',
                                 field: 'stopPrice'
-                            }, {
-                                title: 'symbol',
-                                field: 'symbol'
-                            }, {
-                                title: 'timeInForce',
+                            }
+                            // , {
+                            //     title: 'symbol',
+                            //     field: 'symbol'
+                            // }
+                            , {
+                                title: '委托有效时间',
                                 field: 'timeInForce'
                             }, {
-                                title: 'transactTime',
-                                field: 'transactTime'
+                                title: '上一笔成交时间',
+                                // field: 'transactTime'
+                                formatter: function (value, row, index) {
+                                    if(row.transactTime!=null)
+                                        return time(parseInt(row.transactTime));
+                                    return"";
+                                }
                             }, {
-                                title: 'triggerFlag',
+                                title: '是否已触发',
                                 field: 'triggerFlag'
                             }, {
-                                title: 'visibleFlag',
+                                title: '可见性',
                                 field: 'visibleFlag'
                             }
                             ],
