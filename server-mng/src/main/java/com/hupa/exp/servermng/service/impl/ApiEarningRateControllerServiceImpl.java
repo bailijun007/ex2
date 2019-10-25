@@ -61,6 +61,7 @@ public class ApiEarningRateControllerServiceImpl implements IApiEarningRateContr
     @Override
     public PcEarningRateOutputDto editEarningRate(PcEarningRateInputDto inputDto) throws BizException {
         PcEarningRatePo po=iPcEarningRateDao.selectPoById(inputDto.getId());
+        String before=JSON.toJSONString(po);
         PcEarningRateOutputDto outputDto=new PcEarningRateOutputDto();
         if(po==null)
             return outputDto;
@@ -73,7 +74,10 @@ public class ApiEarningRateControllerServiceImpl implements IApiEarningRateContr
         po.setSymbol(inputDto.getSymbol());
         po.setEarningRateTime(inputDto.getEarningRateTime());
         iPcEarningRateDao.updateById(po);
-
+        ExpUserBizBo user=sessionHelper.getUserInfoBySession();
+        logService.createOperationLog(user.getId(),user.getUserName(),
+                OperationModule.EarningRate.toString(), OperationType.Update.toString(),
+                before,JSON.toJSONString(po));
         return outputDto;
     }
 

@@ -1,11 +1,17 @@
 package com.hupa.exp.servermng.service.impl;
 
+import com.hupa.exp.base.enums.OperationModule;
+import com.hupa.exp.base.enums.OperationType;
 import com.hupa.exp.bizother.entity.account.PcStoringLevelBizBo;
 import com.hupa.exp.bizother.entity.account.StoringLevelPageListBizBo;
+import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
 import com.hupa.exp.bizother.service.account.def.IStoringLevelBiz;
+import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.DecimalUtil;
+import com.hupa.exp.common.tool.format.JsonUtil;
 import com.hupa.exp.servermng.entity.storinglevel.*;
+import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiStoringLevelControllerService;
 import com.hupa.exp.util.convent.ConventObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +26,24 @@ public class ApiStoringLevelControllerServiceImpl implements IApiStoringLevelCon
     @Autowired
     private IStoringLevelBiz iStoringLevelBiz;
 
+    @Autowired
+    private IExpOperationLogService logService;
+
+    @Autowired
+    private SessionHelper sessionHelper;
+
     @Override
     public StoringLevelOutputDto createOrEditStoringLevel(StoringLevelInputDto inputDto) throws BizException {
         PcStoringLevelBizBo bo= ConventObjectUtil.conventObject(inputDto,PcStoringLevelBizBo.class);
         if(inputDto.getId()>0)
         {
+            PcStoringLevelBizBo beforeBo= iStoringLevelBiz.queryStoringLevelById(bo.getId());
             bo.setMtime(System.currentTimeMillis());
             iStoringLevelBiz.editStoringLevel(bo);
+            ExpUserBizBo user=sessionHelper.getUserInfoBySession();
+            logService.createOperationLog(user.getId(),user.getUserName(),
+                    OperationModule.PcFee.toString(), OperationType.Insert.toString(),
+                    JsonUtil.toJsonString(beforeBo),JsonUtil.toJsonString(bo));
         }
         else
         {

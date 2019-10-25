@@ -1,5 +1,6 @@
 package com.hupa.exp.servermng.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.hupa.exp.base.enums.OperationModule;
 import com.hupa.exp.base.enums.OperationType;
 import com.hupa.exp.base.helper.validate.IValidateService;
@@ -41,7 +42,14 @@ public class ApiAreaControllerServiceImpl implements IApiAreaControllerService {
     public AreaOutputDto createArea(AreaInputDto inputDto) throws BizException {
         validateService.validate(inputDto,true,true,true);
         ExpAreaBizBo bo= ConventObjectUtil.conventObject(inputDto,ExpAreaBizBo.class);
+        bo.setCtime(System.currentTimeMillis());
+        bo.setMtime(System.currentTimeMillis());
         iAreaService.createArea(bo);
+        ExpUserBizBo user=sessionHelper.getUserInfoBySession();
+        logService.createOperationLog(user.getId(),user.getUserName(),
+                OperationModule.Area.toString(), OperationType.Insert.toString(),
+                "",JSON.toJSONString(bo));
+
         AreaOutputDto outputDto=new AreaOutputDto();
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
@@ -51,7 +59,13 @@ public class ApiAreaControllerServiceImpl implements IApiAreaControllerService {
     public AreaOutputDto editArea(AreaInputDto inputDto) throws BizException {
         validateService.validate(inputDto,true,true,true);
         ExpAreaBizBo bo= ConventObjectUtil.conventObject(inputDto,ExpAreaBizBo.class);
+        ExpAreaBizBo beforeBo=iAreaService.queryAreaById(bo.getId());
+        bo.setMtime(System.currentTimeMillis());
         iAreaService.editArea(bo);
+        ExpUserBizBo user=sessionHelper.getUserInfoBySession();
+        logService.createOperationLog(user.getId(),user.getUserName(),
+                OperationModule.Area.toString(), OperationType.Update.toString(),
+                JSON.toJSONString(beforeBo),JSON.toJSONString(bo));
         AreaOutputDto outputDto=new AreaOutputDto();
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
@@ -99,7 +113,7 @@ public class ApiAreaControllerServiceImpl implements IApiAreaControllerService {
         }
         ExpUserBizBo user=sessionHelper.getUserInfoBySession();
         logService.createOperationLog(user.getId(),user.getUserName(),
-                OperationModule.Dic.toString(), OperationType.Delete.toString(),
+                OperationModule.Area.toString(), OperationType.Delete.toString(),
                 inputDto.getIds(),"");
         DeleteOutputDto outputDto=new DeleteOutputDto();
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));

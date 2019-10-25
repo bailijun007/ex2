@@ -1,5 +1,6 @@
 package com.hupa.exp.servermng.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.hupa.exp.base.enums.OperationModule;
 import com.hupa.exp.base.enums.OperationType;
 import com.hupa.exp.bizother.entity.information.ExpInformationBizBo;
@@ -90,6 +91,12 @@ public class ApiInformationControllerServiceImpl implements IApiInformationContr
         {
             bizBo.setMtime(System.currentTimeMillis());
             informationService.editInformation(bizBo);
+            ExpInformationBizBo beforeBo=informationService.getInformationById(inputDto.getId());
+                ExpUserBizBo user=sessionHelper.getUserInfoBySession();
+                logService.createOperationLog(user.getId(),user.getUserName(),
+                        OperationModule.DicType.toString(), OperationType.Update.toString(),
+                        JSON.toJSONString(beforeBo==null?"":beforeBo),JSON.toJSONString(bizBo));
+
         }
         else
         {

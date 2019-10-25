@@ -42,7 +42,7 @@ public class ApiUserApiControllerServiceImpl implements IApiUserApiControllerSer
 
             row.setApiKey(po.getApiKey());
             row.setApiName(po.getApiName());
-            row.setApiSecret(po.getApiSecret());
+//            row.setApiSecret(po.getApiSecret());
             row.setBindIp(po.getBindIp());
             row.setId(String.valueOf(po.getId()));
             row.setPurview(String.valueOf(po.getPurview()));

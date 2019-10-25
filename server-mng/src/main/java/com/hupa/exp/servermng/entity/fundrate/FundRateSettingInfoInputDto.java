@@ -1,8 +1,8 @@
-package com.hupa.exp.servermng.entity.collectfeesetting;
+package com.hupa.exp.servermng.entity.fundrate;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 
-public class CollectFeeSettingInfoInputDto extends BaseInputDto {
+public class FundRateSettingInfoInputDto extends BaseInputDto {
     private long id;
 
     public long getId() {

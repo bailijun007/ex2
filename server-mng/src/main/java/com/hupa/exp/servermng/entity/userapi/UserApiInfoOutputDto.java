@@ -13,8 +13,8 @@ public class UserApiInfoOutputDto extends BaseOutputDto {
     private String apiName;
     @JsonProperty("api_key")
     private String apiKey;
-    @JsonProperty("api_secret")
-    private String apiSecret;
+//    @JsonProperty("api_secret")
+//    private String apiSecret;
     @JsonProperty("bind_ip")
     private String bindIp;
     private String purview;
@@ -63,13 +63,13 @@ public class UserApiInfoOutputDto extends BaseOutputDto {
         this.apiKey = apiKey;
     }
 
-    public String getApiSecret() {
-        return apiSecret;
-    }
-
-    public void setApiSecret(String apiSecret) {
-        this.apiSecret = apiSecret;
-    }
+//    public String getApiSecret() {
+//        return apiSecret;
+//    }
+//
+//    public void setApiSecret(String apiSecret) {
+//        this.apiSecret = apiSecret;
+//    }
 
     public String getBindIp() {
         return bindIp;

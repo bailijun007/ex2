@@ -25,8 +25,6 @@ public class ApiDicControllerServiceImpl implements IApiDicControllerService {
     @Autowired
     private IDicService dicService;
 
-
-
     @Autowired
     private IExpOperationLogService logService;
 

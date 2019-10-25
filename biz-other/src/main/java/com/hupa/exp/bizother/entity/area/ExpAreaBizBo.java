@@ -10,6 +10,24 @@ public class ExpAreaBizBo {
     @JsonProperty("area_name")
     private String areaName;
     private boolean enable;
+    private Long ctime;
+    private Long mtime;
+
+    public Long getCtime() {
+        return ctime;
+    }
+
+    public void setCtime(Long ctime) {
+        this.ctime = ctime;
+    }
+
+    public Long getMtime() {
+        return mtime;
+    }
+
+    public void setMtime(Long mtime) {
+        this.mtime = mtime;
+    }
 
     public boolean isEnable() {
         return enable;

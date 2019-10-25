@@ -1,10 +1,16 @@
 package com.hupa.exp.servermng.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.hupa.exp.base.enums.OperationModule;
+import com.hupa.exp.base.enums.OperationType;
 import com.hupa.exp.bizother.entity.klineconfig.ExpKlineConfigBizBo;
 import com.hupa.exp.bizother.entity.klineconfig.ExpKlineConfigListBizBo;
+import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
 import com.hupa.exp.bizother.service.klineconfig.def.IKlineConfigService;
+import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.servermng.entity.klineconfig.*;
+import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiKlineConfigControllerService;
 import com.hupa.exp.util.convent.ConventObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +24,12 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
 
     @Autowired
     IKlineConfigService configService;
+
+    @Autowired
+    private SessionHelper sessionHelper;
+
+    @Autowired
+    private IExpOperationLogService logService;
 
     @Override
     public KlineConfigOutputDto createKlineConfig(KlineConfigInputDto inputDto) throws BizException {
@@ -48,7 +60,13 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
     @Override
     public KlineConfigOutputDto editKlineConfig(KlineConfigInputDto inputDto) throws BizException {
         ExpKlineConfigBizBo bo= ConventObjectUtil.conventObject(inputDto,ExpKlineConfigBizBo.class);
+        ExpKlineConfigBizBo beforeBo= configService.queryKlineConfigById(bo.getId());
         configService.editKlineConfig(bo);
+
+        ExpUserBizBo user=sessionHelper.getUserInfoBySession();
+        logService.createOperationLog(user.getId(),user.getUserName(),
+                OperationModule.EarningRate.toString(), OperationType.Delete.toString(),
+                JSON.toJSONString(beforeBo), JSON.toJSONString(bo));
         KlineConfigOutputDto outputDto=new KlineConfigOutputDto();
         return outputDto;
     }

@@ -58,7 +58,7 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
             bo.setMtime(System.currentTimeMillis());
             iPcContractBiz.editContract(bo);
             logService.createOperationLog(user.getId(),user.getUserName(),
-                    OperationModule.Coin.toString(),
+                    OperationModule.Asset.toString(),
                     OperationType.Update.toString(),
                     JsonUtil.toJsonString(beforeBo),JsonUtil.toJsonString(bo));
         }
@@ -68,7 +68,7 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
             bo.setMtime(System.currentTimeMillis());
             id= iPcContractBiz.createPcContract(bo);
             logService.createOperationLog(user.getId(),user.getUserName(),
-                    OperationModule.Coin.toString(),
+                    OperationModule.Asset.toString(),
                     OperationType.Update.toString(),
                     JsonUtil.toJsonString(bo),"");
         }

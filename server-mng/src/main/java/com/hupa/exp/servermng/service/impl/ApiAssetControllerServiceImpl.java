@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ApiCoinControllerServiceImpl implements IApiAssetControllerService {
+public class ApiAssetControllerServiceImpl implements IApiAssetControllerService {
     @Autowired
     private IAssetBiz iAssetBiz;
 
@@ -55,8 +55,8 @@ public class ApiCoinControllerServiceImpl implements IApiAssetControllerService 
         //添加操作日志
         ExpUserBizBo user= sessionHelper.getUserInfoBySession();
         logService.createOperationLog(user.getId(),user.getUserName(),
-                OperationModule.Coin.toString(),
-                OperationType.Update.toString(),
+                OperationModule.Asset.toString(),
+                OperationType.Insert.toString(),
                 JsonUtil.toJsonString(bo),"");
         AssetOutputDto outputDto=new AssetOutputDto();
         return outputDto;
@@ -87,7 +87,7 @@ public class ApiCoinControllerServiceImpl implements IApiAssetControllerService 
         //添加操作日志
         ExpUserBizBo user= sessionHelper.getUserInfoBySession();
         logService.createOperationLog(user.getId(),user.getUserName(),
-                OperationModule.Coin.toString(),
+                OperationModule.Asset.toString(),
                 OperationType.Update.toString(),
                 JsonUtil.toJsonString(beforeBo),JsonUtil.toJsonString(afterBo));
         AssetOutputDto outputDto=new AssetOutputDto();

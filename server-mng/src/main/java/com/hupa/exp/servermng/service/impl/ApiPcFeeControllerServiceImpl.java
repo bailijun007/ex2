@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class IApiPcFeeControllerServiceImpl implements IApiPcFeeControllerService {
+public class ApiPcFeeControllerServiceImpl implements IApiPcFeeControllerService {
     @Autowired
     private IPcFeeBiz iPcFeeBiz;
     @Autowired

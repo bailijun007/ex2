@@ -1,8 +1,8 @@
-package com.hupa.exp.servermng.entity.collectfeesetting;
+package com.hupa.exp.servermng.entity.fundrate;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 
-public class CollectFeeSettingListInputDto extends BaseInputDto {
+public class FundRateSettingListInputDto extends BaseInputDto {
     private Integer pageSize;
     private Integer currentPage;
 

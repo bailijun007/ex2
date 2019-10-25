@@ -75,7 +75,7 @@
         var text = "添加收费配置信息"
         if(action=="Edit")
             text = "修改收费配置信息"
-        url = "/sys/collectfeesetting/edit.html?id="+id+"&action="+action+"";
+        url = "/sys/fundrate/edit.html?id="+id+"&action="+action+"";
 
         parent.layer.open({
             type: 2,
@@ -102,7 +102,7 @@
         //初始化Table
         oTableInit.Init = function () {
                     $('#tb_departments').bootstrapTable({
-                         url: '/v1/http/collect/query_list',//+param,         //请求后台的URL（*）
+                         url: '/v1/http/fundrate/query_list',//+param,         //请求后台的URL（*）
                          method: 'get',                      //请求方式（*）
                         //toolbar: '#toolbar',                //工具按钮用哪个容器
                         //striped: true,                      //是否显示行间隔色
@@ -133,7 +133,7 @@
                             }
                             , {
                                 title: '收费次数',
-                                field: 'collect_fee_num'
+                                field: 'collect_num'
                             }
                             // , {
                             //     title: 'id',
@@ -142,9 +142,27 @@
                             , {
                                 title: '收费开始时间',
                                 formatter: function (value, row, index) {
-                                    if(row.collect_fee_time!=null)
-                                        return getShortDate(parseInt(row.collect_fee_time));
+                                    if(row.collect_first_time!=null)
+                                        return getShortDate(parseInt(row.collect_first_time));
                                     return"";
+                                }
+                            }, {
+                                title: '最大资金费率',
+                                field: 'max_fund_rate'
+                            }
+                            , {
+                                title: '最小资金费率',
+                                field: 'min_fund_rate'
+                            }
+                            , {
+                                title: '状态',
+                                formatter:function(value,row,index)
+                                {
+                                    if(row.status=="1")
+                                        return "启用";
+                                    else
+                                        return "禁用";
+
                                 }
                             },{
                                 title: '操作', field: '#', align: 'center',

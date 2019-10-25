@@ -209,7 +209,7 @@
                             $("#sort").val(data.data.sort);
                             $("#account").val(data.data.account);
                             $("#earningRate").val(data.data.earningRate);
-                            $("#earningRateTime").val(getShortDate(data.data.earningRateTime));
+                            $("#earningRateTime").val(getShortDate(parseInt(data.data.earningRateTime)));
                         }
                     }
                 })
