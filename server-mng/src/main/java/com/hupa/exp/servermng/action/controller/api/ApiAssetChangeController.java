@@ -1,15 +1,12 @@
 package com.hupa.exp.servermng.action.controller.api;
 
 
-import com.alibaba.fastjson.JSON;
-import com.hupa.exp.base.enums.OperationModule;
-import com.hupa.exp.base.enums.OperationType;
 import com.hupa.exp.common.entity.dto.BaseResultViaApiDto;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
-import com.hupa.exp.servermng.entity.assertchange.*;
+import com.hupa.exp.servermng.entity.assetchange.*;
 import com.hupa.exp.servermng.help.SessionHelper;
-import com.hupa.exp.servermng.service.def.IApiAssertChangeControllerService;
+import com.hupa.exp.servermng.service.def.IApiAssetChangeControllerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -22,31 +19,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(tags="apiAssertChangeController")
+@Api(tags="apiAssetChangeController")
 @RestController
-@RequestMapping(path = "/v1/http/assert",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class ApiAssertChangeController {
+@RequestMapping(path = "/v1/http/asset",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+public class ApiAssetChangeController {
     @Autowired
-    private IApiAssertChangeControllerService service;
+    private IApiAssetChangeControllerService service;
     @Autowired
     private SessionHelper sessionHelper;
 
-    private Logger logger = LoggerFactory.getLogger(ApiAssertChangeController.class);
-    @ApiOperation(value = "获取区号信息")
-    @GetMapping("/query_fund_assert")
-    public BaseResultViaApiDto<FundAssertChangeInputDto,FundAssertChangeOutputDto> getFundAssertChange(
+    private Logger logger = LoggerFactory.getLogger(ApiAssetChangeController.class);
+    @ApiOperation(value = "获取资金账户")
+    @GetMapping("/query_fund_asset")
+    public BaseResultViaApiDto<FundAssetChangeInputDto,FundAssetChangeOutputDto> getFundAssetChange(
             @ApiParam(name="id",value = "id",required = true)
             @RequestParam(name = "id") long id,
             @ApiParam(name="symbol",value = "symbol",required = true)
             @RequestParam(name = "symbol") String symbol
     ){
 
-        FundAssertChangeOutputDto outputDto=new FundAssertChangeOutputDto();
-        FundAssertChangeInputDto inputDto=new FundAssertChangeInputDto();
+        FundAssetChangeOutputDto outputDto=new FundAssetChangeOutputDto();
+        FundAssetChangeInputDto inputDto=new FundAssetChangeInputDto();
         inputDto.setId(id);
         inputDto.setSymbol(symbol);
         try{
-            outputDto = service.getFundAssertChange(inputDto);
+            outputDto = service.getFundAssetChange(inputDto);
         }catch(BizException e){
 
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
@@ -54,9 +51,9 @@ public class ApiAssertChangeController {
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
 
-    @ApiOperation(value = "获取区号信息")
-    @GetMapping("/query_fund_assert_list")
-    public BaseResultViaApiDto<FundAssertChangeListInputDto,FundAssertChangeListOutputDto> getFundAssertChangeLsit(
+    @ApiOperation(value = "获取资金账户列表")
+    @GetMapping("/query_fund_asset_list")
+    public BaseResultViaApiDto<FundAssetChangeListInputDto,FundAssetChangeListOutputDto> getFundAssetChangeList(
             @ApiParam(name="id",value = "id",required = true)
             @RequestParam(name = "id") long id,
             @ApiParam(name="symbol",value = "symbol",required = true)
@@ -67,14 +64,14 @@ public class ApiAssertChangeController {
             @RequestParam(name = "current_page") Integer currentPage
     ){
 
-        FundAssertChangeListOutputDto outputDto=new FundAssertChangeListOutputDto();
-        FundAssertChangeListInputDto inputDto=new FundAssertChangeListInputDto();
+        FundAssetChangeListOutputDto outputDto=new FundAssetChangeListOutputDto();
+        FundAssetChangeListInputDto inputDto=new FundAssetChangeListInputDto();
         inputDto.setId(id);
         inputDto.setSymbol(symbol);
         inputDto.setCurrentPage(currentPage);
         inputDto.setPageSize(pageSize);
         try{
-            outputDto = service.getFundAssertChangeList(inputDto);
+            outputDto = service.getFundAssetChangeList(inputDto);
         }catch(BizException e){
 
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
@@ -82,21 +79,21 @@ public class ApiAssertChangeController {
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
 
-    @ApiOperation(value = "获取区号信息")
-    @GetMapping("/query_pc_assert")
-    public BaseResultViaApiDto<PcAssertChangeInputDto,PcAssertChangeOutputDto> getPcAssertChange(
+    @ApiOperation(value = "获取合约账户")
+    @GetMapping("/query_pc_asset")
+    public BaseResultViaApiDto<PcAssetChangeInputDto,PcAssetChangeOutputDto> getPcAssetChange(
             @ApiParam(name="id",value = "id",required = true)
             @RequestParam(name = "id") long id,
             @ApiParam(name="symbol",value = "symbol",required = true)
             @RequestParam(name = "symbol") String symbol
     ){
 
-        PcAssertChangeOutputDto outputDto=new PcAssertChangeOutputDto();
-        PcAssertChangeInputDto inputDto=new PcAssertChangeInputDto();
+        PcAssetChangeOutputDto outputDto=new PcAssetChangeOutputDto();
+        PcAssetChangeInputDto inputDto=new PcAssetChangeInputDto();
         inputDto.setId(id);
         inputDto.setSymbol(symbol);
         try{
-            outputDto = service.getPcAssertChange(inputDto);
+            outputDto = service.getPcAssetChange(inputDto);
         }catch(BizException e){
 
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
@@ -104,9 +101,9 @@ public class ApiAssertChangeController {
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
 
-    @ApiOperation(value = "获取区号信息")
-    @GetMapping("/query_pc_assert_list")
-    public BaseResultViaApiDto<PcAssertChangeListInputDto,PcAssertChangeListOutputDto> getPcAssertChangeList(
+    @ApiOperation(value = "获取合约账户列表")
+    @GetMapping("/query_pc_asset_list")
+    public BaseResultViaApiDto<PcAssetChangeListInputDto,PcAssetChangeListOutputDto> getPcAssetChangeList(
             @ApiParam(name="id",value = "id",required = true)
             @RequestParam(name = "id") long id,
             @ApiParam(name="symbol",value = "symbol",required = true)
@@ -117,14 +114,14 @@ public class ApiAssertChangeController {
             @RequestParam(name = "current_page") Integer currentPage
     ){
 
-        PcAssertChangeListOutputDto outputDto=new PcAssertChangeListOutputDto();
-        PcAssertChangeListInputDto inputDto=new PcAssertChangeListInputDto();
+        PcAssetChangeListOutputDto outputDto=new PcAssetChangeListOutputDto();
+        PcAssetChangeListInputDto inputDto=new PcAssetChangeListInputDto();
         inputDto.setId(id);
         inputDto.setSymbol(symbol);
         inputDto.setCurrentPage(currentPage);
         inputDto.setPageSize(pageSize);
         try{
-            outputDto = service.getPcAssertChangeList(inputDto);
+            outputDto = service.getPcAssetChangeList(inputDto);
         }catch(BizException e){
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
         }

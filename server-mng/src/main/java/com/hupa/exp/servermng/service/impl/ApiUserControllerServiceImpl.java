@@ -28,9 +28,6 @@ import com.hupa.exp.common.component.redis.RedisUtil;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.JsonUtil;
 import com.hupa.exp.daomysql.dao.expv2.def.IExpUserDao;
-import com.hupa.exp.pc.service.def.PcAccountService;
-import com.hupa.exp.persist.def.fund.FundAccountReadService;
-import com.hupa.exp.persist.def.pc.PcAccountReadService;
 import com.hupa.exp.servermng.entity.user.*;
 import com.hupa.exp.servermng.enums.LoginExceptionCode;
 import com.hupa.exp.servermng.enums.MngExceptionCode;
@@ -63,9 +60,6 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
     @Autowired
     private UserValidateImpl userValidate;
 
-//    @Reference
-//    private AccountIdDef accountIdDef;
-
     @Reference
     private Account4ServerDef account4ServerDef;
 
@@ -75,27 +69,13 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
     @Reference
     private FundAccount4ServerDef fundAccount4ServerDef;
 
-    @Autowired
-    private FundAccountReadService fundAccountReadService;
-    @Autowired
-    private PcAccountReadService pcAccountReadService;
 
     @Autowired
     private FundAccountService fundAccountService;
 
     @Autowired
-    private PcAccountService pcAccountService;
-
-//
-//    @Autowired
-//    private FundAccountDef fundAccountDef;
-
-    @Autowired
     @Qualifier(Db0RedisBean.beanName)
     private RedisUtil redisUtilDb0;
-
-
-
 
     @Autowired
     private IDicService dicService;
@@ -105,13 +85,6 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
 
     @Autowired
     private IExpUserDao iExpUserDao;
-
-
-//
-//    @Autowired
-//    @Qualifier(Db1RedisBean.beanName)
-//    private RedisUtil redisUtilDb1;
-
 
     @Autowired
     private IExpOperationLogService logService;

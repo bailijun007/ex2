@@ -1,19 +1,14 @@
 package com.hupa.exp.bizother.service.account.impl;
 
-import com.hupa.exp.account.def.Account4ServerDef;
-import com.hupa.exp.account.def.fund.FundAccount4ServerDef;
-import com.hupa.exp.account.def.pc.PcAccount4ServerDef;
+import com.hupa.exp.account.service.def.fund.FundAccountService;
 import com.hupa.exp.base.dic.expv2.AccountTypeDic;
 import com.hupa.exp.base.entity.bo.FundAccountBo;
 import com.hupa.exp.base.entity.bo.pc.PcAccountBo;
 import com.hupa.exp.base.exception.account.FundAccountException;
-import com.hupa.exp.base.exception.account.PcAccountException;
 import com.hupa.exp.bizother.entity.account.FundAccountBizBo;
 import com.hupa.exp.bizother.entity.account.PcAccountBizBo;
 import com.hupa.exp.bizother.service.account.def.IAccountBiz;
-import com.hupa.exp.persist.def.fund.FundAccountReadService;
-import com.hupa.exp.persist.def.pc.PcAccountReadService;
-import jdk.nashorn.internal.ir.annotations.Reference;
+import com.hupa.exp.pc.service.def.PcAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,19 +18,13 @@ import java.math.BigDecimal;
 @Service
 public class AccountBizImpl implements IAccountBiz {
 
+
     @Autowired
-    private FundAccountReadService fundAccountReadService;
+    private FundAccountService fundAccountService;
+
+
     @Autowired
-    private PcAccountReadService pcAccountReadService;
-
-    @Reference
-    private Account4ServerDef account4ServerDef;
-
-    @Reference
-    private FundAccount4ServerDef fundAccount4ServerDef;
-
-    @Reference
-    private PcAccount4ServerDef pcAccount4ServerDef;
+    private PcAccountService pcAccountService;
 
     @Override
     public boolean existAccount(long userId, String symbol, int accountType) {
@@ -44,11 +33,11 @@ public class AccountBizImpl implements IAccountBiz {
         if (accountType == AccountTypeDic.ACCOUNT_TYPE_FUND) {
 
             FundAccountBo fundAccount = null;
-//            try {
-//                fundAccount = fundAccountReadService.getFundAccount(userId, symbol, true);
-//            } catch (FundAccountException e) {
-//
-//            }
+            try {
+                fundAccount = fundAccountService.getFundAccount(userId, symbol, true);
+            } catch (FundAccountException e) {
+
+            }
 
             if (fundAccount != null)
                 return true;
@@ -60,11 +49,11 @@ public class AccountBizImpl implements IAccountBiz {
         else if (accountType == AccountTypeDic.ACCOUNT_TYPE_PC) {
 
             PcAccountBo pcAccountBo = null;
-//            try {
-//                pcAccountBo = pcAccountDef.getPcAccount(userId, symbol, true, false, false);
-//            } catch (PcAccountException e) {
-//
-//            }
+            try {
+                pcAccountBo = pcAccountService.getPcAccount(userId, symbol, true);
+            } catch (com.hupa.exp.base.exception.pc.PcAccountException e) {
+                e.printStackTrace();
+            }
 
             if (pcAccountBo != null)
                 return true;
@@ -83,12 +72,12 @@ public class AccountBizImpl implements IAccountBiz {
     public PcAccountBizBo getPcAccount(long userId, String symbol) {
 
         PcAccountBo pcAccountBo = null;
-//        try {
-//
-//            pcAccountBo = pcAccountDef.getPcAccount(userId, symbol, true, false, false);
-//        } catch (PcAccountException e) {
-//
-//        }
+        try {
+
+            pcAccountBo = pcAccountService.getPcAccount(userId, symbol, true);
+        } catch (com.hupa.exp.base.exception.pc.PcAccountException e) {
+            e.printStackTrace();
+        }
 
 
         BigDecimal total;
@@ -132,12 +121,12 @@ public class AccountBizImpl implements IAccountBiz {
     public FundAccountBizBo getFundAccount(long userId, String symbol) {
 
         FundAccountBo fundAccount = null;
-//        try {
-//            fundAccount = fundAccountDef.getFundAccount(userId, symbol, true);
-//
-//        } catch (FundAccountException e) {
-//
-//        }
+        try {
+            fundAccount = fundAccountService.getFundAccount(userId, symbol, true);
+
+        } catch (FundAccountException e) {
+
+        }
 
         BigDecimal total;
         if (fundAccount == null || fundAccount.getTotal() == null)

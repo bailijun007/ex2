@@ -1,8 +1,8 @@
 package com.hupa.exp.bizother.entity.account.MongoBo;
 
-import com.hupa.exp.base.entity.bo.pc.PcAssertChangeBo;
+import com.hupa.exp.base.entity.bo.pc.PcAssetChangeBo;
 
-public class PcAssertChangeMongoBizBo extends PcAssertChangeBo {
+public class PcAssetChangeMongoBizBo extends PcAssetChangeBo {
 //    private long id;
 //    private long accountId;
 //    private String symbol;

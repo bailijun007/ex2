@@ -1,8 +1,8 @@
 package com.hupa.exp.bizother.entity.account.MongoBo;
 
-import com.hupa.exp.base.entity.bo.log.LogFundAccountBo;
+import com.hupa.exp.base.entity.bo.log.FundAccountLogBo;
 
-public class FundAccountLogMongoBizBo extends LogFundAccountBo{
+public class FundAccountLogMongoBizBo extends FundAccountLogBo{
 //    private long id;
 //    private long accountId;
 //    private String prevChecksum;

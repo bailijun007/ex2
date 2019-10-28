@@ -144,7 +144,7 @@
                             content += "objectId:</br>" + row.objectId + "</br>";
                             content += "ratio:</br>" + row.ratio + "</br>";
                             content += "unfilledAmt:</br>" + row.unfilledAmt + "</br>";
-                            content += "tradeTime:</br>" + row.tradeTime + "</br>";
+                            content += "changeTime:</br>" + row.changeTime + "</br>";
                             content += "ctime:</br>" + row.ctime + "</br>";
                             content += "mtime:</br>" + row.mtime + "</br>";
 
@@ -197,10 +197,10 @@
                         formatter: function (value, row, index) {
 
                             var content = "Pair</br>";
-                            content += "pairOrderMarginPre:</br>" + row.pairOrderMarginPre + "</br>";
-                            content += "pairOrderMargin:</br>" + row.pairOrderMargin + "</br>";
-                            content += "pairPosMarginPre:</br>" + row.pairPosMarginPre + "</br>";
-                            content += "pairPosMargin:</br>" + row.pairPosMargin + "</br>";
+                            content += "symbolOrderMarginPre:</br>" + row.symbolOrderMarginPre + "</br>";
+                            content += "symbolOrderMargin:</br>" + row.symbolOrderMargin + "</br>";
+                            content += "symbolPosMarginPre:</br>" + row.symbolPosMarginPre + "</br>";
+                            content += "symbolPosMargin:</br>" + row.symbolPosMargin + "</br>";
                             return content;
                         }
                     }
@@ -217,7 +217,7 @@
                     }
                     , {
                         title: 'TradeType',
-                        field: 'tradeType'
+                        field: 'changeType'
                     }
                 ],
                 responseHandler: function (res) {

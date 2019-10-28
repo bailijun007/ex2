@@ -1,8 +1,8 @@
-package com.hupa.exp.servermng.entity.assertchange;
+package com.hupa.exp.servermng.entity.assetchange;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 
-public class PcAssertChangeListInputDto extends BaseInputDto {
+public class PcAssetChangeListInputDto extends BaseInputDto {
     private String symbol;
     private Long id;
     private long currentPage;

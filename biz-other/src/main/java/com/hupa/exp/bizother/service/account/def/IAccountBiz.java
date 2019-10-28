@@ -1,7 +1,5 @@
 package com.hupa.exp.bizother.service.account.def;
 
-import com.hupa.exp.base.exception.account.FundAccountException;
-import com.hupa.exp.base.exception.account.PcAccountException;
 import com.hupa.exp.bizother.entity.account.FundAccountBizBo;
 import com.hupa.exp.bizother.entity.account.PcAccountBizBo;
 

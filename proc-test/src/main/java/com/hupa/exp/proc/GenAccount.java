@@ -12,7 +12,6 @@ import com.hupa.exp.base.config.redis.Db0RedisBean;
 import com.hupa.exp.base.exception.account.AccountException;
 import com.hupa.exp.base.exception.account.AccountTransferException;
 import com.hupa.exp.base.exception.account.FundAccountException;
-import com.hupa.exp.base.exception.account.PcAccountException;
 import com.hupa.exp.bizuser.exception.BizUserException;
 import com.hupa.exp.bizuser.service.def.IUserApiKeyBiz;
 import com.hupa.exp.common.component.redis.RedisUtil;

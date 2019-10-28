@@ -19,7 +19,9 @@ import org.springframework.core.env.ConfigurableEnvironment;
 @SpringBootConfiguration
 @EnableDubbo(scanBasePackages = {
         "com.hupa.exp.id.def.transaction",
-        "com.hupa.exp.account.def"})
+        "com.hupa.exp.account.def",
+        "com.hupa.exp.component.id",
+        "com.hupa.exp.account.module"})
 public class ServerMngMainEntrance {
 
     public static void main(String[] args){

@@ -1,13 +1,13 @@
-package com.hupa.exp.servermng.entity.assertchange;
+package com.hupa.exp.servermng.entity.assetchange;
 
 import com.hupa.exp.common.entity.dto.output.BaseOutputDto;
 
-public class FundAssertChangeOutputDto extends BaseOutputDto {
+public class FundAssetChangeOutputDto extends BaseOutputDto {
     private String id;
     private String accountId;
-    private String symbol;
+    private String asset;
     private String tradeVolume;
-    private String tradeType;
+    private String changeType;
     private String objectId;
     private String fee;
     //private String orderType;
@@ -20,7 +20,7 @@ public class FundAssertChangeOutputDto extends BaseOutputDto {
     private String accAvail;
 
     private String remark;
-    private String tradeTime;
+    private String changeTime;
     private String ctime;
     private String mtime;
 
@@ -40,12 +40,12 @@ public class FundAssertChangeOutputDto extends BaseOutputDto {
         this.accountId = accountId;
     }
 
-    public String getSymbol() {
-        return symbol;
+    public String getAsset() {
+        return asset;
     }
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
+    public void setAsset(String asset) {
+        this.asset = asset;
     }
 
     public String getTradeVolume() {
@@ -56,13 +56,7 @@ public class FundAssertChangeOutputDto extends BaseOutputDto {
         this.tradeVolume = tradeVolume;
     }
 
-    public String getTradeType() {
-        return tradeType;
-    }
 
-    public void setTradeType(String tradeType) {
-        this.tradeType = tradeType;
-    }
 
     public String getObjectId() {
         return objectId;
@@ -144,12 +138,20 @@ public class FundAssertChangeOutputDto extends BaseOutputDto {
         this.remark = remark;
     }
 
-    public String getTradeTime() {
-        return tradeTime;
+    public String getChangeType() {
+        return changeType;
     }
 
-    public void setTradeTime(String tradeTime) {
-        this.tradeTime = tradeTime;
+    public void setChangeType(String changeType) {
+        this.changeType = changeType;
+    }
+
+    public String getChangeTime() {
+        return changeTime;
+    }
+
+    public void setChangeTime(String changeTime) {
+        this.changeTime = changeTime;
     }
 
     public String getCtime() {

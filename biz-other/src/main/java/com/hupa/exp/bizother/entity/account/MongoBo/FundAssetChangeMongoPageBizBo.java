@@ -2,11 +2,10 @@ package com.hupa.exp.bizother.entity.account.MongoBo;
 
 import java.util.List;
 
-public class PcAssertChangeMongoPageBizBo {
+public class FundAssetChangeMongoPageBizBo {
     private long total;
-    private int pageSize;
-
-    private List<PcAssertChangeMongoBizBo> rows;
+    private long pageSize;
+    private List<FundAssetChangeMongoBizBo> rows;
 
     public long getTotal() {
         return total;
@@ -16,19 +15,19 @@ public class PcAssertChangeMongoPageBizBo {
         this.total = total;
     }
 
-    public int getPageSize() {
+    public long getPageSize() {
         return pageSize;
     }
 
-    public void setPageSize(int pageSize) {
+    public void setPageSize(long pageSize) {
         this.pageSize = pageSize;
     }
 
-    public List<PcAssertChangeMongoBizBo> getRows() {
+    public List<FundAssetChangeMongoBizBo> getRows() {
         return rows;
     }
 
-    public void setRows(List<PcAssertChangeMongoBizBo> rows) {
+    public void setRows(List<FundAssetChangeMongoBizBo> rows) {
         this.rows = rows;
     }
 }

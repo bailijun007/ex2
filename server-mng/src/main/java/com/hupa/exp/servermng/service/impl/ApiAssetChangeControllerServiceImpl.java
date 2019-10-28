@@ -1,35 +1,35 @@
 package com.hupa.exp.servermng.service.impl;
 
-import com.hupa.exp.bizother.entity.account.MongoBo.FundAssertChangeMongoBizBo;
-import com.hupa.exp.bizother.entity.account.MongoBo.FundAssertChangeMongoPageBizBo;
-import com.hupa.exp.bizother.entity.account.MongoBo.PcAssertChangeMongoBizBo;
-import com.hupa.exp.bizother.entity.account.MongoBo.PcAssertChangeMongoPageBizBo;
-import com.hupa.exp.bizother.service.account.def.IAssertChangBiz;
+import com.hupa.exp.bizother.entity.account.MongoBo.FundAssetChangeMongoBizBo;
+import com.hupa.exp.bizother.entity.account.MongoBo.FundAssetChangeMongoPageBizBo;
+import com.hupa.exp.bizother.entity.account.MongoBo.PcAssetChangeMongoBizBo;
+import com.hupa.exp.bizother.entity.account.MongoBo.PcAssetChangeMongoPageBizBo;
+import com.hupa.exp.bizother.service.account.def.IAssetChangBiz;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.DecimalUtil;
-import com.hupa.exp.servermng.entity.assertchange.*;
-import com.hupa.exp.servermng.service.def.IApiAssertChangeControllerService;
+import com.hupa.exp.servermng.entity.assetchange.*;
+import com.hupa.exp.servermng.service.def.IApiAssetChangeControllerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 @Service
-public class ApiAssertChangeControllerServiceImpl implements IApiAssertChangeControllerService {
+public class ApiAssetChangeControllerServiceImpl implements IApiAssetChangeControllerService {
     @Autowired
-    private IAssertChangBiz iAssertChangBiz;
+    private IAssetChangBiz iAssetChangBiz;
     @Override
-    public FundAssertChangeOutputDto getFundAssertChange(FundAssertChangeInputDto inputDto) {
-        FundAssertChangeMongoBizBo bo= iAssertChangBiz.queryFundAssetChangePoById(
+    public FundAssetChangeOutputDto getFundAssetChange(FundAssetChangeInputDto inputDto) {
+        FundAssetChangeMongoBizBo bo= iAssetChangBiz.queryFundAssetChangePoById(
                 inputDto.getId(), inputDto.getSymbol());
-        FundAssertChangeOutputDto outputDto=new FundAssertChangeOutputDto();
+        FundAssetChangeOutputDto outputDto=new FundAssetChangeOutputDto();
         if(bo!=null)
         {
            outputDto.setId(String.valueOf(bo.getId()));
            outputDto.setAccountId(String.valueOf(bo.getAccountId()));
-           outputDto.setSymbol(String.valueOf(bo.getSymbol()));
-           outputDto.setTradeVolume(DecimalUtil.toTrimLiteral(bo.getTradeVolume()));
-           outputDto.setTradeType(String.valueOf(bo.getTradeType()));
+           outputDto.setAsset(String.valueOf(bo.getAsset()));
+           outputDto.setTradeVolume(DecimalUtil.toTrimLiteral(bo.getChangeVolume()));
+           outputDto.setChangeType(String.valueOf(bo.getChangeType()));
            outputDto.setObjectId(String.valueOf(bo.getObjectId()));
            outputDto.setFee(DecimalUtil.toTrimLiteral(bo.getFee()));
            //outputDto.setOrderType(String.valueOf(bo.getOrderType()));
@@ -40,7 +40,7 @@ public class ApiAssertChangeControllerServiceImpl implements IApiAssertChangeCon
            outputDto.setAccAvailPre(DecimalUtil.toTrimLiteral(bo.getAccAvailPre()));
            outputDto.setAccAvail(DecimalUtil.toTrimLiteral(bo.getAccAvail()));
            outputDto.setRemark(String.valueOf(bo.getRemark()));
-           outputDto.setTradeTime(String.valueOf(bo.getTradeTime()));
+           outputDto.setChangeTime(String.valueOf(bo.getChangeTime()));
            outputDto.setCtime(String.valueOf(bo.getCtime()));
            outputDto.setMtime(String.valueOf(bo.getMtime()));
         }
@@ -49,19 +49,19 @@ public class ApiAssertChangeControllerServiceImpl implements IApiAssertChangeCon
     }
 
     @Override
-    public FundAssertChangeListOutputDto getFundAssertChangeList(FundAssertChangeListInputDto inputDto) {
-        FundAssertChangeMongoPageBizBo pageBizBo= iAssertChangBiz.queryFundAssetPageData(
+    public FundAssetChangeListOutputDto getFundAssetChangeList(FundAssetChangeListInputDto inputDto) {
+        FundAssetChangeMongoPageBizBo pageBizBo= iAssetChangBiz.queryFundAssetPageData(
                 inputDto.getSymbol(),inputDto.getId(),
                 inputDto.getCurrentPage(),inputDto.getPageSize());
-        List<FundAssertChangeOutputDto> list=new ArrayList<>();
-        for(FundAssertChangeMongoBizBo bo:pageBizBo.getRows())
+        List<FundAssetChangeOutputDto> list=new ArrayList<>();
+        for(FundAssetChangeMongoBizBo bo:pageBizBo.getRows())
         {
-            FundAssertChangeOutputDto out=new FundAssertChangeOutputDto();
+            FundAssetChangeOutputDto out=new FundAssetChangeOutputDto();
             out.setId(String.valueOf(bo.getId()));
             out.setAccountId(String.valueOf(bo.getAccountId()));
-            out.setSymbol(String.valueOf(bo.getSymbol()));
-            out.setTradeVolume(DecimalUtil.toTrimLiteral(bo.getTradeVolume()));
-            out.setTradeType(String.valueOf(bo.getTradeType()));
+            out.setAsset(String.valueOf(bo.getAsset()));
+            out.setTradeVolume(DecimalUtil.toTrimLiteral(bo.getChangeVolume()));
+            out.setChangeType(String.valueOf(bo.getChangeType()));
             out.setObjectId(String.valueOf(bo.getObjectId()));
             out.setFee(DecimalUtil.toTrimLiteral(bo.getFee()));
             //out.setOrderType(String.valueOf(bo.getOrderType()));
@@ -72,12 +72,12 @@ public class ApiAssertChangeControllerServiceImpl implements IApiAssertChangeCon
             out.setAccAvailPre(DecimalUtil.toTrimLiteral(bo.getAccAvailPre()));
             out.setAccAvail(DecimalUtil.toTrimLiteral(bo.getAccAvail()));
             out.setRemark(String.valueOf(bo.getRemark()));
-            out.setTradeTime(String.valueOf(bo.getTradeTime()));
+            out.setChangeTime(String.valueOf(bo.getChangeTime()));
             out.setCtime(String.valueOf(bo.getCtime()));
             out.setMtime(String.valueOf(bo.getMtime()));
             list.add(out);
         }
-        FundAssertChangeListOutputDto outputDto=new FundAssertChangeListOutputDto();
+        FundAssetChangeListOutputDto outputDto=new FundAssetChangeListOutputDto();
         outputDto.setSizePerPage(Integer.valueOf(String.valueOf(pageBizBo.getPageSize())));
         outputDto.setTotal(pageBizBo.getTotal());
         outputDto.setRows(list);
@@ -85,21 +85,21 @@ public class ApiAssertChangeControllerServiceImpl implements IApiAssertChangeCon
     }
 
     @Override
-    public PcAssertChangeOutputDto getPcAssertChange(PcAssertChangeInputDto inputDto) throws BizException {
-        PcAssertChangeMongoBizBo bo= iAssertChangBiz.selectPcAssertChangePoById(
+    public PcAssetChangeOutputDto getPcAssetChange(PcAssetChangeInputDto inputDto) throws BizException {
+        PcAssetChangeMongoBizBo bo= iAssetChangBiz.selectPcAssetChangePoById(
                 inputDto.getId(), inputDto.getSymbol());
-        PcAssertChangeOutputDto outputDto=new PcAssertChangeOutputDto();
+        PcAssetChangeOutputDto outputDto=new PcAssetChangeOutputDto();
         if(bo!=null)
         {
             outputDto.setId(String.valueOf(bo.getId()));
             outputDto.setAccountId(String.valueOf(bo.getAccountId()));
+            outputDto.setAsset(String.valueOf(bo.getAsset()));
             outputDto.setSymbol(String.valueOf(bo.getSymbol()));
-            outputDto.setPair(String.valueOf(bo.getPair()));
             outputDto.setBidFlag(String.valueOf(bo.getBidFlag()));
             outputDto.setCloseFlag(String.valueOf(bo.getCloseFlag()));
             outputDto.setTradePrice(DecimalUtil.toTrimLiteral(bo.getTradePrice()));
             outputDto.setTradeAmt(DecimalUtil.toTrimLiteral(bo.getTradeAmt()));
-            outputDto.setTradeType(String.valueOf(bo.getTradeType()));
+            outputDto.setChangeType(String.valueOf(bo.getChangeType()));
             outputDto.setObjectId(String.valueOf(bo.getObjectId()));
             outputDto.setRatio(DecimalUtil.toTrimLiteral(bo.getRatio()));
             outputDto.setFee(DecimalUtil.toTrimLiteral(bo.getFee()));
@@ -118,16 +118,16 @@ public class ApiAssertChangeControllerServiceImpl implements IApiAssertChangeCon
             outputDto.setAccOrderMargin(DecimalUtil.toTrimLiteral(bo.getAccOrderMargin()));
             outputDto.setAccPosMarginPre(DecimalUtil.toTrimLiteral(bo.getAccPosMarginPre()));
             outputDto.setAccPosMargin(DecimalUtil.toTrimLiteral(bo.getAccPosMargin()));
-            outputDto.setPairOrderMarginPre(DecimalUtil.toTrimLiteral(bo.getPairOrderMarginPre()));
-            outputDto.setPairOrderMargin(DecimalUtil.toTrimLiteral(bo.getPairOrderMargin()));
-            outputDto.setPairPosMarginPre(DecimalUtil.toTrimLiteral(bo.getPairPosMarginPre()));
-            outputDto.setPairPosMargin(DecimalUtil.toTrimLiteral(bo.getPairPosMargin()));
+            outputDto.setSymbolOrderMarginPre(DecimalUtil.toTrimLiteral(bo.getSymbolOrderMarginPre()));
+            outputDto.setSymbolOrderMargin(DecimalUtil.toTrimLiteral(bo.getSymbolOrderMargin()));
+            outputDto.setSymbolPosMarginPre(DecimalUtil.toTrimLiteral(bo.getSymbolPosMarginPre()));
+            outputDto.setSymbolPosMargin(DecimalUtil.toTrimLiteral(bo.getSymbolPosMargin()));
             outputDto.setAccTotalPre(DecimalUtil.toTrimLiteral(bo.getAccTotalPre()));
             outputDto.setAccTotal(DecimalUtil.toTrimLiteral(bo.getAccTotal()));
             outputDto.setAccAvailPre(DecimalUtil.toTrimLiteral(bo.getAccAvailPre()));
             outputDto.setAccAvail(DecimalUtil.toTrimLiteral(bo.getAccAvail()));
             outputDto.setRemark(String.valueOf(bo.getRemark()));
-            outputDto.setTradeTime(String.valueOf(bo.getTradeTime()));
+            outputDto.setChangeTime(String.valueOf(bo.getChangeTime()));
             outputDto.setCtime(String.valueOf(bo.getCtime()));
             outputDto.setCtime(String.valueOf(bo.getCtime()));
         }
@@ -136,23 +136,23 @@ public class ApiAssertChangeControllerServiceImpl implements IApiAssertChangeCon
     }
 
     @Override
-    public PcAssertChangeListOutputDto getPcAssertChangeList(PcAssertChangeListInputDto inputDto) throws BizException {
-        PcAssertChangeMongoPageBizBo pageBizBo= iAssertChangBiz.queryPcAssertPageData(
+    public PcAssetChangeListOutputDto getPcAssetChangeList(PcAssetChangeListInputDto inputDto) throws BizException {
+        PcAssetChangeMongoPageBizBo pageBizBo= iAssetChangBiz.queryPcAssetPageData(
                 inputDto.getSymbol(),inputDto.getId(),
                 inputDto.getCurrentPage(),inputDto.getPageSize());
-        List<PcAssertChangeOutputDto> list=new ArrayList<>();
-        for(PcAssertChangeMongoBizBo bo:pageBizBo.getRows())
+        List<PcAssetChangeOutputDto> list=new ArrayList<>();
+        for(PcAssetChangeMongoBizBo bo:pageBizBo.getRows())
         {
-            PcAssertChangeOutputDto out=new PcAssertChangeOutputDto();
+            PcAssetChangeOutputDto out=new PcAssetChangeOutputDto();
             out.setId(String.valueOf(bo.getId()));
             out.setAccountId(String.valueOf(bo.getAccountId()));
+            out.setAsset(String.valueOf(bo.getAsset()));
             out.setSymbol(String.valueOf(bo.getSymbol()));
-            out.setPair(String.valueOf(bo.getPair()));
             out.setBidFlag(String.valueOf(bo.getBidFlag()));
             out.setCloseFlag(String.valueOf(bo.getCloseFlag()));
             out.setTradePrice(DecimalUtil.toTrimLiteral(bo.getTradePrice()));
             out.setTradeAmt(DecimalUtil.toTrimLiteral(bo.getTradeAmt()));
-            out.setTradeType(String.valueOf(bo.getTradeType()));
+            out.setChangeType(String.valueOf(bo.getChangeType()));
             out.setObjectId(String.valueOf(bo.getObjectId()));
             out.setRatio(DecimalUtil.toTrimLiteral(bo.getRatio()));
             out.setFee(DecimalUtil.toTrimLiteral(bo.getFee()));
@@ -171,21 +171,21 @@ public class ApiAssertChangeControllerServiceImpl implements IApiAssertChangeCon
             out.setAccOrderMargin(DecimalUtil.toTrimLiteral(bo.getAccOrderMargin()));
             out.setAccPosMarginPre(DecimalUtil.toTrimLiteral(bo.getAccPosMarginPre()));
             out.setAccPosMargin(DecimalUtil.toTrimLiteral(bo.getAccPosMargin()));
-            out.setPairOrderMarginPre(DecimalUtil.toTrimLiteral(bo.getPairOrderMarginPre()));
-            out.setPairOrderMargin(DecimalUtil.toTrimLiteral(bo.getPairOrderMargin()));
-            out.setPairPosMarginPre(DecimalUtil.toTrimLiteral(bo.getPairPosMarginPre()));
-            out.setPairPosMargin(DecimalUtil.toTrimLiteral(bo.getPairPosMargin()));
+            out.setSymbolOrderMarginPre(DecimalUtil.toTrimLiteral(bo.getSymbolOrderMarginPre()));
+            out.setSymbolOrderMargin(DecimalUtil.toTrimLiteral(bo.getSymbolOrderMargin()));
+            out.setSymbolPosMarginPre(DecimalUtil.toTrimLiteral(bo.getSymbolPosMarginPre()));
+            out.setSymbolPosMargin(DecimalUtil.toTrimLiteral(bo.getSymbolPosMargin()));
             out.setAccTotalPre(DecimalUtil.toTrimLiteral(bo.getAccTotalPre()));
             out.setAccTotal(DecimalUtil.toTrimLiteral(bo.getAccTotal()));
             out.setAccAvailPre(DecimalUtil.toTrimLiteral(bo.getAccAvailPre()));
             out.setAccAvail(DecimalUtil.toTrimLiteral(bo.getAccAvail()));
             out.setRemark(String.valueOf(bo.getRemark()));
-            out.setTradeTime(String.valueOf(bo.getTradeTime()));
+            out.setChangeTime(String.valueOf(bo.getChangeTime()));
             out.setCtime(String.valueOf(bo.getCtime()));
             out.setCtime(String.valueOf(bo.getCtime()));
             list.add(out);
         }
-        PcAssertChangeListOutputDto outputDto=new PcAssertChangeListOutputDto();
+        PcAssetChangeListOutputDto outputDto=new PcAssetChangeListOutputDto();
         outputDto.setSizePerPage(Integer.valueOf(String.valueOf(pageBizBo.getPageSize())));
         outputDto.setTotal(pageBizBo.getTotal());
         outputDto.setRows(list);

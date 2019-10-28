@@ -1,20 +1,18 @@
-package com.hupa.exp.servermng.entity.assertchange;
+package com.hupa.exp.servermng.entity.assetchange;
 
 import com.hupa.exp.common.entity.dto.output.BaseOutputDto;
 
-import java.math.BigDecimal;
-
-public class PcAssertChangeOutputDto extends BaseOutputDto {
+public class PcAssetChangeOutputDto extends BaseOutputDto {
 
     private String id;
     private String accountId;
+    private String asset;
     private String symbol;
-    private String pair;
     private String bidFlag;
     private String closeFlag;
     private String tradePrice;
     private String tradeAmt;
-    private String tradeType;
+    private String changeType;
     private String objectId;
     private String ratio;
     private String fee;
@@ -41,10 +39,10 @@ public class PcAssertChangeOutputDto extends BaseOutputDto {
     private String accPosMarginPre;
     private String accPosMargin;
 
-    private String pairOrderMarginPre;
-    private String pairOrderMargin;
-    private String pairPosMarginPre;
-    private String pairPosMargin;
+    private String symbolOrderMarginPre;
+    private String symbolOrderMargin;
+    private String symbolPosMarginPre;
+    private String symbolPosMargin;
 
     private String accTotalPre;
     private String accTotal;
@@ -52,7 +50,7 @@ public class PcAssertChangeOutputDto extends BaseOutputDto {
     private String accAvail;
 
     private String remark;
-    private String tradeTime;
+    private String changeTime;
     private String ctime;
     private String mtime;
 
@@ -80,12 +78,12 @@ public class PcAssertChangeOutputDto extends BaseOutputDto {
         this.symbol = symbol;
     }
 
-    public String getPair() {
-        return pair;
+    public String getAsset() {
+        return asset;
     }
 
-    public void setPair(String pair) {
-        this.pair = pair;
+    public void setAsset(String asset) {
+        this.asset = asset;
     }
 
     public String getBidFlag() {
@@ -120,12 +118,12 @@ public class PcAssertChangeOutputDto extends BaseOutputDto {
         this.tradeAmt = tradeAmt;
     }
 
-    public String getTradeType() {
-        return tradeType;
+    public String getChangeType() {
+        return changeType;
     }
 
-    public void setTradeType(String tradeType) {
-        this.tradeType = tradeType;
+    public void setChangeType(String changeType) {
+        this.changeType = changeType;
     }
 
     public String getObjectId() {
@@ -272,36 +270,36 @@ public class PcAssertChangeOutputDto extends BaseOutputDto {
         this.accPosMargin = accPosMargin;
     }
 
-    public String getPairOrderMarginPre() {
-        return pairOrderMarginPre;
+    public String getSymbolOrderMarginPre() {
+        return symbolOrderMarginPre;
     }
 
-    public void setPairOrderMarginPre(String pairOrderMarginPre) {
-        this.pairOrderMarginPre = pairOrderMarginPre;
+    public void setSymbolOrderMarginPre(String symbolOrderMarginPre) {
+        this.symbolOrderMarginPre = symbolOrderMarginPre;
     }
 
-    public String getPairOrderMargin() {
-        return pairOrderMargin;
+    public String getSymbolOrderMargin() {
+        return symbolOrderMargin;
     }
 
-    public void setPairOrderMargin(String pairOrderMargin) {
-        this.pairOrderMargin = pairOrderMargin;
+    public void setSymbolOrderMargin(String symbolOrderMargin) {
+        this.symbolOrderMargin = symbolOrderMargin;
     }
 
-    public String getPairPosMarginPre() {
-        return pairPosMarginPre;
+    public String getSymbolPosMarginPre() {
+        return symbolPosMarginPre;
     }
 
-    public void setPairPosMarginPre(String pairPosMarginPre) {
-        this.pairPosMarginPre = pairPosMarginPre;
+    public void setSymbolPosMarginPre(String symbolPosMarginPre) {
+        this.symbolPosMarginPre = symbolPosMarginPre;
     }
 
-    public String getPairPosMargin() {
-        return pairPosMargin;
+    public String getSymbolPosMargin() {
+        return symbolPosMargin;
     }
 
-    public void setPairPosMargin(String pairPosMargin) {
-        this.pairPosMargin = pairPosMargin;
+    public void setSymbolPosMargin(String symbolPosMargin) {
+        this.symbolPosMargin = symbolPosMargin;
     }
 
     public String getAccTotalPre() {
@@ -344,12 +342,12 @@ public class PcAssertChangeOutputDto extends BaseOutputDto {
         this.remark = remark;
     }
 
-    public String getTradeTime() {
-        return tradeTime;
+    public String getChangeTime() {
+        return changeTime;
     }
 
-    public void setTradeTime(String tradeTime) {
-        this.tradeTime = tradeTime;
+    public void setChangeTime(String changeTime) {
+        this.changeTime = changeTime;
     }
 
     public String getCtime() {
