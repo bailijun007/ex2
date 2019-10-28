@@ -41,13 +41,28 @@
 
         <!--exchanger-->
         <dependency>
-            <groupId>com.hupa.exchanger</groupId>
-            <artifactId>ex-pc-pccore</artifactId>
+            <groupId>com.hupa.ex3</groupId>
+            <artifactId>ex-pc-margin-def</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
-            <groupId>com.hupa.exchanger</groupId>
+            <groupId>com.hupa.ex3</groupId>
+            <artifactId>ex-account-def</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hupa.ex3</groupId>
+            <artifactId>ex-account-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hupa.ex3</groupId>
+            <artifactId>ex-pc-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hupa.ex3</groupId>
             <artifactId>ex-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>

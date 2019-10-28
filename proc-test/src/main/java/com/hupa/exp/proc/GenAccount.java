@@ -3,6 +3,7 @@ package com.hupa.exp.proc;
 import com.hupa.exp.account.def.Account4ServerDef;
 import com.hupa.exp.account.def.fund.FundAccount4MngDef;
 import com.hupa.exp.account.def.fund.FundAccount4ServerDef;
+import com.hupa.exp.account.def.pc.PcAccount4ServerDef;
 import com.hupa.exp.account.util.token.Account4ServerTokenUtil;
 import com.hupa.exp.account.util.token.fund.FundAccount4MngTokenUtil;
 import com.hupa.exp.account.util.token.fund.FundAccount4ServerTokenUtil;
@@ -16,15 +17,11 @@ import com.hupa.exp.bizuser.exception.BizUserException;
 import com.hupa.exp.bizuser.service.def.IUserApiKeyBiz;
 import com.hupa.exp.common.component.redis.RedisUtil;
 import com.hupa.exp.daomysql.dao.expv2.def.IAssetDao;
-import com.hupa.exp.daomysql.dao.expv2.def.IExpAreaDao;
 import com.hupa.exp.daomysql.dao.expv2.def.IExpUserDao;
 import com.hupa.exp.daomysql.entity.po.expv2.AssetPo;
-import com.hupa.exp.daomysql.entity.po.expv2.ExpAreaPo;
 import com.hupa.exp.daomysql.entity.po.expv2.ExpUserPo;
 import com.hupa.exp.help.IdCardGenerator;
 import com.hupa.exp.help.RandomValueUtil;
-import com.hupa.exp.id.def.account.AccountIdDef;
-import com.hupa.exp.pccore.def.account.PcAccount4ServerDef;
 import com.hupa.exp.util.math.DecimalUtil;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +35,8 @@ import java.util.List;
 @Component
 public class GenAccount {
 
-    @Reference
-    private AccountIdDef accountIdDef;
+//    @Reference
+//    private AccountIdDef accountIdDef;
     @Reference
     private Account4ServerDef account4ServerDef;
     @Reference
@@ -62,24 +59,16 @@ public class GenAccount {
     @Autowired
     private IUserApiKeyBiz iUserApiKeyBiz;
 
-//    @Autowired
-//    private IExpAreaDao iExpAreaDao;
-
     @PostConstruct
     private void stat()
     {
-//        ExpAreaPo po1=new ExpAreaPo();
-//        po1.setAreaCode("444");
-//        po1.setAreaName("阿拉善");
-//        po1.setEnable(false);
-//        iExpAreaDao.insert(po1);
         List<AssetPo> assetPoList= iAssetDao.selectActiveList();
         IdCardGenerator g = new IdCardGenerator();
         for(int i=0;i<1000;i++)
         {
             ExpUserPo user=new ExpUserPo();
             String phone= RandomValueUtil.getTelephone();
-            Long id=accountIdDef.newAccountId();
+            Long id=account4ServerDef.newAccountId();
             user.setId(id);
             user.setAreaCode("86");
             user.setPhone(phone);
@@ -107,33 +96,33 @@ public class GenAccount {
             }
             try {
                 //创建账户
-                account4ServerDef.createAccount(id, Account4ServerTokenUtil.genToken4CreateAccount(id));
+                account4ServerDef.createAccount(String.valueOf(id),id, Account4ServerTokenUtil.genToken4CreateAccount(String.valueOf(id),id));
                 for(AssetPo po:assetPoList)
                 {
                     //创建资金账号
-                    fundAccount4ServerDef.createFundAccount(id,po.getRealName(),
-                            FundAccount4ServerTokenUtil.genToken4CreateFundAccount(id,po.getRealName()));
+                    fundAccount4ServerDef.createFundAccount(String.valueOf(id),id,po.getRealName(),
+                            FundAccount4ServerTokenUtil.genToken4CreateFundAccount(String.valueOf(id),id,po.getRealName()));
                     //资金账号加钱
-                    fundAccount4MngDef.addAvailableByManager(id,po.getRealName(),new BigDecimal(10000000),
-                            FundAccount4MngTokenUtil.genToken4AddAvailableByManager(id, po.getRealName(), new BigDecimal(10000000)
+                    fundAccount4MngDef.addAvailableByManager(String.valueOf(id),id,po.getRealName(),new BigDecimal(10000000),
+                            FundAccount4MngTokenUtil.genToken4AddAvailableByManager(String.valueOf(id),id, po.getRealName(), new BigDecimal(10000000)
                             ));
                     //创建合约账号
-                    pcAccount4ServerDef.createPcAccount(id,po.getRealName(),
-                            PcAccount4ServerTokenUtil.genToken4CreatePcAccount(id,po.getRealName()));
+                    pcAccount4ServerDef.createPcAccount(String.valueOf(id),id,po.getRealName(),
+                            PcAccount4ServerTokenUtil.genToken4CreatePcAccount(String.valueOf(id),id,po.getRealName()));
                     //资金划转
-                    fundAccount4ServerDef.transfer2PcAccount(
+                    fundAccount4ServerDef.transfer2PcAccount(String.valueOf(id),
                             id,
                             po.getRealName(),
                             new BigDecimal(1000000),
-                            FundAccount4ServerTokenUtil.genToken4Transfer2PcAccount(id, po.getRealName(),new BigDecimal(1000000)));
+                            FundAccount4ServerTokenUtil.genToken4Transfer2PcAccount(String.valueOf(id),id, po.getRealName(),new BigDecimal(1000000)));
                 }
             } catch (AccountException e) {
                 e.printStackTrace();
             } catch (FundAccountException e) {
                 e.printStackTrace();
-            } catch (PcAccountException e) {
-                e.printStackTrace();
             } catch (AccountTransferException e) {
+                e.printStackTrace();
+            } catch (com.hupa.exp.base.exception.pc.PcAccountException e) {
                 e.printStackTrace();
             }
 

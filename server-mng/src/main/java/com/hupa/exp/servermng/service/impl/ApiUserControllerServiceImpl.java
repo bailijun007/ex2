@@ -3,7 +3,7 @@ package com.hupa.exp.servermng.service.impl;
 import com.hupa.exp.account.def.Account4ServerDef;
 import com.hupa.exp.account.def.fund.FundAccount4MngDef;
 import com.hupa.exp.account.def.fund.FundAccount4ServerDef;
-import com.hupa.exp.account.service.account.def.FundAccountDef;
+import com.hupa.exp.account.service.def.fund.FundAccountService;
 import com.hupa.exp.account.util.token.Account4ServerTokenUtil;
 import com.hupa.exp.account.util.token.fund.FundAccount4MngTokenUtil;
 import com.hupa.exp.account.util.token.fund.FundAccount4ServerTokenUtil;
@@ -28,7 +28,9 @@ import com.hupa.exp.common.component.redis.RedisUtil;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.JsonUtil;
 import com.hupa.exp.daomysql.dao.expv2.def.IExpUserDao;
-import com.hupa.exp.id.def.account.AccountIdDef;
+import com.hupa.exp.pc.service.def.PcAccountService;
+import com.hupa.exp.persist.def.fund.FundAccountReadService;
+import com.hupa.exp.persist.def.pc.PcAccountReadService;
 import com.hupa.exp.servermng.entity.user.*;
 import com.hupa.exp.servermng.enums.LoginExceptionCode;
 import com.hupa.exp.servermng.enums.MngExceptionCode;
@@ -61,8 +63,8 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
     @Autowired
     private UserValidateImpl userValidate;
 
-    @Reference
-    private AccountIdDef accountIdDef;
+//    @Reference
+//    private AccountIdDef accountIdDef;
 
     @Reference
     private Account4ServerDef account4ServerDef;
@@ -74,11 +76,25 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
     private FundAccount4ServerDef fundAccount4ServerDef;
 
     @Autowired
-    private FundAccountDef fundAccountDef;
+    private FundAccountReadService fundAccountReadService;
+    @Autowired
+    private PcAccountReadService pcAccountReadService;
+
+    @Autowired
+    private FundAccountService fundAccountService;
+
+    @Autowired
+    private PcAccountService pcAccountService;
+
+//
+//    @Autowired
+//    private FundAccountDef fundAccountDef;
 
     @Autowired
     @Qualifier(Db0RedisBean.beanName)
     private RedisUtil redisUtilDb0;
+
+
 
 
     @Autowired
@@ -125,7 +141,7 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         expUserBo.setFundPwd(inputDto.getFundPwd());
         UserOutputDto outputDto = new UserOutputDto();
         //userValidate.validate(inputDto);//验证参数
-        long id = accountIdDef.newAccountId();
+        long id = account4ServerDef.newAccountId();
         ExpUserBizBo user = sessionHelper.getUserInfoBySession();
         if (inputDto.getId() > 0) {
             iUserBiz.editById(expUserBo);
@@ -145,7 +161,8 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
                     "");
             if (inputDto.getUserType() != 0) {
                 try {
-                    account4ServerDef.createAccount(id, Account4ServerTokenUtil.genToken4CreateAccount(id));
+                    account4ServerDef.createAccount(String.valueOf(id),id,
+                            Account4ServerTokenUtil.genToken4CreateAccount(String.valueOf(id),id));
                     //fundAccount4ServerDef.createFundAccount(id, "BTC", FundAccount4ServerTokenUtil.genToken4CreateFundAccount(id, "BTC"));
                 } catch (Exception e) {
                     throw new MngException(MngExceptionCode.DUBBO_SERVER_ERROR);
@@ -316,7 +333,7 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         for (ExpUserBizBo bo : bizBos) {
             if (bo.getUserType() != 0) {
                 try {
-                    account4ServerDef.createAccount(bo.getId(), Account4ServerTokenUtil.genToken4CreateAccount(bo.getId()));
+                    account4ServerDef.createAccount("",bo.getId(), Account4ServerTokenUtil.genToken4CreateAccount("",bo.getId()));
                 } catch (Exception e) {
                     throw new MngException(MngExceptionCode.DUBBO_SERVER_ERROR);
                 }
@@ -437,16 +454,17 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         if (fundArr.length > 0) {
             try {
                 String symbol = fundArr[0];
-                if (fundAccountDef.getFundAccount(inputDto.getId(), symbol, true) == null) {
-                    fundAccount4ServerDef.createFundAccount(inputDto.getId(), symbol,
-                            FundAccount4ServerTokenUtil.genToken4CreateFundAccount(inputDto.getId(), symbol));
+
+                if (fundAccountService.getFundAccount(inputDto.getId(), symbol, true) == null) {
+                    fundAccount4ServerDef.createFundAccount(String.valueOf(inputDto.getId()),inputDto.getId(), symbol,
+                            FundAccount4ServerTokenUtil.genToken4CreateFundAccount(String.valueOf(inputDto.getId()),inputDto.getId(), symbol));
                 }
 
                 BigDecimal delta = new BigDecimal(fundArr[1]);
                 FundAccountMngBizBo beforeBo = iUserBiz.queryFundAccountById(inputDto.getId());
                 //加钱
-                boolean bol = fundAccount4MngDef.addAvailableByManager(inputDto.getId(), symbol, delta,
-                        FundAccount4MngTokenUtil.genToken4AddAvailableByManager(inputDto.getId(), symbol, delta
+                boolean bol = fundAccount4MngDef.addAvailableByManager(String.valueOf(inputDto.getId()),inputDto.getId(), symbol, delta,
+                        FundAccount4MngTokenUtil.genToken4AddAvailableByManager(String.valueOf(inputDto.getId()),inputDto.getId(), symbol, delta
                         ));
                 FundAccountMngBizBo afterBo = iUserBiz.queryFundAccountById(inputDto.getId());
                 ExpUserBizBo user = sessionHelper.getUserInfoBySession();

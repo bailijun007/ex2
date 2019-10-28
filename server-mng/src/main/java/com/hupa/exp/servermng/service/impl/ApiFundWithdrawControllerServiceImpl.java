@@ -98,8 +98,8 @@ public class ApiFundWithdrawControllerServiceImpl implements IApiFundWithdrawCon
     @Override
     public AuditFundWithdrawOutputDto auditPassFundWithdraw(AuditPassFundWithdrawInputDto inputDto) throws BizException {
         FundWithdrawMongoBizBo beforeBo = iWithdrawBiz.selectFundWithdrawById(inputDto.getWithdrawId(), inputDto.getSymbol());
-        boolean bol = fundAccount4MngDef.withdrawAuditPass(inputDto.getAccountId(), inputDto.getSymbol()
-                , inputDto.getWithdrawId(), FundAccount4MngTokenUtil.genToken4WithdrawAuditPass(inputDto.getAccountId(), inputDto.getSymbol()
+        boolean bol = fundAccount4MngDef.withdrawAuditPass(String.valueOf(inputDto.getAccountId()),inputDto.getAccountId(), inputDto.getSymbol()
+                , inputDto.getWithdrawId(), FundAccount4MngTokenUtil.genToken4WithdrawAuditPass(String.valueOf(inputDto.getAccountId()),inputDto.getAccountId(), inputDto.getSymbol()
                         , inputDto.getWithdrawId()));
         FundWithdrawMongoBizBo afterBo = iWithdrawBiz.selectFundWithdrawById(inputDto.getWithdrawId(), inputDto.getSymbol());
         ExpUserBizBo user = sessionHelper.getUserInfoBySession();
@@ -117,9 +117,9 @@ public class ApiFundWithdrawControllerServiceImpl implements IApiFundWithdrawCon
     @Override
     public AuditFundWithdrawOutputDto auditFailFundWithdraw(AuditFailFundWithdrawInputDto inputDto) throws BizException {
         FundWithdrawMongoBizBo beforeBo = iWithdrawBiz.selectFundWithdrawById(inputDto.getWithdrawId(), inputDto.getSymbol());
-        boolean bol = fundAccount4MngDef.withdrawAuditFail(inputDto.getAccountId(), inputDto.getSymbol(), inputDto.getWithdrawId(),
+        boolean bol = fundAccount4MngDef.withdrawAuditFail(String.valueOf(inputDto.getAccountId()),inputDto.getAccountId(), inputDto.getSymbol(), inputDto.getWithdrawId(),
                 inputDto.getReason(),
-                FundAccount4MngTokenUtil.genToken4WithdrawAuditFail(inputDto.getAccountId(), inputDto.getSymbol(), inputDto.getWithdrawId(),
+                FundAccount4MngTokenUtil.genToken4WithdrawAuditFail(String.valueOf(inputDto.getAccountId()),inputDto.getAccountId(), inputDto.getSymbol(), inputDto.getWithdrawId(),
                         inputDto.getReason()));
         FundWithdrawMongoBizBo afterBo = iWithdrawBiz.selectFundWithdrawById(inputDto.getWithdrawId(), inputDto.getSymbol());
         ExpUserBizBo user = sessionHelper.getUserInfoBySession();
