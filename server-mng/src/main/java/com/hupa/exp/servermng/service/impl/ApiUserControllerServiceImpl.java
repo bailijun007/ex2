@@ -3,6 +3,8 @@ package com.hupa.exp.servermng.service.impl;
 import com.hupa.exp.account.def.Account4ServerDef;
 import com.hupa.exp.account.def.fund.FundAccount4MngDef;
 import com.hupa.exp.account.def.fund.FundAccount4ServerDef;
+import com.hupa.exp.account.def.pc.PcAccount4ServerDef;
+import com.hupa.exp.account.service.def.account.AccountService;
 import com.hupa.exp.account.service.def.fund.FundAccountService;
 import com.hupa.exp.account.util.token.Account4ServerTokenUtil;
 import com.hupa.exp.account.util.token.fund.FundAccount4MngTokenUtil;
@@ -12,6 +14,8 @@ import com.hupa.exp.base.enums.OperationModule;
 import com.hupa.exp.base.enums.OperationType;
 import com.hupa.exp.base.enums.ValidateExceptionCode;
 import com.hupa.exp.base.exception.ValidateException;
+import com.hupa.exp.base.exception.account.FundAccountException;
+import com.hupa.exp.base.exception.pc.PcAccountException;
 import com.hupa.exp.bizother.entity.account.PcFeeBizBo;
 import com.hupa.exp.bizother.entity.dic.ExpDicBizBo;
 import com.hupa.exp.bizother.entity.fundaccount.FundAccountMngBizBo;
@@ -27,7 +31,12 @@ import com.hupa.exp.bizother.service.user.def.IUserRoleService;
 import com.hupa.exp.common.component.redis.RedisUtil;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.JsonUtil;
+import com.hupa.exp.daomysql.dao.expv2.def.IAssetDao;
 import com.hupa.exp.daomysql.dao.expv2.def.IExpUserDao;
+import com.hupa.exp.daomysql.entity.po.expv2.AssetPo;
+import com.hupa.exp.pc.margin.def.account.PcAccount4MngDef;
+import com.hupa.exp.pc.margin.util.token.PcAccount4ServerTokenUtil;
+import com.hupa.exp.pc.service.def.PcAccountService;
 import com.hupa.exp.servermng.entity.user.*;
 import com.hupa.exp.servermng.enums.LoginExceptionCode;
 import com.hupa.exp.servermng.enums.MngExceptionCode;
@@ -67,11 +76,23 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
     private FundAccount4MngDef fundAccount4MngDef;
 
     @Reference
+    private PcAccount4MngDef pcAccount4MngDef;
+
+    @Reference
     private FundAccount4ServerDef fundAccount4ServerDef;
+
+    @Reference
+    private PcAccount4ServerDef pcAccount4ServerDef;
 
 
     @Autowired
     private FundAccountService fundAccountService;
+
+    @Autowired
+    private PcAccountService pcAccountService;
+
+    @Autowired
+    private AccountService accountService;
 
     @Autowired
     @Qualifier(Db0RedisBean.beanName)
@@ -91,6 +112,9 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
 
     @Autowired
     private SessionHelper sessionHelper;
+
+    @Autowired
+    private IAssetDao iAssetDao;
 
     @Override
     public UserOutputDto createUser(UserInputDto inputDto) throws BizException {
@@ -303,13 +327,50 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
     @Override
     public CreateAccountOutputDto createAccount(CreateAccountInputDto inputDto) throws MngException {
         List<ExpUserBizBo> bizBos = iUserBiz.queryList();
+        List<AssetPo> assetPos=iAssetDao.selectActiveList();
         for (ExpUserBizBo bo : bizBos) {
             if (bo.getUserType() != 0) {
+
                 try {
-                    account4ServerDef.createAccount("",bo.getId(), Account4ServerTokenUtil.genToken4CreateAccount("",bo.getId()));
+                    //创建账户
+                    if(accountService.getAccount(bo.getId(),true)==null)
+                    {
+                        account4ServerDef.createAccount(String.valueOf(bo.getId()),
+                                bo.getId(), Account4ServerTokenUtil.genToken4CreateAccount(
+                                        String.valueOf(bo.getId()),bo.getId()));
+                    }
                 } catch (Exception e) {
-                    throw new MngException(MngExceptionCode.DUBBO_SERVER_ERROR);
+                    e.getStackTrace();
+                    //throw new MngException(MngExceptionCode.DUBBO_SERVER_ERROR);
                 }
+
+
+                assetPos.forEach(assetPo -> {
+                    //创建资金账户
+                    try {
+//                        if(fundAccountService.getFundAccount(bo.getId(),assetPo.getRealName(),true)==null)
+//                        {
+                            fundAccount4ServerDef.createFundAccount(String.valueOf(bo.getId()),bo.getId(),assetPo.getRealName()
+                                    ,FundAccount4ServerTokenUtil.genToken4CreateFundAccount(String.valueOf(bo.getId()),bo.getId(),assetPo.getRealName()));
+                        //}
+                    } catch (FundAccountException e) {
+                        e.printStackTrace();
+                    }
+                    //创建合约账户
+                    try {
+//                        if(pcAccountService.getPcAccount(bo.getId(),assetPo.getRealName(),true)==null)
+//                        {
+                            pcAccount4ServerDef.createPcAccount(String.valueOf(bo.getId()),bo.getId()
+                                    ,assetPo.getRealName(), PcAccount4ServerTokenUtil.genToken4CreatePcAccount(
+                                            String.valueOf(bo.getId()),bo.getId()
+                                            ,assetPo.getRealName()
+                                    ));
+                        //}
+                    } catch (PcAccountException e) {
+                        e.printStackTrace();
+                    }
+                });
+
 
                 //fundAccount4ServerDef.createFundAccount(id, "BTC", FundAccount4ServerTokenUtil.genToken4CreateFundAccount(id, "BTC"));
             }
@@ -428,10 +489,10 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
             try {
                 String symbol = fundArr[0];
 
-                if (fundAccountService.getFundAccount(inputDto.getId(), symbol, true) == null) {
-                    fundAccount4ServerDef.createFundAccount(String.valueOf(inputDto.getId()),inputDto.getId(), symbol,
-                            FundAccount4ServerTokenUtil.genToken4CreateFundAccount(String.valueOf(inputDto.getId()),inputDto.getId(), symbol));
-                }
+                //if (fundAccountService.getFundAccount(inputDto.getId(), symbol, true) == null) {
+//                    fundAccount4ServerDef.createFundAccount(String.valueOf(inputDto.getId()),inputDto.getId(), symbol,
+//                            FundAccount4ServerTokenUtil.genToken4CreateFundAccount(String.valueOf(inputDto.getId()),inputDto.getId(), symbol));
+                //}
 
                 BigDecimal delta = new BigDecimal(fundArr[1]);
                 FundAccountMngBizBo beforeBo = iUserBiz.queryFundAccountById(inputDto.getId());
@@ -446,7 +507,8 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
                         OperationType.Insert.toString(), JsonUtil.toJsonString(beforeBo),
                         JsonUtil.toJsonString(afterBo));
             } catch (Exception e) {
-                throw new MngException(MngExceptionCode.DUBBO_SERVER_ERROR);
+                e.getStackTrace();
+                //throw new MngException(MngExceptionCode.DUBBO_SERVER_ERROR);
             }
         }
         EditFundAccountOutputDto outputDto = new EditFundAccountOutputDto();
