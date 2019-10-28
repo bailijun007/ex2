@@ -17,14 +17,10 @@ import org.springframework.core.env.ConfigurableEnvironment;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @SpringBootConfiguration
-@EnableDubbo(scanBasePackages = {
-        "com.hupa.exp.id.def.transaction",
-        "com.hupa.exp.account.def",
-        "com.hupa.exp.component.id",
-        "com.hupa.exp.account.module"})
+@EnableDubbo(scanBasePackages = {"com.hupa.exp.account.def"})
 public class ServerMngMainEntrance {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         ConfigurableApplicationContext ctx = new SpringApplicationBuilder(ServerMngMainEntrance.class)
                 .web(WebApplicationType.SERVLET)
                 .initializers((ConfigurableApplicationContext context) -> {

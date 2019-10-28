@@ -45,6 +45,9 @@ public class DubboBeans {
     public RegistryConfig registryConfig() {
         RegistryConfig registryConfig = new RegistryConfig();
         registryConfig.setAddress(dubboConfig.getRegistryAddress());
+
+        registryConfig.setGroup(dubboConfig.getGroupName());
+
         registryConfig.setFile(dubboConfig.getDumpDirectory() + File.separator + "cache");
         registryConfig.setClient("curator");
         return registryConfig;

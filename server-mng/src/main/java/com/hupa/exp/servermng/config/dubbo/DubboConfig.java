@@ -21,9 +21,20 @@ public class DubboConfig {
 
     String registryAddress;
     String serverName;
+
+    private String groupName;
+
     int protocolPort;
     public int protocolTimeout;
     public String dumpDirectory;
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
 
     @PostConstruct
     private void init(){
