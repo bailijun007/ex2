@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 public class AssetBizBo {
     private Long id;
     private Integer chainAppointId;
+    private String symbol;
     private String realName;
     private String displayName;
     private String chainName;
@@ -18,6 +19,14 @@ public class AssetBizBo {
     private String chainTransactionUrl;
     private Long ctime;
     private Long mtime;
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
 
     public Integer getChainAppointId() {
         return chainAppointId;

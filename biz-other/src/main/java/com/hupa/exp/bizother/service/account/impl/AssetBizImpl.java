@@ -11,6 +11,7 @@ import com.hupa.exp.bizother.entity.account.CoinPageListBizBo;
 import com.hupa.exp.bizother.service.account.def.IAssetBiz;
 import com.hupa.exp.common.component.redis.RedisUtil;
 import com.hupa.exp.common.exception.BizException;
+import com.hupa.exp.common.tool.format.JsonUtil;
 import com.hupa.exp.daomysql.dao.expv2.def.IAssetDao;
 import com.hupa.exp.daomysql.dao.expv2.def.IExpDicDao;
 import com.hupa.exp.daomysql.entity.po.expv2.AssetPo;
@@ -40,14 +41,16 @@ public class AssetBizImpl implements IAssetBiz {
     public long createCoin(AssetBizBo coinBizBo) throws BizException {
         AssetPo po= ConventObjectUtil.conventObject(coinBizBo,AssetPo.class);
         po.setCtime(System.currentTimeMillis());
-        ExpDicPo dicPo= dicDao.selectDicByKey("CoinRedisKey");
+        ExpDicPo dicPo= dicDao.selectDicByKey("AssetRedisKey");
         if(iAssetDao.insert(po)>0)
         {
+            coinBizBo.setSymbol(coinBizBo.getRealName());
             if(dicPo!=null)
             {
-                redisUtilDb0.hset(dicPo.getValue(),coinBizBo.getRealName(), JSON.toJSONString(coinBizBo));
+                redisUtilDb0.hset(dicPo.getValue(),coinBizBo.getRealName(), JsonUtil.toJsonString(coinBizBo));
             }
         }
+
         else
             throw new ValidateException(ValidateExceptionCode.VALIDATE_PARAM_VALUE_ERROR);
         return po.getId();
@@ -57,12 +60,13 @@ public class AssetBizImpl implements IAssetBiz {
     public long editCoin(AssetBizBo coinBizBo) throws BizException {
         AssetPo po= ConventObjectUtil.conventObject(coinBizBo,AssetPo.class);
         po.setMtime(System.currentTimeMillis());
-        ExpDicPo dicPo= dicDao.selectDicByKey("CoinRedisKey");
+        ExpDicPo dicPo= dicDao.selectDicByKey("AssetRedisKey");
         if(iAssetDao.updateById(po)>0)
         {
+            coinBizBo.setSymbol(coinBizBo.getRealName());
             if(dicPo!=null)
             {
-                redisUtilDb0.hset(dicPo.getValue(),coinBizBo.getRealName(), JSON.toJSONString(coinBizBo));
+                redisUtilDb0.hset(dicPo.getValue(),coinBizBo.getRealName(), JsonUtil.toJsonString(coinBizBo));
             }
         }
         else

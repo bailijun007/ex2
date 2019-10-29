@@ -49,7 +49,7 @@ public class ApiContractController {
             @ApiParam(name="display_name",value = "合约展示名",required = true)
             @RequestParam(name = "display_name") String displayName,
             @ApiParam(name="display_name_split",value = "合约展示名",required = true)
-            @RequestParam(name = "display_name") String displayNameSplit,
+            @RequestParam(name = "display_name_split") String displayNameSplit,
             @ApiParam(name="default_price",value = "默认交易价",required = true)
             @RequestParam(name = "default_price") BigDecimal defaultPrice,
             @ApiParam(name="last_price",value = "最新成交价",required = true)

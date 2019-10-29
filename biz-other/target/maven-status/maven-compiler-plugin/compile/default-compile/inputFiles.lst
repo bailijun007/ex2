@@ -8,9 +8,7 @@ G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\menu\Exp
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\modulelimit\def\IModuleLimitService.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\fundaccount\FundAccountMngListBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\MongoBo\BaseFundAccountMongoBizBo.java
-G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\MongoBo\FundAssertChangeMongoBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\information\impl\InformationServiceImpl.java
-G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\MongoBo\PcAssertChangeMongoPageBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\tablefield\TableFieldListBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\locale\ExpLocaleBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\config\AppSettingConfig.java
@@ -37,7 +35,7 @@ G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\informat
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\QueryAccountTransferBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\PcAccountBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\fundaccount\PcAccountCacheBizBo.java
-G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\account\impl\AssertChangBizImpl.java
+G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\account\def\IAssetChangBiz.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\account\def\IWithdrawBiz.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\login\impl\LoginBizImpl.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\QueryDepositBizBo.java
@@ -45,6 +43,7 @@ G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\fundacco
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\AssetBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\information\def\IInformationService.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\account\impl\AssetBizImpl.java
+G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\account\impl\AssetChangBizImpl.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\account\def\IAssetBiz.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\MongoBo\FundWithdrawMongoPageBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\PcFeeBizBo.java
@@ -53,6 +52,8 @@ G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\price\d
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\BizOtherMainEntrance.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\MongoBo\PcAccountLogMongoPageBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\PcFeeListBizBo.java
+G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\MongoBo\PcAssetChangeMongoPageBizBo.java
+G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\MongoBo\PcAssetChangeMongoBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\CoinPageListBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\operationlog\def\IExpOperationLogService.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\role\def\IRoleService.java
@@ -69,14 +70,11 @@ G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\sms\ExpS
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\config\BizPriceSettingConfig.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\locale\impl\LocaleServiceImpl.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\account\def\IAccountBiz.java
-G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\account\def\IAssertChangBiz.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\contract\impl\PcContractBizImpl.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\locale\def\ILocaleService.java
-G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\MongoBo\PcAssertChangeMongoBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\dic\def\IDicService.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\user\def\IUserRoleService.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\klineconfig\ExpKlineConfigBizBo.java
-G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\MongoBo\FundAssertChangeMongoPageBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\menu\impl\MenuServiceImpl.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\account\def\IPcAccountMongoBiz.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\tablefield\TableFieldBizBo.java
@@ -98,6 +96,7 @@ G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\contrac
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\account\def\IFundAccountMongoBiz.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\dic\ExpDicBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\user\ExpUserListBizBo.java
+G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\MongoBo\FundAssetChangeMongoBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\area\impl\AreaServiceImpl.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\area\ExpAreaBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\role\ExpRoleBizBo.java
@@ -114,6 +113,7 @@ G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\account\def\IPcFeeBiz.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\login\AdminLoginBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\MongoBo\FundAccountLogMongoPageBizBo.java
+G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\MongoBo\FundAssetChangeMongoPageBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\information\ExpInformationBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\information\ExpInformationListBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\klineconfig\ExpKlineConfigListBizBo.java

@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -56,7 +57,10 @@ public class ApiImportSettingControllerServiceImpl implements IApiImportSettingC
 
         List<PcContractPo> pcContractPos= iPcContractDao.selectPos();
         //list 转 map
-        Map<String, PcContractPo> pairMap = pcContractPos.stream().collect(Collectors.toMap(PcContractPo::getSymbol, a -> a,(k1, k2)->k1));
+        Map<String, PcContractPo> pairMap = new HashMap<>();
+        pcContractPos.forEach(contractPo->{
+            pairMap.put(contractPo.getAsset()+"__"+contractPo.getSymbol(),contractPo);
+        });
         Map<String, PcContractPo> displayMap = pcContractPos.stream().collect(Collectors.toMap(PcContractPo::getDisplayName, a -> a,(k1, k2)->k1));
         //初始化交易对
         ExpDicPo contractRedisKey= iExpDicDao.selectDicByKey("ContractRedisKey");

@@ -9,6 +9,7 @@ import com.hupa.exp.bizother.entity.contract.PcContractBizBo;
 import com.hupa.exp.bizother.entity.contract.PcContractListBizBo;
 import com.hupa.exp.bizother.service.contract.def.IPcContractBiz;
 import com.hupa.exp.common.component.redis.RedisUtil;
+import com.hupa.exp.common.tool.format.JsonUtil;
 import com.hupa.exp.daomysql.dao.expv2.def.IExpDicDao;
 import com.hupa.exp.daomysql.dao.expv2.def.IPcContractDao;
 import com.hupa.exp.daomysql.entity.po.expv2.ExpDicPo;
@@ -58,12 +59,12 @@ public class PcContractBizImpl implements IPcContractBiz
         ExpDicPo dicPo= dicDao.selectDicByKey("ContractRedisKey");
         if(dicPo!=null)
         {
-            redisUtilDb0.hset(dicPo.getValue(),po.getSymbol(), JSON.toJSONString(po));
+            redisUtilDb0.hset(dicPo.getValue(),po.getSymbol(), JsonUtil.toJsonString(po));
         }
         ExpDicPo dicPoDisplay= dicDao.selectDicByKey("DisplayNameRedisKey");
         if(dicPoDisplay!=null)
         {
-            redisUtilDb0.hset(dicPoDisplay.getValue(),po.getDisplayName(), JSON.toJSONString(po));
+            redisUtilDb0.hset(dicPoDisplay.getValue(),po.getDisplayName(), JsonUtil.toJsonString(po));
         }
         return id;
     }
@@ -85,8 +86,8 @@ public class PcContractBizImpl implements IPcContractBiz
         {
             //redisUtilDb0.del(dicPo.getValue());
             //redisUtilDb0.hmset(dicPo.getValue(),pairMap);
-            redisUtilDb0.hdel(dicPo.getValue(),oldPo.getSymbol());
-            redisUtilDb0.hset(dicPo.getValue(),po.getSymbol(),po);
+            redisUtilDb0.hdel(dicPo.getValue(),oldPo.getAsset()+"__"+oldPo.getSymbol());
+            redisUtilDb0.hset(dicPo.getValue(),po.getAsset()+"__"+po.getSymbol(), JsonUtil.toJsonString(po));
         }
         ExpDicPo dicPoDisplay= dicDao.selectDicByKey("DisplayNameRedisKey");
         if(dicPoDisplay!=null)
@@ -94,7 +95,7 @@ public class PcContractBizImpl implements IPcContractBiz
             //redisUtilDb0.del(dicPoDisplay.getValue());
             //redisUtilDb0.hmset(dicPoDisplay.getValue(),displayMap);
             redisUtilDb0.hdel(dicPoDisplay.getValue(),oldPo.getDisplayName());
-            redisUtilDb0.hset(dicPoDisplay.getValue(),po.getDisplayName(),po);
+            redisUtilDb0.hset(dicPoDisplay.getValue(),po.getDisplayName(), JsonUtil.toJsonString(po));
         }
         return id;
     }
