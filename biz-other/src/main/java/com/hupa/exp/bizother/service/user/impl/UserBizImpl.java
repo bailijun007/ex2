@@ -202,7 +202,7 @@ public class UserBizImpl implements IUserBiz {
 
     @Override
     public FundAccountMngListBizBo queryFundAccountList(long currentPage, long pageSize, Integer userType, String userName, Long id) throws BizException {
-        List<AssetPo> coinPos = iAssetDao.selectList();//所有交易对
+        List<AssetPo> assetPos = iAssetDao.selectList();//所有交易对
         IPage<ExpUserPo> userPos = iExpUserDao.selectUserList(currentPage, pageSize, userType, userName,id);
         FundAccountMngListBizBo fundAccountListBizBo = new FundAccountMngListBizBo();
         fundAccountListBizBo.setTotal(userPos.getTotal());
@@ -215,10 +215,10 @@ public class UserBizImpl implements IUserBiz {
             fundAccountBizBo.setRealName(userPo.getRealName());
             List<AssetsBizBo> assetsBizBos = new ArrayList<>();
 
-            for (AssetPo pcPo : coinPos) {
+            for (AssetPo pcPo : assetPos) {
                FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(userPo.getId(), pcPo.getRealName());
                 AssetsBizBo assetsBizBo = new AssetsBizBo();
-                assetsBizBo.setPair(pcPo.getRealName());
+                assetsBizBo.setAsset(pcPo.getRealName());
                 if (null != fundAccount) {
                     assetsBizBo.setFundAccountAvailable(fundAccount.getAvailable());
                     assetsBizBo.setFundAccountLock(fundAccount.getLock());
@@ -251,7 +251,7 @@ public class UserBizImpl implements IUserBiz {
 
     @Override
     public FundAccountMngListBizBo queryFundAccountListByParam(long currentPage, long pageSize, Integer userType, String userName, Long id) throws BizException {
-        List<AssetPo> coinPos = iAssetDao.selectList();//所有交易对
+        List<AssetPo> assetPos = iAssetDao.selectList();//所有交易对
         IPage<ExpUserPo> userPos = iExpUserDao.selectUserList(currentPage, pageSize, userType, userName,id);
         FundAccountMngListBizBo fundAccountListBizBo = new FundAccountMngListBizBo();
         fundAccountListBizBo.setTotal(userPos.getTotal());
@@ -264,10 +264,10 @@ public class UserBizImpl implements IUserBiz {
             fundAccountBizBo.setRealName(userPo.getRealName());
             List<AssetsBizBo> assetsBizBos = new ArrayList<>();
 
-            for (AssetPo pcPo : coinPos) {
+            for (AssetPo pcPo : assetPos) {
                 FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(userPo.getId(), pcPo.getRealName());
                 AssetsBizBo assetsBizBo = new AssetsBizBo();
-                assetsBizBo.setPair(pcPo.getRealName());
+                assetsBizBo.setAsset(pcPo.getRealName());
                 if (null != fundAccount) {
                     assetsBizBo.setFundAccountAvailable(fundAccount.getAvailable());
                     assetsBizBo.setFundAccountLock(fundAccount.getLock());
@@ -300,7 +300,7 @@ public class UserBizImpl implements IUserBiz {
 
     @Override
     public FundAccountMngBizBo queryFundAccountById(long id) throws BizException {
-        List<AssetPo> coinPos = iAssetDao.selectList();//所有交易对
+        List<AssetPo> assetPos = iAssetDao.selectList();//所有交易对
         ExpUserPo userPo = iExpUserDao.selectPoById(id);
         if(userPo==null)
             return null;
@@ -311,10 +311,10 @@ public class UserBizImpl implements IUserBiz {
         fundAccountBizBo.setUserName(userName);
         fundAccountBizBo.setRealName(userPo.getRealName());
         List<AssetsBizBo> assetsBizBos = new ArrayList<>();
-        for (AssetPo pcPo : coinPos) {
+        for (AssetPo pcPo : assetPos) {
             FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(userPo.getId(), pcPo.getRealName());
             AssetsBizBo assetsBizBo = new AssetsBizBo();
-            assetsBizBo.setPair(pcPo.getRealName());
+            assetsBizBo.setAsset(pcPo.getRealName());
             if (null != fundAccount) {
                 assetsBizBo.setFundAccountAvailable(fundAccount.getAvailable());
                 assetsBizBo.setFundAccountLock(fundAccount.getLock());

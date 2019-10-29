@@ -17,8 +17,17 @@ public class AssetBizBo {
     private BigDecimal minWithdrawVolume;
     private BigDecimal  withdrawFee;
     private String chainTransactionUrl;
+    private Integer dwType;
     private Long ctime;
     private Long mtime;
+
+    public Integer getDwType() {
+        return dwType;
+    }
+
+    public void setDwType(Integer dwType) {
+        this.dwType = dwType;
+    }
 
     public String getSymbol() {
         return symbol;

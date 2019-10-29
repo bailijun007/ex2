@@ -31,6 +31,8 @@ import com.hupa.exp.bizother.service.user.def.IUserRoleService;
 import com.hupa.exp.common.component.redis.RedisUtil;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.JsonUtil;
+import com.hupa.exp.daomongo.dao.expv2.def.IFundAccountAssetMongoDao;
+import com.hupa.exp.daomongo.dao.expv2.def.IPcAccountAssetMongoDao;
 import com.hupa.exp.daomysql.dao.expv2.def.IAssetDao;
 import com.hupa.exp.daomysql.dao.expv2.def.IExpUserDao;
 import com.hupa.exp.daomysql.entity.po.expv2.AssetPo;
@@ -115,6 +117,12 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
 
     @Autowired
     private IAssetDao iAssetDao;
+
+    @Autowired
+    private IFundAccountAssetMongoDao  iFundAccountAssetMongoDao;
+
+    @Autowired
+    private IPcAccountAssetMongoDao iPcAccountAssetMongoDao;
 
     @Override
     public UserOutputDto createUser(UserInputDto inputDto) throws BizException {
@@ -348,24 +356,24 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
                 assetPos.forEach(assetPo -> {
                     //创建资金账户
                     try {
-//                        if(fundAccountService.getFundAccount(bo.getId(),assetPo.getRealName(),true)==null)
-//                        {
+                        if(iFundAccountAssetMongoDao.selectPoById(bo.getId(),assetPo.getRealName())==null)
+                        {
                             fundAccount4ServerDef.createFundAccount(String.valueOf(bo.getId()),bo.getId(),assetPo.getRealName()
                                     ,FundAccount4ServerTokenUtil.genToken4CreateFundAccount(String.valueOf(bo.getId()),bo.getId(),assetPo.getRealName()));
-                        //}
+                        }
                     } catch (FundAccountException e) {
                         e.printStackTrace();
                     }
                     //创建合约账户
                     try {
-//                        if(pcAccountService.getPcAccount(bo.getId(),assetPo.getRealName(),true)==null)
-//                        {
+                        if(iPcAccountAssetMongoDao.selectPoById(bo.getId(),assetPo.getRealName())==null)
+                        {
                             pcAccount4ServerDef.createPcAccount(String.valueOf(bo.getId()),bo.getId()
                                     ,assetPo.getRealName(), PcAccount4ServerTokenUtil.genToken4CreatePcAccount(
                                             String.valueOf(bo.getId()),bo.getId()
                                             ,assetPo.getRealName()
                                     ));
-                        //}
+                        }
                     } catch (PcAccountException e) {
                         e.printStackTrace();
                     }
@@ -451,33 +459,12 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
 
     @Override
     public EditFundAccountOutputDto editFundAccount(EditFundAccountInputDto inputDto) throws BizException {
-//        String fundStr = "";
-//        try {
-//            fundStr = URLDecoder.decode(inputDto.getFunds(), "UTF-8");
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-//        if (!StringUtils.isEmpty(fundStr)) {
-//
-//            String[] fundArr = fundStr.split(",");
-//            for (String fund : fundArr) {
-//                String[] pair = fund.split("[|]");
-//                if (StringUtils.isEmpty(redisUtilDb1.get("fundAccount:" + pair[0] + ":" + inputDto.getId()))) {
-//                    fundAccount4ServerDef.createFundAccount(inputDto.getId(), pair[0],
-//                            FundAccount4ServerTokenUtil.genToken4CreateFundAccount(inputDto.getId(), pair[0]));
-//                }
-//                BigDecimal delta = new BigDecimal(pair[1]);
-//                boolean bol = fundAccount4MngDef.addAvailableByManager(inputDto.getId(), pair[0], delta,
-//                        FundAccount4MngTokenUtil.genToken4AddAvailableByManager(inputDto.getId(), pair[0], delta
-//                        ));
-//                System.out.println(bol);
-//            }
-//        }
+
         return null;
     }
 
     @Override
-    public EditFundAccountOutputDto editFundAccountOnePair(EditFundAccountInputDto inputDto) throws BizException {
+    public EditFundAccountOutputDto editFundAccountOneAsset(EditFundAccountInputDto inputDto) throws BizException {
         String fundStr = "";
         try {
             fundStr = URLDecoder.decode(inputDto.getFunds(), "UTF-8");

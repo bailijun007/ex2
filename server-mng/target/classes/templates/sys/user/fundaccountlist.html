@@ -109,9 +109,9 @@
         });
     }
 
-    var addFundAccountOne = function (action,id,pair) {
+    var addFundAccountOne = function (action,id,asset) {
         var text = "添加用户资产"
-        url = "/sys/user/fundaccounteditonepair.html?id="+id+"&action="+action+"&pair="+pair+"";
+        url = "/sys/user/fundaccounteditoneasset.html?id="+id+"&action="+action+"&asset="+asset+"";
 
         parent.layer.open({
             type: 2,
@@ -207,7 +207,7 @@
                                 for(var i=0;i<row.assets.length;i++)
                                 {
                                     debugger;
-                                    if(row.assets[i].pair==item)
+                                    if(row.assets[i].asset==item)
                                     {
                                         content ="资金账户</br> 总额 "+row.assets[i].fundAccountTotal+"</br>可用余额 "+row.assets[i].fundAccountAvailable+"</br>锁定 "+row.assets[i].fundAccountLock+"</br>";
                                         content+="合约账户</br> 总额 "+row.assets[i].pcAccountTotal+"</br>可用余额 "+row.assets[i].pcAccountAvailable+"</br>委托保证金 "+row.assets[i].pcOrderMargin+"</br>仓位保证金 "+row.assets[i].pcPosMargin
@@ -272,8 +272,6 @@
                 user_name:$("#user_name").val(),
                 id:$("#id").val(),
                 user_type:$("#user_type").val()
-                //pair: $("#pair").val()
-                //action: "GetBakModuleList"
 
             };
             //console.log(temp);

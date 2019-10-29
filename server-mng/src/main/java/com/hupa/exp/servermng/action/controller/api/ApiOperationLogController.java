@@ -55,8 +55,6 @@ public class ApiOperationLogController {
     } catch (BizException e) {
         BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
     }
-
-
     return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
 }
 }

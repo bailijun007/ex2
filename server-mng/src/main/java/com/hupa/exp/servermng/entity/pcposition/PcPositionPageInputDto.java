@@ -2,9 +2,11 @@ package com.hupa.exp.servermng.entity.pcposition;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 import com.hupa.exp.daomongo.enums.MongoSortEnum;
+import org.omg.CORBA.PRIVATE_MEMBER;
 
 public class PcPositionPageInputDto extends BaseInputDto{
-   private String pair;
+   private String asset;
+   private String symbol;
    private Long posId;
    private Long accountId;
    private Integer liqStatus;
@@ -12,6 +14,14 @@ public class PcPositionPageInputDto extends BaseInputDto{
    private Integer pageSize;
    private MongoSortEnum sortEnum;
    private String account;
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
 
     public String getAccount() {
         return account;
@@ -21,12 +31,12 @@ public class PcPositionPageInputDto extends BaseInputDto{
         this.account = account;
     }
 
-    public String getPair() {
-        return pair;
+    public String getAsset() {
+        return asset;
     }
 
-    public void setPair(String pair) {
-        this.pair = pair;
+    public void setAsset(String asset) {
+        this.asset = asset;
     }
 
     public Long getPosId() {

@@ -1,7 +1,5 @@
 package com.hupa.exp.servermng.action.controller.api;//package com.hupa.exp.action.controller.api;
 
-import com.hupa.exp.bizother.service.user.def.IUserBiz;
-import com.hupa.exp.bizother.service.user.def.IUserRoleService;
 import com.hupa.exp.common.entity.dto.BaseResultViaApiDto;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
@@ -189,8 +187,8 @@ public class ApiUserController {
     }
 
     @ApiOperation(value = "给某一个交易对资金账户加钱")
-    @PostMapping("/edit_fund_account_pair")
-    public BaseResultViaApiDto<EditFundAccountInputDto,EditFundAccountOutputDto> editFundAccountPair(
+    @PostMapping("/edit_fund_account_asset")
+    public BaseResultViaApiDto<EditFundAccountInputDto,EditFundAccountOutputDto> editFundAccountAsset(
             @ApiParam(name="id",value = "id",required = true)
             @RequestParam(name = "id") String id,
             @ApiParam(name="funds",value = "funds",required = true)
@@ -201,7 +199,7 @@ public class ApiUserController {
         inputDto.setId(Long.parseLong(id));
         inputDto.setFunds(funds);
         try {
-            outputDto= iApiUserControllerService.editFundAccountOnePair(inputDto);
+            outputDto= iApiUserControllerService.editFundAccountOneAsset(inputDto);
         } catch (BizException e) {
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e) ;
         }

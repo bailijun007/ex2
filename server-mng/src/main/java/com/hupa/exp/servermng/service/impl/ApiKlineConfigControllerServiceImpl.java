@@ -46,8 +46,8 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
         ExpKlineConfigBizBo bo=configService.queryKlineConfigById(inputDto.getId());
         KlineConfigInfoOutputDto outputDto=new KlineConfigInfoOutputDto();
         outputDto.setId(String.valueOf(bo.getId()));
-        outputDto.setSymbol(bo.getSymbol());
-        outputDto.setAsset(bo.getAsset());
+        outputDto.setSymbol(bo.getSymbol().equals("null")?"":bo.getSymbol());
+        outputDto.setAsset(bo.getAsset().equals("null")?"":bo.getAsset());
         outputDto.setStatus(String.valueOf(bo.getStatus()));
         outputDto.setKlineInterval(bo.getKlineInterval());
         outputDto.setStatTime(String.valueOf(bo.getStatTime()));
@@ -80,8 +80,8 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
         {
             KlineConfigListOutputPage po=new KlineConfigListOutputPage();
             po.setId(String.valueOf(bo.getId()));
-            po.setSymbol(bo.getSymbol());
-            po.setAsset(bo.getAsset());
+            po.setSymbol(bo.getSymbol().equals("null")?"":bo.getSymbol());
+            po.setAsset(bo.getAsset().equals("null")?"":bo.getAsset());
             po.setStatus(String.valueOf(bo.getStatus()));
             po.setKlineInterval(bo.getKlineInterval());
             po.setStatTime(String.valueOf(bo.getStatTime()));

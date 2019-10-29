@@ -196,6 +196,15 @@
                                 }
                             }
                             , {
+                                title: '冲提类型',
+                                formatter: function (value, row, index) {
+                                    if (row.dwType == 1)
+                                        return "链上";
+                                    else
+                                        return "第三方";
+                                }
+                            }
+                            , {
                                 title: '提币最小值',
                                 field: 'minWithdrawVolume'
                             }

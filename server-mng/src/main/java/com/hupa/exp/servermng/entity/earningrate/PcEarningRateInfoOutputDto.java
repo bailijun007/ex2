@@ -14,7 +14,7 @@ public class PcEarningRateInfoOutputDto extends BaseOutputDto {
     private BigDecimal earningRate;
     @TableField("earning_rate_time")
     private Long earningRateTime;
-    private String pair;
+    private String asset;
     private String symbol;
     private Long ctime;
     private Long mtime;
@@ -60,13 +60,12 @@ public class PcEarningRateInfoOutputDto extends BaseOutputDto {
     }
 
 
-
-    public String getPair() {
-        return pair;
+    public String getAsset() {
+        return asset;
     }
 
-    public void setPair(String pair) {
-        this.pair = pair;
+    public void setAsset(String asset) {
+        this.asset = asset;
     }
 
     public String getSymbol() {

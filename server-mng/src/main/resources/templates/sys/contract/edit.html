@@ -40,17 +40,19 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">标的类型：</label>
-                                <div class="col-sm-5">
+                                <div class="col-sm-6">
                                     <select id="symbol_type" class="form-control">
-                                        <option value="1">现货交易对</option>
-                                        <option value="2">指数</option>
+                                        <!--<option value="1">现货交易对</option>-->
+                                        <!--<option value="2">指数</option>-->
                                     </select>
                                 </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">计价资产：</label>
                             <div class="col-sm-6">
-                                <input  class="form-control" type="text" value="USD" id="asset">
+                                <select id="asset" class="form-control">
+
+                                </select>
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
@@ -208,40 +210,62 @@
         $(".form-horizontal").Validform({ tiptype: 2 });
         initData();
     });
-
+    bindAsset("asset",false);
+    bindDrop("SymbolType","symbol_type",false);
     $("#symbol").blur(function(){
+
+    })
+    function checkHasContract() {
+        var bol=true;
+        var parmes="?";
+        var id = $("#id").val();
+        parmes+= "id="+id;
+        parmes+="&symbol="+$("#symbol").val();
+        parmes+="&asset="+$("#asset").val();
+        parmes+="&display_name="+$("#display_name").val();
         $.ajax({
             type:"post",
-            url:"/v1/http/contract/check_has_contract?symbol="+$("#symbol").val(),
+            url:"/v1/http/contract/check_has_contract"+parmes,
             contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+            async:false,
             success:function(data) {
-                if(data.data.has_contract==true)
+                if(data.code!=0)
                 {
+                    bol=false;
                     layer.msg("已存在该交易对！");
                     $("#symbol").val("");
                     $("#symbol").parent().next().children().remove();
                 }
             }
         });
-    })
+        return bol;
+    }
 
-    $("#last_price").blur(function(){
+   function checkHasLastPrice(){
+        var bol =true;
         $.ajax({
             type:"post",
             url:"/v1/http/contract/check_last_price?symbol="+$("#symbol").val(),
             contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+            async:false,
             success:function(data) {
                 if(data.data.has_last_price==true)
                 {
                     layer.msg("已存在最新成交价！");
+                    bol=false;
                     $("#last_price").val("");
                     $("#last_price").parent().next().children().remove();
                 }
             }
         });
-    })
+        return bol;
+    }
 
     $("#BtnSave").click(function(){
+        if(!checkHasContract())
+            return false;
+        if(!checkHasLastPrice())
+            return false;
         var checkVal=$("#ckbIsOnTop").parent().find("a").attr("class");
         var isCheck;
         var id = GetQueryString("id");
@@ -258,13 +282,22 @@
             layer.msg("请确认信息填写是否有误！");
             return false;
         }
+        if($("#symbol").val()=="")
+        {
+            layer.msg("请填写交易对！");
+            return false;
+        }
+        if($("#symbol").val()=="")
+        {
+            layer.msg("请填写币种！");
+            return false;
+        }
 
         var parmes="?";
         parmes+= "id="+id;
         parmes+="&symbol="+$("#symbol").val();
         parmes+="&symbol_type="+$("#symbol_type").val();
         parmes+="&asset="+$("#asset").val();
-
         parmes+="&contract_name="+$("#contract_name").val();
         parmes+="&display_name="+$("#display_name").val();
         parmes+="&step="+$("#step").val();

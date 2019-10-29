@@ -1,8 +1,8 @@
-package com.hupa.exp.servermng.entity.storinglevel;
+package com.hupa.exp.servermng.entity.poslevel;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 
-public class StoringLevelInfoInputDto extends BaseInputDto {
+public class PosLevelInfoInputDto extends BaseInputDto {
     private long id;
 
     public long getId() {

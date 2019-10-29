@@ -3,9 +3,9 @@ package com.hupa.exp.servermng.action.controller.api;
 import com.hupa.exp.common.entity.dto.BaseResultViaApiDto;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
-import com.hupa.exp.servermng.entity.storinglevel.*;
+import com.hupa.exp.servermng.entity.poslevel.*;
 import com.hupa.exp.servermng.help.SessionHelper;
-import com.hupa.exp.servermng.service.def.IApiStoringLevelControllerService;
+import com.hupa.exp.servermng.service.def.IApiPosLevelControllerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -17,28 +17,30 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 
-@Api(tags = {"apiStoringLevelController"})
+@Api(tags = {"apiPosLevelController"})
 @RestController
-@RequestMapping(path = "/v1/http/storinglevel",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class ApiStoringLevelController {
+@RequestMapping(path = "/v1/http/poslevel",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+public class ApiPosLevelController {
     @Autowired
-    private IApiStoringLevelControllerService service;
+    private IApiPosLevelControllerService service;
 
     @Autowired
     private SessionHelper sessionHelper;
 
-    private Logger logger = LoggerFactory.getLogger(ApiStoringLevelController.class);
+    private Logger logger = LoggerFactory.getLogger(ApiPosLevelController.class);
 
     /**
      * 插入菜单数据
      */
     @ApiOperation(value = "插入用户")
     @PostMapping("/create_or_edit")
-    public BaseResultViaApiDto<StoringLevelInputDto,StoringLevelOutputDto> createOrEditStoringLevel(
+    public BaseResultViaApiDto<PosLevelInputDto,PosLevelOutputDto> createOrEditPosLevel(
             @ApiParam(name="id",value = "id",required = true)
             @RequestParam(name = "id") Long id,
-            @ApiParam(name="pair",value = "交易对",required = true)
-            @RequestParam(name = "pair") String pair,
+            @ApiParam(name="asset",value = "币",required = true)
+            @RequestParam(name = "asset") String asset,
+            @ApiParam(name="symbol",value = "交易对",required = true)
+            @RequestParam(name = "symbol") String symbol,
             @ApiParam(name="gear",value = "档次",required = true)
             @RequestParam(name = "gear") Integer gear,
             @ApiParam(name="min_amt",value = "最小张数",required = true)
@@ -50,17 +52,18 @@ public class ApiStoringLevelController {
             @ApiParam(name="pos_matin_margin_ratio",value = "维持保证金率",required = true)
             @RequestParam(name = "pos_matin_margin_ratio") BigDecimal posMatinMarginRatio
     ){
-        StoringLevelOutputDto outputDto=new StoringLevelOutputDto();
-        StoringLevelInputDto inputDto=new StoringLevelInputDto();
+        PosLevelOutputDto outputDto=new PosLevelOutputDto();
+        PosLevelInputDto inputDto=new PosLevelInputDto();
         inputDto.setId(id);
-        inputDto.setPair(pair);
+        inputDto.setAsset(asset);
+        inputDto.setSymbol(symbol);
         inputDto.setGear(gear);
         inputDto.setMaxAmt(maxAmt);
         inputDto.setMinAmt(minAmt);
         inputDto.setMaxLeverage(maxLeverage);
         inputDto.setPosMatinMarginRatio(posMatinMarginRatio);
         try{
-            outputDto= service.createOrEditStoringLevel(inputDto);
+            outputDto= service.createOrEditPosLevel(inputDto);
         }catch(BizException e){
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
         }
@@ -69,16 +72,16 @@ public class ApiStoringLevelController {
 
     @ApiOperation(value = "查询")
     @GetMapping("/query")
-    public BaseResultViaApiDto<StoringLevelInfoInputDto,StoringLevelInfoOutputDto> queryStoringLevel(
+    public BaseResultViaApiDto<PosLevelInfoInputDto,PosLevelInfoOutputDto> queryPosLevel(
             @ApiParam(name="id",value = "id",required = true)
             @RequestParam(name = "id") Long id
 
     ){
-        StoringLevelInfoOutputDto outputDto=new StoringLevelInfoOutputDto();
-        StoringLevelInfoInputDto inputDto=new StoringLevelInfoInputDto();
+        PosLevelInfoOutputDto outputDto=new PosLevelInfoOutputDto();
+        PosLevelInfoInputDto inputDto=new PosLevelInfoInputDto();
         inputDto.setId(id);
         try{
-            outputDto= service.getStoringLevel(inputDto);
+            outputDto= service.getPosLevel(inputDto);
         }catch(BizException e){
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
         }
@@ -87,22 +90,25 @@ public class ApiStoringLevelController {
 
     @ApiOperation(value = "查询列表")
     @GetMapping("/query_list")
-    public BaseResultViaApiDto<StoringLevelListInputDto,StoringLevelListOutputDto> queryStoringLevelList(
-            @ApiParam(name="pair",value = "pair",required = true)
-            @RequestParam(name = "pair") String pair,
+    public BaseResultViaApiDto<PosLevelListInputDto,PosLevelListOutputDto> queryPosLevelList(
+            @ApiParam(name="asset",value = "asset",required = true)
+            @RequestParam(name = "asset") String asset,
+            @ApiParam(name="symbol",value = "symbol",required = true)
+            @RequestParam(name = "symbol") String symbol,
               @ApiParam(name="page_size",value = "条数",required = true)
               @RequestParam(name = "page_size") Integer pageSize,
             @ApiParam(name="current_page",value = "页码",required = true)
             @RequestParam(name = "current_page") Integer currentPage
 
     ){
-        StoringLevelListOutputDto outputDto=new StoringLevelListOutputDto();
-        StoringLevelListInputDto inputDto=new StoringLevelListInputDto();
-        inputDto.setPair(pair);
+        PosLevelListOutputDto outputDto=new PosLevelListOutputDto();
+        PosLevelListInputDto inputDto=new PosLevelListInputDto();
+        inputDto.setAsset(asset);
+        inputDto.setSymbol(symbol);
         inputDto.setCurrentPage(currentPage);
         inputDto.setPageSize(pageSize);
         try{
-            outputDto= service.getStoringLevelList(inputDto);
+            outputDto= service.getPosLevelList(inputDto);
         }catch(BizException e){
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
         }

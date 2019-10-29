@@ -2,16 +2,16 @@ package com.hupa.exp.bizother.service.account.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.hupa.exp.base.config.redis.Db0RedisBean;
-import com.hupa.exp.bizother.entity.account.PcStoringLevelBizBo;
-import com.hupa.exp.bizother.entity.account.StoringLevelPageListBizBo;
-import com.hupa.exp.bizother.service.account.def.IStoringLevelBiz;
+import com.hupa.exp.bizother.entity.account.PcPosLevelBizBo;
+import com.hupa.exp.bizother.entity.account.PosLevelPageListBizBo;
+import com.hupa.exp.bizother.service.account.def.IPosLevelBiz;
 import com.hupa.exp.common.component.redis.RedisUtil;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.JsonUtil;
 import com.hupa.exp.daomysql.dao.expv2.def.IExpDicDao;
-import com.hupa.exp.daomysql.dao.expv2.def.IPcStoringLevelDao;
+import com.hupa.exp.daomysql.dao.expv2.def.IPcPosLevelDao;
 import com.hupa.exp.daomysql.entity.po.expv2.ExpDicPo;
-import com.hupa.exp.daomysql.entity.po.expv2.PcStoringLevelPo;
+import com.hupa.exp.daomysql.entity.po.expv2.PcPosLevelPo;
 import com.hupa.exp.util.convent.ConventObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class StoringLevelBizImpl implements IStoringLevelBiz {
+public class StoringLevelBizImpl implements IPosLevelBiz {
     @Autowired
-    private IPcStoringLevelDao iPcStoringLevelDao;
+    private IPcPosLevelDao iPcPosLevelDao;
 
     @Autowired
     private IExpDicDao dicDao;
@@ -34,44 +34,44 @@ public class StoringLevelBizImpl implements IStoringLevelBiz {
     private RedisUtil redisUtilDb0;
 
     @Override
-    public long createStoringLevel(PcStoringLevelBizBo bo) throws BizException {
-        PcStoringLevelPo po= ConventObjectUtil.conventObject(bo,PcStoringLevelPo.class);
-        List<PcStoringLevelPo> pos=iPcStoringLevelDao.selectAllStoringLevelList(bo.getPair());
+    public long createPosLevel(PcPosLevelBizBo bo) throws BizException {
+        PcPosLevelPo po= ConventObjectUtil.conventObject(bo,PcPosLevelPo.class);
+        List<PcPosLevelPo> pos= iPcPosLevelDao.selectAllPosLevelList(bo.getAsset(),bo.getSymbol());
         ExpDicPo dicPo= dicDao.selectDicByKey("PosLevel");
-        if(iPcStoringLevelDao.insert(po)>0)
+        if(iPcPosLevelDao.insert(po)>0)
         {
             if(dicPo!=null)
             {
-                redisUtilDb0.hset(dicPo.getValue(),bo.getPair(), JsonUtil.toJsonString(pos));
+                redisUtilDb0.hset(dicPo.getValue(),bo.getAsset()+"__"+bo.getSymbol(), JsonUtil.toJsonString(pos));
             }
         }
         return po.getId();
     }
 
     @Override
-    public long editStoringLevel(PcStoringLevelBizBo bo) throws BizException {
-        PcStoringLevelPo po= ConventObjectUtil.conventObject(bo,PcStoringLevelPo.class);
-        List<PcStoringLevelPo> pos=iPcStoringLevelDao.selectAllStoringLevelList(bo.getPair());
+    public long editPosLevel(PcPosLevelBizBo bo) throws BizException {
+        PcPosLevelPo po= ConventObjectUtil.conventObject(bo,PcPosLevelPo.class);
+        List<PcPosLevelPo> pos= iPcPosLevelDao.selectAllPosLevelList(bo.getAsset(),bo.getSymbol());
         ExpDicPo dicPo= dicDao.selectDicByKey("PosLevel");
-        if(iPcStoringLevelDao.updateById(po)>0)
+        if(iPcPosLevelDao.updateById(po)>0)
         {
             if(dicPo!=null)
             {
-                redisUtilDb0.hset(dicPo.getValue(),bo.getPair(), JsonUtil.toJsonString(pos));
+                redisUtilDb0.hset(dicPo.getValue(),bo.getAsset()+"__"+bo.getSymbol(), JsonUtil.toJsonString(pos));
             }
         }
         return po.getId();
     }
 
     @Override
-    public StoringLevelPageListBizBo queryStoringLevelList(String pair, long currentPage, long pageSize) throws BizException {
-        IPage<PcStoringLevelPo> storingLevelPoIPage=iPcStoringLevelDao.selectStoringLevelListByPage(pair,currentPage,pageSize);
-        StoringLevelPageListBizBo pageListBizBo=new StoringLevelPageListBizBo();
+    public PosLevelPageListBizBo queryPosLevelList(String asset,String symbol, long currentPage, long pageSize) throws BizException {
+        IPage<PcPosLevelPo> storingLevelPoIPage= iPcPosLevelDao.selectPosLevelListByPage(asset,symbol,currentPage,pageSize);
+        PosLevelPageListBizBo pageListBizBo=new PosLevelPageListBizBo();
         pageListBizBo.setTotal(storingLevelPoIPage.getTotal());
-        List<PcStoringLevelBizBo> bizBoList=new ArrayList<>();
-        for(PcStoringLevelPo po:storingLevelPoIPage.getRecords())
+        List<PcPosLevelBizBo> bizBoList=new ArrayList<>();
+        for(PcPosLevelPo po:storingLevelPoIPage.getRecords())
         {
-            PcStoringLevelBizBo bo=ConventObjectUtil.conventObject(po,PcStoringLevelBizBo.class);
+            PcPosLevelBizBo bo=ConventObjectUtil.conventObject(po,PcPosLevelBizBo.class);
             bizBoList.add(bo);
         }
         pageListBizBo.setRows(bizBoList);
@@ -79,18 +79,18 @@ public class StoringLevelBizImpl implements IStoringLevelBiz {
     }
 
     @Override
-    public PcStoringLevelBizBo queryStoringLevelById(Serializable id) throws BizException {
-        PcStoringLevelPo po=iPcStoringLevelDao.selectPoById(id);
+    public PcPosLevelBizBo queryPosLevelById(Serializable id) throws BizException {
+        PcPosLevelPo po= iPcPosLevelDao.selectPoById(id);
         if(po!=null)
         {
-            PcStoringLevelBizBo bo=ConventObjectUtil.conventObject(po,PcStoringLevelBizBo.class);
+            PcPosLevelBizBo bo=ConventObjectUtil.conventObject(po,PcPosLevelBizBo.class);
             return bo;
         }
         return null;
     }
 
     @Override
-    public boolean checkHasStoringLevel(String pair, String gear) {
+    public boolean checkHasStoringLevel(String asset,String symbol,String gear) {
 
         return false;
     }

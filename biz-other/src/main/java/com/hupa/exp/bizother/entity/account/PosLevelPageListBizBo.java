@@ -2,15 +2,15 @@ package com.hupa.exp.bizother.entity.account;
 
 import java.util.List;
 
-public class StoringLevelPageListBizBo {
-    private List<PcStoringLevelBizBo> rows;
+public class PosLevelPageListBizBo {
+    private List<PcPosLevelBizBo> rows;
     private Long total;
 
-    public List<PcStoringLevelBizBo> getRows() {
+    public List<PcPosLevelBizBo> getRows() {
         return rows;
     }
 
-    public void setRows(List<PcStoringLevelBizBo> rows) {
+    public void setRows(List<PcPosLevelBizBo> rows) {
         this.rows = rows;
     }
 

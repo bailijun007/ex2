@@ -4,7 +4,8 @@ import java.math.BigDecimal;
 
 public interface ILastPriceBiz {
 
-    BigDecimal get(String pair);
+    BigDecimal get(String asset, String symbol);
 
-    void save(String pair, BigDecimal price);
+    void save(String asset,String symbol, BigDecimal price);
+
 }

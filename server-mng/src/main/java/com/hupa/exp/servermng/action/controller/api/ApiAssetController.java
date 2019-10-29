@@ -50,8 +50,10 @@ public class ApiAssetController {
             @RequestParam(name = "privilege") Integer privilege,
             @ApiParam(name="stat",value = "是否生效",required = true)
             @RequestParam(name = "stat") Integer status,
-            @ApiParam(name="sort",value = "是否生效",required = true)
+            @ApiParam(name="sort",value = "排序",required = true)
             @RequestParam(name = "sort") Integer sort,
+            @ApiParam(name="dw_type",value = "是否生效",required = true)
+            @RequestParam(name = "dw_type") Integer dwType,
             @ApiParam(name="min_deposit_volume",value = "最小充币额",required = true)
             @RequestParam(name = "min_deposit_volume") BigDecimal minDepositVolume,
             @ApiParam(name="min_withdraw_volume",value = "最小提币额",required = true)
@@ -77,6 +79,7 @@ public class ApiAssetController {
         inputDto.setMinWithdrawVolume(minWithdrawVolume);
         inputDto.setWithdrawFee(withdrawFee);
         inputDto.setChainTransactionUrl(chainTransactionUrl);
+        inputDto.setDwType(dwType);
         AssetOutputDto outputDto=new AssetOutputDto();
         try {
             if(inputDto.getId()>0)

@@ -72,7 +72,7 @@
 
     });
 
-    bindAsset("asset");
+    bindAsset("asset",true);
     var addCatalogEvent = function (action, id) {
         var text = "添加币种"
         url = "/sys/coin/edit.html?id=" + id + "&action=" + action + "";
@@ -137,7 +137,7 @@
                             content += "id:</br>" + row.id + "</br>";
                             content += "accountId:</br>" + row.accountId + "</br>";
                             content += "symbol:</br>" + row.symbol + "</br>";
-                            content += "pair:</br>" + row.pair + "</br>";
+                            content += "asset:</br>" + row.asset + "</br>";
                             content += "bidFlag:</br>" + row.bidFlag + "</br>";
                             content += "closeFlag:</br>" + row.closeFlag + "</br>";
                             content += "tradePrice:</br>" + row.tradePrice + "</br>";
@@ -193,10 +193,10 @@
                         }
                     }
                     , {
-                        title: 'Pair',
+                        title: 'Asset',
                         formatter: function (value, row, index) {
 
-                            var content = "Pair</br>";
+                            var content = "Asset</br>";
                             content += "symbolOrderMarginPre:</br>" + row.symbolOrderMarginPre + "</br>";
                             content += "symbolOrderMargin:</br>" + row.symbolOrderMargin + "</br>";
                             content += "symbolPosMarginPre:</br>" + row.symbolPosMarginPre + "</br>";

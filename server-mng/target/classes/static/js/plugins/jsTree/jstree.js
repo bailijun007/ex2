@@ -350,10 +350,10 @@
 		 *
 		 *	$('#tree').jstree({
 		 *		'core' : {
-		 *			'check_callback' : function (operation, node, node_parent, node_position, more) {
-		 *				// operation can be 'create_node', 'rename_node', 'delete_node', 'move_node' or 'copy_node'
+		 *			'check_callback' : function (operationlog, node, node_parent, node_position, more) {
+		 *				// operationlog can be 'create_node', 'rename_node', 'delete_node', 'move_node' or 'copy_node'
 		 *				// in case of 'rename_node' node_position is filled with the new node name
-		 *				return operation === 'rename_node' ? true : false;
+		 *				return operationlog === 'rename_node' ? true : false;
 		 *			}
 		 *		}
 		 *	});
@@ -362,7 +362,7 @@
 		 */
 		check_callback	: false,
 		/**
-		 * a callback called with a single object parameter in the instance's scope when something goes wrong (operation prevented, ajax failed, etc)
+		 * a callback called with a single object parameter in the instance's scope when something goes wrong (operationlog prevented, ajax failed, etc)
 		 * @name $.jstree.defaults.core.error
 		 */
 		error			: $.noop,
@@ -3809,10 +3809,10 @@
 			return true;
 		},
 		/**
-		 * check if an operation is premitted on the tree. Used internally.
+		 * check if an operationlog is premitted on the tree. Used internally.
 		 * @private
 		 * @name check(chk, obj, par, pos)
-		 * @param  {String} chk the operation to check, can be "create_node", "rename_node", "delete_node", "copy_node" or "move_node"
+		 * @param  {String} chk the operationlog to check, can be "create_node", "rename_node", "delete_node", "copy_node" or "move_node"
 		 * @param  {mixed} obj the node
 		 * @param  {mixed} par the parent
 		 * @param  {mixed} pos the position to insert at, or if "rename_node" - the new name
@@ -4208,7 +4208,7 @@
 			this.trigger('copy', { "node" : obj });
 		},
 		/**
-		 * get the current buffer (any nodes that are waiting for a paste operation)
+		 * get the current buffer (any nodes that are waiting for a paste operationlog)
 		 * @name get_buffer()
 		 * @return {Object} an object consisting of `mode` ("copy_node" or "move_node"), `node` (an array of objects) and `inst` (the instance)
 		 */
@@ -4240,7 +4240,7 @@
 				 * @name paste.jstree
 				 * @param {String} parent the ID of the receiving node
 				 * @param {Array} node the nodes in the buffer
-				 * @param {String} mode the performed operation - "copy_node" or "move_node"
+				 * @param {String} mode the performed operationlog - "copy_node" or "move_node"
 				 */
 				this.trigger('paste', { "parent" : obj.id, "node" : ccp_node, "mode" : ccp_mode });
 			}

@@ -43,8 +43,8 @@ public class ApiPcPositionController {
             @RequestParam(name = "pos_id") Long posId,
             @ApiParam(name="account_id",value ="账户Id" ,required = true)
             @RequestParam(name = "account_id") Long accountId,
-            @ApiParam(name="pair",value ="交易对" ,required = true)
-            @RequestParam(name = "pair") String pair,
+            @ApiParam(name="asset",value ="资产" ,required = true)
+            @RequestParam(name = "asset") String asset,
             @ApiParam(name="liq_status",value ="状态" ,required = true)
             @RequestParam(name = "liq_status") Integer liqStatus,
             @ApiParam(name="current_page",value ="页码" ,required = true)
@@ -58,7 +58,7 @@ public class ApiPcPositionController {
         inputDto.setAccount(account);
         inputDto.setPosId(posId);
         inputDto.setAccountId(accountId);
-        inputDto.setPair(pair);
+        inputDto.setAsset(asset);
         inputDto.setLiqStatus(liqStatus);
         inputDto.setCurrentPage(currentPage);
         inputDto.setPageSize(pageSize);

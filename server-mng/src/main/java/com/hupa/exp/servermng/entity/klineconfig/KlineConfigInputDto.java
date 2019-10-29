@@ -4,7 +4,8 @@ import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 
 public class KlineConfigInputDto extends BaseInputDto {
     private long id;
-    private String pair;
+    private String asset;
+    private String symbol;
     private boolean status;
     private String klineInterval;
     private Long statTime;
@@ -43,12 +44,20 @@ public class KlineConfigInputDto extends BaseInputDto {
         this.id = id;
     }
 
-    public String getPair() {
-        return pair;
+    public String getAsset() {
+        return asset;
     }
 
-    public void setPair(String pair) {
-        this.pair = pair;
+    public void setAsset(String asset) {
+        this.asset = asset;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     public boolean isStatus() {

@@ -1,6 +1,5 @@
 package com.hupa.exp.servermng.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.hupa.exp.base.config.redis.Db0RedisBean;
 import com.hupa.exp.common.component.redis.RedisUtil;
 import com.hupa.exp.common.exception.BizException;
@@ -9,7 +8,7 @@ import com.hupa.exp.daomysql.dao.expv2.def.*;
 import com.hupa.exp.daomysql.entity.po.expv2.AssetPo;
 import com.hupa.exp.daomysql.entity.po.expv2.ExpDicPo;
 import com.hupa.exp.daomysql.entity.po.expv2.PcContractPo;
-import com.hupa.exp.daomysql.entity.po.expv2.PcStoringLevelPo;
+import com.hupa.exp.daomysql.entity.po.expv2.PcPosLevelPo;
 import com.hupa.exp.servermng.entity.importsetting.ImportSettingInputDto;
 import com.hupa.exp.servermng.entity.importsetting.ImportSettingOutputDto;
 import com.hupa.exp.servermng.service.def.IApiImportSettingControllerService;
@@ -31,7 +30,7 @@ public class ApiImportSettingControllerServiceImpl implements IApiImportSettingC
     private IPcContractDao iPcContractDao;
 
     @Autowired
-    private IPcStoringLevelDao iPcStoringLevelDao;
+    private IPcPosLevelDao iPcStoringLevelDao;
 
     @Autowired
     private IExpUserDao iExpUserDao;
@@ -56,20 +55,27 @@ public class ApiImportSettingControllerServiceImpl implements IApiImportSettingC
             redisUtilDb0.hmset("asset",assetMap);
 
         List<PcContractPo> pcContractPos= iPcContractDao.selectPos();
-        //list 转 map
-        Map<String, PcContractPo> pairMap = new HashMap<>();
-        pcContractPos.forEach(contractPo->{
-            pairMap.put(contractPo.getAsset()+"__"+contractPo.getSymbol(),contractPo);
-        });
-        Map<String, PcContractPo> displayMap = pcContractPos.stream().collect(Collectors.toMap(PcContractPo::getDisplayName, a -> a,(k1, k2)->k1));
+
         //初始化交易对
+        Map<String, PcContractPo> symbolMap = new HashMap<>();
+        //list 转 map
+        pcContractPos.forEach(contractPo->{
+            symbolMap.put(contractPo.getAsset()+"__"+contractPo.getSymbol(),contractPo);
+        });
         ExpDicPo contractRedisKey= iExpDicDao.selectDicByKey("ContractRedisKey");
         if(iExpDicDao!=null)
         {
             redisUtilDb0.del(contractRedisKey.getValue());
-            redisUtilDb0.hmset(contractRedisKey.getValue(),pairMap);
+            redisUtilDb0.hmset(contractRedisKey.getValue(),symbolMap);
         }
         //初始化展示名
+        Map<String, PcContractPo> displayMap = new HashMap<>();//pcContractPos.stream().collect(Collectors.toMap(PcContractPo::getDisplayName, a -> a,(k1, k2)->k1));
+        //list 转 map
+        pcContractPos.forEach(contractPo->{
+            displayMap.put(contractPo.getAsset()+"__"+contractPo.getSymbol(),contractPo);
+        });
+
+
         ExpDicPo displayNameRedisKey= iExpDicDao.selectDicByKey("DisplayNameRedisKey");
         if(displayNameRedisKey!=null)
         {
@@ -80,12 +86,12 @@ public class ApiImportSettingControllerServiceImpl implements IApiImportSettingC
         ExpDicPo posLevel= iExpDicDao.selectDicByKey("PosLevel");
         for(PcContractPo contractPo:pcContractPos)
         {
-            List<PcStoringLevelPo> storingLevelPoList=iPcStoringLevelDao.selectAllStoringLevelList(contractPo.getSymbol());
+            List<PcPosLevelPo> posLevelPoList=iPcStoringLevelDao.selectAllPosLevelList(contractPo.getAsset(),contractPo.getSymbol());
 //            Map<String, PcStoringLevelPo> storingLevelMap = storingLevelPoList.stream().collect(Collectors.toMap(PcStoringLevelPo::getPair, a -> a,(k1, k2)->k1));
             if(posLevel!=null)
             {
-                redisUtilDb0.hdel(posLevel.getValue(),contractPo.getSymbol());
-                redisUtilDb0.hset(posLevel.getValue(),contractPo.getSymbol(), JsonUtil.toJsonString(storingLevelPoList));
+                redisUtilDb0.hdel(posLevel.getValue(),contractPo.getAsset()+"__"+contractPo.getSymbol());
+                redisUtilDb0.hset(posLevel.getValue(),contractPo.getAsset()+"__"+contractPo.getSymbol(), JsonUtil.toJsonString(posLevelPoList));
             }
         }
         ImportSettingOutputDto outputDto=new ImportSettingOutputDto();

@@ -20,7 +20,7 @@
                 <div class="col-sm-11">
                     <div class="form-group" style="width: 15%; float: left;">
                         <label class="sr-only">标的符号</label>
-                        <input type="text" placeholder="请输入标的符号" id="pair" class="form-control">
+                        <input type="text" placeholder="请输入标的符号" id="symbol" class="form-control">
                     </div>
                     <div class="input-group">
 
@@ -74,7 +74,7 @@
             oTable.Init();
         });
 
-        $("#pair").change(function () {
+        $("#symbol").change(function () {
             $('#tb_departments').bootstrapTable('destroy');
             oTable.Init();
         })
@@ -209,8 +209,6 @@
                 current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
                 account:"",
                 rate_time:""
-
-                //pair: $("#pair").val()
             };
             //console.log(temp);
             return temp;

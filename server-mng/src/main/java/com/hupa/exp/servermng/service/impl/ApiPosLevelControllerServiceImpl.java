@@ -2,17 +2,17 @@ package com.hupa.exp.servermng.service.impl;
 
 import com.hupa.exp.base.enums.OperationModule;
 import com.hupa.exp.base.enums.OperationType;
-import com.hupa.exp.bizother.entity.account.PcStoringLevelBizBo;
-import com.hupa.exp.bizother.entity.account.StoringLevelPageListBizBo;
+import com.hupa.exp.bizother.entity.account.PcPosLevelBizBo;
+import com.hupa.exp.bizother.entity.account.PosLevelPageListBizBo;
 import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
-import com.hupa.exp.bizother.service.account.def.IStoringLevelBiz;
+import com.hupa.exp.bizother.service.account.def.IPosLevelBiz;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.DecimalUtil;
 import com.hupa.exp.common.tool.format.JsonUtil;
-import com.hupa.exp.servermng.entity.storinglevel.*;
+import com.hupa.exp.servermng.entity.poslevel.*;
 import com.hupa.exp.servermng.help.SessionHelper;
-import com.hupa.exp.servermng.service.def.IApiStoringLevelControllerService;
+import com.hupa.exp.servermng.service.def.IApiPosLevelControllerService;
 import com.hupa.exp.util.convent.ConventObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,9 +22,9 @@ import java.util.List;
 
 
 @Service
-public class ApiStoringLevelControllerServiceImpl implements IApiStoringLevelControllerService {
+public class ApiPosLevelControllerServiceImpl implements IApiPosLevelControllerService {
     @Autowired
-    private IStoringLevelBiz iStoringLevelBiz;
+    private IPosLevelBiz iPosLevelBiz;
 
     @Autowired
     private IExpOperationLogService logService;
@@ -33,13 +33,13 @@ public class ApiStoringLevelControllerServiceImpl implements IApiStoringLevelCon
     private SessionHelper sessionHelper;
 
     @Override
-    public StoringLevelOutputDto createOrEditStoringLevel(StoringLevelInputDto inputDto) throws BizException {
-        PcStoringLevelBizBo bo= ConventObjectUtil.conventObject(inputDto,PcStoringLevelBizBo.class);
+    public PosLevelOutputDto createOrEditPosLevel(PosLevelInputDto inputDto) throws BizException {
+        PcPosLevelBizBo bo= ConventObjectUtil.conventObject(inputDto,PcPosLevelBizBo.class);
         if(inputDto.getId()>0)
         {
-            PcStoringLevelBizBo beforeBo= iStoringLevelBiz.queryStoringLevelById(bo.getId());
+            PcPosLevelBizBo beforeBo= iPosLevelBiz.queryPosLevelById(bo.getId());
             bo.setMtime(System.currentTimeMillis());
-            iStoringLevelBiz.editStoringLevel(bo);
+            iPosLevelBiz.editPosLevel(bo);
             ExpUserBizBo user=sessionHelper.getUserInfoBySession();
             logService.createOperationLog(user.getId(),user.getUserName(),
                     OperationModule.PcFee.toString(), OperationType.Insert.toString(),
@@ -49,33 +49,34 @@ public class ApiStoringLevelControllerServiceImpl implements IApiStoringLevelCon
         {
             bo.setMtime(System.currentTimeMillis());
             bo.setCtime(System.currentTimeMillis());
-            iStoringLevelBiz.createStoringLevel(bo);
+            iPosLevelBiz.createPosLevel(bo);
         }
 
-        StoringLevelOutputDto outputDto=new StoringLevelOutputDto();
+        PosLevelOutputDto outputDto=new PosLevelOutputDto();
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
     }
 
     @Override
-    public StoringLevelInfoOutputDto getStoringLevel(StoringLevelInfoInputDto inputDto) throws BizException {
-        PcStoringLevelBizBo bo=iStoringLevelBiz.queryStoringLevelById(inputDto.getId());
-        StoringLevelInfoOutputDto outputDto=ConventObjectUtil.conventObject(bo,StoringLevelInfoOutputDto.class);
+    public PosLevelInfoOutputDto getPosLevel(PosLevelInfoInputDto inputDto) throws BizException {
+        PcPosLevelBizBo bo= iPosLevelBiz.queryPosLevelById(inputDto.getId());
+        PosLevelInfoOutputDto outputDto=ConventObjectUtil.conventObject(bo,PosLevelInfoOutputDto.class);
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
     }
 
     @Override
-    public StoringLevelListOutputDto getStoringLevelList(StoringLevelListInputDto inputDto) throws BizException {
-        StoringLevelListOutputDto outputDto=new StoringLevelListOutputDto();
-        StoringLevelPageListBizBo listBizBo=iStoringLevelBiz.queryStoringLevelList(inputDto.getPair(),
+    public PosLevelListOutputDto getPosLevelList(PosLevelListInputDto inputDto) throws BizException {
+        PosLevelListOutputDto outputDto=new PosLevelListOutputDto();
+        PosLevelPageListBizBo listBizBo= iPosLevelBiz.queryPosLevelList(inputDto.getAsset(),inputDto.getSymbol(),
                 inputDto.getCurrentPage(),inputDto.getPageSize());
-        List<StoringLevelInfoOutputDto> outputDtoList=new ArrayList<>();
-        for(PcStoringLevelBizBo bo:listBizBo.getRows())
+        List<PosLevelInfoOutputDto> outputDtoList=new ArrayList<>();
+        for(PcPosLevelBizBo bo:listBizBo.getRows())
         {
-            StoringLevelInfoOutputDto info=new StoringLevelInfoOutputDto();
+            PosLevelInfoOutputDto info=new PosLevelInfoOutputDto();
             info.setId(String.valueOf(bo.getId()));
-            info.setPair(bo.getPair());
+            info.setAsset(bo.getAsset());
+            info.setSymbol(bo.getSymbol());
             info.setGear(String.valueOf(bo.getGear()));
             info.setMinAmt(String.valueOf(bo.getMinAmt()));
             info.setMaxAmt(String.valueOf(bo.getMaxAmt()));

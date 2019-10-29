@@ -73,8 +73,8 @@ public class ApiEarningRateController {
             @RequestParam(name = "earning_rate") BigDecimal earningRate,
             @ApiParam(name="earning_rate_time",value = "earning_rate_time",required = true)
             @RequestParam(name = "earning_rate_time") String earningRateTime,
-            @ApiParam(name="pair",value = "pair",required = true)
-            @RequestParam(name = "pair",required = false) String pair,
+            @ApiParam(name="asset",value = "asset",required = true)
+            @RequestParam(name = "asset",required = false) String asset,
             @ApiParam(name="symbol",value = "symbol",required = true)
             @RequestParam(name = "symbol",required = false) String symbol
 
@@ -87,7 +87,7 @@ public class ApiEarningRateController {
         inputDto.setEarningRate(earningRate);
         long dt=DateTime.parse(earningRateTime+" 00:00:00", DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")).getMillis();
         inputDto.setEarningRateTime(dt);
-        inputDto.setPair(pair);
+        inputDto.setAsset(asset);
         inputDto.setSymbol(symbol);
         try{
             if(id>0)

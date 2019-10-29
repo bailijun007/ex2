@@ -13,10 +13,10 @@ public interface IPcContractBiz {
 
     /**
      * 根据交易对内部服务名获取对象
-     * @param pair
+     * @param symbol
      * @return
      */
-    PcContractBizBo get(String pair);
+    PcContractBizBo get(String asset,String symbol);
 
     /**
      * 根据id获取对象
@@ -30,10 +30,10 @@ public interface IPcContractBiz {
     long editContract(PcContractBizBo po) throws ValidateException;
 
 
-    PcContractListBizBo selectPosPageByParam(String pair, long currentPage, long pageSize);
+    PcContractListBizBo selectPosPageByParam(String asset,String symbol, long currentPage, long pageSize);
     List<String> selectAllSymbol();
 
 
-    boolean checkHasContract(String pair);
+    PcContractBizBo checkHasContract(String asset,String symbol,String displayName);
 
 }

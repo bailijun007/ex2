@@ -44,7 +44,7 @@ public class PcFeeBizImpl implements IPcFeeBiz {
     private IExpUserDao iExpUserDao;
 
     @Autowired
-    private IAssetDao iCoinDao;
+    private IAssetDao iAssetDao;
 
     @Autowired
     private IFundWithdrawSymbolMongoDao iFundWithdrawSymbolDao;
@@ -118,21 +118,21 @@ public class PcFeeBizImpl implements IPcFeeBiz {
         userPcFee.setTakerFee(user.getTakerFee());
         String minTime=DateTime.now().toString("yyyy-MM-dd "+"00:00:00");
         long nowDay=DateTime.parse(minTime, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")).getMillis();
-        List<AssetPo> coinPoList= iCoinDao.selectList();
+        List<AssetPo> assetPos= iAssetDao.selectList();
         BigDecimal sumWithdrawVolume=new BigDecimal("0");
-        for(AssetPo coinPo:coinPoList)
+        for(AssetPo assetPo:assetPos)
         {
-           List<FundWithdrawSymbolMongoPo> fundWithdrawList=  iFundWithdrawSymbolDao.selectFundWithdrawPoByTime(id,coinPo.getRealName(),nowDay);
+           List<FundWithdrawSymbolMongoPo> fundWithdrawList=  iFundWithdrawSymbolDao.selectFundWithdrawPoByTime(id,assetPo.getRealName(),nowDay);
             for(FundWithdrawSymbolMongoPo fundWithdrawPo:fundWithdrawList)
             {
                 BigDecimal volume=new BigDecimal("0");
-                if(coinPo.getRealName().equals("BTC"))
+                if(assetPo.getRealName().equals("BTC"))
                 {
                     volume=fundWithdrawPo.getVolume();
                 }
                 else {
                     volume=  bizAccountComponent.calcAssetValuationBtc("BTC",
-                            coinPo.getRealName(), fundWithdrawPo.getVolume());
+                            assetPo.getRealName(), fundWithdrawPo.getVolume());
                 }
                 sumWithdrawVolume.add(volume);
             }

@@ -38,14 +38,23 @@
                             <label class="col-sm-3 control-label">是否启用：</label>
                             <div class="col-sm-5">
                                 <div class="rule-single-checkbox">
-                                    <input type="checkbox" id="ckbIsOnTop" />
+                                    <input type="checkbox"  id="ckbIsOnTop" />
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">币种：</label>
+                            <div class="col-sm-6">
+                                <select id="asset" class="form-control">
+
+                                </select>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-sm-3 control-label">交易对名称：</label>
                             <div class="col-sm-6">
-                                <input class="form-control" id="pair" type="text" datatype="*1-10" errormsg="菜单名称最多不能超过10位数">
+                                <input class="form-control" id="symbol" type="text" datatype="*1-10" errormsg="交易对名称最多不能超过10位数">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
@@ -143,6 +152,7 @@
 <script type="text/javascript">
     $(function () {
         function initData() {
+            bindAsset("asset",false);
             var id = GetQueryString("id");
             var action=GetQueryString("action");
             if (id != "0"&&action=="Edit")//id不为空则需要绑定值
@@ -157,12 +167,13 @@
                     success: function (data) {
                         //console.log(data);
                         if (data.data != null) {
-                            $("#pair").val(data.data.pair);
+                            $("#asset").val(data.data.asset);
+                            $("#symbol").val(data.data.symbol);
                             $("#stat_time").val(data.data.stat_time=="null"?"":data.data.stat_time);
                             $("#end_time").val(data.data.end_time=="null"?"":data.data.end_time);
                             $("#id").val(data.data.id);
                             if (data.data.status == "1")
-                                 $("#ckbIsOnTop").parent().find("a").attr("class","selected")//$("#ckbIsOnTop").parent().find("a").attr("class", "selected");
+                                $("#ckbIsOnTop").attr("checked","checked");//.parent().find("a").attr("class","selected");
                             var arr= data.data.klineInterval.split(",");
                             $("input[name='type'][value='"+data.data.type+"']").attr("checked",true);
                             for(var i=0;i<arr.length;i++)
@@ -177,8 +188,6 @@
             }
         }
         initData();
-
-
         $(".form-horizontal").Validform({ tiptype: 2 });
     });
 
@@ -206,7 +215,8 @@
             return false;
         }
         var param="?";
-        param+= "pair="+$("#pair").val();
+        param+= "asset="+$("#asset").val();
+        param+= "&symbol="+$("#symbol").val();
         param+= "&enable="+isCheck;
         param+= "&id="+id;
         param+= "&klineInterval="+klineInterval;

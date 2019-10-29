@@ -33,8 +33,10 @@ public class ApiKlineConfigController {
     public BaseResultViaApiDto<KlineConfigInputDto,KlineConfigOutputDto> createOrEditKlineConfig(
             @ApiParam(name="id",value = "主键id",required = true)
             @RequestParam(name = "id" ,required = false) long id,
-            @ApiParam(name="pair",value = "交易对名称",required = true)
-            @RequestParam(name = "pair") String pair,
+            @ApiParam(name="asset",value = "资产",required = true)
+            @RequestParam(name = "asset") String asset,
+            @ApiParam(name="symbol",value = "交易对名称",required = true)
+            @RequestParam(name = "symbol") String symbol,
             @ApiParam(name="klineInterval",value = "时间区间",required = true)
             @RequestParam(name = "klineInterval") String klineInterval,
             @ApiParam(name="enable",value = "是否启用",required = true)
@@ -54,7 +56,8 @@ public class ApiKlineConfigController {
         klineInterval= !StringUtils.isEmpty(klineInterval)&&klineInterval.length()>0?klineInterval.substring(0,klineInterval.length()-1):"";
         inputDto.setKlineInterval(klineInterval);
         inputDto.setStatus(enable);
-        inputDto.setPair(pair);
+        inputDto.setAsset(asset);
+        inputDto.setSymbol(symbol);
         inputDto.setStatTime(statTime);
         inputDto.setEndTime(endTime);
         inputDto.setType(type);

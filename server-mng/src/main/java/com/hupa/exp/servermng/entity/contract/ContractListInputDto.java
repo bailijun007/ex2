@@ -3,6 +3,8 @@ package com.hupa.exp.servermng.entity.contract;
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 
 public class ContractListInputDto extends BaseInputDto {
+    private String asset;
+    private String symbol;
     private Integer pageSize;
     private Integer currentPage;
 
@@ -30,5 +32,11 @@ public class ContractListInputDto extends BaseInputDto {
         this.symbol = symbol;
     }
 
-    private String symbol;
+    public String getAsset() {
+        return asset;
+    }
+
+    public void setAsset(String asset) {
+        this.asset = asset;
+    }
 }

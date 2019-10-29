@@ -21,8 +21,17 @@ public class GetAssetOutputDto extends BaseOutputDto {
     private String minWithdrawVolume;
     private String  withdrawFee;
     private String chainTransactionUrl;
+    private String dwType;
     private String ctime;
     private String mtime;
+
+    public String getDwType() {
+        return dwType;
+    }
+
+    public void setDwType(String dwType) {
+        this.dwType = dwType;
+    }
 
     public String getId() {
         return id;

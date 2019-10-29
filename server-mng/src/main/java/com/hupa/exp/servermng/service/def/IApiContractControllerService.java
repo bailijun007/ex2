@@ -3,6 +3,7 @@ package com.hupa.exp.servermng.service.def;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.servermng.entity.contract.*;
 import com.hupa.exp.servermng.exception.ContractException;
+import com.hupa.exp.servermng.exception.MngException;
 
 public interface IApiContractControllerService {
     ContractOutputDto createOrEditContract(ContractInputDto inputDto) throws BizException;
@@ -13,7 +14,7 @@ public interface IApiContractControllerService {
 
     GetAllSymbolOutputDto selectAllSymbolList(GetAllSymbolInputDto inputDto) throws ContractException;
 
-    CheckHasContractOutputDto checkHasContract(CheckHasContractInputDto inputDto)throws ContractException;
+    CheckHasContractOutputDto checkHasContract(CheckHasContractInputDto inputDto) throws  MngException;
 
     CheckHasLastPriceOutputDto checkHasLastPrice(CheckHasLastPriceInputDto inputDto)throws ContractException;
 }

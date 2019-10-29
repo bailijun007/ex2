@@ -3,7 +3,7 @@ package com.hupa.exp.servermng.service.impl;
 import com.hupa.exp.base.enums.OperationModule;
 import com.hupa.exp.base.enums.OperationType;
 import com.hupa.exp.bizother.entity.account.AssetBizBo;
-import com.hupa.exp.bizother.entity.account.CoinPageListBizBo;
+import com.hupa.exp.bizother.entity.account.AssetPageListBizBo;
 import com.hupa.exp.bizother.entity.account.AssetListBizBo;
 import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
 import com.hupa.exp.bizother.service.account.def.IAssetBiz;
@@ -11,6 +11,8 @@ import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.JsonUtil;
 import com.hupa.exp.servermng.entity.asset.*;
+import com.hupa.exp.servermng.enums.MngExceptionCode;
+import com.hupa.exp.servermng.exception.MngException;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiAssetControllerService;
 import com.hupa.exp.util.convent.ConventObjectUtil;
@@ -34,7 +36,8 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
 
     @Override
     public AssetOutputDto createAsset(AssetInputDto inputDto) throws BizException {
-
+        if(iAssetBiz.checkHasAsset(inputDto.getRealName()))
+            throw new MngException(MngExceptionCode.ASSET_EXIST_ERROR);
         AssetBizBo bo= ConventObjectUtil.conventObject(inputDto,AssetBizBo.class);
         bo.setId(inputDto.getId());
         //bo.setSymbol(inputDto.getSymbol());
@@ -50,8 +53,9 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
         bo.setMinWithdrawVolume(inputDto.getMinWithdrawVolume());
         bo.setWithdrawFee(inputDto.getWithdrawFee());
         bo.setMtime(System.currentTimeMillis());
+        bo.setDwType(inputDto.getDwType());
         bo.setChainTransactionUrl(inputDto.getChainTransactionUrl());
-        iAssetBiz.createCoin(bo);
+        iAssetBiz.createAsset(bo);
         //添加操作日志
         ExpUserBizBo user= sessionHelper.getUserInfoBySession();
         logService.createOperationLog(user.getId(),user.getUserName(),
@@ -64,8 +68,17 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
 
     @Override
     public AssetOutputDto editAsset(AssetInputDto inputDto) throws BizException {
-        AssetBizBo beforeBo= iAssetBiz.queryCoinById(inputDto.getId());
-
+        AssetBizBo beforeBo= iAssetBiz.queryAssetById(inputDto.getId());
+        if(beforeBo!=null)
+        {
+            //修改后币种变了
+            if(!beforeBo.getRealName().equals(inputDto.getRealName()))
+            {
+                //判断修改的币种是否存在  存在报错出去
+                if(iAssetBiz.checkHasAsset(inputDto.getRealName()))
+                    throw new MngException(MngExceptionCode.ASSET_EXIST_ERROR);
+            }
+        }
         AssetBizBo afterBo=new AssetBizBo();
         afterBo.setId(inputDto.getId());
         //afterBo.setSymbol(inputDto.getSymbol());
@@ -77,13 +90,14 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
         afterBo.setPrivilege(inputDto.getPrivilege());
         afterBo.setStatus(inputDto.getStatus());
         afterBo.setSort(inputDto.getSort());
+        afterBo.setDwType(inputDto.getDwType());
         afterBo.setMinDepositVolume(inputDto.getMinDepositVolume());
         afterBo.setMinWithdrawVolume(inputDto.getMinWithdrawVolume());
         afterBo.setWithdrawFee(inputDto.getWithdrawFee());
         afterBo.setChainTransactionUrl(inputDto.getChainTransactionUrl());
         afterBo.setMtime(System.currentTimeMillis());
-
-        iAssetBiz.editCoin(afterBo);
+        afterBo.setCtime(beforeBo.getCtime());
+        iAssetBiz.editAsset(afterBo);
         //添加操作日志
         ExpUserBizBo user= sessionHelper.getUserInfoBySession();
         logService.createOperationLog(user.getId(),user.getUserName(),
@@ -96,11 +110,11 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
 
     @Override
     public GetAssetOutputDto getAssetById(GetAssetInputDto inputDto) throws BizException {
-        AssetBizBo bo=  iAssetBiz.queryCoinById(inputDto.getId());
+        AssetBizBo bo=  iAssetBiz.queryAssetById(inputDto.getId());
         GetAssetOutputDto outputDto=new GetAssetOutputDto();
         outputDto.setId(String.valueOf(bo.getId()));
         //outputDto.setSymbol(bo.getSymbol());
-        outputDto.setChainAppointId(String.valueOf(bo.getChainAppointId()));
+        outputDto.setChainAppointId(String.valueOf(bo.getChainAppointId()==null?"":bo.getChainAppointId()));
         outputDto.setChainName(bo.getChainName());
         outputDto.setRealName(bo.getRealName());
         outputDto.setDisplayName(bo.getDisplayName());
@@ -114,12 +128,13 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
         outputDto.setMinWithdrawVolume(DecimalUtil.trimZeroPlainString(bo.getMinWithdrawVolume()));
         outputDto.setWithdrawFee(DecimalUtil.trimZeroPlainString(bo.getWithdrawFee()));
         outputDto.setChainTransactionUrl(bo.getChainTransactionUrl());
+        outputDto.setDwType(String.valueOf(bo.getDwType()));
         return outputDto;
     }
 
     @Override
     public AssetListOutputDto getAssetList(AssetListInputDto inputDto) throws BizException {
-        CoinPageListBizBo listBizBo= iAssetBiz.queryAssetList(inputDto.getRealName(),inputDto.getCurrentPage(),inputDto.getPageSize());
+        AssetPageListBizBo listBizBo= iAssetBiz.queryAssetList(inputDto.getRealName(),inputDto.getCurrentPage(),inputDto.getPageSize());
         AssetListOutputDto outputDto=new AssetListOutputDto();
         List<AssetListOutputPage> pageList=new ArrayList<>();
         for(AssetBizBo bo:listBizBo.getRows())
@@ -127,7 +142,7 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
             AssetListOutputPage po=new AssetListOutputPage();
             po.setId(String.valueOf(bo.getId()));
             //po.setSymbol(bo.getSymbol());
-            po.setChainAppointId(String.valueOf(bo.getChainAppointId()));
+            po.setChainAppointId(String.valueOf(bo.getChainAppointId()==null?"":bo.getChainAppointId()));
             po.setChainName(bo.getChainName());
             po.setRealName(bo.getRealName());
             po.setDisplayName(bo.getDisplayName());
@@ -141,6 +156,7 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
             po.setMinWithdrawVolume(DecimalUtil.trimZeroPlainString(bo.getMinWithdrawVolume()));
             po.setWithdrawFee(DecimalUtil.trimZeroPlainString(bo.getWithdrawFee()));
             po.setChainTransactionUrl(bo.getChainTransactionUrl());
+            po.setDwType(String.valueOf(bo.getDwType()));
             pageList.add(po);
         }
         outputDto.setRows(pageList);
@@ -159,7 +175,7 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
 
     @Override
     public CheckHasAssetOutputDto checkHasAsset(CheckHasAssetInputDto inputDto) throws BizException {
-        boolean hasAsset= iAssetBiz.checkHasCoin(inputDto.getRealName());
+        boolean hasAsset= iAssetBiz.checkHasAsset(inputDto.getRealName());
         CheckHasAssetOutputDto outputDto=new CheckHasAssetOutputDto();
         outputDto.setHasAsset(hasAsset);
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));

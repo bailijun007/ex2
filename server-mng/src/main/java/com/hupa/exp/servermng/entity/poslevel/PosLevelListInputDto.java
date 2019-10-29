@@ -1,18 +1,27 @@
-package com.hupa.exp.servermng.entity.storinglevel;
+package com.hupa.exp.servermng.entity.poslevel;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 
-public class StoringLevelListInputDto extends BaseInputDto {
-    private String pair;
+public class PosLevelListInputDto extends BaseInputDto {
+    private String asset;
+    private String symbol;
     private Integer pageSize;
     private Integer currentPage;
 
-    public String getPair() {
-        return pair;
+    public String getAsset() {
+        return asset;
     }
 
-    public void setPair(String pair) {
-        this.pair = pair;
+    public void setAsset(String asset) {
+        this.asset = asset;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     public Integer getPageSize() {

@@ -35,6 +35,8 @@ public class ApiOperationLogControllerServiceImpl implements IApiOperationLogCon
             info.setUserName(bo.getUserName());
             info.setAccountId(String.valueOf(bo.getAccountId()));
             info.setOperationTime(String.valueOf(bo.getOperationTime()));
+            info.setCtime(String.valueOf(bo.getCtime()));
+            info.setMtime(String.valueOf(bo.getMtime()));
             logInfos.add(info);
         }
         logListOutputDto.setRows(logInfos);

@@ -19,14 +19,21 @@
             <div class="row row-lg">
                 <div class="col-sm-11">
                     <div class="form-group" style="width: 15%; float: left;">
-                        <label class="sr-only">交易对</label>
-                        <select class="form-control" id="symbol">
+                        <select id="operation_module" class="form-control">
+
                         </select>
                     </div>
-                    <div class="input-group">
+                    <div class="form-group" style="width: 15%; float: left;">
+                        <select id="operation_type" class="form-control">
 
+                        </select>
+                    </div>
+
+
+                    <div class="input-group">
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-primary" id="btn_query">搜索</button>
+
                                 </span>
                     </div>
                 </div>
@@ -38,9 +45,8 @@
                                 <div class="fixed-table-toolbar">
                                     <div class="bars pull-left">
                                         <div class="btn-group hidden-xs" id="toolbar" role="group">
-
                                             <a class="btn btn-outline btn-default" href="javascript:addCatalogEvent('Add','0')"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>新增</a>
-                                            <a class="btn btn-outline btn-default" href="javascript:del_ck_confirm('tb_departments','/v1/http/dictype/delete')"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>删除</a>
+                                            <a class="btn btn-outline btn-default" href="javascript:del_ck_confirm('tb_departments','/v1/http/locale/delete')"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>删除</a>
                                         </div>
                                     </div>
                                 </div>
@@ -76,55 +82,23 @@
             $('#tb_departments').bootstrapTable('destroy');
             oTable.Init();
         });
-
-        // var oButtonInit = new ButtonInit();
-        // oButtonInit.Init();
-
-    });
-
-  bindSymbol("symbol");
-
-    var addCatalogEvent = function (action,id) {
-        var text = "添加档位信息"
-        url = "/sys/storinglevel/edit.html?id="+id+"&action="+action+"";
-
-        parent.layer.open({
-            type: 2,
-            title: text,
-            shadeClose: true,
-            shade: 0.8,
-            area: ['800px', '65%'],
-            content: url,
-            success: function (layero, index) {
-
-            },
-            end: function () {
-                $('#tb_departments').bootstrapTable('destroy');
-                oTable.Init();
-            }
+        $("#operation_module").change(function () {
+            $('#tb_departments').bootstrapTable('destroy');
+            oTable.Init();
         });
-    }
-
-
-
-    function DoAction(action) {
-        var RowSelects = $('#tb_departments').bootstrapTable('getSelections'); //获取表选择的行
-        var SelectRow = $.parseJSON(JSON.stringify(RowSelects));
-
-        if (action == "add")
-            window.location.href = "ModuleEdit.aspx?action=Add&typeId=" + GetQueryString('typeId') + "";
-        else if (SelectRow.length != 0)
-            window.location.href = "ModuleEdit.aspx?id=" + SelectRow[0].id + "&action=Edit";
-        else
-            alert("请勾选要操作的记录");
-    }
-
+        $("#operation_type").change(function () {
+            $('#tb_departments').bootstrapTable('destroy');
+            oTable.Init();
+        });
+    });
+    bindDrop("OperationModule","operation_module",true)
+    bindDrop("OperationType","operation_type",true)
     var TableInit = function () {
         var oTableInit = new Object();
         //初始化Table
         oTableInit.Init = function () {
                     $('#tb_departments').bootstrapTable({
-                         url: '/v1/http/storinglevel/query_list',//+param,         //请求后台的URL（*）
+                         url: '/v1/http/operationlog/query_list',//+param,         //请求后台的URL（*）
                          method: 'get',                      //请求方式（*）
                         //toolbar: '#toolbar',                //工具按钮用哪个容器
                         //striped: true,                      //是否显示行间隔色
@@ -152,30 +126,57 @@
                         columns: [
                             {
                                 checkbox: true
+                            } , {
+                                title: '操作人',
+                                field: 'userName'
                             }
                             , {
-                                title: '交易对',
-                                field: 'pair'
+                                title: '操作时间',
+                                formatter: function (value, row, index) {
+                                    debugger
+                                    if(row.operationTime!=null)
+                                        return time(parseInt(row.operationTime));
+                                    return "";
+                                }
                             }, {
-                                title: '档位',
-                                field: 'gear'
-                            }, {
-                                title: '最小张数',
-                                field: 'minAmt'
+                                title: '操作模块',
+                                field: 'operationModule'
+                            }
+                            // , {
+                            //     title: '语言',
+                            //     field: 'locale_language'
+                            // }
+                            , {
+                                title: '操作类型',
+                                field: 'operationType'
                             }
                             , {
-                                title: '最大张数',
-                                field: 'maxAmt'
+                                title: '操作前内容',
+                                field: 'before'
                             }
                             , {
-                                title: '最高可用杠杆倍数',
-                                field: 'maxLeverage'
-                            }
-                            , {
-                                title: '维持保证金率',
-                                field: 'posMatinMarginRatio'
+                                title: '操作后内容',
+                                field: 'after'
                             },
-                            {
+                           {
+                                title: '创建时间',
+                               formatter: function (value, row, index) {
+                                   debugger
+                                   if(row.ctime!=null)
+                                       return time(parseInt(row.ctime));
+                                   return "";
+                               }
+                            }
+                            , {
+                                title: '修改时间',
+                                formatter: function (value, row, index) {
+                                    debugger
+                                    if(row.mtime!=null)
+                                        return time(parseInt(row.mtime));
+                                    return "";
+                                }
+                            }
+                            , {
                                 title: '操作', field: '#', align: 'center',
                                 formatter: function (value, row, index) {
                                     var d = "<a href=\"javascript:addCatalogEvent('Edit'," + row.id + ")\">修改</a>";
@@ -195,31 +196,14 @@
             var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                 page_size: params.limit,   //页面大小
                 current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
-                pair: $("#symbol").val()
+                operation_module:$("#operation_module").val(),
+                operation_type:$("#operation_type").val()
             };
             //console.log(temp);
             return temp;
         };
         return oTableInit;
     };
-
-
-
-
-    function GetQueryString(name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-        var r = window.location.search.substr(1).match(reg);  //获取url中"?"符后的字符串并正则匹配
-        var context = "";
-        if (r != null)
-            context = r[2];
-        reg = null;
-        r = null;
-        return context == null || context == "" || context == "undefined" ? "" : context;
-    }//获取连接中的参数
-
-
-
-
 </script>
 
 

@@ -5,6 +5,7 @@ import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
 import com.hupa.exp.servermng.entity.contract.*;
 import com.hupa.exp.servermng.exception.ContractException;
+import com.hupa.exp.servermng.exception.MngException;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiContractControllerService;
 import io.swagger.annotations.Api;
@@ -113,6 +114,8 @@ public class ApiContractController {
     @ApiOperation(value = "获取交易对列表")
     @GetMapping(path = "/query_list")
     public BaseResultViaApiDto<ContractListInputDto,ContractListOutputDto> getContractList(//
+            @ApiParam(name="asset",value = "币种",required = true)
+            @RequestParam(name = "asset") String asset,
             @ApiParam(name="symbol",value = "标的符号",required = true)
             @RequestParam(name = "symbol",required = false) String symbol,
             @ApiParam(name="page_size",value = "条数",required = true)
@@ -122,6 +125,7 @@ public class ApiContractController {
     )
     {
         ContractListInputDto inputDto=new ContractListInputDto();
+        inputDto.setAsset(asset);
         inputDto.setSymbol(symbol);
         inputDto.setPageSize(pageSize);
         inputDto.setCurrentPage(currentPage);
@@ -137,22 +141,31 @@ public class ApiContractController {
     @ApiOperation(value = "检查是否已存在")
     @PostMapping(path = "/check_has_contract")
     public BaseResultViaApiDto<CheckHasContractInputDto,CheckHasContractOutputDto> checkHasContract(//
+        @ApiParam(name="id",value = "id",required = true)
+        @RequestParam(name = "id") Long id,
+        @ApiParam(name="asset",value = "币种",required = true)
+        @RequestParam(name = "asset") String asset,
         @ApiParam(name="symbol",value = "标的符号",required = true)
-        @RequestParam(name = "symbol",required = false) String symbol
+        @RequestParam(name = "symbol") String symbol,
+        @ApiParam(name="display_name",value = "标的符号",required = true)
+        @RequestParam(name = "display_name") String displayName
     )
     {
         CheckHasContractInputDto inputDto=new CheckHasContractInputDto();
+        inputDto.setId(id);
+        inputDto.setAsset(asset);
         inputDto.setSymbol(symbol);
+        inputDto.setDisplayName(displayName);
         CheckHasContractOutputDto outputDto=new CheckHasContractOutputDto();
         try {
             outputDto=iApiContractControllerService.checkHasContract(inputDto);
-        } catch (ContractException e) {
+        } catch (MngException e) {
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
         }
         return  BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
 
-    @ApiOperation(value = "检查是否已存在")
+    @ApiOperation(value = "检查是否有最新成交价")
     @PostMapping(path = "/check_last_price")
     public BaseResultViaApiDto<CheckHasLastPriceInputDto,CheckHasLastPriceOutputDto> checkHasLastPrice(//
        @ApiParam(name="symbol",value = "标的符号",required = true)

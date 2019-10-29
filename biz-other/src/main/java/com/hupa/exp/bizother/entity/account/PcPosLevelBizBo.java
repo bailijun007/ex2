@@ -1,12 +1,11 @@
-package com.hupa.exp.servermng.entity.storinglevel;
-
-import com.hupa.exp.common.entity.dto.input.BaseInputDto;
+package com.hupa.exp.bizother.entity.account;
 
 import java.math.BigDecimal;
 
-public class StoringLevelInputDto extends BaseInputDto {
+public class PcPosLevelBizBo {
     private Long id;
-    private String pair;
+    private String asset;
+    private String symbol;
     private Integer gear;
     private Integer minAmt;
     private Integer maxAmt;
@@ -39,13 +38,20 @@ public class StoringLevelInputDto extends BaseInputDto {
         this.id = id;
     }
 
-
-    public String getPair() {
-        return pair;
+    public String getAsset() {
+        return asset;
     }
 
-    public void setPair(String pair) {
-        this.pair = pair;
+    public void setAsset(String asset) {
+        this.asset = asset;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     public Integer getGear() {

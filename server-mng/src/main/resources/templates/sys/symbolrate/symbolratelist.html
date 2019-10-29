@@ -88,8 +88,8 @@
 
         // var oButtonInit = new ButtonInit();
         // oButtonInit.Init();
-        bindAsset("asset");
-        bindSymbol("symbol");
+        bindAsset("asset",true);
+        bindSymbol("symbol",true);
 
     });
 
@@ -195,7 +195,6 @@
                 current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
                 symbol:$("#symbol").val(),
                 asset:$("#asset").val(),
-                //pair: $("#pair").val()
             };
             //console.log(temp);
             return temp;

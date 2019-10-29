@@ -14,7 +14,9 @@ import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.DecimalUtil;
 import com.hupa.exp.common.tool.format.JsonUtil;
 import com.hupa.exp.servermng.entity.contract.*;
+import com.hupa.exp.servermng.enums.MngExceptionCode;
 import com.hupa.exp.servermng.exception.ContractException;
+import com.hupa.exp.servermng.exception.MngException;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiContractControllerService;
 import com.hupa.exp.servermng.validate.ContractValidateImpl;
@@ -23,9 +25,9 @@ import com.hupa.exp.util.redis.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ApiContractControllerServiceImpl implements IApiContractControllerService {
@@ -54,6 +56,10 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
         if(bo.getId()>0)
         {
             PcContractBizBo beforeBo=iPcContractBiz.getContractById(bo.getId());
+            PcContractBizBo input= iPcContractBiz.checkHasContract(inputDto.getAsset(),inputDto.getSymbol(),inputDto.getDisplayName());
+            //修改 传进来的参数能查询到数据 且查出来的数据不相等
+            if(input!=null&&beforeBo.getId()!=input.getId())
+                throw new MngException(MngExceptionCode.CONTRACT_EXIST_ERROR);
             id=bo.getId();
             bo.setMtime(System.currentTimeMillis());
             iPcContractBiz.editContract(bo);
@@ -64,6 +70,9 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
         }
         else
         {
+            //true已存在  报错
+            if(iPcContractBiz.checkHasContract(inputDto.getAsset(),inputDto.getSymbol(),inputDto.getDisplayName())!=null)
+                throw new MngException(MngExceptionCode.CONTRACT_EXIST_ERROR);
             bo.setCtime(System.currentTimeMillis());
             bo.setMtime(System.currentTimeMillis());
             id= iPcContractBiz.createPcContract(bo);
@@ -72,12 +81,12 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
                     OperationType.Update.toString(),
                     JsonUtil.toJsonString(bo),"");
         }
-        //查一下有没有最新成交价
-        if(iLastPriceBiz.get(inputDto.getSymbol())==null)
-        {
-            String redisKey= MessageFormat.format(bizPriceSettingConfig.getPcLastPriceRedisKey(),bo.getSymbol());
-            RedisUtil.redisClientFactory(redisConfig).set(redisKey,DecimalUtil.toTrimLiteral(bo.getLastPrice()));
-        }
+//        //查一下有没有最新成交价
+//        if(iLastPriceBiz.get(inputDto.getSymbol())==null)
+//        {
+//            String redisKey= MessageFormat.format(bizPriceSettingConfig.getPcLastPriceRedisKey(),bo.getSymbol());
+//            RedisUtil.redisClientFactory(redisConfig).set(redisKey,DecimalUtil.toTrimLiteral(bo.getLastPrice()));
+//        }
         ContractOutputDto outputDto=new ContractOutputDto();
         outputDto.setId(id);
         return outputDto;
@@ -111,7 +120,7 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
 
     @Override
     public ContractListOutputDto selectPosPageByParam(ContractListInputDto inputDto) throws ContractException  {
-        PcContractListBizBo listBizBo= iPcContractBiz.selectPosPageByParam(inputDto.getSymbol(),inputDto.getCurrentPage(),inputDto.getPageSize());
+        PcContractListBizBo listBizBo= iPcContractBiz.selectPosPageByParam(inputDto.getAsset(),inputDto.getSymbol(),inputDto.getCurrentPage(),inputDto.getPageSize());
         ContractListOutputDto outputDto=new ContractListOutputDto();
         List<ContractListOutputPage> pageList=new ArrayList<>();
         for(PcContractBizBo bo:listBizBo.getRows())
@@ -147,15 +156,32 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
     public GetAllSymbolOutputDto selectAllSymbolList(GetAllSymbolInputDto inputDto) throws ContractException {
         List<String> symbolList= iPcContractBiz.selectAllSymbol();
         GetAllSymbolOutputDto outputDto=new GetAllSymbolOutputDto();
-        outputDto.setSymbolList(symbolList);
+        Set<String> set = new HashSet<>(symbolList);
+        List<String> list= new ArrayList<>(set);
+        outputDto.setSymbolList(list);
         return outputDto;
     }
 
     @Override
-    public CheckHasContractOutputDto checkHasContract(CheckHasContractInputDto inputDto) throws ContractException {
-        boolean hasContract = iPcContractBiz.checkHasContract(inputDto.getSymbol());
+    public CheckHasContractOutputDto checkHasContract(CheckHasContractInputDto inputDto) throws  MngException {
+
+        if(inputDto.getId()>0)
+        {
+            PcContractBizBo beforeBo=iPcContractBiz.getContractById(inputDto.getId());
+            PcContractBizBo input= iPcContractBiz.checkHasContract(inputDto.getAsset(),inputDto.getSymbol(),inputDto.getDisplayName());
+            //修改 传进来的参数能查询到数据 且查出来的数据不相等
+            if(input!=null&&beforeBo.getId()!=input.getId())
+                throw new MngException(MngExceptionCode.CONTRACT_EXIST_ERROR);
+        }
+        else
+        {
+            //true已存在  报错
+            if(iPcContractBiz.checkHasContract(inputDto.getAsset(),inputDto.getSymbol(),inputDto.getDisplayName())!=null)
+                throw new MngException(MngExceptionCode.CONTRACT_EXIST_ERROR);
+
+        }
         CheckHasContractOutputDto outputDto=new CheckHasContractOutputDto();
-        outputDto.setHasContract(hasContract);
+        //outputDto.setHasContract(hasContract);
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
     }
@@ -163,9 +189,9 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
     @Override
     public CheckHasLastPriceOutputDto checkHasLastPrice(CheckHasLastPriceInputDto inputDto) throws ContractException {
         CheckHasLastPriceOutputDto outputDto=new CheckHasLastPriceOutputDto();
-        if(iLastPriceBiz.get(inputDto.getSymbol())!=null)
-            outputDto.setHasLastPrice(true);
-        else
+//        if(iLastPriceBiz.get(inputDto.getSymbol())!=null)
+//            outputDto.setHasLastPrice(true);
+//        else
             outputDto.setHasLastPrice(false);
         return outputDto;
     }

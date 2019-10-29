@@ -19,6 +19,11 @@
             <div class="row row-lg">
                 <div class="col-sm-11">
                     <div class="form-group" style="width: 15%; float: left;">
+                        <label class="sr-only">币种</label>
+                        <select class="form-control" id="asset">
+                        </select>
+                    </div>
+                    <div class="form-group" style="width: 15%; float: left;">
                         <label class="sr-only">交易对</label>
                         <select class="form-control" id="symbol">
                         </select>
@@ -76,13 +81,21 @@
             $('#tb_departments').bootstrapTable('destroy');
             oTable.Init();
         });
+        $("#asset").change(function () {
+            $('#tb_departments').bootstrapTable('destroy');
+            oTable.Init();
+        });
+        $("#symbol").change(function () {
+            $('#tb_departments').bootstrapTable('destroy');
+            oTable.Init();
+        });
 
         // var oButtonInit = new ButtonInit();
         // oButtonInit.Init();
 
     });
-
-  bindSymbol("symbol");
+    bindAsset("asset",true);
+    bindSymbol("symbol",true);
 
     var addCatalogEvent = function (action,id) {
         var text = "添加档位信息"
@@ -124,7 +137,7 @@
         //初始化Table
         oTableInit.Init = function () {
                     $('#tb_departments').bootstrapTable({
-                         url: '/v1/http/storinglevel/query_list',//+param,         //请求后台的URL（*）
+                         url: '/v1/http/poslevel/query_list',//+param,         //请求后台的URL（*）
                          method: 'get',                      //请求方式（*）
                         //toolbar: '#toolbar',                //工具按钮用哪个容器
                         //striped: true,                      //是否显示行间隔色
@@ -154,8 +167,12 @@
                                 checkbox: true
                             }
                             , {
+                                title: '币',
+                                field: 'asset'
+                            }
+                            , {
                                 title: '交易对',
-                                field: 'pair'
+                                field: 'symbol'
                             }, {
                                 title: '档位',
                                 field: 'gear'
@@ -195,7 +212,8 @@
             var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                 page_size: params.limit,   //页面大小
                 current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
-                pair: $("#symbol").val()
+                asset:$("#asset").val(),
+                symbol: $("#symbol").val()
             };
             //console.log(temp);
             return temp;

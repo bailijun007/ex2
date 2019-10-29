@@ -153,7 +153,7 @@
                     success: function (data) {
                         //console.log(data);
                         if (data.data != null) {
-                            bindDrop(data.data.type,"type");
+                            bindDrop(data.data.type,"type",false);
                             $("#id").val(data.data.id);
                             //$("#content").val(data.data.content);
                             var dataContent=JSON.parse(data.data.content);
@@ -172,7 +172,7 @@
                 })
             }else
             {
-                bindDrop("PhoneVerify","type");
+                bindDrop("PhoneVerify","type",false);
             }
 
         }
@@ -234,7 +234,7 @@
     function radioClick()
     {
        //alert($("#MsgType").find(".selected").attr("data-value")) ;
-        bindDrop($("#MsgType").find(".selected").attr("data-value"),"type");
+        bindDrop($("#MsgType").find(".selected").attr("data-value"),"type",false);
     }
 </script>
 <script src="../../../static/js/layout.js"></script>

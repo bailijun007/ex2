@@ -3,7 +3,7 @@ package com.hupa.exp.bizother.service.account.impl;
 import com.hupa.exp.bizother.entity.account.MongoBo.FundAccountLogMongoBizBo;
 import com.hupa.exp.bizother.entity.account.MongoBo.FundAccountLogMongoPageBizBo;
 import com.hupa.exp.bizother.service.account.def.IFundAccountMongoBiz;
-import com.hupa.exp.daomongo.dao.expv2.def.IFundAccountSymbolMongoDao;
+import com.hupa.exp.daomongo.dao.expv2.def.IFundAccountAssetMongoDao;
 import com.hupa.exp.daomongo.entity.po.expv2mongo.FundAccountLogSymbolMongoPo;
 import com.hupa.exp.daomongo.entity.po.expv2mongo.MongoPage;
 import com.hupa.exp.util.convent.ConventObjectUtil;
@@ -17,7 +17,7 @@ import java.util.List;
 public class FundAccountMongoBizImpl implements IFundAccountMongoBiz {
 
     @Autowired
-    private IFundAccountSymbolMongoDao iFundAccountMongoDao;
+    private IFundAccountAssetMongoDao iFundAccountMongoDao;
 
     @Override
     public FundAccountLogMongoPageBizBo selectFundAccountLogPageData(String symbol, long id, long currentPage, int pageSize) {

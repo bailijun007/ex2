@@ -3,7 +3,7 @@ package com.hupa.exp.bizother.entity.assets;
 import java.math.BigDecimal;
 
 public class AssetsBizBo {
-    private String pair;
+    private String asset;
     private BigDecimal fundAccountTotal;
     private BigDecimal fundAccountAvailable;
     private BigDecimal fundAccountLock;
@@ -12,12 +12,13 @@ public class AssetsBizBo {
     private BigDecimal pcAccountLock;
     private BigDecimal pcOrderMargin;
     private BigDecimal pcPosMargin;
-    public String getPair() {
-        return pair;
+
+    public String getAsset() {
+        return asset;
     }
 
-    public void setPair(String pair) {
-        this.pair = pair;
+    public void setAsset(String asset) {
+        this.asset = asset;
     }
 
     public BigDecimal getFundAccountTotal() {

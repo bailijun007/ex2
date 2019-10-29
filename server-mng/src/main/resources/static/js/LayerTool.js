@@ -501,7 +501,7 @@ function initTableParam(url, params, columns,isshowpage) {
 }
 
 var dicTypeList;
-function bindDrop(type,id)
+function bindDrop(type,id,needAll)
 {
     $.ajax({
         type: "get",
@@ -515,7 +515,12 @@ function bindDrop(type,id)
             var list= data.data.dic_list;
             dicTypeList=list;
             if (list != null) {
-                var html="<option value=''>全部</option>";
+                var html="";
+                if(needAll)
+                {
+                    html+="<option value=''>全部</option>";
+                }
+
                 for(var i=0;i<list.length;i++)
                 {
                     html+="<option value='"+list[i].key+"'>"+list[i].value+"</option>"
@@ -526,7 +531,7 @@ function bindDrop(type,id)
     })
 }
 
-function bindAsset(id)
+function bindAsset(id,needAll)
 {
     $.ajax({
         type: "get",
@@ -539,7 +544,10 @@ function bindAsset(id)
             //console.log(data);
             var list= data.data.asset_list;
             if (list != null) {
-                var html="<option value=''>全部</option>";
+                var html="";
+                if(needAll)
+                    html +="<option value=''>全部</option>";
+
                 for(var i=0;i<list.assetList.length;i++)
                 {
                     html+="<option value='"+list.assetList[i]+"'>"+list.assetList[i]+"</option>"
@@ -550,7 +558,7 @@ function bindAsset(id)
     })
 }
 
-function bindSymbol(id)
+function bindSymbol(id,needAll)
 {
     $.ajax({
         type: "get",
@@ -564,7 +572,9 @@ function bindSymbol(id)
             var list= data.data.symbol_list;
             dicTypeList=list;
             if (list != null) {
-                var html="<option value=''>全部</option>";
+                var html="";
+                if(needAll)
+                    html +="<option value=''>全部</option>";
                 for(var i=0;i<list.length;i++)
                 {
                     html+="<option value='"+list[i]+"'>"+list[i]+"</option>"

@@ -49,7 +49,7 @@ public class ApiEarningRateControllerServiceImpl implements IApiEarningRateContr
         po.setCtime(System.currentTimeMillis());
         po.setEarningRate(inputDto.getEarningRate());
         po.setMtime(System.currentTimeMillis());
-        po.setPair(inputDto.getPair());
+        po.setAsset(inputDto.getAsset());
         po.setSort(inputDto.getSort());
         po.setSymbol(inputDto.getSymbol());
         po.setEarningRateTime(inputDto.getEarningRateTime());
@@ -69,7 +69,7 @@ public class ApiEarningRateControllerServiceImpl implements IApiEarningRateContr
         po.setCtime(System.currentTimeMillis());
         po.setEarningRate(inputDto.getEarningRate());
         po.setMtime(System.currentTimeMillis());
-        po.setPair(inputDto.getPair());
+        po.setAsset(inputDto.getAsset());
         po.setSort(inputDto.getSort());
         po.setSymbol(inputDto.getSymbol());
         po.setEarningRateTime(inputDto.getEarningRateTime());

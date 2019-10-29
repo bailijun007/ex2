@@ -34,7 +34,14 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">币种：</label>
                             <div class="col-sm-6">
-                                <input  class="form-control" type="text" id="pair">
+                                <input  class="form-control" type="text" id="asset">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">交易对：</label>
+                            <div class="col-sm-6">
+                                <input  class="form-control" type="text" id="symbol">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
@@ -113,7 +120,7 @@
             {
                 $.ajax({
                     type: "get",
-                    url: "/v1/http/storinglevel/query?id=" + id,
+                    url: "/v1/http/poslevel/query?id=" + id,
                     contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
                     async: false,
                     //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
@@ -122,7 +129,8 @@
                         //console.log(data);
                         if (data.data != null) {
                             $("#id").val(data.data.id);
-                            $("#pair").val(data.data.pair);
+                            $("#asset").val(data.data.asset);
+                            $("#symbol").val(data.data.symbol);
                             $("#gear").val(data.data.gear);
                             $("#min_amt").val(data.data.minAmt);
                             $("#max_amt").val(data.data.maxAmt);
@@ -170,7 +178,8 @@
 
         var parmes="?";
         parmes+= "id="+id;
-        parmes+="&pair="+$("#pair").val();
+        parmes+="&asset="+$("#asset").val();
+        parmes+="&symbol="+$("#symbol").val();
         parmes+="&gear="+$("#gear").val();
         parmes+="&min_amt="+$("#min_amt").val();
         parmes+="&max_amt="+$("#max_amt").val();
@@ -179,7 +188,7 @@
 
         $.ajax({
             type:"post",
-            url:"/v1/http/storinglevel/create_or_edit"+parmes,
+            url:"/v1/http/poslevel/create_or_edit"+parmes,
             contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
 
             success:function(data) {

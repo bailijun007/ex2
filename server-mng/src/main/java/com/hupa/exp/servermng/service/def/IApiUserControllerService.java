@@ -17,7 +17,7 @@ public interface IApiUserControllerService {
 
     EditFundAccountOutputDto editFundAccount(EditFundAccountInputDto inputDto) throws BizException;
 
-    EditFundAccountOutputDto editFundAccountOnePair(EditFundAccountInputDto inputDto) throws BizException;
+    EditFundAccountOutputDto editFundAccountOneAsset(EditFundAccountInputDto inputDto) throws BizException;
 
     UserListOutputDto queryListByUserType(UserListInputDto inputDto) throws BizException;
 

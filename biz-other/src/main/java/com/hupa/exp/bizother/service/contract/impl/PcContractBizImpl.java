@@ -38,9 +38,9 @@ public class PcContractBizImpl implements IPcContractBiz
     private RedisUtil redisUtilDb0;
 
     @Override
-    public PcContractBizBo get(String pair) {
+    public PcContractBizBo get(String asset,String symbol) {
 
-        PcContractPo po = iPcContractDao.selectOnePo("",pair);
+        PcContractPo po = iPcContractDao.selectOnePo(asset,symbol);
         if (po == null)
             return null;
 
@@ -79,13 +79,13 @@ public class PcContractBizImpl implements IPcContractBiz
         long id= iPcContractDao.updateById(po);
         List<PcContractPo> pcContractPos= iPcContractDao.selectPos();
         //list 转 map
-//        Map<String, PcContractPo> pairMap = pcContractPos.stream().collect(Collectors.toMap(PcContractPo::getPair, a -> a,(k1, k2)->k1));
+//        Map<String, PcContractPo> symbolMap = pcContractPos.stream().collect(Collectors.toMap(PcContractPo::getSymbol, a -> a,(k1, k2)->k1));
 //        Map<String, PcContractPo> displayMap = pcContractPos.stream().collect(Collectors.toMap(PcContractPo::getDisplayName, a -> a,(k1, k2)->k1));
         ExpDicPo dicPo= dicDao.selectDicByKey("ContractRedisKey");
         if(dicPo!=null)
         {
             //redisUtilDb0.del(dicPo.getValue());
-            //redisUtilDb0.hmset(dicPo.getValue(),pairMap);
+            //redisUtilDb0.hmset(dicPo.getValue(),symbolMap);
             redisUtilDb0.hdel(dicPo.getValue(),oldPo.getAsset()+"__"+oldPo.getSymbol());
             redisUtilDb0.hset(dicPo.getValue(),po.getAsset()+"__"+po.getSymbol(), JsonUtil.toJsonString(po));
         }
@@ -94,8 +94,8 @@ public class PcContractBizImpl implements IPcContractBiz
         {
             //redisUtilDb0.del(dicPoDisplay.getValue());
             //redisUtilDb0.hmset(dicPoDisplay.getValue(),displayMap);
-            redisUtilDb0.hdel(dicPoDisplay.getValue(),oldPo.getDisplayName());
-            redisUtilDb0.hset(dicPoDisplay.getValue(),po.getDisplayName(), JsonUtil.toJsonString(po));
+            redisUtilDb0.hdel(dicPoDisplay.getValue(),oldPo.getAsset()+"__"+oldPo.getDisplayName());
+            redisUtilDb0.hset(dicPoDisplay.getValue(),po.getAsset()+"__"+po.getDisplayName(), JsonUtil.toJsonString(po));
         }
         return id;
     }
@@ -112,8 +112,8 @@ public class PcContractBizImpl implements IPcContractBiz
     }
 
     @Override
-    public PcContractListBizBo selectPosPageByParam(String pair, long currentPage, long pageSize) {
-        IPage<PcContractPo> poList = iPcContractDao.selectPosPageByParam("",pair, currentPage, pageSize);
+    public PcContractListBizBo selectPosPageByParam(String asset,String symbol, long currentPage, long pageSize) {
+        IPage<PcContractPo> poList = iPcContractDao.selectPosPageByParam(asset,symbol, currentPage, pageSize);
         PcContractListBizBo listBizBo = new PcContractListBizBo();
         List<PcContractBizBo> boList = new ArrayList<>();
         for (PcContractPo po : poList.getRecords()) {
@@ -137,8 +137,14 @@ public class PcContractBizImpl implements IPcContractBiz
     }
 
     @Override
-    public boolean checkHasContract(String pair) {
-        return iPcContractDao.checkHasContract("",pair);
+    public PcContractBizBo checkHasContract(String asset,String symbol,String displayName) {
+
+        PcContractPo po = iPcContractDao.checkHasContract(asset,symbol,displayName);
+        if (po == null)
+            return null;
+
+        PcContractBizBo bo = ConventObjectUtil.conventObject(po, PcContractBizBo.class);
+        return bo;
     }
 
 }

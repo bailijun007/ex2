@@ -3,7 +3,6 @@ G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\role\im
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\WithdrawAuthBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\account\impl\PcFeeBizImpl.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\assets\AssetsBizBo.java
-G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\StoringLevelPageListBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\menu\ExpMenuBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\modulelimit\def\IModuleLimitService.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\fundaccount\FundAccountMngListBizBo.java
@@ -28,7 +27,6 @@ G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\price\i
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\area\ExpAreaListBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\account\impl\StoringLevelBizImpl.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\price\def\ILastPriceBiz.java
-G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\PcStoringLevelBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\dic\impl\DicServiceImpl.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\MongoBo\FundAccountLogMongoBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\information\ExpInformationPageDataBizBo.java
@@ -43,6 +41,7 @@ G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\fundacco
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\AssetBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\information\def\IInformationService.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\account\impl\AssetBizImpl.java
+G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\PcPosLevelBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\account\impl\AssetChangBizImpl.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\account\def\IAssetBiz.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\MongoBo\FundWithdrawMongoPageBizBo.java
@@ -87,16 +86,17 @@ G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\exception\BizUs
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\login\def\ILoginBiz.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\sms\def\ISmsTempBiz.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\enums\BizUserExceptionCode.java
+G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\PosLevelPageListBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\account\impl\AccountBizImpl.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\role\ExpRoleListBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\component\ApiAccountComponent.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\fundaccount\FundAccountCacheBizBo.java
-G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\account\def\IStoringLevelBiz.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\contract\def\IPcContractBiz.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\account\def\IFundAccountMongoBiz.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\dic\ExpDicBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\user\ExpUserListBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\MongoBo\FundAssetChangeMongoBizBo.java
+G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\account\def\IPosLevelBiz.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\area\impl\AreaServiceImpl.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\area\ExpAreaBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\role\ExpRoleBizBo.java

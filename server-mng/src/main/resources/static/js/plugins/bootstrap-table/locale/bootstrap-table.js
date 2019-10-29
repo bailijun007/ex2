@@ -83,7 +83,7 @@
 	  return classofRaw(it) == 'String' ? split.call(it, '') : Object(it);
 	} : Object;
 
-	// `RequireObjectCoercible` abstract operation
+	// `RequireObjectCoercible` abstract operationlog
 	// https://tc39.github.io/ecma262/#sec-requireobjectcoercible
 	var requireObjectCoercible = function (it) {
 	  if (it == undefined) throw TypeError("Can't call method on " + it);
@@ -102,7 +102,7 @@
 	  return typeof it === 'object' ? it !== null : typeof it === 'function';
 	};
 
-	// `ToPrimitive` abstract operation
+	// `ToPrimitive` abstract operationlog
 	// https://tc39.github.io/ecma262/#sec-toprimitive
 	// instead of the ES6 spec version, we didn't implement @@toPrimitive case
 	// and the second argument - flag - preferred type is a string
@@ -330,7 +330,7 @@
 	var ceil = Math.ceil;
 	var floor = Math.floor;
 
-	// `ToInteger` abstract operation
+	// `ToInteger` abstract operationlog
 	// https://tc39.github.io/ecma262/#sec-tointeger
 	var toInteger = function (argument) {
 	  return isNaN(argument = +argument) ? 0 : (argument > 0 ? floor : ceil)(argument);
@@ -338,7 +338,7 @@
 
 	var min = Math.min;
 
-	// `ToLength` abstract operation
+	// `ToLength` abstract operationlog
 	// https://tc39.github.io/ecma262/#sec-tolength
 	var toLength = function (argument) {
 	  return argument > 0 ? min(toInteger(argument), 0x1FFFFFFFFFFFFF) : 0; // 2 ** 53 - 1 == 9007199254740991
@@ -526,13 +526,13 @@
 	  return !String(Symbol());
 	});
 
-	// `IsArray` abstract operation
+	// `IsArray` abstract operationlog
 	// https://tc39.github.io/ecma262/#sec-isarray
 	var isArray = Array.isArray || function isArray(arg) {
 	  return classofRaw(arg) == 'Array';
 	};
 
-	// `ToObject` abstract operation
+	// `ToObject` abstract operationlog
 	// https://tc39.github.io/ecma262/#sec-toobject
 	var toObject = function (argument) {
 	  return Object(requireObjectCoercible(argument));
@@ -693,7 +693,7 @@
 
 	var SPECIES = wellKnownSymbol('species');
 
-	// `ArraySpeciesCreate` abstract operation
+	// `ArraySpeciesCreate` abstract operationlog
 	// https://tc39.github.io/ecma262/#sec-arrayspeciescreate
 	var arraySpeciesCreate = function (originalArray, length) {
 	  var C;
@@ -1643,7 +1643,7 @@
 	// Opera ~12 has broken Object#toString
 	var BROKEN_CLASSOF = classofRaw(objectCreate(NumberPrototype)) == NUMBER;
 
-	// `ToNumber` abstract operation
+	// `ToNumber` abstract operationlog
 	// https://tc39.github.io/ecma262/#sec-tonumber
 	var toNumber = function (argument) {
 	  var it = toPrimitive(argument, false);
@@ -1896,7 +1896,7 @@
 
 	var MATCH = wellKnownSymbol('match');
 
-	// `IsRegExp` abstract operation
+	// `IsRegExp` abstract operationlog
 	// https://tc39.github.io/ecma262/#sec-isregexp
 	var isRegexp = function (it) {
 	  var isRegExp;
@@ -2127,13 +2127,13 @@
 
 	var charAt$1 = stringMultibyte.charAt;
 
-	// `AdvanceStringIndex` abstract operation
+	// `AdvanceStringIndex` abstract operationlog
 	// https://tc39.github.io/ecma262/#sec-advancestringindex
 	var advanceStringIndex = function (S, index, unicode) {
 	  return index + (unicode ? charAt$1(S, index).length : 1);
 	};
 
-	// `RegExpExec` abstract operation
+	// `RegExpExec` abstract operationlog
 	// https://tc39.github.io/ecma262/#sec-regexpexec
 	var regexpExecAbstract = function (R, S) {
 	  var exec = R.exec;
@@ -2269,7 +2269,7 @@
 	  }
 	});
 
-	// `SameValue` abstract operation
+	// `SameValue` abstract operationlog
 	// https://tc39.github.io/ecma262/#sec-samevalue
 	var sameValue = Object.is || function is(x, y) {
 	  // eslint-disable-next-line no-self-compare
@@ -2306,7 +2306,7 @@
 
 	var SPECIES$4 = wellKnownSymbol('species');
 
-	// `SpeciesConstructor` abstract operation
+	// `SpeciesConstructor` abstract operationlog
 	// https://tc39.github.io/ecma262/#sec-speciesconstructor
 	var speciesConstructor = function (O, defaultConstructor) {
 	  var C = anObject(O).constructor;
@@ -3108,7 +3108,7 @@
 	  }
 	};
 
-	// `FlattenIntoArray` abstract operation
+	// `FlattenIntoArray` abstract operationlog
 	// https://tc39.github.io/proposal-flatMap/#sec-FlattenIntoArray
 	var flattenIntoArray = function (target, original, source, sourceLen, start, depth, mapper, thisArg) {
 	  var targetIndex = start;

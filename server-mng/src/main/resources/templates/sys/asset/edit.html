@@ -39,43 +39,43 @@
                             <!--<div class="Validform_checktip"></div>-->
                         <!--</div>-->
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">链上服务的symbolId：</label>
+                            <label class="col-sm-3 control-label">链上服务的约定的id：</label>
                             <div class="col-sm-6">
-                                <input  class="form-control" type="text" datatype="n1-10" id="chain_appoint_id">
+                                <input  class="form-control" type="text"  id="chain_appoint_id">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">币的真实名称：</label>
                                 <div class="col-sm-6">
-                                    <input  class="form-control" type="text" id="real_name">
+                                    <input  class="form-control" type="text" id="real_name" datatype="*1-50" errormsg="真实名称最多50位">
                                 </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">币的展示名：</label>
                             <div class="col-sm-6">
-                                <input  class="form-control" type="text" value="USD" id="display_name">
+                                <input  class="form-control" type="text" id="display_name" datatype="*1-50" errormsg="币的展示名最多50位">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">币所属的链：</label>
                             <div class="col-sm-6">
-                                <input class="form-control" id="chain_name" type="text" datatype="*1-100" errormsg="菜单名称最多不能超过100位数">
+                                <input class="form-control" id="chain_name" type="text">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">精度：</label>
                             <div class="col-sm-6">
-                                <input class="form-control" id="precision" type="text" datatype="*1-100" errormsg="合约展示名最多10位">
+                                <input class="form-control" id="precision" type="text" datatype="*1-100" errormsg="精度最多10位">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">币的权限：</label>
                             <div class="col-sm-6">
-                                <input class="form-control" id="privilege" type="text" datatype="*1-100" errormsg="合约面值最多100位">
+                                <input class="form-control" id="privilege" type="text" datatype="*1-100" errormsg="币的权限最多100位">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
@@ -96,21 +96,31 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">提币手续费：</label>
                             <div class="col-sm-6">
-                                <input class="form-control" id="withdraw_fee" type="text" datatype="*1-100" errormsg="合约面值最多100位">
+                                <input class="form-control" id="withdraw_fee" type="text" datatype="*1-100" errormsg="提币手续费最多100位">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">以太坊地址：</label>
                             <div class="col-sm-6">
-                                <input class="form-control" id="chain_transaction_url" type="text" datatype="*1-500" errormsg="合约面值最多100位">
+                                <input class="form-control" id="chain_transaction_url" type="text"  >
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">冲提类型：</label>
+                            <div class="col-sm-6">
+                                <select id="dw_type" class="form-control">
+                                    <!--<option value="1">链上</option>>-->
+                                    <!--<option value="2">第三方</option>>-->
+                                </select>
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">排序：</label>
                             <div class="col-sm-6">
-                                <input class="form-control" id="sort" type="text" datatype="*1-10" errormsg="排序最多十位">
+                                <input class="form-control" id="sort" value="99" type="text" datatype="*1-10" errormsg="排序最多10位">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
@@ -119,7 +129,7 @@
                             <label class="col-sm-3 control-label">是否生效：</label>
                             <div class="col-sm-5">
                                 <div class="rule-single-checkbox">
-                                    <input type="checkbox" id="ckbIsOnTop"  />
+                                    <input type="checkbox" checked="checked" id="ckbIsOnTop"  />
                                 </div>
                             </div>
                             <div class="Validform_checktip"></div>
@@ -158,7 +168,8 @@
 <script type="text/javascript">
     $(function () {
         function initData() {
-
+            bindDrop("DwType","dw_type",false)
+            //document.getElementById("dw_type").options.remove(0);
             var id = GetQueryString("id");
             var action=GetQueryString("action");
             if (id != ""&&action=="Edit")//id不为空则需要绑定值
@@ -188,6 +199,7 @@
                             $("#min_withdraw_volume").val(data.data.minWithdrawVolume);
                             $("#withdraw_fee").val(data.data.withdrawFee);
                             $("#chain_transaction_url").val(data.data.chainTransactionUrl);
+                            $("#dw_type").val(data.data.dwType)
                         }
                     }
                 })
@@ -207,7 +219,7 @@
                 {
                     layer.msg("已存在该币种！");
                     $("#real_name").val("");
-                    $("#real_name").parent().next().children().remove();
+                    //$("#real_name").parent().next().children().remove();
                 }
             }
         });
@@ -247,6 +259,7 @@
         parmes+="&min_deposit_volume="+$("#min_deposit_volume").val();
         parmes+="&min_withdraw_volume="+  $("#min_withdraw_volume").val();
         parmes+="&chain_transaction_url="+  $("#chain_transaction_url").val();
+        parmes+="&dw_type="+  $("#dw_type").val();
 
 
         $.ajax({

@@ -81,7 +81,7 @@
                             {
                                 htmlStr+="";
                                 htmlStr+='<div class="form-group">';
-                                htmlStr+='<label class="col-sm-3 control-label">'+data.data.assets[i].pair+'</label>';
+                                htmlStr+='<label class="col-sm-3 control-label">'+data.data.assets[i].asset+'</label>';
                                 htmlStr+='<div class="col-sm-6">';
                                 htmlStr+="<input class=\"form-control\" id=\"email\" type=\"text\" value=\"0\" datatype=\"*1-10\" errormsg=\"最大长度为10位数\">";
                                 htmlStr+='</div>';
@@ -103,8 +103,8 @@
         var fundStr="";
         //获取选中的权限
         $("input[type=text]").each(function () {
-            var pair=$($(this).parent().parent().find("label")).text() ;
-            fundStr+=pair+"|";
+            var asset=$($(this).parent().parent().find("label")).text() ;
+            fundStr+=asset+"|";
             fundStr+=$(this).val()+",";
             //console.log(fundStr);
         })

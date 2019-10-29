@@ -35,7 +35,7 @@ public class ApiPcPositionControllerServiceImpl implements IApiPcPositionControl
             inputDto.setAccountId(userPo.getId());
         }
 
-       MongoPage<PcPosAssetSymbolMongoPo> pos= iPcPosAssetSymbolMongoDao.selectPosByParamMng(inputDto.getPair(),inputDto.getPosId(),inputDto.getAccountId(),inputDto.getLiqStatus(),
+       MongoPage<PcPosAssetSymbolMongoPo> pos= iPcPosAssetSymbolMongoDao.selectPosByParamMng(inputDto.getAsset(),inputDto.getSymbol(),inputDto.getPosId(),inputDto.getAccountId(),inputDto.getLiqStatus(),
                 inputDto.getCurrentPage(),inputDto.getPageSize(), MongoSortEnum.desc);
         List<PcPositionInfo> rows=new ArrayList<>();
        for(PcPosAssetSymbolMongoPo po:pos.getRows())

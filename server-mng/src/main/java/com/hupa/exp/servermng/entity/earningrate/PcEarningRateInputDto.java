@@ -10,7 +10,7 @@ public class PcEarningRateInputDto extends BaseInputDto {
     private Integer sort;
     private BigDecimal earningRate;
     private Long earningRateTime;
-    private String pair;
+    private String asset;
     private String symbol;
     private Long ctime;
     private Long mtime;
@@ -55,12 +55,12 @@ public class PcEarningRateInputDto extends BaseInputDto {
         this.earningRateTime = earningRateTime;
     }
 
-    public String getPair() {
-        return pair;
+    public String getAsset() {
+        return asset;
     }
 
-    public void setPair(String pair) {
-        this.pair = pair;
+    public void setAsset(String asset) {
+        this.asset = asset;
     }
 
     public String getSymbol() {

@@ -1,13 +1,12 @@
 package com.hupa.exp.bizother.service.account.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.hupa.exp.base.config.redis.Db0RedisBean;
 import com.hupa.exp.base.enums.ValidateExceptionCode;
 import com.hupa.exp.base.exception.ValidateException;
 import com.hupa.exp.bizother.entity.account.AssetBizBo;
 import com.hupa.exp.bizother.entity.account.AssetListBizBo;
-import com.hupa.exp.bizother.entity.account.CoinPageListBizBo;
+import com.hupa.exp.bizother.entity.account.AssetPageListBizBo;
 import com.hupa.exp.bizother.service.account.def.IAssetBiz;
 import com.hupa.exp.common.component.redis.RedisUtil;
 import com.hupa.exp.common.exception.BizException;
@@ -38,16 +37,16 @@ public class AssetBizImpl implements IAssetBiz {
     private RedisUtil redisUtilDb0;
 
     @Override
-    public long createCoin(AssetBizBo coinBizBo) throws BizException {
-        AssetPo po= ConventObjectUtil.conventObject(coinBizBo,AssetPo.class);
+    public long createAsset(AssetBizBo assetBizBo) throws BizException {
+        AssetPo po= ConventObjectUtil.conventObject(assetBizBo,AssetPo.class);
         po.setCtime(System.currentTimeMillis());
         ExpDicPo dicPo= dicDao.selectDicByKey("AssetRedisKey");
         if(iAssetDao.insert(po)>0)
         {
-            coinBizBo.setSymbol(coinBizBo.getRealName());
+            assetBizBo.setSymbol(assetBizBo.getRealName());
             if(dicPo!=null)
             {
-                redisUtilDb0.hset(dicPo.getValue(),coinBizBo.getRealName(), JsonUtil.toJsonString(coinBizBo));
+                redisUtilDb0.hset(dicPo.getValue(),assetBizBo.getRealName(), JsonUtil.toJsonString(assetBizBo));
             }
         }
 
@@ -57,16 +56,16 @@ public class AssetBizImpl implements IAssetBiz {
     }
 
     @Override
-    public long editCoin(AssetBizBo coinBizBo) throws BizException {
-        AssetPo po= ConventObjectUtil.conventObject(coinBizBo,AssetPo.class);
+    public long editAsset(AssetBizBo assetBizBo) throws BizException {
+        AssetPo po= ConventObjectUtil.conventObject(assetBizBo,AssetPo.class);
         po.setMtime(System.currentTimeMillis());
         ExpDicPo dicPo= dicDao.selectDicByKey("AssetRedisKey");
         if(iAssetDao.updateById(po)>0)
         {
-            coinBizBo.setSymbol(coinBizBo.getRealName());
+            assetBizBo.setSymbol(assetBizBo.getRealName());
             if(dicPo!=null)
             {
-                redisUtilDb0.hset(dicPo.getValue(),coinBizBo.getRealName(), JsonUtil.toJsonString(coinBizBo));
+                redisUtilDb0.hset(dicPo.getValue(),assetBizBo.getRealName(), JsonUtil.toJsonString(assetBizBo));
             }
         }
         else
@@ -75,43 +74,43 @@ public class AssetBizImpl implements IAssetBiz {
     }
 
     @Override
-    public CoinPageListBizBo queryAssetList(String realName,long currentPage, long pageSize)  {
-        IPage<AssetPo> coinPoIPage= iAssetDao.selectPosList(realName,currentPage,pageSize);
-        CoinPageListBizBo coinListBizBo=new CoinPageListBizBo();
-        coinListBizBo.setTotal(coinPoIPage.getTotal());
+    public AssetPageListBizBo queryAssetList(String realName, long currentPage, long pageSize)  {
+        IPage<AssetPo> assetPoIPage= iAssetDao.selectPosList(realName,currentPage,pageSize);
+        AssetPageListBizBo assetPageListBizBo=new AssetPageListBizBo();
+        assetPageListBizBo.setTotal(assetPoIPage.getTotal());
         List<AssetBizBo> bizBoList=new ArrayList<>();
-        for(AssetPo po:coinPoIPage.getRecords())
+        for(AssetPo po:assetPoIPage.getRecords())
         {
             AssetBizBo bo=ConventObjectUtil.conventObject(po,AssetBizBo.class);
             bizBoList.add(bo);
         }
-        coinListBizBo.setRows(bizBoList);
-        return coinListBizBo;
+        assetPageListBizBo.setRows(bizBoList);
+        return assetPageListBizBo;
     }
 
     @Override
     public AssetListBizBo queryRealNameList() {
         List<AssetPo> poList= iAssetDao.selectList();
-        List<String> coinList=new ArrayList<>();
+        List<String> assetList=new ArrayList<>();
         for(AssetPo po:poList)
         {
-            coinList.add(po.getRealName());
+            assetList.add(po.getRealName());
         }
         AssetListBizBo listBizBo=new AssetListBizBo();
-        listBizBo.setAssetList(coinList);
+        listBizBo.setAssetList(assetList);
         return listBizBo;
     }
 
 
     @Override
-    public AssetBizBo queryCoinById(long id) {
+    public AssetBizBo queryAssetById(long id) {
         AssetPo po= iAssetDao.selectPoById(id);
         AssetBizBo bo=ConventObjectUtil.conventObject(po,AssetBizBo.class);
         return bo;
     }
 
     @Override
-    public boolean checkHasCoin(String coinName) {
-        return iAssetDao.checkHasCoin(coinName);
+    public boolean checkHasAsset(String realName) {
+        return iAssetDao.checkHasCoin(realName);
     }
 }

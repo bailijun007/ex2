@@ -20,6 +20,7 @@ com\hupa\exp\bizother\entity\account\MongoBo\BaseFundAccountMongoBizBo.class
 com\hupa\exp\bizother\service\modulelimit\def\IModuleLimitService.class
 com\hupa\exp\bizother\service\account\def\IPcFeeBiz.class
 com\hupa\exp\bizother\entity\account\QueryAccountTransferBizBo.class
+com\hupa\exp\bizother\entity\account\PcPosLevelBizBo.class
 com\hupa\exp\bizother\entity\account\MongoBo\PcAccountLogMongoBizBo.class
 com\hupa\exp\bizother\entity\fundaccount\FundAccountMngListBizBo.class
 com\hupa\exp\bizother\service\account\impl\AssetBizImpl.class
@@ -35,10 +36,9 @@ com\hupa\exp\bizother\entity\modulelimit\ExpModuleLimitListBizBo.class
 com\hupa\exp\bizother\entity\klineconfig\ExpKlineConfigListBizBo.class
 com\hupa\exp\bizother\service\user\impl\UserRoleServiceImpl.class
 com\hupa\exp\bizother\service\locale\impl\LocaleServiceImpl.class
-com\hupa\exp\bizother\entity\account\StoringLevelPageListBizBo.class
 com\hupa\exp\bizother\entity\area\ExpAreaBizBo.class
 com\hupa\exp\bizother\entity\account\AssetListBizBo.class
-com\hupa\exp\bizother\entity\account\PcStoringLevelBizBo.class
+com\hupa\exp\bizother\service\account\def\IPosLevelBiz.class
 com\hupa\exp\bizother\entity\dic\ExpDicListBizBo.class
 com\hupa\exp\bizother\service\dic\def\IDicService.class
 com\hupa\exp\bizother\entity\user\ExpUserBizBo.class
@@ -55,6 +55,7 @@ com\hupa\exp\bizother\service\role\impl\RoleMenuServiceImpl.class
 com\hupa\exp\bizother\entity\account\FundAccountBizBo.class
 com\hupa\exp\bizother\exception\BizUserException.class
 com\hupa\exp\bizother\service\information\impl\InformationServiceImpl.class
+com\hupa\exp\bizother\entity\account\PosLevelPageListBizBo.class
 com\hupa\exp\bizother\entity\role\ExpRoleMenuBizBo.class
 com\hupa\exp\bizother\service\account\def\IPcAccountMongoBiz.class
 com\hupa\exp\bizother\entity\account\MongoBo\FundAccountLogMongoBizBo.class
@@ -111,7 +112,6 @@ com\hupa\exp\BizOtherMainEntrance.class
 com\hupa\exp\bizother\entity\tablefield\TableFieldBizBo.class
 com\hupa\exp\bizother\service\login\def\ILoginBiz.class
 com\hupa\exp\bizother\service\menu\def\IMenuService.class
-com\hupa\exp\bizother\service\account\def\IStoringLevelBiz.class
 com\hupa\exp\bizother\service\account\def\IWithdrawBiz.class
 com\hupa\exp\bizother\service\account\impl\WithdrawBizImpl.class
 com\hupa\exp\bizother\entity\account\CoinPageListBizBo.class

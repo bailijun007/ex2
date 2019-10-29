@@ -12,29 +12,7 @@ import java.math.BigDecimal;
 @Component
 public class BizAccountComponent {
 
-//
-//    @Autowired
-//    private ITickerBiz<PcTickerBizBo> iTickerBiz;
 
-//    public BigDecimal calcAssetValuationBtc(String symbol){
-//
-//
-//        String pairByBtc="BTC_USD";
-//        String pairByOther = symbol+"_USD";
-//
-//        //String mappingSymbol="BTC";
-//
-//        PcTickerBizBo tickerBoByBtc = iTickerBiz.get(pairByBtc);
-//        PcTickerBizBo tickerBoByOther = iTickerBiz.get(pairByOther);
-//
-//        if(tickerBoByBtc==null)
-//            return BigDecimal.ZERO;
-//        if(tickerBoByOther==null)
-//            return BigDecimal.ZERO;
-//
-//        BigDecimal temp = tickerBoByOther.getLastPrice().divide(tickerBoByBtc.getLastPrice(), 16, BigDecimal.ROUND_DOWN);
-//        return temp;
-//    }
 
     @Autowired
     @Qualifier(PcLastPriceBizImpl.serviceName)
@@ -43,21 +21,21 @@ public class BizAccountComponent {
 
     /**
      * 换算成当前货币的资产
-     * @param symbolByValuation 计价货币
-     * @param symbolByCurrent 当前货币
+     * @param assetByValuation 计价资产
+     * @param assetByCurrent 当前资产
      * @param assetVolume 量
      * @return
      */
-    public BigDecimal calcAssetValuationBtc(String symbolByValuation, String symbolByCurrent, BigDecimal assetVolume){
+    public BigDecimal calcAssetValuationBtc(String assetByValuation, String assetByCurrent, BigDecimal assetVolume){
 
 
-        String pairByValuation=symbolByValuation+"_USD";
-        String pairByOther = symbolByCurrent+"_USD";
+        String symbolByValuation= assetByValuation+"_USD";
+        String symbolByCurrent = assetByCurrent+"_USD";
 
-        //String symbolByValuation="BTC";
+        //String assetByValuation="BTC";
 
-        BigDecimal lastPriceByValuation = iLastPriceBiz.get(pairByValuation);
-        BigDecimal lastPriceBoByOther = iLastPriceBiz.get(pairByOther);
+        BigDecimal lastPriceByValuation = iLastPriceBiz.get(assetByValuation, symbolByValuation);
+        BigDecimal lastPriceBoByOther = iLastPriceBiz.get(assetByCurrent, symbolByCurrent);
 
         if(lastPriceByValuation==null)
             return BigDecimal.ZERO;
@@ -67,7 +45,7 @@ public class BizAccountComponent {
 
         BigDecimal temp;
 
-        if(symbolByValuation.equalsIgnoreCase(symbolByCurrent)){
+        if(assetByValuation.equalsIgnoreCase(assetByCurrent)){
 
             temp = lastPriceByValuation.divide(lastPriceByValuation, 16, BigDecimal.ROUND_DOWN);
 

@@ -2,7 +2,7 @@ package com.hupa.exp.bizother.entity.account;
 
 import java.util.List;
 
-public class CoinPageListBizBo {
+public class AssetPageListBizBo {
     private List<AssetBizBo> rows;
     private Long total;
 
