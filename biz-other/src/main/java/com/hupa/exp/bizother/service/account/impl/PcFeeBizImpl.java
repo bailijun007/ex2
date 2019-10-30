@@ -9,8 +9,8 @@ import com.hupa.exp.bizother.entity.account.UserPcFee;
 import com.hupa.exp.bizother.service.account.def.IPcFeeBiz;
 import com.hupa.exp.common.component.redis.RedisUtil;
 import com.hupa.exp.common.tool.format.JsonUtil;
-import com.hupa.exp.daomongo.dao.expv2.def.IFundWithdrawSymbolMongoDao;
-import com.hupa.exp.daomongo.entity.po.expv2mongo.FundWithdrawSymbolMongoPo;
+import com.hupa.exp.daomongo.dao.expv2.def.IFundWithdrawAssetMongoDao;
+import com.hupa.exp.daomongo.entity.po.expv2mongo.FundWithdrawAssetMongoPo;
 import com.hupa.exp.daomysql.dao.expv2.def.IAssetDao;
 import com.hupa.exp.daomysql.dao.expv2.def.IExpUserDao;
 import com.hupa.exp.daomysql.dao.expv2.def.IPcFeeDao;
@@ -47,7 +47,7 @@ public class PcFeeBizImpl implements IPcFeeBiz {
     private IAssetDao iAssetDao;
 
     @Autowired
-    private IFundWithdrawSymbolMongoDao iFundWithdrawSymbolDao;
+    private IFundWithdrawAssetMongoDao iFundWithdrawSymbolDao;
 
     @Autowired
     private BizAccountComponent bizAccountComponent;
@@ -122,8 +122,8 @@ public class PcFeeBizImpl implements IPcFeeBiz {
         BigDecimal sumWithdrawVolume=new BigDecimal("0");
         for(AssetPo assetPo:assetPos)
         {
-           List<FundWithdrawSymbolMongoPo> fundWithdrawList=  iFundWithdrawSymbolDao.selectFundWithdrawPoByTime(id,assetPo.getRealName(),nowDay);
-            for(FundWithdrawSymbolMongoPo fundWithdrawPo:fundWithdrawList)
+           List<FundWithdrawAssetMongoPo> fundWithdrawList=  iFundWithdrawSymbolDao.selectFundWithdrawPoByTime(id,assetPo.getRealName(),nowDay);
+            for(FundWithdrawAssetMongoPo fundWithdrawPo:fundWithdrawList)
             {
                 BigDecimal volume=new BigDecimal("0");
                 if(assetPo.getRealName().equals("BTC"))

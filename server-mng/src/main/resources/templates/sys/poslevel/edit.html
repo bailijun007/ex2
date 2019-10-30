@@ -34,7 +34,9 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">币种：</label>
                             <div class="col-sm-6">
-                                <input  class="form-control" type="text" id="asset">
+                                <select id="asset" class="form-control">
+
+                                </select>
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
@@ -145,7 +147,7 @@
         $(".form-horizontal").Validform({ tiptype: 2 });
         initData();
     });
-
+    bindAsset("asset",false);
     // $("#symbol").blur(function(){
     //     $.ajax({
     //         type:"post",

@@ -3,8 +3,8 @@ package com.hupa.exp.bizother.service.account.impl;
 import com.hupa.exp.bizother.entity.account.MongoBo.FundWithdrawMongoBizBo;
 import com.hupa.exp.bizother.entity.account.MongoBo.FundWithdrawMongoPageBizBo;
 import com.hupa.exp.bizother.service.account.def.IWithdrawBiz;
-import com.hupa.exp.daomongo.dao.expv2.def.IFundWithdrawSymbolMongoDao;
-import com.hupa.exp.daomongo.entity.po.expv2mongo.FundWithdrawSymbolMongoPo;
+import com.hupa.exp.daomongo.dao.expv2.def.IFundWithdrawAssetMongoDao;
+import com.hupa.exp.daomongo.entity.po.expv2mongo.FundWithdrawAssetMongoPo;
 import com.hupa.exp.daomongo.entity.po.expv2mongo.MongoPage;
 import com.hupa.exp.util.convent.ConventObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +16,17 @@ import java.util.List;
 @Service
 public class WithdrawBizImpl implements IWithdrawBiz {
     @Autowired
-    private IFundWithdrawSymbolMongoDao iFundWithdrawSymbolDao;
+    private IFundWithdrawAssetMongoDao iFundWithdrawSymbolDao;
 
     @Override
     public FundWithdrawMongoPageBizBo selectFundWithdrawPageData(Long accountId, String symbol, long id, long currentPage, int pageSize) {
-        MongoPage<FundWithdrawSymbolMongoPo> pageData=iFundWithdrawSymbolDao.pageFundWithdrawPos(
+        MongoPage<FundWithdrawAssetMongoPo> pageData=iFundWithdrawSymbolDao.pageFundWithdrawPos(
                 accountId,  symbol, id, currentPage, pageSize);
         FundWithdrawMongoPageBizBo pageBizBo=new FundWithdrawMongoPageBizBo();
         pageBizBo.setTotal(pageData.getTotalCount());
         pageBizBo.setPageSize(pageSize);
         List<FundWithdrawMongoBizBo> bizBoList=new ArrayList<>();
-        for(FundWithdrawSymbolMongoPo po:pageData.getRows())
+        for(FundWithdrawAssetMongoPo po:pageData.getRows())
         {
             FundWithdrawMongoBizBo bo= ConventObjectUtil.conventObject(po,FundWithdrawMongoBizBo.class);
             bizBoList.add(bo);
@@ -37,7 +37,7 @@ public class WithdrawBizImpl implements IWithdrawBiz {
 
     @Override
     public FundWithdrawMongoBizBo selectFundWithdrawById(long id, String symbol) {
-        FundWithdrawSymbolMongoPo po= iFundWithdrawSymbolDao.selectFundWithdrawPoById(id,symbol);
+        FundWithdrawAssetMongoPo po= iFundWithdrawSymbolDao.selectFundWithdrawPoById(id,symbol);
         FundWithdrawMongoBizBo bo=ConventObjectUtil.conventObject(po,FundWithdrawMongoBizBo.class);
         return bo;
     }

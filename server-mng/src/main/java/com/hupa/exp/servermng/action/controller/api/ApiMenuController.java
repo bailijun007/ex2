@@ -44,7 +44,7 @@ public class ApiMenuController {
             @ApiParam(name="menuurl",value = "菜单地址",required = true)
             @RequestParam(name = "menuurl") String menuurl,
             @ApiParam(name="sort",value = "排序",required = true)
-            @RequestParam(name = "sort") String sort,
+            @RequestParam(name = "sort") Integer sort,
             @ApiParam(name="enable",value = "是否启用",required = true)
             @RequestParam(name = "enable") boolean enable,
             @ApiParam(name="icon",value = "图标",required = false)
@@ -56,6 +56,7 @@ public class ApiMenuController {
         inputDto.setMenuurl(menuurl);
         inputDto.setParentmenuid(parentmenuid);
         inputDto.setEnable(enable);
+        inputDto.setSort(sort);
         inputDto.setIcon(icon);
         MenuOutputDto outputDto= null;
         try {

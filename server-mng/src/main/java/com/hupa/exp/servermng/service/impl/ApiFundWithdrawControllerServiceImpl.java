@@ -11,8 +11,8 @@ import com.hupa.exp.bizother.service.account.def.IWithdrawBiz;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.JsonUtil;
-import com.hupa.exp.daomongo.dao.expv2.def.IFundWithdrawSymbolMongoDao;
-import com.hupa.exp.daomongo.entity.po.expv2mongo.FundWithdrawSymbolMongoPo;
+import com.hupa.exp.daomongo.dao.expv2.def.IFundWithdrawAssetMongoDao;
+import com.hupa.exp.daomongo.entity.po.expv2mongo.FundWithdrawAssetMongoPo;
 import com.hupa.exp.daomongo.entity.po.expv2mongo.MongoPage;
 import com.hupa.exp.daomongo.enums.MongoSortEnum;
 import com.hupa.exp.daomysql.dao.expv2.def.IAssetDao;
@@ -22,14 +22,12 @@ import com.hupa.exp.daomysql.entity.po.expv2.ExpUserPo;
 import com.hupa.exp.servermng.entity.fundwithdraw.*;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiFundWithdrawControllerService;
-import com.hupa.exp.util.convent.ConventObjectUtil;
 import com.hupa.exp.util.math.DecimalUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.print.DocFlavor;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -53,7 +51,7 @@ public class ApiFundWithdrawControllerServiceImpl implements IApiFundWithdrawCon
     private IExpUserDao iExpUserDao;
 
     @Autowired
-    private IFundWithdrawSymbolMongoDao withdrawSymbolMongoDao;
+    private IFundWithdrawAssetMongoDao withdrawSymbolMongoDao;
 
     @Autowired
     private IAssetDao iAssetDao;
@@ -136,10 +134,10 @@ public class ApiFundWithdrawControllerServiceImpl implements IApiFundWithdrawCon
     @Override
     public FundWithdrawAccountListOutputDto getAccountAllFundWith(FundWithdrawAccountListInputDto inputDto) throws BizException {
         List<AssetPo> assetPos = iAssetDao.selectActiveList();
-        List<FundWithdrawSymbolMongoPo> withdrawSymbolMongoPoList = new ArrayList<>();
+        List<FundWithdrawAssetMongoPo> withdrawSymbolMongoPoList = new ArrayList<>();
         int counts = 0;
         MongoSortEnum sort = MongoSortEnum.desc;
-        List<FundWithdrawSymbolMongoPo> newList = new ArrayList<>();
+        List<FundWithdrawAssetMongoPo> newList = new ArrayList<>();
         if (inputDto.getPageStatus() == -1)
             sort = MongoSortEnum.asc;
         //为第一页的时候重置查询条件
@@ -154,7 +152,7 @@ public class ApiFundWithdrawControllerServiceImpl implements IApiFundWithdrawCon
                 if (!assetPo.getRealName().equals(inputDto.getAsset()))
                     continue;
             }
-            MongoPage<FundWithdrawSymbolMongoPo> withdrawSymbolMongoPoMongoPage = withdrawSymbolMongoDao.pageAllFundWithdrawPosByAccountId(
+            MongoPage<FundWithdrawAssetMongoPo> withdrawSymbolMongoPoMongoPage = withdrawSymbolMongoDao.pageAllFundWithdrawPosByAccountId(
                     inputDto.getAccountId(), assetPo.getRealName(),
                     inputDto.getWithdrawTime(), inputDto.getWithdrawId(),
                     inputDto.getPageStatus(),
@@ -164,7 +162,7 @@ public class ApiFundWithdrawControllerServiceImpl implements IApiFundWithdrawCon
             withdrawSymbolMongoPoList.addAll(withdrawSymbolMongoPoMongoPage.getRows());
             counts += withdrawSymbolMongoPoMongoPage.getTotalCount();
         }
-        newList = withdrawSymbolMongoPoList.stream().sorted(Comparator.comparing(FundWithdrawSymbolMongoPo::getId).reversed())
+        newList = withdrawSymbolMongoPoList.stream().sorted(Comparator.comparing(FundWithdrawAssetMongoPo::getId).reversed())
                 //Comparator.comparing(FundWithdrawSymbolMongoPo::getWithdrawTime
                 .collect(Collectors.toList());
         if (newList.size() > 10) {
@@ -181,7 +179,7 @@ public class ApiFundWithdrawControllerServiceImpl implements IApiFundWithdrawCon
         outputDto.setTotal(Long.parseLong(String.valueOf(counts)));
         outputDto.setTotalCount(Long.parseLong(String.valueOf(counts)));
         List<FundWithdrawOutputDto> list = new ArrayList<>();
-        for (FundWithdrawSymbolMongoPo po : newList) {
+        for (FundWithdrawAssetMongoPo po : newList) {
             FundWithdrawOutputDto row = new FundWithdrawOutputDto();
 
             row.setId(String.valueOf(po.getId()));

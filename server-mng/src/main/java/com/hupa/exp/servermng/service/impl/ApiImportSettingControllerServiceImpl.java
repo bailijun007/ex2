@@ -87,8 +87,8 @@ public class ApiImportSettingControllerServiceImpl implements IApiImportSettingC
         for(PcContractPo contractPo:pcContractPos)
         {
             List<PcPosLevelPo> posLevelPoList=iPcStoringLevelDao.selectAllPosLevelList(contractPo.getAsset(),contractPo.getSymbol());
-//            Map<String, PcStoringLevelPo> storingLevelMap = storingLevelPoList.stream().collect(Collectors.toMap(PcStoringLevelPo::getPair, a -> a,(k1, k2)->k1));
-            if(posLevel!=null)
+//            Map<String, PcStoringLevelPo> storingLevelMap = storingLevelPoList.stream().collect(Collectors.toMap(PcPosLevelPo::getAsset, a -> a,(k1, k2)->k1));
+            if(posLevel!=null&&posLevelPoList.size()>0)
             {
                 redisUtilDb0.hdel(posLevel.getValue(),contractPo.getAsset()+"__"+contractPo.getSymbol());
                 redisUtilDb0.hset(posLevel.getValue(),contractPo.getAsset()+"__"+contractPo.getSymbol(), JsonUtil.toJsonString(posLevelPoList));
