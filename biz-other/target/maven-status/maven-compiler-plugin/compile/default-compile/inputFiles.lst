@@ -47,13 +47,11 @@ G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\account
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\MongoBo\FundWithdrawMongoPageBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\PcFeeBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\operationlog\ExpOperationLogBizBo.java
-G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\price\def\IIndexPriceBiz.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\BizOtherMainEntrance.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\MongoBo\PcAccountLogMongoPageBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\PcFeeListBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\MongoBo\PcAssetChangeMongoPageBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\MongoBo\PcAssetChangeMongoBizBo.java
-G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\CoinPageListBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\operationlog\def\IExpOperationLogService.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\role\def\IRoleService.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\MongoBo\FundWithdrawMongoBizBo.java
@@ -112,6 +110,7 @@ G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\menu\Exp
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\QueryFundWithdrawHistoryBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\service\account\def\IPcFeeBiz.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\login\AdminLoginBizBo.java
+G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\AssetPageListBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\MongoBo\FundAccountLogMongoPageBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\account\MongoBo\FundAssetChangeMongoPageBizBo.java
 G:\Ben\pro\ex2-mng\biz-other\src\main\java\com\hupa\exp\bizother\entity\information\ExpInformationBizBo.java

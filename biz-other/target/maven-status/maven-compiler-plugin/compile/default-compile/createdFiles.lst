@@ -4,6 +4,7 @@ com\hupa\exp\bizother\service\sms\def\ISmsTempBiz.class
 com\hupa\exp\bizother\service\contract\impl\PcContractBizImpl.class
 com\hupa\exp\bizother\entity\account\PcAccountBizBo.class
 com\hupa\exp\bizother\config\BizPriceSettingConfig.class
+com\hupa\exp\bizother\entity\account\AssetPageListBizBo.class
 com\hupa\exp\bizother\service\price\def\ILastPriceBiz.class
 com\hupa\exp\bizother\entity\menu\ExpMenuBizBo.class
 com\hupa\exp\bizother\service\klineconfig\def\IKlineConfigService.class
@@ -96,7 +97,6 @@ com\hupa\exp\bizother\entity\account\QueryFundWithdrawAddressBizBo.class
 com\hupa\exp\bizother\entity\account\MongoBo\PcAssetChangeMongoPageBizBo.class
 com\hupa\exp\bizother\service\price\impl\PcLastPriceBizImpl.class
 com\hupa\exp\bizother\entity\user\ExpUserRoleBizBo.class
-com\hupa\exp\bizother\service\price\def\IIndexPriceBiz.class
 com\hupa\exp\bizother\entity\account\MongoBo\FundAccountLogMongoPageBizBo.class
 com\hupa\exp\bizother\service\account\impl\AssetChangBizImpl.class
 com\hupa\exp\bizother\entity\account\MongoBo\FundAssetChangeMongoPageBizBo.class
@@ -114,7 +114,6 @@ com\hupa\exp\bizother\service\login\def\ILoginBiz.class
 com\hupa\exp\bizother\service\menu\def\IMenuService.class
 com\hupa\exp\bizother\service\account\def\IWithdrawBiz.class
 com\hupa\exp\bizother\service\account\impl\WithdrawBizImpl.class
-com\hupa\exp\bizother\entity\account\CoinPageListBizBo.class
 com\hupa\exp\bizother\service\account\impl\AccountBizImpl.class
 com\hupa\exp\bizother\entity\account\MongoBo\FundWithdrawMongoPageBizBo.class
 com\hupa\exp\bizother\entity\account\QueryAccountTransferBizBo$QueryAccountTransferEntry.class
