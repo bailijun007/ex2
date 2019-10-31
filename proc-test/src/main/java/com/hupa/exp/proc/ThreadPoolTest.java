@@ -19,26 +19,11 @@ public class ThreadPoolTest {
     @PostConstruct
     private void stat(){
 
-        String email="5@qq.com";
-        String[] strArr=email.split("@");
-        String emailStr=strArr[0].substring(0,strArr[0].length()/2)+"****"+strArr[1];
-
         //创建一个线程池
         ExecutorService pool = Executors.newFixedThreadPool(10);
 
         List<ExpDicPo> parentDicList=iExpDicDao.selectParentDic();
         parentDicList.forEach(expDicPo -> {
-//          Runnable tag=  new Runnable() {
-//                @Override
-//                public void run() {
-//                    List<ExpDicPo> list= iExpDicDao.selectDicListByParentId(expDicPo.getParentId());
-//                    list.forEach(assetPo ->
-//                    {
-//                        System.out.println("线程："+Thread.currentThread().getName()+ " 父级："+expDicPo.getKey()+ "  子集："+assetPo.getKey());
-//                    });
-//                }
-//            };
-//            pool.execute(tag);
             //往线程池里塞任务
             pool.execute(new DoSomethingBo((int) expDicPo.getId()));
         });
