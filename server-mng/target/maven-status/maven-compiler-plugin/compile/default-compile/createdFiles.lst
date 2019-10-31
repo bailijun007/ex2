@@ -42,6 +42,7 @@ com\hupa\exp\servermng\help\OSSClientUtil.class
 com\hupa\exp\servermng\service\def\IApiUserApiControllerService.class
 com\hupa\exp\servermng\entity\menu\MenuTreeListInputDto.class
 com\hupa\exp\servermng\entity\fundwithdraw\AuditFailFundWithdrawInputDto.class
+com\hupa\exp\servermng\entity\transfer\TransferListOutputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiSmsTempController.class
 com\hupa\exp\servermng\entity\symbolrate\SymbolRateInfoOutputDto.class
 com\hupa\exp\servermng\entity\pcfee\PcFeeListOutputDto.class
@@ -110,12 +111,16 @@ com\hupa\exp\servermng\validate\LoginValidateImpl.class
 com\hupa\exp\servermng\config\aliyunoss\OSSClientConfig.class
 com\hupa\exp\servermng\entity\login\LoginOutputDto.class
 com\hupa\exp\servermng\service\def\IApiInformationControllerService.class
+com\hupa\exp\servermng\entity\transfer\TransferListOutputDto$TransferInfoOutputDto.class
 com\hupa\exp\servermng\validate\ContractValidateImpl.class
+com\hupa\exp\servermng\service\impl\ApiAccountTransferControllerServiceImpl.class
 com\hupa\exp\servermng\entity\userapi\UserApiListInputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiSymbolRateController.class
 com\hupa\exp\servermng\entity\earningrate\CheckHasEarningRateInputDto.class
 com\hupa\exp\servermng\entity\locale\LocaleDeleteInputDto.class
 com\hupa\exp\servermng\service\impl\ApiPcAccountControllerServiceImpl.class
+com\hupa\exp\servermng\service\def\IApiAccountTransferControllerService.class
+com\hupa\exp\servermng\entity\transfer\TransferListInputDto.class
 com\hupa\exp\servermng\entity\assetchange\FundAssetChangeListInputDto.class
 com\hupa\exp\servermng\enums\RoleExceptionCode.class
 com\hupa\exp\servermng\service\impl\ApiSmsTempControllerServiceImpl.class
@@ -262,6 +267,7 @@ com\hupa\exp\servermng\service\impl\ApiLoginControllerServiceImpl.class
 com\hupa\exp\servermng\service\def\IApiUserControllerService.class
 com\hupa\exp\servermng\entity\user\EnableUserInputDto.class
 com\hupa\exp\servermng\service\impl\ApiPosLevelControllerServiceImpl.class
+com\hupa\exp\servermng\entity\transfer\TransferInfoOutputDto.class
 com\hupa\exp\servermng\service\def\IApiModuleLimitControllerService.class
 com\hupa\exp\servermng\entity\earningrate\PcEarningRatePageDataInputDto.class
 com\hupa\exp\servermng\entity\assetchange\PcAssetChangeInputDto.class
@@ -338,6 +344,7 @@ com\hupa\exp\servermng\entity\information\GetInformationInfoInputDto.class
 com\hupa\exp\servermng\entity\contract\CheckHasContractInputDto.class
 com\hupa\exp\servermng\entity\modulelimit\GetModuleLimitOutputDto.class
 com\hupa\exp\servermng\entity\contract\GetContractOutputDto.class
+com\hupa\exp\servermng\action\controller\api\ApiAccountTransferController.class
 com\hupa\exp\servermng\service\def\IApiSymbolRateControllerService.class
 com\hupa\exp\servermng\entity\assetchange\FundAssetChangeListOutputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiKlineConfigController.class

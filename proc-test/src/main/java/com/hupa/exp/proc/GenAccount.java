@@ -27,7 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -58,7 +57,7 @@ public class GenAccount {
     @Autowired
     private IUserApiKeyBiz iUserApiKeyBiz;
 
-    @PostConstruct
+    //@PostConstruct
     private void stat()
     {
         List<AssetPo> assetPoList= iAssetDao.selectActiveList();
@@ -127,4 +126,6 @@ public class GenAccount {
 
         }
     }
+
+
 }

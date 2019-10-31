@@ -19,12 +19,17 @@
         <!--self-->
         <dependency>
             <groupId>com.hupa.exp</groupId>
-            <artifactId>dao-mysql</artifactId>
+            <artifactId>project-util</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hupa.exp</groupId>
+            <artifactId>base-ex-project</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.hupa.exp</groupId>
-            <artifactId>dao-mongo</artifactId>
+            <artifactId>biz-other</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -32,9 +37,18 @@
             <artifactId>biz-user</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+        <!--self-->
+        <!--exchanger-->
         <dependency>
-            <groupId>com.hupa.exp</groupId>
-            <artifactId>base-ex-project</artifactId>
+            <groupId>com.hupa.ex3</groupId>
+            <artifactId>ex-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hupa.ex3</groupId>
+            <artifactId>ex-account-def</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
@@ -45,47 +59,24 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.skywalking</groupId>
-            <artifactId>apm-toolkit-trace</artifactId>
-            <version>6.2.0</version>
+            <groupId>com.hupa.ex3</groupId>
+            <artifactId>ex-pc-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
-        <!--self-->
 
-        <!--exchanger-->
+        <dependency>
+            <groupId>com.hupa.ex3</groupId>
+            <artifactId>ex-account-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
         <dependency>
             <groupId>com.hupa.ex3</groupId>
             <artifactId>ex-base</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.hupa.ex3</groupId>
-            <artifactId>ex-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <!--<dependency>-->
-            <!--<groupId>com.hupa.ex3</groupId>-->
-            <!--<artifactId>ex-id-def</artifactId>-->
-            <!--<version>1.0-SNAPSHOT</version>-->
-        <!--</dependency>-->
-
-        <dependency>
-            <groupId>com.hupa.ex3</groupId>
-            <artifactId>ex-account-def</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <!--<dependency>-->
-            <!--<groupId>com.hupa.ex3</groupId>-->
-            <!--<artifactId>ex-pc-core-def</artifactId>-->
-            <!--<version>1.0-SNAPSHOT</version>-->
-        <!--</dependency>-->
-
-        <dependency>
-            <groupId>com.hupa.ex3</groupId>
-            <artifactId>ex-account-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
         <!--exchanger-->
+
         <!-- spring -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
