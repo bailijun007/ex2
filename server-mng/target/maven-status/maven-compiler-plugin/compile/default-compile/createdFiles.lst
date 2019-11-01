@@ -236,6 +236,7 @@ com\hupa\exp\servermng\service\def\IApiPcIndexPriceControllerService.class
 com\hupa\exp\servermng\entity\base\DeleteOutputDto.class
 com\hupa\exp\servermng\entity\user\FundAccountInfoInputDto.class
 com\hupa\exp\servermng\service\impl\ApiFundAccountControllerServiceImpl.class
+com\hupa\exp\servermng\help\SpringContextHelper.class
 com\hupa\exp\servermng\validate\SessionValidateImpl.class
 com\hupa\exp\servermng\interceptor\ResponseBodyHandlerWrapBean.class
 com\hupa\exp\servermng\entity\menu\MenuListInputDto.class

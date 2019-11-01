@@ -5,15 +5,15 @@ import com.hupa.exp.common.entity.dto.output.BaseOutputDto;
 
 public class CheckHasEarningRateInputDto extends BaseInputDto
 {
-    private String account;
+    private String userName;
     private Long rateTime;
 
-    public String getAccount() {
-        return account;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setAccount(String account) {
-        this.account = account;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Long getRateTime() {

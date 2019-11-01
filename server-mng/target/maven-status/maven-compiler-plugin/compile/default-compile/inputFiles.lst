@@ -241,6 +241,7 @@ G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\def\I
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\interceptor\AllInterceptor.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\impl\ApiKlineConfigControllerServiceImpl.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\sms\SmsTempInputDto.java
+G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\help\SpringContextHelper.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\action\controller\api\ApiOperationLogController.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\impl\ApiUploadControllerServiceImpl.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\action\controller\api\ApiLocaleController.java

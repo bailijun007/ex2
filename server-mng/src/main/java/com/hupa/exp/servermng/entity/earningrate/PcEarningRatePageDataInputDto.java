@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 
 public class PcEarningRatePageDataInputDto extends BaseInputDto {
-    private String account;
+    @JsonProperty("user_name")
+    private String userName;
     @JsonProperty("current_page")
     private long currentPage;
     @JsonProperty("page_size")
@@ -27,12 +28,12 @@ public class PcEarningRatePageDataInputDto extends BaseInputDto {
         this.rateTime = rateTime;
     }
 
-    public String getAccount() {
-        return account;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setAccount(String account) {
-        this.account = account;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public long getCurrentPage() {

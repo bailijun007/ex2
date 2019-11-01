@@ -6,7 +6,6 @@ import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
 import com.hupa.exp.servermng.entity.base.DeleteInputDto;
 import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.earningrate.*;
-import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiEarningRateControllerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,8 +32,8 @@ public class ApiEarningRateController {
     @ApiOperation(value = "获取收益率列表")
     @GetMapping("/query_list")
     public BaseResultViaApiDto<PcEarningRatePageDataInputDto,PcEarningRatePageDataOutputDto> getList(
-            @ApiParam(name="account",value = "账号",required = true)
-            @RequestParam(name = "account") String account,
+            @ApiParam(name="user_name",value = "账号",required = true)
+            @RequestParam(name = "user_name") String userName,
             @ApiParam(name="rate_time",value = "时间",required = true)
             @RequestParam(name = "rate_time") Long rateTime,
             @ApiParam(name="current_page",value = "页码",required = true)
@@ -47,7 +46,7 @@ public class ApiEarningRateController {
         PcEarningRatePageDataOutputDto outputDto=new PcEarningRatePageDataOutputDto();
         inputDto.setCurrentPage(currentPage);
         inputDto.setPageSize(pageSize);
-        inputDto.setAccount(account);
+        inputDto.setUserName(userName);
         inputDto.setRateTime(rateTime);
         try{
             outputDto = service.queryEarningRatePageData(inputDto);
@@ -65,30 +64,24 @@ public class ApiEarningRateController {
     public BaseResultViaApiDto<PcEarningRateInputDto,PcEarningRateOutputDto> createOrEditDic(
              @ApiParam(name="id",value = "id",required = true)
             @RequestParam(name = "id") Long id,
-             @ApiParam(name="account",value = "account",required = true)
-             @RequestParam(name = "account") String account,
+             @ApiParam(name="user_name",value = "user_name",required = true)
+             @RequestParam(name = "user_name") String userName,
             @ApiParam(name="sort",value = "sort",required = true)
             @RequestParam(name = "sort") Integer sort,
             @ApiParam(name="earning_rate",value = "earning_rate",required = true)
             @RequestParam(name = "earning_rate") BigDecimal earningRate,
             @ApiParam(name="earning_rate_time",value = "earning_rate_time",required = true)
-            @RequestParam(name = "earning_rate_time") String earningRateTime,
-            @ApiParam(name="asset",value = "asset",required = true)
-            @RequestParam(name = "asset",required = false) String asset,
-            @ApiParam(name="symbol",value = "symbol",required = true)
-            @RequestParam(name = "symbol",required = false) String symbol
+            @RequestParam(name = "earning_rate_time") String earningRateTime
 
     ){
         PcEarningRateInputDto inputDto=new PcEarningRateInputDto();
         PcEarningRateOutputDto outputDto=new PcEarningRateOutputDto();
         inputDto.setId(id);
-        inputDto.setAccount(account);
+        inputDto.setUserName(userName);
         inputDto.setSort(sort);
         inputDto.setEarningRate(earningRate);
         long dt=DateTime.parse(earningRateTime+" 00:00:00", DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")).getMillis();
         inputDto.setEarningRateTime(dt);
-        inputDto.setAsset(asset);
-        inputDto.setSymbol(symbol);
         try{
             if(id>0)
                 outputDto = service.editEarningRate(inputDto);
@@ -143,15 +136,15 @@ public class ApiEarningRateController {
     @ApiOperation(value = "检测是否已存在")
     @PostMapping("/check_has_earning_rate")
     public BaseResultViaApiDto<CheckHasEarningRateInputDto,CheckHasEarningRateOutputDto> deleteDic(
-            @ApiParam(name="account",value = "account",required = true)
-            @RequestParam(name = "account") String account,
+            @ApiParam(name="user_name",value = "account",required = true)
+            @RequestParam(name = "user_name") String userName,
                 @ApiParam(name="earning_rate_time",value = "earning_rate_time",required = true)
                 @RequestParam(name = "earning_rate_time") String earningRateTime
     ){
         //logger.info("打印日志--------------------->");
         CheckHasEarningRateInputDto inputDto=new CheckHasEarningRateInputDto();
         CheckHasEarningRateOutputDto outputDto=new CheckHasEarningRateOutputDto();
-        inputDto.setAccount(account);
+        inputDto.setUserName(userName);
         long dt=DateTime.parse(earningRateTime +" 00:00:00", DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")).getMillis();
         inputDto.setRateTime(dt);
 

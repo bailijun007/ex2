@@ -8,7 +8,9 @@ import com.hupa.exp.base.enums.OperationType;
 import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.common.exception.BizException;
+import com.hupa.exp.daomysql.dao.expv2.def.IExpUserDao;
 import com.hupa.exp.daomysql.dao.expv2.def.IPcEarningRateDao;
+import com.hupa.exp.daomysql.entity.po.expv2.ExpUserPo;
 import com.hupa.exp.daomysql.entity.po.expv2.PcEarningRatePo;
 import com.hupa.exp.servermng.entity.base.DeleteInputDto;
 import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
@@ -29,10 +31,13 @@ public class ApiEarningRateControllerServiceImpl implements IApiEarningRateContr
     @Autowired
     private IExpOperationLogService logService;
 
+    @Autowired
+    private IExpUserDao iExpUserDao;
+
 
     @Override
     public PcEarningRatePageDataOutputDto queryEarningRatePageData(PcEarningRatePageDataInputDto inputDto) throws BizException {
-        IPage<PcEarningRatePo> pageData=iPcEarningRateDao.selectPcFeePageData(inputDto.getAccount(),inputDto.getRateTime(),
+        IPage<PcEarningRatePo> pageData=iPcEarningRateDao.selectPcFeePageData(inputDto.getUserName(),inputDto.getRateTime(),
                 inputDto.getCurrentPage(),inputDto.getPageSize());
         PcEarningRatePageDataOutputDto outputDto=new PcEarningRatePageDataOutputDto();
         outputDto.setTotal(pageData.getTotal());
@@ -45,13 +50,14 @@ public class ApiEarningRateControllerServiceImpl implements IApiEarningRateContr
     @Override
     public PcEarningRateOutputDto createEarningRate(PcEarningRateInputDto inputDto) throws BizException {
         PcEarningRatePo po=new PcEarningRatePo();
-        po.setAccount(inputDto.getAccount());
+        ExpUserPo user= iExpUserDao.selectUserByAccount(inputDto.getUserName());
+        if(user!=null)
+            po.setUserId(user.getId());
+        po.setUserName(inputDto.getUserName());
         po.setCtime(System.currentTimeMillis());
         po.setEarningRate(inputDto.getEarningRate());
         po.setMtime(System.currentTimeMillis());
-        po.setAsset(inputDto.getAsset());
         po.setSort(inputDto.getSort());
-        po.setSymbol(inputDto.getSymbol());
         po.setEarningRateTime(inputDto.getEarningRateTime());
         iPcEarningRateDao.insert(po);
         PcEarningRateOutputDto outputDto=new PcEarningRateOutputDto();
@@ -61,21 +67,24 @@ public class ApiEarningRateControllerServiceImpl implements IApiEarningRateContr
     @Override
     public PcEarningRateOutputDto editEarningRate(PcEarningRateInputDto inputDto) throws BizException {
         PcEarningRatePo po=iPcEarningRateDao.selectPoById(inputDto.getId());
-        String before=JSON.toJSONString(po);
         PcEarningRateOutputDto outputDto=new PcEarningRateOutputDto();
         if(po==null)
             return outputDto;
-        po.setAccount(inputDto.getAccount());
+        String before=JSON.toJSONString(po);
+
+
+        ExpUserPo user= iExpUserDao.selectUserByAccount(inputDto.getUserName());
+        if(user!=null)
+            po.setUserId(user.getId());
+        po.setUserName(inputDto.getUserName());
         po.setCtime(System.currentTimeMillis());
         po.setEarningRate(inputDto.getEarningRate());
         po.setMtime(System.currentTimeMillis());
-        po.setAsset(inputDto.getAsset());
         po.setSort(inputDto.getSort());
-        po.setSymbol(inputDto.getSymbol());
         po.setEarningRateTime(inputDto.getEarningRateTime());
         iPcEarningRateDao.updateById(po);
-        ExpUserBizBo user=sessionHelper.getUserInfoBySession();
-        logService.createOperationLog(user.getId(),user.getUserName(),
+        ExpUserBizBo mngUser=sessionHelper.getUserInfoBySession();
+        logService.createOperationLog(mngUser.getId(),mngUser.getUserName(),
                 OperationModule.EarningRate.toString(), OperationType.Update.toString(),
                 before,JSON.toJSONString(po));
         return outputDto;
@@ -111,7 +120,7 @@ public class ApiEarningRateControllerServiceImpl implements IApiEarningRateContr
     public CheckHasEarningRateOutputDto checkHasEarningRate(CheckHasEarningRateInputDto inputDto) throws BizException {
         CheckHasEarningRateOutputDto outputDto=new CheckHasEarningRateOutputDto();
         outputDto.setHasEarningRate(false);
-        if(iPcEarningRateDao.selectOneByParam(inputDto.getAccount(),inputDto.getRateTime())!=null)
+        if(iPcEarningRateDao.selectOneByParam(inputDto.getUserName(),inputDto.getRateTime())!=null)
         {
             outputDto.setHasEarningRate(true);
         }

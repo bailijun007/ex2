@@ -6,12 +6,11 @@ import java.math.BigDecimal;
 
 public class PcEarningRateInputDto extends BaseInputDto {
     private Long id;
-    private String account;
+    private String userName;
     private Integer sort;
     private BigDecimal earningRate;
     private Long earningRateTime;
-    private String asset;
-    private String symbol;
+
     private Long ctime;
     private Long mtime;
 
@@ -23,12 +22,12 @@ public class PcEarningRateInputDto extends BaseInputDto {
         this.id = id;
     }
 
-    public String getAccount() {
-        return account;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setAccount(String account) {
-        this.account = account;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Integer getSort() {
@@ -55,21 +54,6 @@ public class PcEarningRateInputDto extends BaseInputDto {
         this.earningRateTime = earningRateTime;
     }
 
-    public String getAsset() {
-        return asset;
-    }
-
-    public void setAsset(String asset) {
-        this.asset = asset;
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
 
     public Long getCtime() {
         return ctime;

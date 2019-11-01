@@ -44,7 +44,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">用户名：</label>
                             <div class="col-sm-6">
-                                <input  class="form-control" type="text" id="account">
+                                <input  class="form-control" type="text" id="user_name">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
@@ -58,6 +58,7 @@
                             <label class="col-sm-3 control-label">时间：</label>
                             <div class="col-sm-6">
                                 <input  class="form-control" type="text"   id="earningRateTime">
+                                <span style="color:red;">从这个时间开始往后七天该收率都会存在</span>
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
@@ -104,7 +105,7 @@
         function checkHasEarningRate()
         {
             var hasEarningRate=false;
-            var params="?account="+$("#account").val();
+            var params="?user_name="+$("#user_name").val();
             params += "&earning_rate_time="+$("#earningRateTime").val();
             $.ajax({
                 type:"post",
@@ -121,7 +122,7 @@
         function checkHasUser()
         {
             var hasUser=false;
-            var params="?account="+$("#account").val();
+            var params="?user_name="+$("#user_name").val();
 
             $.ajax({
                 type:"post",
@@ -165,7 +166,7 @@
 
             var parmes="?";
             parmes+= "id="+id;
-            parmes+="&account="+$("#account").val();
+            parmes+="&user_name="+$("#user_name").val();
             parmes+="&earning_rate="+$("#earningRate").val();
             parmes+="&earning_rate_time="+$("#earningRateTime").val();
             parmes+="&sort="+$("#sort").val();
@@ -207,7 +208,7 @@
                         if (data.data != null) {
                             $("#id").val(data.data.id);
                             $("#sort").val(data.data.sort);
-                            $("#account").val(data.data.account);
+                            $("#user_name").val(data.data.userName);
                             $("#earningRate").val(data.data.earningRate);
                             $("#earningRateTime").val(getShortDate(parseInt(data.data.earningRateTime)));
                         }
