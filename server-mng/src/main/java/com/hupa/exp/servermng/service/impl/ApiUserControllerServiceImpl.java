@@ -22,6 +22,7 @@ import com.hupa.exp.bizother.entity.fundaccount.FundAccountMngListBizBo;
 import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
 import com.hupa.exp.bizother.entity.user.ExpUserListBizBo;
 import com.hupa.exp.bizother.entity.user.ExpUserRoleBizBo;
+import com.hupa.exp.bizother.service.account.def.IAccountBiz;
 import com.hupa.exp.bizother.service.account.def.IPcFeeBiz;
 import com.hupa.exp.bizother.service.dic.def.IDicService;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
@@ -117,6 +118,9 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
 
     @Autowired
     private IAssetDao iAssetDao;
+
+    @Autowired
+    private IAccountBiz iAccountBiz;
 
     @Autowired
     private IFundAccountAssetMongoDao  iFundAccountAssetMongoDao;

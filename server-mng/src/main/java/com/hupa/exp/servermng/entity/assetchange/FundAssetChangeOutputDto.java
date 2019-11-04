@@ -2,23 +2,24 @@ package com.hupa.exp.servermng.entity.assetchange;
 
 import com.hupa.exp.common.entity.dto.output.BaseOutputDto;
 
+import java.math.BigDecimal;
+
 public class FundAssetChangeOutputDto extends BaseOutputDto {
     private String id;
+    private String srcAccountId;
     private String accountId;
     private String asset;
-    private String tradeVolume;
+    private String changeVolume;
     private String changeType;
     private String objectId;
+    private String objectType;
     private String fee;
-    //private String orderType;
-
     private String accLockPre;
     private String accLock;
     private String accTotalPre;
     private String accTotal;
     private String accAvailPre;
     private String accAvail;
-
     private String remark;
     private String changeTime;
     private String ctime;
@@ -30,6 +31,14 @@ public class FundAssetChangeOutputDto extends BaseOutputDto {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getSrcAccountId() {
+        return srcAccountId;
+    }
+
+    public void setSrcAccountId(String srcAccountId) {
+        this.srcAccountId = srcAccountId;
     }
 
     public String getAccountId() {
@@ -48,15 +57,21 @@ public class FundAssetChangeOutputDto extends BaseOutputDto {
         this.asset = asset;
     }
 
-    public String getTradeVolume() {
-        return tradeVolume;
+    public String getChangeVolume() {
+        return changeVolume;
     }
 
-    public void setTradeVolume(String tradeVolume) {
-        this.tradeVolume = tradeVolume;
+    public void setChangeVolume(String changeVolume) {
+        this.changeVolume = changeVolume;
     }
 
+    public String getChangeType() {
+        return changeType;
+    }
 
+    public void setChangeType(String changeType) {
+        this.changeType = changeType;
+    }
 
     public String getObjectId() {
         return objectId;
@@ -66,6 +81,14 @@ public class FundAssetChangeOutputDto extends BaseOutputDto {
         this.objectId = objectId;
     }
 
+    public String getObjectType() {
+        return objectType;
+    }
+
+    public void setObjectType(String objectType) {
+        this.objectType = objectType;
+    }
+
     public String getFee() {
         return fee;
     }
@@ -73,14 +96,6 @@ public class FundAssetChangeOutputDto extends BaseOutputDto {
     public void setFee(String fee) {
         this.fee = fee;
     }
-
-//    public String getOrderType() {
-//        return orderType;
-//    }
-//
-//    public void setOrderType(String orderType) {
-//        this.orderType = orderType;
-//    }
 
     public String getAccLockPre() {
         return accLockPre;
@@ -136,14 +151,6 @@ public class FundAssetChangeOutputDto extends BaseOutputDto {
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    public String getChangeType() {
-        return changeType;
-    }
-
-    public void setChangeType(String changeType) {
-        this.changeType = changeType;
     }
 
     public String getChangeTime() {

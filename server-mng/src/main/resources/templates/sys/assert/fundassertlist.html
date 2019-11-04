@@ -27,6 +27,9 @@
                                         <select class="form-control input-outline" id="asset">
                                         </select>
                                     </div>
+                                    <div class="pull-left search">
+                                        <input type="text" placeholder="请输入用户ID" id="accountId" class="form-control input-outline">
+                                    </div>
                                     <div class="columns columns-left btn-group pull-left">
                                         <button type="button" class="btn btn-primary" id="btn_query">搜索</button>
                                     </div>
@@ -55,17 +58,38 @@
 </html>
 <script type="text/javascript">
     var oTable;
+    var startTime=null;
+    var endTime=null;
+    var startId=null;
+    var endId=null;
+    var pageStatus=0;
+    var queryTime=null;
+    var queryId=0;
+    var pageNumber=1;
+
+    function resetQuery() {
+        startTime=null;
+        endTime=null;
+        startId=null;
+        endId=null;
+        pageStatus=0;
+        queryTime=null;
+        queryId=null;
+        pageNumber=1;
+    }
     $(function () {
         //1.初始化Table
         oTable = new TableInit();
         oTable.Init();
 
         $("#btn_query").click(function () {
+            resetQuery()
             $('#tb_departments').bootstrapTable('destroy');
             oTable.Init();
         });
 
-        $("#symbol").change(function () {
+        $("#asset").change(function () {
+            resetQuery()
             $('#tb_departments').bootstrapTable('destroy');
             oTable.Init();
         });
@@ -191,16 +215,52 @@
                             // }
                             ],
                         responseHandler:function(res) {
+                            if(res.data.rows.length>0)
+                            {
+                                //倒序
+                                //开始时间为本页最后一条
+                                startTime=res.data.rows[res.data.rows.length-1].ctime;
+                                startId=res.data.rows[res.data.rows.length-1].id;
+                                console.log(startTime);
+                                //结束时间为本页第一条
+                                endTime=res.data.rows[0].ctime;
+                                endId=res.data.rows[0].id;
+                                console.log(endTime);
+                            }
                             return res.data;
                         }
                     });
         };
         oTableInit.queryParams = function (params) {
+            var current_page= params.offset==0?1:(params.offset/params.limit)+1;
+            if(current_page>pageNumber)
+            {
+                pageStatus=1;
+                queryTime=startTime;
+                queryId=startId;
+            }
+            else if(current_page<pageNumber)
+            {
+                pageStatus=-1;
+                queryTime=endTime;
+                queryId=endId;
+            }
+            else
+            {
+                pageStatus=0;
+                queryTime=endId;
+                queryId=endId;
+            }
+
+            pageNumber=current_page;
             var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+
+                id: queryId,
+                account_id:$("#accountId").val(),
+                asset: $("#asset").val(),
+                page_status:pageStatus,
                 page_size: params.limit,   //页面大小
-                current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
-                id: 0,
-                symbol: $("#asset").val()
+                current_page: current_page,  //页码
 
             };
             return temp;

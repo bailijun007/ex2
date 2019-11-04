@@ -3,22 +3,39 @@ package com.hupa.exp.servermng.entity.assetchange;
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 
 public class PcAssetChangeListInputDto extends BaseInputDto {
-    private String symbol;
+    private String asset;
+    private Long accountId;
     private Long id;
+    private Integer pageStatus;
     private long currentPage;
 
     //private long pageSize;
 
 
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
+    }
 
     private int pageSize;
 
-    public String getSymbol() {
-        return symbol;
+    public String getAsset() {
+        return asset;
     }
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
+    public Integer getPageStatus() {
+        return pageStatus;
+    }
+
+    public void setPageStatus(Integer pageStatus) {
+        this.pageStatus = pageStatus;
+    }
+
+    public void setAsset(String asset) {
+        this.asset = asset;
     }
 
     public Long getId() {

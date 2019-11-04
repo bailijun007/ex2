@@ -55,9 +55,13 @@ public class ApiAssetChangeController {
     @GetMapping("/query_fund_asset_list")
     public BaseResultViaApiDto<FundAssetChangeListInputDto,FundAssetChangeListOutputDto> getFundAssetChangeList(
             @ApiParam(name="id",value = "id",required = true)
-            @RequestParam(name = "id") long id,
-            @ApiParam(name="symbol",value = "symbol",required = true)
-            @RequestParam(name = "symbol") String symbol,
+            @RequestParam(name = "id") Long id,
+            @ApiParam(name="account_id",value = "account_id",required = true)
+            @RequestParam(name = "account_id") Long accountId,
+            @ApiParam(name="asset",value = "asset",required = true)
+            @RequestParam(name = "asset") String asset,
+            @ApiParam(name="page_status",value = "条数",required = true)
+            @RequestParam(name = "page_status") Integer pageStatus,
             @ApiParam(name="page_size",value = "条数",required = true)
             @RequestParam(name = "page_size") Integer pageSize,
             @ApiParam(name="current_page",value = "页码",required = true)
@@ -67,7 +71,9 @@ public class ApiAssetChangeController {
         FundAssetChangeListOutputDto outputDto=new FundAssetChangeListOutputDto();
         FundAssetChangeListInputDto inputDto=new FundAssetChangeListInputDto();
         inputDto.setId(id);
-        inputDto.setSymbol(symbol);
+        inputDto.setAccountId(accountId);
+        inputDto.setAsset(asset);
+        inputDto.setPageStatus(pageStatus);
         inputDto.setCurrentPage(currentPage);
         inputDto.setPageSize(pageSize);
         try{
@@ -84,14 +90,14 @@ public class ApiAssetChangeController {
     public BaseResultViaApiDto<PcAssetChangeInputDto,PcAssetChangeOutputDto> getPcAssetChange(
             @ApiParam(name="id",value = "id",required = true)
             @RequestParam(name = "id") long id,
-            @ApiParam(name="symbol",value = "symbol",required = true)
-            @RequestParam(name = "symbol") String symbol
+            @ApiParam(name="asset",value = "asset",required = true)
+            @RequestParam(name = "asset") String asset
     ){
 
         PcAssetChangeOutputDto outputDto=new PcAssetChangeOutputDto();
         PcAssetChangeInputDto inputDto=new PcAssetChangeInputDto();
         inputDto.setId(id);
-        inputDto.setSymbol(symbol);
+        inputDto.setAsset(asset);
         try{
             outputDto = service.getPcAssetChange(inputDto);
         }catch(BizException e){
@@ -105,9 +111,13 @@ public class ApiAssetChangeController {
     @GetMapping("/query_pc_asset_list")
     public BaseResultViaApiDto<PcAssetChangeListInputDto,PcAssetChangeListOutputDto> getPcAssetChangeList(
             @ApiParam(name="id",value = "id",required = true)
-            @RequestParam(name = "id") long id,
-            @ApiParam(name="symbol",value = "symbol",required = true)
-            @RequestParam(name = "symbol") String symbol,
+            @RequestParam(name = "id") Long id,
+            @ApiParam(name="account_id",value = "account_id",required = true)
+            @RequestParam(name = "account_id") Long accountId,
+            @ApiParam(name="asset",value = "asset",required = true)
+            @RequestParam(name = "asset") String asset,
+            @ApiParam(name="page_status",value = "条数",required = true)
+            @RequestParam(name = "page_status") Integer pageStatus,
             @ApiParam(name="page_size",value = "条数",required = true)
             @RequestParam(name = "page_size") Integer pageSize,
             @ApiParam(name="current_page",value = "页码",required = true)
@@ -117,7 +127,9 @@ public class ApiAssetChangeController {
         PcAssetChangeListOutputDto outputDto=new PcAssetChangeListOutputDto();
         PcAssetChangeListInputDto inputDto=new PcAssetChangeListInputDto();
         inputDto.setId(id);
-        inputDto.setSymbol(symbol);
+        inputDto.setAccountId(accountId);
+        inputDto.setAsset(asset);
+        inputDto.setPageStatus(pageStatus);
         inputDto.setCurrentPage(currentPage);
         inputDto.setPageSize(pageSize);
         try{

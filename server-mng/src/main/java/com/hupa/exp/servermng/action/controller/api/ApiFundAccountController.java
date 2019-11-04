@@ -36,9 +36,13 @@ public class ApiFundAccountController {
     @GetMapping("/query_fund_account_log_list")
     public BaseResultViaApiDto<FundAccountLogListInputDto,FundAccountLogListOutputDto> getPcAccountLogList(
             @ApiParam(name="id",value = "id",required = true)
-            @RequestParam(name = "id") long id,
-            @ApiParam(name="symbol",value = "symbol",required = true)
-            @RequestParam(name = "symbol") String symbol,
+            @RequestParam(name = "id") Long id,
+            @ApiParam(name="account_id",value = "account_id",required = true)
+            @RequestParam(name = "account_id") Long accountId,
+            @ApiParam(name="asset",value = "asset",required = true)
+            @RequestParam(name = "asset") String asset,
+            @ApiParam(name="page_status",value = "条数",required = true)
+            @RequestParam(name = "page_status") Integer pageStatus,
             @ApiParam(name="page_size",value = "条数",required = true)
             @RequestParam(name = "page_size") Integer pageSize,
             @ApiParam(name="current_page",value = "页码",required = true)
@@ -48,7 +52,9 @@ public class ApiFundAccountController {
         FundAccountLogListOutputDto outputDto=new FundAccountLogListOutputDto();
         FundAccountLogListInputDto inputDto=new FundAccountLogListInputDto();
         inputDto.setId(id);
-        inputDto.setSymbol(symbol);
+        inputDto.setAccountId(accountId);
+        inputDto.setPageStatus(pageStatus);
+        inputDto.setAsset(asset);
         inputDto.setCurrentPage(currentPage);
         inputDto.setPageSize(pageSize);
         try{

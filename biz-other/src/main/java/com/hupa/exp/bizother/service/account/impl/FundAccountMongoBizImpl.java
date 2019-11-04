@@ -20,7 +20,7 @@ public class FundAccountMongoBizImpl implements IFundAccountMongoBiz {
     private IFundAccountAssetMongoDao iFundAccountMongoDao;
 
     @Override
-    public FundAccountLogMongoPageBizBo selectFundAccountLogPageData(String symbol, long id, long currentPage, int pageSize) {
+    public FundAccountLogMongoPageBizBo selectFundAccountLogPageData(String symbol, Long id, long currentPage, int pageSize) {
         MongoPage<FundAccountLogSymbolMongoPo> pageData=iFundAccountMongoDao.selectFundAccountLogPos(
                 symbol, id, currentPage, pageSize);
         FundAccountLogMongoPageBizBo pageBizBo=new FundAccountLogMongoPageBizBo();

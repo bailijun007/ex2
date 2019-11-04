@@ -4,7 +4,7 @@ import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 
 public class PcAssetChangeInputDto extends BaseInputDto {
     private long id;
-    private String symbol;
+    private String asset;
 
     public long getId() {
         return id;
@@ -14,11 +14,11 @@ public class PcAssetChangeInputDto extends BaseInputDto {
         this.id = id;
     }
 
-    public String getSymbol() {
-        return symbol;
+    public String getAsset() {
+        return asset;
     }
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
+    public void setAsset(String asset) {
+        this.asset = asset;
     }
 }

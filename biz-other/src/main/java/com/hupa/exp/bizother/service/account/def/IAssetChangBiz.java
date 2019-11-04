@@ -11,11 +11,11 @@ import com.hupa.exp.bizother.entity.account.MongoBo.PcAssetChangeMongoPageBizBo;
  */
 public interface IAssetChangBiz {
 
-    FundAssetChangeMongoPageBizBo queryFundAssetPageData(String symbol, long id, long currentPage, int pageSize);
+    FundAssetChangeMongoPageBizBo queryFundAssetPageData(String asset, Long id, long currentPage, int pageSize);
 
-    FundAssetChangeMongoBizBo queryFundAssetChangePoById(long id, String symbol);
+    FundAssetChangeMongoBizBo queryFundAssetChangePoById(long id, String asset);
 
-    PcAssetChangeMongoPageBizBo queryPcAssetPageData(String symbol, long id, long currentPage, int pageSize);
+    PcAssetChangeMongoPageBizBo queryPcAssetPageData(String asset, Long id, long currentPage, int pageSize);
 
-    PcAssetChangeMongoBizBo selectPcAssetChangePoById(long id, String symbol);
+    PcAssetChangeMongoBizBo selectPcAssetChangePoById(long id, String asset);
 }

@@ -29,19 +29,29 @@ public class FundAccountBizBo {
         this.available = available;
     }
 
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
+//    public String getSymbol() {
+//        return symbol;
+//    }
+//
+//    public void setSymbol(String symbol) {
+//        this.symbol = symbol;
+//    }
 
     private BigDecimal total;
 
     private BigDecimal available;
 
-    private String symbol;
+    //private String symbol;
+
+    public String getAsset() {
+        return asset;
+    }
+
+    public void setAsset(String asset) {
+        this.asset = asset;
+    }
+
+    private String asset;
 
 
     private BigDecimal lock;

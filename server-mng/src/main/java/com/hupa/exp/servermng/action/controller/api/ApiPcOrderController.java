@@ -36,7 +36,7 @@ public class ApiPcOrderController {
 
     @ApiOperation(value = "查询列表")
     @GetMapping("/query_list")
-    public BaseResultDto<PcOrderPageInputDto,PcOrderPageOutputDto> getPcFeeById(
+    public BaseResultDto<PcOrderPageInputDto,PcOrderPageOutputDto> getPcOrderList(
             @ApiParam(name="account",value ="账号" ,required = true)
             @RequestParam(name = "account") String account,
             @ApiParam(name="order_id",value ="委托id" ,required = true)

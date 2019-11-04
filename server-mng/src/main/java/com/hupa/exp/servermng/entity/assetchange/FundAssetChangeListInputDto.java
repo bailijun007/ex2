@@ -3,9 +3,10 @@ package com.hupa.exp.servermng.entity.assetchange;
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 
 public class FundAssetChangeListInputDto extends BaseInputDto {
-
-    private String symbol;
+    private Long accountId;
+    private String asset;
     private Long id;
+    private Integer pageStatus;
     private long currentPage;
 
     //private long pageSize;
@@ -13,13 +14,30 @@ public class FundAssetChangeListInputDto extends BaseInputDto {
 
     private int pageSize;
 
-    public String getSymbol() {
-        return symbol;
+    public Long getAccountId() {
+        return accountId;
     }
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
     }
+
+    public Integer getPageStatus() {
+        return pageStatus;
+    }
+
+    public void setPageStatus(Integer pageStatus) {
+        this.pageStatus = pageStatus;
+    }
+
+    public String getAsset() {
+        return asset;
+    }
+
+    public void setAsset(String asset) {
+        this.asset = asset;
+    }
+
 
     public Long getId() {
         return id;

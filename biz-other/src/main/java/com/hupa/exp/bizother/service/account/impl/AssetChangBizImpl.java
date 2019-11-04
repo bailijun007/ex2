@@ -24,8 +24,8 @@ public class AssetChangBizImpl implements IAssetChangBiz {
     @Autowired
     private IFundAssetChangeSymbolMongoDao iFundAssertChangeDao;
     @Override
-    public FundAssetChangeMongoPageBizBo queryFundAssetPageData(String symbol, long id, long currentPage, int pageSize) {
-        MongoPage<FundAssetChangeSymbolMongoPo> pageData=iFundAssertChangeDao.pagePosByParam(symbol,id,
+    public FundAssetChangeMongoPageBizBo queryFundAssetPageData(String asset, Long id, long currentPage, int pageSize) {
+        MongoPage<FundAssetChangeSymbolMongoPo> pageData=iFundAssertChangeDao.pagePosByParamMng(asset,id,
                 currentPage,pageSize
         );
         FundAssetChangeMongoPageBizBo pageBizBo=new FundAssetChangeMongoPageBizBo();
@@ -42,15 +42,15 @@ public class AssetChangBizImpl implements IAssetChangBiz {
     }
 
     @Override
-    public FundAssetChangeMongoBizBo queryFundAssetChangePoById(long id, String symbol) {
-        FundAssetChangeSymbolMongoPo po= iFundAssertChangeDao.selectPoById(id,symbol);
+    public FundAssetChangeMongoBizBo queryFundAssetChangePoById(long id, String asset) {
+        FundAssetChangeSymbolMongoPo po= iFundAssertChangeDao.selectPoById(id,asset);
         FundAssetChangeMongoBizBo bo= ConventObjectUtil.conventObject(po,FundAssetChangeMongoBizBo.class);
         return bo;
     }
 
     @Override
-    public PcAssetChangeMongoPageBizBo queryPcAssetPageData(String symbol, long id, long currentPage, int pageSize) {
-        MongoPage<PcAssetChangeAssetMongoPo> pageData=iPcAssertChangeDao.pagePosByParam(symbol,id,
+    public PcAssetChangeMongoPageBizBo queryPcAssetPageData(String asset, Long id, long currentPage, int pageSize) {
+        MongoPage<PcAssetChangeAssetMongoPo> pageData=iPcAssertChangeDao.pagePosByParamMng(asset,id,
                 currentPage,pageSize
         );
         PcAssetChangeMongoPageBizBo pageBizBo=new PcAssetChangeMongoPageBizBo();
@@ -67,8 +67,8 @@ public class AssetChangBizImpl implements IAssetChangBiz {
     }
 
     @Override
-    public PcAssetChangeMongoBizBo selectPcAssetChangePoById(long id, String symbol) {
-        PcAssetChangeAssetMongoPo po= iPcAssertChangeDao.selectPoById(id,symbol);
+    public PcAssetChangeMongoBizBo selectPcAssetChangePoById(long id, String asset) {
+        PcAssetChangeAssetMongoPo po= iPcAssertChangeDao.selectPoById(id,asset);
         PcAssetChangeMongoBizBo bo= ConventObjectUtil.conventObject(po,PcAssetChangeMongoBizBo.class);
         return bo;
     }

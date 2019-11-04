@@ -8,9 +8,10 @@ public class FundWithdrawAccountListInputDto extends BaseInputDto {
     private Long accountId;
     private Long withdrawTime;
     private Long withdrawId;
+    private Integer pageStatus;
     private long currentPage;
     private int pageSize;
-    private Integer pageStatus;
+
 
 
     public String getAsset() {

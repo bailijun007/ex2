@@ -36,7 +36,7 @@ public class ApiPcPositionController {
 
     @ApiOperation(value = "查询列表")
     @GetMapping("/query_list")
-    public BaseResultDto<PcPositionPageInputDto,PcPositionPageOutputDto> getPcFeeById(
+    public BaseResultDto<PcPositionPageInputDto,PcPositionPageOutputDto> getPcPositionList(
             @ApiParam(name="account",value ="账号" ,required = true)
             @RequestParam(name = "account") String account,
             @ApiParam(name="pos_id",value ="仓位Id" ,required = true)
@@ -45,6 +45,8 @@ public class ApiPcPositionController {
             @RequestParam(name = "account_id") Long accountId,
             @ApiParam(name="asset",value ="资产" ,required = true)
             @RequestParam(name = "asset") String asset,
+            @ApiParam(name="symbol",value ="交易对" ,required = true)
+            @RequestParam(name = "symbol") String symbol,
             @ApiParam(name="liq_status",value ="状态" ,required = true)
             @RequestParam(name = "liq_status") Integer liqStatus,
             @ApiParam(name="current_page",value ="页码" ,required = true)
@@ -59,6 +61,7 @@ public class ApiPcPositionController {
         inputDto.setPosId(posId);
         inputDto.setAccountId(accountId);
         inputDto.setAsset(asset);
+        inputDto.setSymbol(symbol);
         inputDto.setLiqStatus(liqStatus);
         inputDto.setCurrentPage(currentPage);
         inputDto.setPageSize(pageSize);

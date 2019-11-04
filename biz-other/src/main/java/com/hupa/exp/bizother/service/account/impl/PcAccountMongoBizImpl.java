@@ -19,7 +19,7 @@ public class PcAccountMongoBizImpl implements IPcAccountMongoBiz {
     @Autowired
     private IPcAccountAssetMongoDao iPcAccountAssetMongoDao;
     @Override
-    public PcAccountLogMongoPageBizBo selectPcAccountLogPageData(String symbol, long id, long currentPage, int pageSize) {
+    public PcAccountLogMongoPageBizBo selectPcAccountLogPageData(String symbol, Long id, long currentPage, int pageSize) {
         MongoPage<PcAccountLogAssetMongoPo> pageData= iPcAccountAssetMongoDao.selectPcAccountLogPos(
                 symbol, id, currentPage, pageSize);
         PcAccountLogMongoPageBizBo pageBizBo=new PcAccountLogMongoPageBizBo();

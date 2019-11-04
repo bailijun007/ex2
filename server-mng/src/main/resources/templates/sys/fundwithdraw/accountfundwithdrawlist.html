@@ -84,7 +84,16 @@
     var queryTime=null;
     var queryId=null;
     var pageNumber=1;
-
+    function resetQuery() {
+        startTime=null;
+        endTime=null;
+        startId=null;
+        endId=null;
+        pageStatus=0;
+        queryTime=null;
+        queryId=null;
+        pageNumber=1;
+    }
     $(function () {
         //1.初始化Table
         oTable = new TableInit();
@@ -104,16 +113,7 @@
 
     });
 
-    function resetQuery() {
-        startTime=null;
-        endTime=null;
-        startId=null;
-        endId=null;
-        pageStatus=0;
-        queryTime=null;
-        queryId=null;
-        pageNumber=1;
-    }
+
 bindAsset("asset",true);
 
     var TableInit = function () {

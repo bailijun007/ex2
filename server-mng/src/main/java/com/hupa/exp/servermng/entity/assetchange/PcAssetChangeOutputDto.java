@@ -2,53 +2,55 @@ package com.hupa.exp.servermng.entity.assetchange;
 
 import com.hupa.exp.common.entity.dto.output.BaseOutputDto;
 
+import java.math.BigDecimal;
+
 public class PcAssetChangeOutputDto extends BaseOutputDto {
 
     private String id;
+    private String srcAccountId;
     private String accountId;
     private String asset;
     private String symbol;
     private String bidFlag;
     private String closeFlag;
+    private String longFlag;
+    private String makerFlag;
     private String tradePrice;
     private String tradeAmt;
     private String changeType;
+    private String changeVolume;
+    private String transVolume;
+    private String tradeVolume;
+    private String marginVolume;
+    private String objectType;
     private String objectId;
     private String ratio;
     private String fee;
-    private String orderType;
-    private String orderPrice;
-    private String orderAmt;
     private String unfilledAmt;
-
     private String posId;
     private String orderId;
-    /**
-     * 利润或亏损
-     */
     private String pnl;
-
-    private String orderMarginRls;
-    private String orderMargin;
-
-    private String posMarginRls;
-    private String posMargin;
-
-    private String accOrderMarginPre;
+    private String orderFeeCost;
+    private String orderOrderMargin;
+    private String orderOpenFee;
+    private String orderCloseFee;
+    private String orderFundingFee;
+    private String orderTotalMargin;
+    private String posFeeCost;
+    private String posPosMargin;
+    private String posEntryPrice;
+    private String posLiqPrice;
+    private String posBankruptPrice;
+    private String posRealisedPnl;
+    private String posLeverage;
+    private String posHoldMarginRatio;
     private String accOrderMargin;
-    private String accPosMarginPre;
     private String accPosMargin;
-
-    private String symbolOrderMarginPre;
-    private String symbolOrderMargin;
-    private String symbolPosMarginPre;
-    private String symbolPosMargin;
-
-    private String accTotalPre;
     private String accTotal;
-    private String accAvailPre;
     private String accAvail;
-
+    private String accLock;
+    private String symbolOrderMargin;
+    private String symbolPosMargin;
     private String remark;
     private String changeTime;
     private String ctime;
@@ -62,6 +64,14 @@ public class PcAssetChangeOutputDto extends BaseOutputDto {
         this.id = id;
     }
 
+    public String getSrcAccountId() {
+        return srcAccountId;
+    }
+
+    public void setSrcAccountId(String srcAccountId) {
+        this.srcAccountId = srcAccountId;
+    }
+
     public String getAccountId() {
         return accountId;
     }
@@ -70,20 +80,20 @@ public class PcAssetChangeOutputDto extends BaseOutputDto {
         this.accountId = accountId;
     }
 
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
-
     public String getAsset() {
         return asset;
     }
 
     public void setAsset(String asset) {
         this.asset = asset;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     public String getBidFlag() {
@@ -100,6 +110,22 @@ public class PcAssetChangeOutputDto extends BaseOutputDto {
 
     public void setCloseFlag(String closeFlag) {
         this.closeFlag = closeFlag;
+    }
+
+    public String getLongFlag() {
+        return longFlag;
+    }
+
+    public void setLongFlag(String longFlag) {
+        this.longFlag = longFlag;
+    }
+
+    public String getMakerFlag() {
+        return makerFlag;
+    }
+
+    public void setMakerFlag(String makerFlag) {
+        this.makerFlag = makerFlag;
     }
 
     public String getTradePrice() {
@@ -126,6 +152,46 @@ public class PcAssetChangeOutputDto extends BaseOutputDto {
         this.changeType = changeType;
     }
 
+    public String getChangeVolume() {
+        return changeVolume;
+    }
+
+    public void setChangeVolume(String changeVolume) {
+        this.changeVolume = changeVolume;
+    }
+
+    public String getTransVolume() {
+        return transVolume;
+    }
+
+    public void setTransVolume(String transVolume) {
+        this.transVolume = transVolume;
+    }
+
+    public String getTradeVolume() {
+        return tradeVolume;
+    }
+
+    public void setTradeVolume(String tradeVolume) {
+        this.tradeVolume = tradeVolume;
+    }
+
+    public String getMarginVolume() {
+        return marginVolume;
+    }
+
+    public void setMarginVolume(String marginVolume) {
+        this.marginVolume = marginVolume;
+    }
+
+    public String getObjectType() {
+        return objectType;
+    }
+
+    public void setObjectType(String objectType) {
+        this.objectType = objectType;
+    }
+
     public String getObjectId() {
         return objectId;
     }
@@ -148,30 +214,6 @@ public class PcAssetChangeOutputDto extends BaseOutputDto {
 
     public void setFee(String fee) {
         this.fee = fee;
-    }
-
-    public String getOrderType() {
-        return orderType;
-    }
-
-    public void setOrderType(String orderType) {
-        this.orderType = orderType;
-    }
-
-    public String getOrderPrice() {
-        return orderPrice;
-    }
-
-    public void setOrderPrice(String orderPrice) {
-        this.orderPrice = orderPrice;
-    }
-
-    public String getOrderAmt() {
-        return orderAmt;
-    }
-
-    public void setOrderAmt(String orderAmt) {
-        this.orderAmt = orderAmt;
     }
 
     public String getUnfilledAmt() {
@@ -206,44 +248,116 @@ public class PcAssetChangeOutputDto extends BaseOutputDto {
         this.pnl = pnl;
     }
 
-    public String getOrderMarginRls() {
-        return orderMarginRls;
+    public String getOrderFeeCost() {
+        return orderFeeCost;
     }
 
-    public void setOrderMarginRls(String orderMarginRls) {
-        this.orderMarginRls = orderMarginRls;
+    public void setOrderFeeCost(String orderFeeCost) {
+        this.orderFeeCost = orderFeeCost;
     }
 
-    public String getOrderMargin() {
-        return orderMargin;
+    public String getOrderOrderMargin() {
+        return orderOrderMargin;
     }
 
-    public void setOrderMargin(String orderMargin) {
-        this.orderMargin = orderMargin;
+    public void setOrderOrderMargin(String orderOrderMargin) {
+        this.orderOrderMargin = orderOrderMargin;
     }
 
-    public String getPosMarginRls() {
-        return posMarginRls;
+    public String getOrderOpenFee() {
+        return orderOpenFee;
     }
 
-    public void setPosMarginRls(String posMarginRls) {
-        this.posMarginRls = posMarginRls;
+    public void setOrderOpenFee(String orderOpenFee) {
+        this.orderOpenFee = orderOpenFee;
     }
 
-    public String getPosMargin() {
-        return posMargin;
+    public String getOrderCloseFee() {
+        return orderCloseFee;
     }
 
-    public void setPosMargin(String posMargin) {
-        this.posMargin = posMargin;
+    public void setOrderCloseFee(String orderCloseFee) {
+        this.orderCloseFee = orderCloseFee;
     }
 
-    public String getAccOrderMarginPre() {
-        return accOrderMarginPre;
+    public String getOrderFundingFee() {
+        return orderFundingFee;
     }
 
-    public void setAccOrderMarginPre(String accOrderMarginPre) {
-        this.accOrderMarginPre = accOrderMarginPre;
+    public void setOrderFundingFee(String orderFundingFee) {
+        this.orderFundingFee = orderFundingFee;
+    }
+
+    public String getOrderTotalMargin() {
+        return orderTotalMargin;
+    }
+
+    public void setOrderTotalMargin(String orderTotalMargin) {
+        this.orderTotalMargin = orderTotalMargin;
+    }
+
+    public String getPosFeeCost() {
+        return posFeeCost;
+    }
+
+    public void setPosFeeCost(String posFeeCost) {
+        this.posFeeCost = posFeeCost;
+    }
+
+    public String getPosPosMargin() {
+        return posPosMargin;
+    }
+
+    public void setPosPosMargin(String posPosMargin) {
+        this.posPosMargin = posPosMargin;
+    }
+
+    public String getPosEntryPrice() {
+        return posEntryPrice;
+    }
+
+    public void setPosEntryPrice(String posEntryPrice) {
+        this.posEntryPrice = posEntryPrice;
+    }
+
+    public String getPosLiqPrice() {
+        return posLiqPrice;
+    }
+
+    public void setPosLiqPrice(String posLiqPrice) {
+        this.posLiqPrice = posLiqPrice;
+    }
+
+    public String getPosBankruptPrice() {
+        return posBankruptPrice;
+    }
+
+    public void setPosBankruptPrice(String posBankruptPrice) {
+        this.posBankruptPrice = posBankruptPrice;
+    }
+
+    public String getPosRealisedPnl() {
+        return posRealisedPnl;
+    }
+
+    public void setPosRealisedPnl(String posRealisedPnl) {
+        this.posRealisedPnl = posRealisedPnl;
+    }
+
+    public String getPosLeverage() {
+        return posLeverage;
+    }
+
+    public void setPosLeverage(String posLeverage) {
+        this.posLeverage = posLeverage;
+    }
+
+    public String getPosHoldMarginRatio() {
+        return posHoldMarginRatio;
+    }
+
+    public void setPosHoldMarginRatio(String posHoldMarginRatio) {
+        this.posHoldMarginRatio = posHoldMarginRatio;
     }
 
     public String getAccOrderMargin() {
@@ -254,60 +368,12 @@ public class PcAssetChangeOutputDto extends BaseOutputDto {
         this.accOrderMargin = accOrderMargin;
     }
 
-    public String getAccPosMarginPre() {
-        return accPosMarginPre;
-    }
-
-    public void setAccPosMarginPre(String accPosMarginPre) {
-        this.accPosMarginPre = accPosMarginPre;
-    }
-
     public String getAccPosMargin() {
         return accPosMargin;
     }
 
     public void setAccPosMargin(String accPosMargin) {
         this.accPosMargin = accPosMargin;
-    }
-
-    public String getSymbolOrderMarginPre() {
-        return symbolOrderMarginPre;
-    }
-
-    public void setSymbolOrderMarginPre(String symbolOrderMarginPre) {
-        this.symbolOrderMarginPre = symbolOrderMarginPre;
-    }
-
-    public String getSymbolOrderMargin() {
-        return symbolOrderMargin;
-    }
-
-    public void setSymbolOrderMargin(String symbolOrderMargin) {
-        this.symbolOrderMargin = symbolOrderMargin;
-    }
-
-    public String getSymbolPosMarginPre() {
-        return symbolPosMarginPre;
-    }
-
-    public void setSymbolPosMarginPre(String symbolPosMarginPre) {
-        this.symbolPosMarginPre = symbolPosMarginPre;
-    }
-
-    public String getSymbolPosMargin() {
-        return symbolPosMargin;
-    }
-
-    public void setSymbolPosMargin(String symbolPosMargin) {
-        this.symbolPosMargin = symbolPosMargin;
-    }
-
-    public String getAccTotalPre() {
-        return accTotalPre;
-    }
-
-    public void setAccTotalPre(String accTotalPre) {
-        this.accTotalPre = accTotalPre;
     }
 
     public String getAccTotal() {
@@ -318,20 +384,36 @@ public class PcAssetChangeOutputDto extends BaseOutputDto {
         this.accTotal = accTotal;
     }
 
-    public String getAccAvailPre() {
-        return accAvailPre;
-    }
-
-    public void setAccAvailPre(String accAvailPre) {
-        this.accAvailPre = accAvailPre;
-    }
-
     public String getAccAvail() {
         return accAvail;
     }
 
     public void setAccAvail(String accAvail) {
         this.accAvail = accAvail;
+    }
+
+    public String getAccLock() {
+        return accLock;
+    }
+
+    public void setAccLock(String accLock) {
+        this.accLock = accLock;
+    }
+
+    public String getSymbolOrderMargin() {
+        return symbolOrderMargin;
+    }
+
+    public void setSymbolOrderMargin(String symbolOrderMargin) {
+        this.symbolOrderMargin = symbolOrderMargin;
+    }
+
+    public String getSymbolPosMargin() {
+        return symbolPosMargin;
+    }
+
+    public void setSymbolPosMargin(String symbolPosMargin) {
+        this.symbolPosMargin = symbolPosMargin;
     }
 
     public String getRemark() {
