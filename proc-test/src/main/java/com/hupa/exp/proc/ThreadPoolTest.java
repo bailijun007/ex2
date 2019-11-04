@@ -27,7 +27,13 @@ public class ThreadPoolTest {
             //往线程池里塞任务
             pool.execute(new DoSomethingBo((int) expDicPo.getId()));
         });
-
+        try {
+            pool.shutdown();
+            pool.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
+            System.out.println("所有子线程执行完毕");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         BlockingQueue<Runnable> queue = new ArrayBlockingQueue<Runnable>(3);
 
         ThreadPoolExecutor executor = new ThreadPoolExecutor(3, 3, 1, TimeUnit.HOURS, queue, new ThreadPoolExecutor.CallerRunsPolicy());
@@ -40,7 +46,7 @@ public class ThreadPoolTest {
                 public void run() {
                     System.out.println("thread start" + (index+1));
                     try {
-                        Thread.sleep(Long.MAX_VALUE);
+                        Thread.sleep(2000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -49,6 +55,7 @@ public class ThreadPoolTest {
             };
             executor.execute(run);
         }
+        executor.shutdown();
     }
     //构造一个内部内  为了能调用注入的对象
     public class DoSomethingBo implements Runnable {
@@ -63,6 +70,12 @@ public class ThreadPoolTest {
             list.forEach(assetPo ->
             {
                 System.out.println("线程："+Thread.currentThread().getName()+ " 父级："+parentId+ "  子集："+assetPo.getKey());
+                try {
+                    System.out.println("休息一秒");
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             });
         }
 
