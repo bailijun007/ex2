@@ -58,11 +58,15 @@ public class AssetBizImpl implements IAssetBiz {
 
     @Override
     public long editAsset(AssetBizBo assetBizBo) throws BizException {
+        AssetPo beforePo= iAssetDao.selectPoById(assetBizBo.getId());
+
         AssetPo po= ConventObjectUtil.conventObject(assetBizBo,AssetPo.class);
         po.setMtime(System.currentTimeMillis());
         ExpDicPo dicPo= dicDao.selectDicByKey("AssetRedisKey");
         if(iAssetDao.updateById(po)>0)
         {
+            if(beforePo!=null)
+                redisUtilDb0.hdel(dicPo.getValue(),beforePo.getRealName());
             assetBizBo.setSymbol(assetBizBo.getRealName());
             assetBizBo.setChainSymbolId(assetBizBo.getChainAppointId());
             if(dicPo!=null)
