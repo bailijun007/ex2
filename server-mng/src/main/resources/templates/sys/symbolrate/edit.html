@@ -197,8 +197,13 @@
                         layer.msg("修改成功！");
                     else
                         layer.msg("添加成功！");
+                    setTimeout("Close()", 1000);
                 }
-                setTimeout("Close()", 1000);
+                else
+                {
+                    layer.msg(data.msg);
+                }
+
             }
         })
     })

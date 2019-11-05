@@ -14,8 +14,35 @@ import java.util.stream.Collectors;
 @Component
 public class TestProc {
 
+    public class doSomeThing implements Runnable{
+
+        @Override
+        public void run() {
+            System.out.println(123);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @Test
     public void genSearch() {
+
+        Thread t=new Thread(new doSomeThing());
+        t.start();
+        System.out.println(t.getState());
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(t.getState());
+        new Thread(()->{
+
+        }).start();
+
         Map<String,String> map=new HashMap<>();
         map.put("1","a");
         map.put("2","b");

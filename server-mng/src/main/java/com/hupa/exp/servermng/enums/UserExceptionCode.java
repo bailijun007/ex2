@@ -7,8 +7,7 @@ public enum UserExceptionCode implements ExceptionDescribe {
     USERNAME_NULL_ERROR(-10011, "USERNAME_NULL_ERROR", ""),//用户名错误
     PWD_NULL_ERROR(-10012, "PWD_NULL_ERROR", ""),//密码错误
     EMAIL_ERROR(-10013,"EMAIL_ERROR",""),
-    PHONE_EXIST_ERROR_MNG(-90007,"PHONE_EXIST_ERROR_MNG",""),
-    EMAIL_EXIST_ERROR_MNG(-90008,"EMAIL_EXIST_ERROR_MNG",""),
+
 
             ;
     private int code;

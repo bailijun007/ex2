@@ -163,12 +163,12 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
             ExpUserPo userPhone=iExpUserDao.getUserInfoByPhone(inputDto.getPhone());
             //传进来的手机号不等于当前用户的手机号码但是找到的数据   表示已存在该手机号码
             if(beforeBo!=null&&userPhone!=null&&beforeBo.getPhone()!=userPhone.getPhone())
-                throw new UserException(UserExceptionCode.PHONE_EXIST_ERROR_MNG);
+                throw new MngException(MngExceptionCode.PHONE_EXIST_ERROR_MNG);
 
             ExpUserPo userEmail=iExpUserDao.getUserInfoByPhone(inputDto.getEmail());
             //传进来的邮箱不等于当前用户的手机号码但是找到的数据   表示已存在该邮箱
             if(beforeBo!=null&&userEmail!=null&&beforeBo.getEmail()!=userEmail.getEmail())
-                throw new UserException(UserExceptionCode.EMAIL_EXIST_ERROR_MNG);
+                throw new MngException(MngExceptionCode.EMAIL_EXIST_ERROR_MNG);
             iUserBiz.editById(expUserBo);
             //记日志
             logService.createOperationLog(user.getId(), user.getUserName(), OperationModule.User.toString(),
