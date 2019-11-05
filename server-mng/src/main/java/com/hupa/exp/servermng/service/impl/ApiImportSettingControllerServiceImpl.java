@@ -1,6 +1,7 @@
 package com.hupa.exp.servermng.service.impl;
 
 import com.hupa.exp.base.config.redis.Db0RedisBean;
+import com.hupa.exp.bizother.entity.account.AssetBizBo;
 import com.hupa.exp.common.component.redis.RedisUtil;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.JsonUtil;
@@ -12,10 +13,12 @@ import com.hupa.exp.daomysql.entity.po.expv2.PcPosLevelPo;
 import com.hupa.exp.servermng.entity.importsetting.ImportSettingInputDto;
 import com.hupa.exp.servermng.entity.importsetting.ImportSettingOutputDto;
 import com.hupa.exp.servermng.service.def.IApiImportSettingControllerService;
+import com.hupa.exp.util.convent.ConventObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +50,15 @@ public class ApiImportSettingControllerServiceImpl implements IApiImportSettingC
 
         List<AssetPo> assetPoList=iAssetDao.selectActiveList();
         ExpDicPo assetRedisKey= iExpDicDao.selectDicByKey("AssetRedisKey");
-        Map<String, AssetPo> assetMap = assetPoList.stream().collect(Collectors.toMap(AssetPo::getRealName, a -> a,(k1, k2)->k1));
+
+        List<AssetBizBo> assetBizBos=new ArrayList<>();
+        assetPoList.forEach(assetPo -> {
+            AssetBizBo bo= ConventObjectUtil.conventObject(assetPo,AssetBizBo.class);
+            bo.setChainSymbolId(assetPo.getChainAppointId());
+            bo.setSymbol(assetPo.getRealName());
+            assetBizBos.add(bo);
+        });
+        Map<String, AssetBizBo> assetMap = assetBizBos.stream().collect(Collectors.toMap(AssetBizBo::getRealName, a -> a,(k1, k2)->k1));
         //初始化币种
         if(assetRedisKey!=null)
             redisUtilDb0.hmset(assetRedisKey.getValue(),assetMap);

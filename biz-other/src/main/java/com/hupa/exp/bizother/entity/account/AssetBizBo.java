@@ -6,6 +6,7 @@ public class AssetBizBo {
     private Long id;
     private Integer chainAppointId;
     private String symbol;
+    private Integer chainSymbolId;
     private String realName;
     private String displayName;
     private String chainName;
@@ -20,6 +21,14 @@ public class AssetBizBo {
     private Integer dwType;
     private Long ctime;
     private Long mtime;
+
+    public Integer getChainSymbolId() {
+        return chainSymbolId;
+    }
+
+    public void setChainSymbolId(Integer chainSymbolId) {
+        this.chainSymbolId = chainSymbolId;
+    }
 
     public Integer getDwType() {
         return dwType;

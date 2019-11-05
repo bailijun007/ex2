@@ -359,7 +359,6 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         List<AssetPo> assetPos=iAssetDao.selectActiveList();
         for (ExpUserBizBo bo : bizBos) {
             if (bo.getUserType() != 0) {
-
                 try {
                     //创建账户
                     if(iAccountMongoDao.selectPoById(bo.getId())==null)

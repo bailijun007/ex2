@@ -8,7 +8,7 @@ import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.DecimalUtil;
-import com.hupa.exp.daomysql.dao.expv2.def.IExpCollectFeeSettingDao;
+import com.hupa.exp.daomysql.dao.expv2.def.IExpFundRateSettingDao;
 import com.hupa.exp.daomysql.entity.po.expv2.ExpFundRateSettingPo;
 import com.hupa.exp.servermng.entity.fundrate.*;
 import com.hupa.exp.servermng.enums.MngExceptionCode;
@@ -26,7 +26,7 @@ import java.util.List;
 public class ApiFundRateSettingControllerServiceImpl implements IApiFundRateSettingControllerService {
 
     @Autowired
-    private IExpCollectFeeSettingDao iExpCollectFeeSettingDao;
+    private IExpFundRateSettingDao iExpFundRateSettingDao;
 
     @Autowired
     private IExpOperationLogService logService;
@@ -39,18 +39,18 @@ public class ApiFundRateSettingControllerServiceImpl implements IApiFundRateSett
         if(inputDto.getCollectNum()>4)
             throw new MngException(MngExceptionCode.COLLECT_FEE_NUM_ERROR);
 
-        List<ExpFundRateSettingPo> pos=iExpCollectFeeSettingDao.selectSettingByStatus(1);
+        List<ExpFundRateSettingPo> pos= iExpFundRateSettingDao.selectSettingByStatus(1);
         for(ExpFundRateSettingPo po:pos)
         {
             po.setStatus(0);
-            iExpCollectFeeSettingDao.updateById(po);
+            iExpFundRateSettingDao.updateById(po);
         }
 
         ExpFundRateSettingPo po= ConventObjectUtil.conventObject(inputDto,ExpFundRateSettingPo.class);
         po.setCtime(System.currentTimeMillis());
         po.setMtime(System.currentTimeMillis());
         po.setStatus(1);
-        iExpCollectFeeSettingDao.insert(po);
+        iExpFundRateSettingDao.insert(po);
 
         FundRateSettingOutputDto outputDto=new FundRateSettingOutputDto();
         return outputDto;
@@ -59,11 +59,11 @@ public class ApiFundRateSettingControllerServiceImpl implements IApiFundRateSett
     @Override
     public FundRateSettingOutputDto editFundRateSetting(FundRateSettingInputDto inputDto) throws BizException {
 
-        ExpFundRateSettingPo oldPo=iExpCollectFeeSettingDao.selectPoById(inputDto.getId());
+        ExpFundRateSettingPo oldPo= iExpFundRateSettingDao.selectPoById(inputDto.getId());
         String before= JSON.toJSONString(oldPo);
         oldPo.setStatus(0);
         oldPo.setMtime(System.currentTimeMillis());
-        iExpCollectFeeSettingDao.updateById(oldPo);
+        iExpFundRateSettingDao.updateById(oldPo);
         ExpFundRateSettingPo newPo=new ExpFundRateSettingPo();
         newPo.setStatus(1);
         newPo.setCtime(System.currentTimeMillis());
@@ -72,7 +72,7 @@ public class ApiFundRateSettingControllerServiceImpl implements IApiFundRateSett
         newPo.setCollectFirstTime(inputDto.getCollectFirstTime());
         newPo.setMaxFundRate(inputDto.getMaxFundRate());
         newPo.setMinFundRate(inputDto.getMinFundRate());
-        iExpCollectFeeSettingDao.insert(newPo);
+        iExpFundRateSettingDao.insert(newPo);
         //记日志
         ExpUserBizBo user=sessionHelper.getUserInfoBySession();
         logService.createOperationLog(user.getId(),user.getUserName(),
@@ -85,14 +85,14 @@ public class ApiFundRateSettingControllerServiceImpl implements IApiFundRateSett
 
     @Override
     public FundRateSettingInfoOutputDto getFundRateSettingById(FundRateSettingInfoInputDto inputDto) throws BizException {
-        ExpFundRateSettingPo po=iExpCollectFeeSettingDao.selectPoById(inputDto.getId());
+        ExpFundRateSettingPo po= iExpFundRateSettingDao.selectPoById(inputDto.getId());
         FundRateSettingInfoOutputDto outputDto=ConventObjectUtil.conventObject(po,FundRateSettingInfoOutputDto.class);
         return outputDto;
     }
 
     @Override
     public FundRateSettingListOutputDto getFundRateSettingList(FundRateSettingListInputDto inputDto) throws BizException {
-        IPage<ExpFundRateSettingPo> pageData=iExpCollectFeeSettingDao.selectSettingPageData(1,inputDto.getCurrentPage(),inputDto.getPageSize());
+        IPage<ExpFundRateSettingPo> pageData= iExpFundRateSettingDao.selectSettingPageData(1,inputDto.getCurrentPage(),inputDto.getPageSize());
         FundRateSettingListOutputDto outputDto=new FundRateSettingListOutputDto();
         outputDto.setTotal(pageData.getTotal());
         outputDto.setTotalCount(pageData.getTotal());

@@ -44,6 +44,7 @@ public class AssetBizImpl implements IAssetBiz {
         if(iAssetDao.insert(po)>0)
         {
             assetBizBo.setSymbol(assetBizBo.getRealName());
+            assetBizBo.setChainSymbolId(assetBizBo.getChainAppointId());
             if(dicPo!=null)
             {
                 redisUtilDb0.hset(dicPo.getValue(),assetBizBo.getRealName(), JsonUtil.toJsonString(assetBizBo));
@@ -63,6 +64,7 @@ public class AssetBizImpl implements IAssetBiz {
         if(iAssetDao.updateById(po)>0)
         {
             assetBizBo.setSymbol(assetBizBo.getRealName());
+            assetBizBo.setChainSymbolId(assetBizBo.getChainAppointId());
             if(dicPo!=null)
             {
                 redisUtilDb0.hset(dicPo.getValue(),assetBizBo.getRealName(), JsonUtil.toJsonString(assetBizBo));
