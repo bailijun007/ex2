@@ -10,6 +10,7 @@ import com.hupa.exp.base.config.redis.Db0RedisBean;
 import com.hupa.exp.base.exception.account.AccountException;
 import com.hupa.exp.base.exception.account.AccountTransferException;
 import com.hupa.exp.base.exception.account.FundAccountException;
+import com.hupa.exp.base.helper.security.SecurityPwdHelper;
 import com.hupa.exp.bizuser.exception.BizUserException;
 import com.hupa.exp.bizuser.service.def.IUserApiKeyBiz;
 import com.hupa.exp.common.component.redis.RedisUtil;
@@ -57,6 +58,9 @@ public class GenAccount {
     @Autowired
     private IUserApiKeyBiz iUserApiKeyBiz;
 
+    @Autowired
+    private SecurityPwdHelper securityPwdHelper;
+
     //@PostConstruct
     private void stat()
     {
@@ -70,8 +74,10 @@ public class GenAccount {
             user.setId(id);
             user.setAreaCode("86");
             user.setPhone(phone);
-            user.setUserpwd("1dc1f406cf630c8d682468faf32f5c4e874ec639817509deaa1a9b090cb927c5");
-            user.setFundPwd("1dc1f406cf630c8d682468faf32f5c4e874ec639817509deaa1a9b090cb927c5");
+            String pwd=securityPwdHelper.getMd5Pwd("PwdMD5Key","e10adc3949ba59abbe56e057f20f883e");
+            String fundPwd= securityPwdHelper.getMd5Pwd("FundPwdMD5Key","e10adc3949ba59abbe56e057f20f883e");
+            user.setUserpwd(pwd);
+            user.setFundPwd(fundPwd);
             user.setPwdLevel(1);
             user.setFeeLevel(1);
             user.setMakerFee(new BigDecimal("0.02"));
