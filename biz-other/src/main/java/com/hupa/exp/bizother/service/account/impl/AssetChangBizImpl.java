@@ -25,20 +25,21 @@ public class AssetChangBizImpl implements IAssetChangBiz {
     private IFundAssetChangeSymbolMongoDao iFundAssertChangeDao;
     @Override
     public FundAssetChangeMongoPageBizBo queryFundAssetPageData(String asset, Long id, long currentPage, int pageSize) {
-        MongoPage<FundAssetChangeSymbolMongoPo> pageData=iFundAssertChangeDao.pagePosByParamMng(asset,id,
-                currentPage,pageSize
-        );
-        FundAssetChangeMongoPageBizBo pageBizBo=new FundAssetChangeMongoPageBizBo();
-        pageBizBo.setPageSize(pageSize);
-        List<FundAssetChangeMongoBizBo> boList=new ArrayList<>();
-        for(FundAssetChangeSymbolMongoPo po:pageData.getRows())
-        {
-            FundAssetChangeMongoBizBo bo= ConventObjectUtil.conventObject(po,FundAssetChangeMongoBizBo.class);
-            boList.add(bo);
-        }
-        pageBizBo.setRows(boList);
-        pageBizBo.setTotal(pageData.getTotalCount());
-        return pageBizBo;
+//        MongoPage<FundAssetChangeSymbolMongoPo> pageData=iFundAssertChangeDao.pagePosByParamMng(asset,id,
+//                currentPage,pageSize
+//        );
+//        FundAssetChangeMongoPageBizBo pageBizBo=new FundAssetChangeMongoPageBizBo();
+//        pageBizBo.setPageSize(pageSize);
+//        List<FundAssetChangeMongoBizBo> boList=new ArrayList<>();
+//        for(FundAssetChangeSymbolMongoPo po:pageData.getRows())
+//        {
+//            FundAssetChangeMongoBizBo bo= ConventObjectUtil.conventObject(po,FundAssetChangeMongoBizBo.class);
+//            boList.add(bo);
+//        }
+//        pageBizBo.setRows(boList);
+//        pageBizBo.setTotal(pageData.getTotalCount());
+//        return pageBizBo;
+        return null;
     }
 
     @Override
@@ -50,20 +51,21 @@ public class AssetChangBizImpl implements IAssetChangBiz {
 
     @Override
     public PcAssetChangeMongoPageBizBo queryPcAssetPageData(String asset, Long id, long currentPage, int pageSize) {
-        MongoPage<PcAssetChangeAssetMongoPo> pageData=iPcAssertChangeDao.pagePosByParamMng(asset,id,
-                currentPage,pageSize
-        );
-        PcAssetChangeMongoPageBizBo pageBizBo=new PcAssetChangeMongoPageBizBo();
-        pageBizBo.setPageSize(pageSize);
-        List<PcAssetChangeMongoBizBo> boList=new ArrayList<>();
-        for(PcAssetChangeAssetMongoPo po:pageData.getRows())
-        {
-            PcAssetChangeMongoBizBo bo=ConventObjectUtil.conventObject(po,PcAssetChangeMongoBizBo.class);
-            boList.add(bo);
-        }
-        pageBizBo.setRows(boList);
-        pageBizBo.setTotal(pageData.getTotalCount());
-        return pageBizBo;
+//        MongoPage<PcAssetChangeAssetMongoPo> pageData=iPcAssertChangeDao.pagePosByParamMng(asset,id,
+//                currentPage,pageSize
+//        );
+//        PcAssetChangeMongoPageBizBo pageBizBo=new PcAssetChangeMongoPageBizBo();
+//        pageBizBo.setPageSize(pageSize);
+//        List<PcAssetChangeMongoBizBo> boList=new ArrayList<>();
+//        for(PcAssetChangeAssetMongoPo po:pageData.getRows())
+//        {
+//            PcAssetChangeMongoBizBo bo=ConventObjectUtil.conventObject(po,PcAssetChangeMongoBizBo.class);
+//            boList.add(bo);
+//        }
+//        pageBizBo.setRows(boList);
+//        pageBizBo.setTotal(pageData.getTotalCount());
+//        return pageBizBo;
+        return null;
     }
 
     @Override

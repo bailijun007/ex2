@@ -21,18 +21,19 @@ public class FundAccountMongoBizImpl implements IFundAccountMongoBiz {
 
     @Override
     public FundAccountLogMongoPageBizBo selectFundAccountLogPageData(String symbol, Long id, long currentPage, int pageSize) {
-        MongoPage<FundAccountLogSymbolMongoPo> pageData=iFundAccountMongoDao.selectFundAccountLogPos(
-                symbol, id, currentPage, pageSize);
-        FundAccountLogMongoPageBizBo pageBizBo=new FundAccountLogMongoPageBizBo();
-        pageBizBo.setTotal(pageData.getTotalCount());
-        pageBizBo.setPageSize(pageSize);
-        List<FundAccountLogMongoBizBo> bizBoList=new ArrayList<>();
-        for(FundAccountLogSymbolMongoPo po:pageData.getRows())
-        {
-            FundAccountLogMongoBizBo bo= ConventObjectUtil.conventObject(po,FundAccountLogMongoBizBo.class);
-            bizBoList.add(bo);
-        }
-        pageBizBo.setRows(bizBoList);
-        return pageBizBo;
+//        MongoPage<FundAccountLogSymbolMongoPo> pageData=iFundAccountMongoDao.selectFundAccountLogPos(
+//                symbol, id, currentPage, pageSize);
+//        FundAccountLogMongoPageBizBo pageBizBo=new FundAccountLogMongoPageBizBo();
+//        pageBizBo.setTotal(pageData.getTotalCount());
+//        pageBizBo.setPageSize(pageSize);
+//        List<FundAccountLogMongoBizBo> bizBoList=new ArrayList<>();
+//        for(FundAccountLogSymbolMongoPo po:pageData.getRows())
+//        {
+//            FundAccountLogMongoBizBo bo= ConventObjectUtil.conventObject(po,FundAccountLogMongoBizBo.class);
+//            bizBoList.add(bo);
+//        }
+//        pageBizBo.setRows(bizBoList);
+//        return pageBizBo;
+        return null;
     }
 }

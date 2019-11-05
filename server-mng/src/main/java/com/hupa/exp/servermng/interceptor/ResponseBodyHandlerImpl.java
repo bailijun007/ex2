@@ -47,7 +47,7 @@ public class ResponseBodyHandlerImpl implements HandlerMethodReturnValueHandler 
                 try {
                     LocaleComponent localeComponent = SpringContextHelper.getBean(LocaleComponent.class);
                     String locale = RequestHelper.getHeaderByLocale(((ServletWebRequest) nativeWebRequest).getRequest());
-                    String errMsg = localeComponent.findLocaleContent(locale, dto.getMsg());
+                    String errMsg = localeComponent.findLocaleContent(locale, dto.getCode());
                     dto.setMsg(errMsg);
                     logger.error("error request,code:"+dto.getCode()+",content:"+ JSON.toJSONString(dto));
                 } catch (IOException e1) {

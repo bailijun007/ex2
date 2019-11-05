@@ -31,11 +31,13 @@ import com.hupa.exp.bizother.service.user.def.IUserRoleService;
 import com.hupa.exp.common.component.redis.RedisUtil;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.JsonUtil;
+import com.hupa.exp.daomongo.dao.expv2.def.IAccountMongoDao;
 import com.hupa.exp.daomongo.dao.expv2.def.IFundAccountAssetMongoDao;
 import com.hupa.exp.daomongo.dao.expv2.def.IPcAccountAssetMongoDao;
 import com.hupa.exp.daomysql.dao.expv2.def.IAssetDao;
 import com.hupa.exp.daomysql.dao.expv2.def.IExpUserDao;
 import com.hupa.exp.daomysql.entity.po.expv2.AssetPo;
+import com.hupa.exp.daomysql.entity.po.expv2.ExpUserPo;
 import com.hupa.exp.pc.margin.def.account.PcAccount4MngDef;
 import com.hupa.exp.pc.margin.def.account.PcAccount4ServerDef;
 import com.hupa.exp.pc.margin.util.token.PcAccount4ServerTokenUtil;
@@ -43,11 +45,14 @@ import com.hupa.exp.pc.service.def.PcAccountService;
 import com.hupa.exp.servermng.entity.user.*;
 import com.hupa.exp.servermng.enums.LoginExceptionCode;
 import com.hupa.exp.servermng.enums.MngExceptionCode;
+import com.hupa.exp.servermng.enums.UserExceptionCode;
 import com.hupa.exp.servermng.exception.LoginException;
 import com.hupa.exp.servermng.exception.MngException;
+import com.hupa.exp.servermng.exception.UserException;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiUserControllerService;
 import com.hupa.exp.servermng.validate.UserValidateImpl;
+import com.hupa.exp.util.test.UserPo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,7 +125,9 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
     private IAssetDao iAssetDao;
 
     @Autowired
-    private IAccountBiz iAccountBiz;
+    private IAccountMongoDao iAccountMongoDao;
+
+
 
     @Autowired
     private IFundAccountAssetMongoDao  iFundAccountAssetMongoDao;
@@ -149,10 +156,19 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         expUserBo.setUserpwd(inputDto.getPassword());
         expUserBo.setFundPwd(inputDto.getFundPwd());
         UserOutputDto outputDto = new UserOutputDto();
-        //userValidate.validate(inputDto);//验证参数
+
         long id = account4ServerDef.newAccountId();
         ExpUserBizBo user = sessionHelper.getUserInfoBySession();
         if (inputDto.getId() > 0) {
+            ExpUserPo userPhone=iExpUserDao.getUserInfoByPhone(inputDto.getPhone());
+            //传进来的手机号不等于当前用户的手机号码但是找到的数据   表示已存在该手机号码
+            if(beforeBo!=null&&userPhone!=null&&beforeBo.getPhone()!=userPhone.getPhone())
+                throw new UserException(UserExceptionCode.PHONE_EXIST_ERROR_MNG);
+
+            ExpUserPo userEmail=iExpUserDao.getUserInfoByPhone(inputDto.getEmail());
+            //传进来的邮箱不等于当前用户的手机号码但是找到的数据   表示已存在该邮箱
+            if(beforeBo!=null&&userEmail!=null&&beforeBo.getEmail()!=userEmail.getEmail())
+                throw new UserException(UserExceptionCode.EMAIL_EXIST_ERROR_MNG);
             iUserBiz.editById(expUserBo);
             //记日志
             logService.createOperationLog(user.getId(), user.getUserName(), OperationModule.User.toString(),
@@ -160,6 +176,7 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
                     JsonUtil.toJsonString(expUserBo));
             id = expUserBo.getId();
         } else {
+            userValidate.validate(inputDto);//验证参数
             //用户名不让改  只有创建的时候可以有一个
             expUserBo.setUserName(inputDto.getUserName());
             expUserBo.setId(id);
@@ -345,7 +362,7 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
 
                 try {
                     //创建账户
-                    if(accountService.getAccount(bo.getId(),true)==null)
+                    if(iAccountMongoDao.selectPoById(bo.getId())==null)
                     {
                         account4ServerDef.createAccount(String.valueOf(bo.getId()),
                                 bo.getId(), Account4ServerTokenUtil.genToken4CreateAccount(

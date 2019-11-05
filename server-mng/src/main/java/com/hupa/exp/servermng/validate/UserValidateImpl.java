@@ -19,11 +19,9 @@ public class UserValidateImpl implements IValidate<UserInputDto> {
 //            throw new UserException(UserExceptionCode.USERNAME_NULL_ERROR);
         if(obj.getPassword()==null||obj.getPassword().isEmpty())
             throw new UserException(UserExceptionCode.PWD_NULL_ERROR);
-        if(iExpUserDao.getUserInfoByPhone(obj.getPhone())==null)
-            throw new UserException(UserExceptionCode.PWD_NULL_ERROR);
-        if(iExpUserDao.getUserInfoByEmail(obj.getEmail())==null)
-            throw new UserException(UserExceptionCode.PWD_NULL_ERROR);
-
-
+        if(iExpUserDao.getUserInfoByPhone(obj.getPhone())!=null)
+            throw new UserException(UserExceptionCode.PHONE_EXIST_ERROR_MNG);
+        if(iExpUserDao.getUserInfoByEmail(obj.getEmail())!=null)
+            throw new UserException(UserExceptionCode.EMAIL_EXIST_ERROR_MNG);
     }
 }
