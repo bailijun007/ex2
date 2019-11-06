@@ -1,5 +1,6 @@
 package com.hupa.exp.servermng.service.impl;
 
+import com.alibaba.druid.sql.dialect.mysql.ast.clause.ConditionValue;
 import com.hupa.exp.account.def.Account4ServerDef;
 import com.hupa.exp.account.def.fund.FundAccount4MngDef;
 import com.hupa.exp.account.def.fund.FundAccount4ServerDef;
@@ -52,6 +53,7 @@ import com.hupa.exp.servermng.exception.UserException;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiUserControllerService;
 import com.hupa.exp.servermng.validate.UserValidateImpl;
+import com.hupa.exp.util.convent.ConventObjectUtil;
 import com.hupa.exp.util.test.UserPo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
@@ -72,6 +74,7 @@ import java.util.stream.Collectors;
 public class ApiUserControllerServiceImpl implements IApiUserControllerService {
     @Autowired
     private IUserBiz iUserBiz;
+
     @Autowired
     private IUserRoleService iUserRoleService;
     @Autowired
@@ -413,46 +416,48 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         String redisKey = dicBizBo.getValue();
         List<PcFeeBizBo> pcFeeBizBoList = iPcFeeBiz.getAllPcFee();
         Map<Integer, PcFeeBizBo> feeMap = pcFeeBizBoList.stream().collect(Collectors.toMap(PcFeeBizBo::getTier, a -> a, (k1, k2) -> k1));
-        BigDecimal redistakerFee = new BigDecimal("0");
-        BigDecimal redismakerFee = new BigDecimal("0");
-        BigDecimal dbtakerFee = new BigDecimal("0");
-        BigDecimal dbmakerFee = new BigDecimal("0");
+        BigDecimal redisTakerFee = new BigDecimal("0");
+        BigDecimal redisMakerFee = new BigDecimal("0");
+        BigDecimal dbTakerFee = new BigDecimal("0");
+        BigDecimal dbMakerFee = new BigDecimal("0");
         for (ExpUserBizBo userBizBo : bizBos) {
 
             if (userBizBo.getUserType() != 0) {
 
                 //默认一级
                 if (userBizBo.getFeeLevel() == null) {
-                    redistakerFee = feeMap.get(1).getTakerFee().divide(new BigDecimal("100"));
-                    redismakerFee = feeMap.get(1).getMakerFee().divide(new BigDecimal("100"));
-                    dbtakerFee = feeMap.get(1).getTakerFee();
-                    dbmakerFee = feeMap.get(1).getMakerFee();
+                    redisTakerFee = feeMap.get(1).getTakerFee().divide(new BigDecimal("100"));
+                    redisMakerFee = feeMap.get(1).getMakerFee().divide(new BigDecimal("100"));
+                    dbTakerFee = feeMap.get(1).getTakerFee();
+                    dbMakerFee = feeMap.get(1).getMakerFee();
                     userBizBo.setFeeLevel(feeMap.get(1).getTier());
                 } else {
-                    redistakerFee = feeMap.get(userBizBo.getFeeLevel()).getTakerFee().divide(new BigDecimal("100"));
-                    redismakerFee = feeMap.get(userBizBo.getFeeLevel()).getMakerFee().divide(new BigDecimal("100"));
-                    dbtakerFee = feeMap.get(userBizBo.getFeeLevel()).getTakerFee();
-                    dbmakerFee = feeMap.get(userBizBo.getFeeLevel()).getMakerFee();
+                    redisTakerFee = feeMap.get(userBizBo.getFeeLevel()).getTakerFee().divide(new BigDecimal("100"));
+                    redisMakerFee = feeMap.get(userBizBo.getFeeLevel()).getMakerFee().divide(new BigDecimal("100"));
+                    dbTakerFee = feeMap.get(userBizBo.getFeeLevel()).getTakerFee();
+                    dbMakerFee = feeMap.get(userBizBo.getFeeLevel()).getMakerFee();
                     userBizBo.setFeeLevel(feeMap.get(userBizBo.getFeeLevel()).getTier());
                 }
                 if (!StringUtils.isEmpty(userBizBo.getReferrerId())) {
-                    userBizBo.setTakerFee(dbtakerFee.multiply(new BigDecimal("0.95")));
-                    userBizBo.setMakerFee(dbmakerFee.multiply(new BigDecimal("0.95")));
+                    userBizBo.setTakerFee(dbTakerFee.multiply(new BigDecimal("0.95")));
+                    userBizBo.setMakerFee(dbMakerFee.multiply(new BigDecimal("0.95")));
                     redisUtilDb0.hset(redisKey, "t_" + userBizBo.getId(),
-                            redistakerFee.multiply(new BigDecimal("0.95")));
+                            redisTakerFee.multiply(new BigDecimal("0.95")));
                     redisUtilDb0.hset(redisKey, "m_" + userBizBo.getId(),
-                            redismakerFee.multiply(new BigDecimal("0.95")));
+                            redisMakerFee.multiply(new BigDecimal("0.95")));
                 } else {
-                    userBizBo.setTakerFee(dbtakerFee);
-                    userBizBo.setMakerFee(dbmakerFee);
+                    userBizBo.setTakerFee(dbTakerFee);
+                    userBizBo.setMakerFee(dbMakerFee);
                     redisUtilDb0.hset(redisKey, "t_" + userBizBo.getId(),
-                            redistakerFee);
+                            redisTakerFee);
                     redisUtilDb0.hset(redisKey, "m_" + userBizBo.getId(),
-                            redismakerFee);
+                            redisMakerFee);
                 }
-                iUserBiz.editById(userBizBo);
+                ExpUserPo userPo= ConventObjectUtil.conventObject(userBizBo,ExpUserPo.class);
+                iExpUserDao.updateById(userPo);
             }
         }
+
         return null;
     }
 

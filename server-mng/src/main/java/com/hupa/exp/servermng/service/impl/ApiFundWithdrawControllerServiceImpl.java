@@ -183,7 +183,7 @@ public class ApiFundWithdrawControllerServiceImpl implements IApiFundWithdrawCon
             FundWithdrawOutputDto row = new FundWithdrawOutputDto();
 
             row.setId(String.valueOf(po.getId()));
-            row.setAsset(po.getSymbol());
+            row.setAsset(po.getAsset());
             row.setAccountId(String.valueOf(po.getAccountId()));
             row.setTargetAddr(po.getTargetAddr());
             row.setVolume(DecimalUtil.trimZeroPlainString(po.getVolume()));
