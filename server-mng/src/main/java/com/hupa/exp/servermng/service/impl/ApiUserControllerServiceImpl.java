@@ -155,7 +155,9 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         expUserBo.setPwdLevel(1);
         expUserBo.setUserType(inputDto.getUserType());
         expUserBo.setStatus(inputDto.getStatus());
-
+        expUserBo.setIdNum(inputDto.getIdNum());
+        expUserBo.setRealName(inputDto.getRealName());
+        expUserBo.setNationality(inputDto.getNationality());
         expUserBo.setUserpwd(inputDto.getPassword());
         expUserBo.setFundPwd(inputDto.getFundPwd());
         UserOutputDto outputDto = new UserOutputDto();
@@ -165,12 +167,12 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         if (inputDto.getId() > 0) {
             ExpUserPo userPhone=iExpUserDao.getUserInfoByPhone(inputDto.getPhone());
             //传进来的手机号不等于当前用户的手机号码但是找到的数据   表示已存在该手机号码
-            if(beforeBo!=null&&userPhone!=null&&beforeBo.getPhone()!=userPhone.getPhone())
+            if(beforeBo!=null&&userPhone!=null&&!beforeBo.getPhone().equals(userPhone.getPhone()))
                 throw new MngException(MngExceptionCode.PHONE_EXIST_ERROR_MNG);
 
             ExpUserPo userEmail=iExpUserDao.getUserInfoByPhone(inputDto.getEmail());
             //传进来的邮箱不等于当前用户的手机号码但是找到的数据   表示已存在该邮箱
-            if(beforeBo!=null&&userEmail!=null&&beforeBo.getEmail()!=userEmail.getEmail())
+            if(beforeBo!=null&&userEmail!=null&&beforeBo.getEmail().equals(userEmail.getEmail()))
                 throw new MngException(MngExceptionCode.EMAIL_EXIST_ERROR_MNG);
             iUserBiz.editById(expUserBo);
             //记日志
@@ -498,7 +500,7 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         }
         String[] fundArr = fundStr.split("[|]");
         if (fundArr.length > 0) {
-            try {
+//            try {
                 String symbol = fundArr[0];
 
                 //if (fundAccountService.getFundAccount(inputDto.getId(), symbol, true) == null) {
@@ -518,10 +520,10 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
                 logService.createOperationLog(user.getId(), user.getUserName(), OperationModule.User.toString(),
                         OperationType.Insert.toString(), JsonUtil.toJsonString(beforeBo),
                         JsonUtil.toJsonString(afterBo));
-            } catch (Exception e) {
-                e.getStackTrace();
-                //throw new MngException(MngExceptionCode.DUBBO_SERVER_ERROR);
-            }
+//            } catch (Exception e) {
+//                //e.getStackTrace();
+//                throw new MngException(MngExceptionCode.DUBBO_SERVER_ERROR);
+//            }
         }
         EditFundAccountOutputDto outputDto = new EditFundAccountOutputDto();
         return outputDto;

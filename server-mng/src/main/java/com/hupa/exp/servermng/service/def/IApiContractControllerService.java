@@ -1,6 +1,8 @@
 package com.hupa.exp.servermng.service.def;
 
 import com.hupa.exp.common.exception.BizException;
+import com.hupa.exp.servermng.entity.base.DeleteInputDto;
+import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.contract.*;
 import com.hupa.exp.servermng.exception.ContractException;
 import com.hupa.exp.servermng.exception.MngException;
@@ -17,4 +19,6 @@ public interface IApiContractControllerService {
     CheckHasContractOutputDto checkHasContract(CheckHasContractInputDto inputDto) throws  MngException;
 
     CheckHasLastPriceOutputDto checkHasLastPrice(CheckHasLastPriceInputDto inputDto)throws ContractException;
+
+    DeleteOutputDto deleteContract(DeleteInputDto inputDto) throws BizException;
 }

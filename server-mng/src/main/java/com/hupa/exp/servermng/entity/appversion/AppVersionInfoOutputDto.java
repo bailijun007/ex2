@@ -1,5 +1,6 @@
 package com.hupa.exp.servermng.entity.appversion;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hupa.exp.common.entity.dto.output.BaseOutputDto;
 
 public class AppVersionInfoOutputDto extends BaseOutputDto {
@@ -7,6 +8,14 @@ public class AppVersionInfoOutputDto extends BaseOutputDto {
     private String type;
     private String version;
     private String remark;
+    @JsonProperty("forced_update")
+    private String forcedUpdate;
+    @JsonProperty("update_content")
+    private String  updateContent;
+    @JsonProperty("link_url")
+    private String linkUrl;
+    @JsonProperty("release_time")
+    private String  releaseTime;
     private String ctime;
     private String mtime;
 
@@ -56,5 +65,37 @@ public class AppVersionInfoOutputDto extends BaseOutputDto {
 
     public void setMtime(String mtime) {
         this.mtime = mtime;
+    }
+
+    public String getForcedUpdate() {
+        return forcedUpdate;
+    }
+
+    public void setForcedUpdate(String forcedUpdate) {
+        this.forcedUpdate = forcedUpdate;
+    }
+
+    public String getUpdateContent() {
+        return updateContent;
+    }
+
+    public void setUpdateContent(String updateContent) {
+        this.updateContent = updateContent;
+    }
+
+    public String getLinkUrl() {
+        return linkUrl;
+    }
+
+    public void setLinkUrl(String linkUrl) {
+        this.linkUrl = linkUrl;
+    }
+
+    public String getReleaseTime() {
+        return releaseTime;
+    }
+
+    public void setReleaseTime(String releaseTime) {
+        this.releaseTime = releaseTime;
     }
 }

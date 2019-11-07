@@ -178,7 +178,8 @@
             return false;
         }
         param+= "id="+id;
-        param+="&key="+$("#key").val();
+        var key=$("#key").val();
+        param+="&key="+encodeURIComponent(encodeURIComponent(key));
         param+="&value="+$("#value").val();
         param+="&parent_id="+$("#parentId").val();
         param+="&parent="+isCheck;

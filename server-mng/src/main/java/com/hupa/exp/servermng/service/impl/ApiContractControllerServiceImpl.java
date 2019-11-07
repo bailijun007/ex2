@@ -1,6 +1,8 @@
 package com.hupa.exp.servermng.service.impl;
 
+import com.hupa.exp.base.config.redis.Db0RedisBean;
 import com.hupa.exp.base.config.redis.LastPriceRedisConfig;
+import com.hupa.exp.base.dic.expv2.DbKeyDic;
 import com.hupa.exp.base.enums.OperationModule;
 import com.hupa.exp.base.enums.OperationType;
 import com.hupa.exp.bizother.config.BizPriceSettingConfig;
@@ -13,6 +15,14 @@ import com.hupa.exp.bizother.service.price.def.ILastPriceBiz;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.DecimalUtil;
 import com.hupa.exp.common.tool.format.JsonUtil;
+import com.hupa.exp.daomongo.dao.expv2.def.IMongoTableDao;
+import com.hupa.exp.daomysql.dao.expv2.def.IExpDicDao;
+import com.hupa.exp.daomysql.dao.expv2.def.IPcContractDao;
+import com.hupa.exp.daomysql.entity.po.expv2.AssetPo;
+import com.hupa.exp.daomysql.entity.po.expv2.ExpDicPo;
+import com.hupa.exp.daomysql.entity.po.expv2.PcContractPo;
+import com.hupa.exp.servermng.entity.base.DeleteInputDto;
+import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.contract.*;
 import com.hupa.exp.servermng.enums.MngExceptionCode;
 import com.hupa.exp.servermng.exception.ContractException;
@@ -23,11 +33,13 @@ import com.hupa.exp.servermng.validate.ContractValidateImpl;
 import com.hupa.exp.util.convent.ConventObjectUtil;
 import com.hupa.exp.util.redis.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
 import java.text.MessageFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ApiContractControllerServiceImpl implements IApiContractControllerService {
@@ -46,6 +58,19 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
     @Autowired
     private BizPriceSettingConfig bizPriceSettingConfig;
 
+    @Autowired
+    private IPcContractDao iPcContractDao;
+
+    @Autowired
+    @Qualifier(Db0RedisBean.beanName)
+    private com.hupa.exp.common.component.redis.RedisUtil redisUtilDb0;
+
+    @Autowired
+    private IExpDicDao iExpDicDao;
+
+    @Autowired
+    private IMongoTableDao iMongoTableDao;
+
     @Override
     public ContractOutputDto createOrEditContract(ContractInputDto inputDto) throws BizException {
         contractValidate.validate(inputDto);
@@ -56,17 +81,35 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
         if(bo.getId()>0)
         {
             PcContractBizBo beforeBo=iPcContractBiz.getContractById(bo.getId());
+            String beforeStr=JsonUtil.toJsonString(beforeBo);
             PcContractBizBo input= iPcContractBiz.checkHasContract(inputDto.getAsset(),inputDto.getSymbol(),inputDto.getDisplayName());
             //修改 传进来的参数能查询到数据 且查出来的数据不相等
             if(input!=null&&beforeBo.getId()!=input.getId())
                 throw new MngException(MngExceptionCode.CONTRACT_EXIST_ERROR);
             id=bo.getId();
-            bo.setMtime(System.currentTimeMillis());
-            iPcContractBiz.editContract(bo);
+            //不让修改币种和交易对
+//            beforeBo.setAsset(bo.getAsset());
+//            beforeBo.setSymbol(bo.getSymbol());
+
+            beforeBo.setSymbolType(bo.getSymbolType());
+            //outputDto.setCurrency(bo.getCurrency());
+            beforeBo.setPrecision(bo.getPrecision());
+            beforeBo.setContractName(bo.getContractName());
+            beforeBo.setDisplayName(bo.getDisplayName());
+            beforeBo.setDisplayNameSplit(bo.getDisplayNameSplit());
+            beforeBo.setDefaultPrice(bo.getDefaultPrice());
+            beforeBo.setLastPrice(bo.getLastPrice());
+            beforeBo.setStep(bo.getStep());
+            beforeBo.setFaceValue(bo.getFaceValue());
+            beforeBo.setSort(bo.getSort());
+            beforeBo.setStatus(bo.getStatus());
+            beforeBo.setPrivilege(bo.getPrivilege());
+            beforeBo.setMtime(System.currentTimeMillis());
+            iPcContractBiz.editContract(beforeBo);
             logService.createOperationLog(user.getId(),user.getUserName(),
                     OperationModule.Asset.toString(),
                     OperationType.Update.toString(),
-                    JsonUtil.toJsonString(beforeBo),JsonUtil.toJsonString(bo));
+                    beforeStr,JsonUtil.toJsonString(beforeBo));
         }
         else
         {
@@ -76,6 +119,15 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
             bo.setCtime(System.currentTimeMillis());
             bo.setMtime(System.currentTimeMillis());
             id= iPcContractBiz.createPcContract(bo);
+            ExpDicPo dicPo= iExpDicDao.selectDicByKey(DbKeyDic.MongoDbAssetSymbolTableKey);
+            if(dicPo!=null)
+            {
+                List<ExpDicPo> dicPoList=iExpDicDao.selectDicListByParentId(Integer.parseInt(String.valueOf(dicPo.getId())));
+
+                List<String> tableNames= dicPoList.stream().map(p -> p.getKey().replace("{asset}",bo.getAsset()).replace("{symbol}",bo.getSymbol())).collect(Collectors.toList());
+                //创建mongodb的表
+                iMongoTableDao.createMongoTable(tableNames);
+            }
             logService.createOperationLog(user.getId(),user.getUserName(),
                     OperationModule.Asset.toString(),
                     OperationType.Update.toString(),
@@ -196,4 +248,38 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
         return outputDto;
     }
 
+    @Override
+    public DeleteOutputDto deleteContract(DeleteInputDto inputDto) throws BizException {
+
+        String[] ids=inputDto.getIds().split(",");
+        for(String id:ids)
+        {
+            PcContractPo po= iPcContractDao.selectPoById(Long.parseLong(id));
+            if(po!=null)
+            {
+                if(iPcContractDao.deleteById(po.getId())>0)
+                {
+                    //删除交易对的时候顺便删除redis中的值
+                    ExpDicPo dicPo= iExpDicDao.selectDicByKey("ContractRedisKey");
+                    if(dicPo!=null)
+                    {
+                        redisUtilDb0.hdel(dicPo.getValue(),po.getSymbol());
+                    }
+                    ExpDicPo dicPoDisplay= iExpDicDao.selectDicByKey("DisplayNameRedisKey");
+                    if(dicPoDisplay!=null)
+                    {
+                        redisUtilDb0.hdel(dicPoDisplay.getValue(),po.getDisplayName());
+                    }
+                }
+            }
+            iPcContractDao.deleteById(Long.parseLong(id));
+        }
+        ExpUserBizBo user=sessionHelper.getUserInfoBySession();
+        logService.createOperationLog(user.getId(),user.getUserName(),
+                OperationModule.Contract.toString(), OperationType.Delete.toString(),
+                inputDto.getIds(),"");
+        DeleteOutputDto outputDto=new DeleteOutputDto();
+        outputDto.setTime(String.valueOf(System.currentTimeMillis()));
+        return outputDto;
+    }
 }

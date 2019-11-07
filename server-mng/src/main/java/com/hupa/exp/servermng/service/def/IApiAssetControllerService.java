@@ -2,6 +2,8 @@ package com.hupa.exp.servermng.service.def;
 
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.servermng.entity.asset.*;
+import com.hupa.exp.servermng.entity.base.DeleteInputDto;
+import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 
 public interface IApiAssetControllerService {
     AssetOutputDto createAsset(AssetInputDto inputDto) throws BizException;
@@ -15,5 +17,7 @@ public interface IApiAssetControllerService {
     RealNameListOutPutDto getRealNameList(RealNameListInputDto inputDto) throws BizException;
 
     CheckHasAssetOutputDto checkHasAsset(CheckHasAssetInputDto inputDto) throws BizException;
+
+    DeleteOutputDto deleteAsset(DeleteInputDto inputDto) throws BizException;
 
 }

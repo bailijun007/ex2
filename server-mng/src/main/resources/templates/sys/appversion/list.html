@@ -120,6 +120,23 @@
                 }
             }
             , {
+                title: '发布时间',
+                field: 'release_time'
+            }
+            , {
+                title: '下载地址',
+                field: 'link_url'
+            }
+            , {
+                title: '是否强制更新',
+                formatter: function (value, row, index) {
+                   if(row.forced_update=="1")
+                       return "是";
+                   else
+                       return "否";
+                }
+            }
+            , {
                 title: '版本',
                 field: 'version'
             }

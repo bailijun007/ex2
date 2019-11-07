@@ -17,6 +17,9 @@ public class UserInputDto extends BaseInputDto{
     private List<Integer> roleList;
     private String areaCode;
     private String fundPwd;
+    private String nationality;
+    private String realName;
+    private String idNum;
 
     public String getFundPwd() {
         return fundPwd;
@@ -122,5 +125,29 @@ public class UserInputDto extends BaseInputDto{
 
     public void setRoleList(List<Integer> roleList) {
         this.roleList = roleList;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public String getIdNum() {
+        return idNum;
+    }
+
+    public void setIdNum(String idNum) {
+        this.idNum = idNum;
     }
 }

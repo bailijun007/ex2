@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.DocFlavor;
+
 @Api(tags="apiAppVersionController")
 @RestController
 @RequestMapping(path = "/v1/http/appversion",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -35,7 +37,16 @@ public class ApiAppVersionController {
             @ApiParam(name="version",value = "版本",required = true)
             @RequestParam(name = "version") String version,
             @ApiParam(name="remark",value = "备注",required = true)
-            @RequestParam(name = "remark") String remark
+            @RequestParam(name = "remark") String remark,
+            @ApiParam(name="forced_update",value = "备注",required = true)
+            @RequestParam(name = "forced_update") boolean forcedUpdate,
+            @ApiParam(name="update_content",value = "备注",required = true)
+            @RequestParam(name = "update_content") String updateContent,
+            @ApiParam(name="link_url",value = "备注",required = true)
+            @RequestParam(name = "link_url") String linkUrl,
+            @ApiParam(name="release_time",value = "备注",required = true)
+            @RequestParam(name = "release_time") Long releaseTime
+
     ){
         AppVersionOutputDto outputDto=new AppVersionOutputDto();
         AppVersionInputDto inputDto=new AppVersionInputDto();
@@ -43,6 +54,10 @@ public class ApiAppVersionController {
         inputDto.setVersion(version);
         inputDto.setId(id);
         inputDto.setRemark(remark);
+        inputDto.setForcedUpdate(forcedUpdate);
+        inputDto.setUpdateContent(updateContent);
+        inputDto.setLinkUrl(linkUrl);
+        inputDto.setReleaseTime(releaseTime);
         try{
                 outputDto = service.createOrUpdateAppVersion(inputDto);
         }catch(BizException e){

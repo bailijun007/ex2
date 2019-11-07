@@ -71,6 +71,10 @@ public class ApiAppVersionControllerServiceImpl implements IApiAppVersionControl
             outputDto.setRemark(po.getRemark());
             outputDto.setType(String.valueOf(po.getType()));
             outputDto.setVersion(po.getVersion());
+            outputDto.setUpdateContent(po.getUpdateContent());
+            outputDto.setLinkUrl(po.getLinkUrl());
+            outputDto.setReleaseTime(String.valueOf(po.getReleaseTime()));
+            outputDto.setForcedUpdate(po.isForcedUpdate()?"1":"0");
         }
         return outputDto;
     }
@@ -89,6 +93,10 @@ public class ApiAppVersionControllerServiceImpl implements IApiAppVersionControl
             row.setRemark(po.getRemark());
             row.setType(String.valueOf(po.getType()));
             row.setVersion(po.getVersion());
+            row.setForcedUpdate(po.getUpdateContent());
+            row.setLinkUrl(po.getLinkUrl());
+            row.setReleaseTime(String.valueOf(po.getReleaseTime()));
+            row.setForcedUpdate(po.isForcedUpdate()?"1":"0");
             rows.add(row);
         }
         outputDto.setRows(rows);

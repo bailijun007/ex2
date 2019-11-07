@@ -34,7 +34,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">标的符号：</label>
                             <div class="col-sm-6">
-                                <input  class="form-control" type="text" id="symbol">
+                                <input  class="form-control" type="text" id="symbol"><span style="color:red">添加后无法修改，慎重填写</span>
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
@@ -52,7 +52,7 @@
                             <div class="col-sm-6">
                                 <select id="asset" class="form-control">
 
-                                </select>
+                                </select><span style="color:red">添加后无法修改，慎重填写</span>
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
@@ -175,6 +175,8 @@
             var action=GetQueryString("action");
             if (id != "0"&&action=="Edit")//id不为空则需要绑定值
             {
+                $("#symbol").attr("readonly","readonly");
+                $("#asset").attr('disabled',"disabled");
                 $.ajax({
                     type: "get",
                     url: "/v1/http/contract/query?id=" + id,

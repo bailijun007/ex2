@@ -7,6 +7,10 @@ public class AppVersionInputDto extends BaseInputDto {
     private Integer type;
     private String version;
     private String remark;
+    private boolean forcedUpdate;
+    private String  updateContent;
+    private String linkUrl;
+    private Long  releaseTime;
     private Long ctime;
     private Long mtime;
 
@@ -56,5 +60,37 @@ public class AppVersionInputDto extends BaseInputDto {
 
     public void setMtime(Long mtime) {
         this.mtime = mtime;
+    }
+
+    public boolean isForcedUpdate() {
+        return forcedUpdate;
+    }
+
+    public void setForcedUpdate(boolean forcedUpdate) {
+        this.forcedUpdate = forcedUpdate;
+    }
+
+    public String getUpdateContent() {
+        return updateContent;
+    }
+
+    public void setUpdateContent(String updateContent) {
+        this.updateContent = updateContent;
+    }
+
+    public String getLinkUrl() {
+        return linkUrl;
+    }
+
+    public void setLinkUrl(String linkUrl) {
+        this.linkUrl = linkUrl;
+    }
+
+    public Long getReleaseTime() {
+        return releaseTime;
+    }
+
+    public void setReleaseTime(Long releaseTime) {
+        this.releaseTime = releaseTime;
     }
 }

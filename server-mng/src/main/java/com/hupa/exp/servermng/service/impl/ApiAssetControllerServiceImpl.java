@@ -1,5 +1,7 @@
 package com.hupa.exp.servermng.service.impl;
 
+import com.hupa.exp.base.config.redis.Db0RedisBean;
+import com.hupa.exp.base.dic.expv2.DbKeyDic;
 import com.hupa.exp.base.enums.OperationModule;
 import com.hupa.exp.base.enums.OperationType;
 import com.hupa.exp.bizother.entity.account.AssetBizBo;
@@ -8,9 +10,17 @@ import com.hupa.exp.bizother.entity.account.AssetListBizBo;
 import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
 import com.hupa.exp.bizother.service.account.def.IAssetBiz;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
+import com.hupa.exp.common.component.redis.RedisUtil;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.JsonUtil;
+import com.hupa.exp.daomongo.dao.expv2.def.IMongoTableDao;
+import com.hupa.exp.daomysql.dao.expv2.def.IAssetDao;
+import com.hupa.exp.daomysql.dao.expv2.def.IExpDicDao;
+import com.hupa.exp.daomysql.entity.po.expv2.AssetPo;
+import com.hupa.exp.daomysql.entity.po.expv2.ExpDicPo;
 import com.hupa.exp.servermng.entity.asset.*;
+import com.hupa.exp.servermng.entity.base.DeleteInputDto;
+import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.enums.MngExceptionCode;
 import com.hupa.exp.servermng.exception.MngException;
 import com.hupa.exp.servermng.help.SessionHelper;
@@ -18,10 +28,14 @@ import com.hupa.exp.servermng.service.def.IApiAssetControllerService;
 import com.hupa.exp.util.convent.ConventObjectUtil;
 import com.hupa.exp.util.math.DecimalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.stereotype.Service;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ApiAssetControllerServiceImpl implements IApiAssetControllerService {
@@ -33,6 +47,20 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
 
     @Autowired
     private SessionHelper sessionHelper;
+
+    @Autowired
+    private IAssetDao iAssetDao;
+
+
+    @Autowired
+    @Qualifier(Db0RedisBean.beanName)
+    private RedisUtil redisUtilDb0;
+
+    @Autowired
+    private IExpDicDao iExpDicDao;
+
+    @Autowired
+    private IMongoTableDao iMongoTableDao;
 
     @Override
     public AssetOutputDto createAsset(AssetInputDto inputDto) throws BizException {
@@ -56,6 +84,17 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
         bo.setDwType(inputDto.getDwType());
         bo.setChainTransactionUrl(inputDto.getChainTransactionUrl());
         iAssetBiz.createAsset(bo);
+
+       ExpDicPo dicPo= iExpDicDao.selectDicByKey(DbKeyDic.MongoDbAssetTableKey);
+       if(dicPo!=null)
+       {
+           List<ExpDicPo> dicPoList=iExpDicDao.selectDicListByParentId(Integer.parseInt(String.valueOf(dicPo.getId())));
+
+           List<String> tableNames= dicPoList.stream().map(p -> p.getKey().replace("{asset}",bo.getRealName())).collect(Collectors.toList());
+
+           iMongoTableDao.createMongoTable(tableNames);
+       }
+
         //添加操作日志
         ExpUserBizBo user= sessionHelper.getUserInfoBySession();
         logService.createOperationLog(user.getId(),user.getUserName(),
@@ -82,9 +121,10 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
         AssetBizBo afterBo=new AssetBizBo();
         afterBo.setId(inputDto.getId());
         //afterBo.setSymbol(inputDto.getSymbol());
-        afterBo.setChainAppointId(inputDto.getChainAppointId());
+        //链上ID和真实名不让修改 用之前的
+        afterBo.setChainAppointId(beforeBo.getChainAppointId());
+        afterBo.setRealName(beforeBo.getRealName());
         afterBo.setChainName(inputDto.getChainNname());
-        afterBo.setRealName(inputDto.getRealName());
         afterBo.setDisplayName(inputDto.getDisplaynName());
         afterBo.setPrecision(inputDto.getPrecision());
         afterBo.setPrivilege(inputDto.getPrivilege());
@@ -178,6 +218,34 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
         boolean hasAsset= iAssetBiz.checkHasAsset(inputDto.getRealName());
         CheckHasAssetOutputDto outputDto=new CheckHasAssetOutputDto();
         outputDto.setHasAsset(hasAsset);
+        outputDto.setTime(String.valueOf(System.currentTimeMillis()));
+        return outputDto;
+    }
+
+    @Override
+    public DeleteOutputDto deleteAsset(DeleteInputDto inputDto) throws BizException {
+
+        String[] ids=inputDto.getIds().split(",");
+        for(String id:ids)
+        {
+            AssetPo po= iAssetDao.selectPoById(Long.parseLong(id));
+            if(po!=null)
+            {
+                ExpDicPo dicPo= iExpDicDao.selectDicByKey("AssetRedisKey");
+                if(iAssetDao.deleteById(po.getId())>0)
+                {
+                    if(dicPo!=null)
+                    {
+                        redisUtilDb0.hdel(dicPo.getValue(),po.getRealName());
+                    }
+                }
+            }
+        }
+        ExpUserBizBo user=sessionHelper.getUserInfoBySession();
+        logService.createOperationLog(user.getId(),user.getUserName(),
+                OperationModule.Asset.toString(), OperationType.Delete.toString(),
+                inputDto.getIds(),"");
+        DeleteOutputDto outputDto=new DeleteOutputDto();
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
     }

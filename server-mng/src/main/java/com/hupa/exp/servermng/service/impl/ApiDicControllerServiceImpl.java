@@ -18,6 +18,8 @@ import com.hupa.exp.util.convent.ConventObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 @Service
@@ -78,6 +80,12 @@ public class ApiDicControllerServiceImpl implements IApiDicControllerService {
 
     @Override
     public DicOutputDto createDic(DicInputDto inputDto) throws BizException {
+        try {
+            String  key = URLDecoder.decode(inputDto.getKey(), "UTF-8");
+            inputDto.setKey(key);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         ExpDicBizBo bo= ConventObjectUtil.conventObject(inputDto,ExpDicBizBo.class);
         dicService.createDic(bo);
         ExpUserBizBo user=sessionHelper.getUserInfoBySession();
