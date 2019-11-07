@@ -12,6 +12,10 @@ import com.hupa.exp.base.exception.pc.PcAccountException;
 import com.hupa.exp.bizother.entity.account.FundAccountBizBo;
 import com.hupa.exp.bizother.entity.account.PcAccountBizBo;
 import com.hupa.exp.bizother.service.account.def.IAccountBiz;
+import com.hupa.exp.daomongo.dao.expv2.def.IFundAccountAssetMongoDao;
+import com.hupa.exp.daomongo.dao.expv2.def.IPcAccountAssetMongoDao;
+import com.hupa.exp.daomongo.entity.po.expv2mongo.FundAccountAssetMongoPo;
+import com.hupa.exp.daomongo.entity.po.expv2mongo.PcAccountAssetMongoPo;
 import com.hupa.exp.pc.margin.def.account.PcAccount4ServerDef;
 import com.hupa.exp.pc.margin.util.token.PcAccount4ServerTokenUtil;
 import com.hupa.exp.pc.service.def.PcAccountService;
@@ -43,6 +47,11 @@ public class AccountBizImpl implements IAccountBiz {
     private PcAccount4ServerDef pcAccount4ServerDef;
 
 
+    @Autowired
+    private IFundAccountAssetMongoDao iFundAccountAssetMongoDao;
+
+    @Autowired
+    private IPcAccountAssetMongoDao iPcAccountAssetMongoDao;
 
     @Override
     public boolean existAccount(long userId, String asset, int accountType) {
@@ -76,12 +85,7 @@ public class AccountBizImpl implements IAccountBiz {
 
         if(accountType== AccountTypeDic.ACCOUNT_TYPE_FUND){
 
-            FundAccountBo fundAccount = null;
-            try {
-                fundAccount = fundAccountDef.getFundAccount(userId, asset, true);
-            } catch (FundAccountException e) {
-
-            }
+            FundAccountAssetMongoPo fundAccount =iFundAccountAssetMongoDao.selectPoById(userId, asset);
 
             if(fundAccount!=null)
                 return true;
@@ -92,12 +96,10 @@ public class AccountBizImpl implements IAccountBiz {
         //判断pc
         else  if (accountType== AccountTypeDic.ACCOUNT_TYPE_PC){
 
-            PcAccountBo pcAccountBo = null;
-            try {
-                pcAccountBo = pcAccountDef.getPcAccount(userId, asset, false);
-            } catch (PcAccountException e) {
+            PcAccountAssetMongoPo pcAccountBo = iPcAccountAssetMongoDao.selectPoById(userId, asset);
 
-            }
+
+
 
             if(pcAccountBo !=null)
                 return true;
@@ -143,13 +145,8 @@ public class AccountBizImpl implements IAccountBiz {
 //        if(StringUtils.isEmpty(val))
 //            return null;
 
-        PcAccountBo pcAccountBo =null;
-        try {
 
-            pcAccountBo = pcAccountDef.getPcAccount(userId, asset, false);
-        } catch (PcAccountException e) {
-
-        }
+        PcAccountAssetMongoPo pcAccountBo = iPcAccountAssetMongoDao.selectPoById(userId, asset);
 
 
         BigDecimal total;
@@ -201,13 +198,8 @@ public class AccountBizImpl implements IAccountBiz {
 //            return null;
 //        }
 
-        FundAccountBo fundAccount=null;
-        try {
-            fundAccount  = fundAccountDef.getFundAccount(userId, asset, true);
+        FundAccountAssetMongoPo fundAccount = iFundAccountAssetMongoDao.selectPoById(userId, asset);
 
-        } catch (FundAccountException e) {
-
-        }
 
         BigDecimal total;
         if(fundAccount==null||fundAccount.getTotal()==null)

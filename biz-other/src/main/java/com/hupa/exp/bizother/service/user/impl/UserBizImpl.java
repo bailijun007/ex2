@@ -2,6 +2,7 @@ package com.hupa.exp.bizother.service.user.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.hupa.exp.base.config.redis.Db0RedisBean;
+import com.hupa.exp.base.dic.expv2.AccountTypeDic;
 import com.hupa.exp.base.enums.ValidateExceptionCode;
 import com.hupa.exp.base.exception.ValidateException;
 import com.hupa.exp.base.helper.security.SecurityPwdHelper;
@@ -265,6 +266,9 @@ public class UserBizImpl implements IUserBiz {
             List<AssetsBizBo> assetsBizBos = new ArrayList<>();
 
             for (AssetPo pcPo : assetPos) {
+                //判断存不存在资金账户  不存在新建
+                if(!iAccountBiz.existAccount(userPo.getId(), pcPo.getRealName(), AccountTypeDic.ACCOUNT_TYPE_FUND))
+                    iAccountBiz.createFundAccount(userPo.getId(), pcPo.getRealName());
                 FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(userPo.getId(), pcPo.getRealName());
                 AssetsBizBo assetsBizBo = new AssetsBizBo();
                 assetsBizBo.setAsset(pcPo.getRealName());
@@ -277,6 +281,9 @@ public class UserBizImpl implements IUserBiz {
                     assetsBizBo.setFundAccountLock(new BigDecimal("0"));
                     assetsBizBo.setFundAccountTotal(new BigDecimal("0"));
                 }
+                //判断存不存在合约账户  不存在新建
+                if(!iAccountBiz.existAccount(userPo.getId(), pcPo.getRealName(),AccountTypeDic.ACCOUNT_TYPE_PC))
+                    iAccountBiz.createPcAccount(userPo.getId(), pcPo.getRealName());
                 PcAccountBizBo pcBo = iAccountBiz.getPcAccount(userPo.getId(), pcPo.getRealName());
                 if (null != pcBo) {
                     assetsBizBo.setPcAccountAvailable(pcBo.getAvailable());
