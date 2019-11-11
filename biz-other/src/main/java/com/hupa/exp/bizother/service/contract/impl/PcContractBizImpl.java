@@ -59,12 +59,13 @@ public class PcContractBizImpl implements IPcContractBiz
         ExpDicPo dicPo= dicDao.selectDicByKey("ContractRedisKey");
         if(dicPo!=null)
         {
-            redisUtilDb0.hset(dicPo.getValue(),po.getSymbol(), JsonUtil.toJsonString(po));
+            redisUtilDb0.hset(dicPo.getValue(),po.getAsset()+"__"+po.getSymbol(), JsonUtil.toJsonString(po));
         }
         ExpDicPo dicPoDisplay= dicDao.selectDicByKey("DisplayNameRedisKey");
         if(dicPoDisplay!=null)
         {
-            redisUtilDb0.hset(dicPoDisplay.getValue(),po.getDisplayName(), JsonUtil.toJsonString(po));
+
+            redisUtilDb0.hset(dicPoDisplay.getValue(),po.getAsset()+"__"+po.getDisplayName(), JsonUtil.toJsonString(po));
         }
         return id;
     }
