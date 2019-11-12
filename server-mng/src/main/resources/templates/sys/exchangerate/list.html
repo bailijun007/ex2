@@ -17,18 +17,20 @@
     <div class="ibox float-e-margins">
         <div class="ibox-content">
             <div class="row row-lg">
-                <div class="col-sm-11">
-                    <div class="form-group" style="width: 15%; float: left;">
-                        <label class="sr-only">标的符号</label>
-                        <input type="text" placeholder="请输入标的符号" id="real_name" class="form-control">
-                    </div>
-                    <div class="input-group">
+                <!--<div class="col-sm-11">-->
+                    <!--<div class="form-group" style="width: 15%; float: left;">-->
+                        <!--<label class="sr-only">类型</label>-->
+                        <!--<select id="parentId" class="form-control">-->
 
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-primary" id="btn_query">搜索</button>
-                                </span>
-                    </div>
-                </div>
+                        <!--</select>-->
+                    <!--</div>-->
+                    <!--<div class="input-group">-->
+
+                                <!--<span class="input-group-btn">-->
+                                    <!--<button type="button" class="btn btn-primary" id="btn_query">搜索</button>-->
+                                <!--</span>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <div class="col-sm-12">
 
                     <div class="example-wrap">
@@ -39,7 +41,7 @@
                                         <div class="btn-group hidden-xs" id="toolbar" role="group">
 
                                             <a class="btn btn-outline btn-default" href="javascript:addCatalogEvent('Add','0')"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>新增</a>
-                                            <a class="btn btn-outline btn-default" href="javascript:del_ck_confirm('tb_departments','/v1/http/asset/delete')"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>删除</a>
+                                            <a class="btn btn-outline btn-default" href="javascript:del_ck_confirm('tb_departments','/v1/http/exchangerate/delete')"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>删除</a>
                                         </div>
                                     </div>
                                 </div>
@@ -76,8 +78,13 @@
             oTable.Init();
         });
 
+        $("#parentId").change(function () {
+            $('#tb_departments').bootstrapTable('destroy');
+            oTable.Init();
+        })
+
         // var oButtonInit = new ButtonInit();
-        // oButtonInit.Init();
+        // oTable.Init(1,10);
 
     });
 
@@ -86,8 +93,10 @@
     }
 
     var addCatalogEvent = function (action,id) {
-        var text = "添加币种"
-        url = "/sys/asset/edit.html?id="+id+"&action="+action+"";
+        var text = "添加汇率"
+        if(action=="Edit")
+            text = "添加汇率"
+        url = "/sys/exchangerate/edit.html?id="+id+"&action="+action+"";
 
         parent.layer.open({
             type: 2,
@@ -108,25 +117,15 @@
 
 
 
-    function DoAction(action) {
-        var RowSelects = $('#tb_departments').bootstrapTable('getSelections'); //获取表选择的行
-        var SelectRow = $.parseJSON(JSON.stringify(RowSelects));
 
-        if (action == "add")
-            window.location.href = "ModuleEdit.aspx?action=Add&typeId=" + GetQueryString('typeId') + "";
-        else if (SelectRow.length != 0)
-            window.location.href = "ModuleEdit.aspx?id=" + SelectRow[0].id + "&action=Edit";
-        else
-            alert("请勾选要操作的记录");
-    }
 
     var TableInit = function () {
         var oTableInit = new Object();
         //初始化Table
         oTableInit.Init = function () {
                     $('#tb_departments').bootstrapTable({
-                         url: '/v1/http/asset/query_list',//+param,         //请求后台的URL（*）
-                         method: 'get',                      //请求方式（*）
+                        url: '/v1/http/exchangerate/query_list',//+param,         //请求后台的URL（*）
+                        method: 'get',                      //请求方式（*）
                         //toolbar: '#toolbar',                //工具按钮用哪个容器
                         //striped: true,                      //是否显示行间隔色
                         //cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
@@ -154,73 +153,39 @@
                             {
                                 checkbox: true
                             }
-                            // , {
-                            //     title: '币的符号',
-                            //     field: 'symbol'
-                            // }
                             , {
-                                title: '币的名称',
-                                field: 'realName'
+                                title: '汇率资产',
+                                field: 'source_asset'
                             }
                             , {
-                                title: '币的展示名',
-                                field: 'displayName'
+                                title: '转换汇率资产',
+                                field: 'target_asset'
                             }
                             , {
-                                title: '币所属的链',
-                                field: 'chainName'
-                            }
-                            , {
-                                title: '链上服务的约定的id',
-                                field: 'chainAppointId'
-                            }
-                            , {
-                                title: '精度',
-                                field: 'precision'
-                            }
-                            , {
-                                title: '币的权限',
-                                field: 'privilege'
-                            }
-                            , {
-                                title: '排序',
-                                field: 'sort'
-                            }
-                            , {
-                                title: '是否启用',
+                                title: '汇率',
+                                field: 'exchange_rate'
+                            }, {
+                                title: '是否自动更新',
+                                field: 'auto_refresh'
+                            } , {
+                                title: '创建时间',
                                 formatter: function (value, row, index) {
-                                    if (row.status == 1)
-                                        return "生效";
-                                    else
-                                        return "不生效";
+                                   if(row.ctime!=null)
+                                       return time(parseInt(row.ctime))
+                                    return "";
                                 }
-                            }
-                            , {
-                                title: '冲提类型',
+
+                            } , {
+                                title: '修改时间',
                                 formatter: function (value, row, index) {
-                                    if (row.dwType == 1)
-                                        return "链上充提";
-                                    else
-                                        return "第三方支付";
+                                    if(row.mtime!=null)
+                                        return time(parseInt(row.mtime))
+                                    return "";
                                 }
-                            }
-                            , {
-                                title: '提币最小值',
-                                field: 'minWithdrawVolume'
-                            }
-                            , {
-                                title: '充币最小值',
-                                field: 'minDepositVolume'
-                            }
-                            , {
-                                title: '提币手续费',
-                                field: 'withdrawFee'
-                            }
-                            , {
-                                title: '查询地址',
-                                field: 'chainTransactionUrl'
-                            }
-                            , {
+
+                            },
+
+                             {
                                 title: '操作', field: '#', align: 'center',
                                 formatter: function (value, row, index) {
                                     var d = "<a href=\"javascript:addCatalogEvent('Edit'," + row.id + ")\">修改</a>";
@@ -228,6 +193,7 @@
                                 }
                             }],
                         responseHandler:function(res) {
+                            //console.log(res);
                             return res.data;
                         }
                     });
@@ -240,8 +206,6 @@
             var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                 page_size: params.limit,   //页面大小
                 current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
-                real_name: $("#real_name").val()
-                //action: "GetBakModuleList"
 
             };
             //console.log(temp);
@@ -249,43 +213,19 @@
         };
         return oTableInit;
     };
-    $('#tb_departments').on('page-change.bs.table', function (number,size) {
-
-        //oTable.Init(size,10);
-        // ...
-    });
-
+    // $('#tb_departments').on('page-change.bs.table', function (number,size) {
+    //     //debugger;
+    //     //alert("1213");
+    //     $('#tb_departments').bootstrapTable('destroy');
+    //     oTable.Init();
+    //     // ...
+    // });
     $('#tb_departments').on('load-success.bs.table', function (e) {
         //debugger;
         //alert("1213");
         $(".fixed-table-loading").attr("style","display:none");//不知道什么鬼原因  反正先加载时候先去掉
         // ...
     });
-
-
-
-    function GetQueryString(name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-        var r = window.location.search.substr(1).match(reg);  //获取url中"?"符后的字符串并正则匹配
-        var context = "";
-        if (r != null)
-            context = r[2];
-        reg = null;
-        r = null;
-        return context == null || context == "" || context == "undefined" ? "" : context;
-    }//获取连接中的参数
-
-    var ButtonInit = function () {
-        var oInit = new Object();
-        var postdata = {};
-
-        oInit.Init = function () {
-            //初始化页面上面的按钮事件
-        };
-
-        return oInit;
-    };
-
 
 </script>
 

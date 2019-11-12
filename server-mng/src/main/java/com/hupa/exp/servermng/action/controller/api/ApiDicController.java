@@ -65,7 +65,7 @@ public class ApiDicController {
 
     @ApiOperation(value = "获取字典信息")
     @GetMapping("/query_list")
-    public BaseResultViaApiDto<DicListInputDto,DicListOutputDto> getAreaList(
+    public BaseResultViaApiDto<DicListInputDto,DicListOutputDto> getDicList(
             @ApiParam(name="current_page",value = "页码",required = true)
             @RequestParam(name = "current_page") Integer currentPage,
             @ApiParam(name="page_size",value = "条数",required = true)

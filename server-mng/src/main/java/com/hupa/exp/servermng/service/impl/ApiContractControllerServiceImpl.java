@@ -104,6 +104,7 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
             beforeBo.setSort(bo.getSort());
             beforeBo.setStatus(bo.getStatus());
             beforeBo.setPrivilege(bo.getPrivilege());
+            beforeBo.setQuoteCurrency(bo.getQuoteCurrency());
             beforeBo.setMtime(System.currentTimeMillis());
             iPcContractBiz.editContract(beforeBo);
             logService.createOperationLog(user.getId(),user.getUserName(),
@@ -167,6 +168,8 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
         outputDto.setPrivilege(String.valueOf(bo.getPrivilege()));
         outputDto.setCtime(String.valueOf(bo.getCtime()));
         outputDto.setMtime(String.valueOf(bo.getMtime()));
+
+        outputDto.setQuoteCurrency(bo.getQuoteCurrency());
         return outputDto;
     }
 
@@ -196,6 +199,7 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
             po.setPrivilege(String.valueOf(bo.getPrivilege()));
             po.setCtime(String.valueOf(bo.getCtime()));
             po.setMtime(String.valueOf(bo.getMtime()));
+            po.setQuoteCurrency(bo.getQuoteCurrency());
             pageList.add(po);
         }
         outputDto.setRows(pageList);

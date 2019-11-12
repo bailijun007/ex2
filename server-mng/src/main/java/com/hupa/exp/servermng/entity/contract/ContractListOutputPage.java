@@ -25,11 +25,21 @@ public class ContractListOutputPage {
     private String step;
     @JsonProperty("face_value")
     private String faceValue;
+    @JsonProperty("quote_currency")
+    private String quoteCurrency;
     private String sort;
     private String status;
     private String privilege;
     private String ctime;
     private String mtime;
+
+    public String getQuoteCurrency() {
+        return quoteCurrency;
+    }
+
+    public void setQuoteCurrency(String quoteCurrency) {
+        this.quoteCurrency = quoteCurrency;
+    }
 
     public String getAsset() {
         return asset;

@@ -17,11 +17,20 @@ public class PcContractBizBo {
     private BigDecimal lastPrice;
     private BigDecimal step;
     private Integer faceValue;
+    private String quoteCurrency;
     private Integer sort;
     private Integer status;
     private Integer privilege;
     private Long ctime;
     private Long mtime;
+
+    public String getQuoteCurrency() {
+        return quoteCurrency;
+    }
+
+    public void setQuoteCurrency(String quoteCurrency) {
+        this.quoteCurrency = quoteCurrency;
+    }
 
     public String getAsset() {
         return asset;

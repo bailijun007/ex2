@@ -114,6 +114,14 @@
                             <div class="Validform_checktip"></div>
                         </div>
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">合约面值计价货币：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="quote_currency" type="text" datatype="*1-100" errormsg="永续合约步进最多10位">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-sm-3 control-label">顺序：</label>
                             <div class="col-sm-6">
                                 <input class="form-control" id="sort" value="99" type="text" datatype="*1-100" errormsg="排序最大为10位数">
@@ -202,6 +210,7 @@
                             $("#sort").val(data.data.sort);
                             $("#privilege").val(data.data.privilege);
                             $("#precision").val(data.data.precision);
+                            $("#quote_currency").val(data.data.quote_currency);
                             if (data.data.status == "1")
                                 $("#ckbIsOnTop").parent().find("a").attr("class", "selected")
                         }
@@ -311,6 +320,7 @@
         parmes+="&display_name_split="+$("#display_name_split").val();
         parmes+="&default_price="+$("#default_price").val();
         parmes+="&last_price="+$("#last_price").val();
+        parmes+="&quote_currency="+$("#quote_currency").val();
         $.ajax({
             type:"post",
             url:"/v1/http/contract/create_or_edit"+parmes,

@@ -159,7 +159,7 @@ public class UserBizImpl implements IUserBiz {
         }
         String fundPwd=defaultPo.getFundPwd();
         String newFundPwd=pwdHelper.getMd5Pwd("FundPwdMD5Key",changeBo.getUserpwd());
-        if (!fundPwd.equals(changeBo.getUserpwd()))//不修改密码的时候密码不加密
+        if (fundPwd==null||!fundPwd.equals(changeBo.getUserpwd()))//不修改密码的时候密码不加密
         {
             fundPwd = newFundPwd;
         }

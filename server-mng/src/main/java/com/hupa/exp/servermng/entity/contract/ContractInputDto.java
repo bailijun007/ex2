@@ -17,6 +17,7 @@ public class ContractInputDto extends BaseInputDto {
     private BigDecimal defaultPrice;
     private BigDecimal lastPrice;
     private BigDecimal step;
+    private String quoteCurrency;
     private Integer faceValue;
     private Integer sort;
     private Integer status;
@@ -24,6 +25,13 @@ public class ContractInputDto extends BaseInputDto {
     private Long ctime;
     private Long mtime;
 
+    public String getQuoteCurrency() {
+        return quoteCurrency;
+    }
+
+    public void setQuoteCurrency(String quoteCurrency) {
+        this.quoteCurrency = quoteCurrency;
+    }
 
     public Integer getSymbolType() {
         return symbolType;

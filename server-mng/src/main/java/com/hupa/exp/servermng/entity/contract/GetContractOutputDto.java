@@ -29,8 +29,19 @@ public class GetContractOutputDto extends BaseOutputDto {
     private String sort;
     private String status;
     private String privilege;
+    @JsonProperty("quote_currency")
+    private String quoteCurrency;
+
     private String ctime;
     private String mtime;
+
+    public String getQuoteCurrency() {
+        return quoteCurrency;
+    }
+
+    public void setQuoteCurrency(String quoteCurrency) {
+        this.quoteCurrency = quoteCurrency;
+    }
 
     public String getAsset() {
         return asset;

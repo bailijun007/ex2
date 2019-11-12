@@ -61,6 +61,9 @@ public class ApiContractController {
             @RequestParam(name = "face_value") Integer faceValue,
             @ApiParam(name="step",value = "永续合约步进",required = true)
             @RequestParam(name = "step") BigDecimal step,
+            @ApiParam(name="quote_currency",value = "合约面值计价货币",required = true)
+            @RequestParam(name = "quote_currency") String quoteCurrency,
+
             @ApiParam(name="sort",value = "顺序",required = true)
             @RequestParam(name = "sort") Integer sort,
             @ApiParam(name="status",value = "状态",required = true)
@@ -86,7 +89,7 @@ public class ApiContractController {
         inputDto.setSort(sort);
         inputDto.setStatus(status);
         inputDto.setPrivilege(privilege);
-
+        inputDto.setQuoteCurrency(quoteCurrency);
         ContractOutputDto outputDto=new ContractOutputDto();
         try {
             outputDto= iApiContractControllerService.createOrEditContract(inputDto);
