@@ -34,7 +34,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">标的符号：</label>
                             <div class="col-sm-6">
-                                <input  class="form-control" type="text" id="symbol">
+                                <input  class="form-control" type="text" id="symbol"><span style="color:red">添加后无法修改，慎重填写</span>
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
@@ -52,7 +52,7 @@
                             <div class="col-sm-6">
                                 <select id="asset" class="form-control">
 
-                                </select>
+                                </select><span style="color:red">添加后无法修改，慎重填写</span>
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
@@ -113,6 +113,14 @@
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">合约面值计价货币：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="quote_currency" type="text" datatype="*1-100" errormsg="永续合约步进最多10位">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
                         <div class="form-group">
                             <label class="col-sm-3 control-label">顺序：</label>
                             <div class="col-sm-6">
@@ -175,6 +183,8 @@
             var action=GetQueryString("action");
             if (id != "0"&&action=="Edit")//id不为空则需要绑定值
             {
+                $("#symbol").attr("readonly","readonly");
+                $("#asset").attr('disabled',"disabled");
                 $.ajax({
                     type: "get",
                     url: "/v1/http/contract/query?id=" + id,
@@ -199,7 +209,8 @@
                             $("#step").val(data.data.step);
                             $("#sort").val(data.data.sort);
                             $("#privilege").val(data.data.privilege);
-                            $("#precision").val(data.tata.precision);
+                            $("#precision").val(data.data.precision);
+                            $("#quote_currency").val(data.data.quote_currency);
                             if (data.data.status == "1")
                                 $("#ckbIsOnTop").parent().find("a").attr("class", "selected")
                         }
@@ -309,6 +320,7 @@
         parmes+="&display_name_split="+$("#display_name_split").val();
         parmes+="&default_price="+$("#default_price").val();
         parmes+="&last_price="+$("#last_price").val();
+        parmes+="&quote_currency="+$("#quote_currency").val();
         $.ajax({
             type:"post",
             url:"/v1/http/contract/create_or_edit"+parmes,
@@ -322,8 +334,13 @@
                         layer.msg("修改成功！");
                     else
                         layer.msg("添加成功！");
+                    setTimeout("Close()", 1000);
                 }
-                setTimeout("Close()", 1000);
+                else
+                {
+                    layer.msg(data.msg)
+                }
+
             }
         })
     })

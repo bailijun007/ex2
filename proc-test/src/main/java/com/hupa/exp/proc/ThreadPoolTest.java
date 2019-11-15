@@ -16,7 +16,7 @@ public class ThreadPoolTest {
     @Autowired
     private IExpDicDao iExpDicDao;
 
-    @PostConstruct
+    //@PostConstruct
     private void stat(){
 
         //创建一个线程池

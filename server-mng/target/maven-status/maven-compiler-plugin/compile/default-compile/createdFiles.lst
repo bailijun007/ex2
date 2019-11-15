@@ -3,6 +3,7 @@ com\hupa\exp\servermng\entity\dic\DicOutputDto.class
 com\hupa\exp\servermng\entity\pcposition\PcPositionPageInputDto.class
 com\hupa\exp\servermng\entity\appversion\AppVersionInfoOutputDto.class
 com\hupa\exp\servermng\entity\sms\SmsTempInfoInputDto.class
+com\hupa\exp\servermng\entity\exchangerate\ExchangeRateInfoInputDto.class
 com\hupa\exp\servermng\entity\pcaccount\PcAccountLogInputDto.class
 com\hupa\exp\servermng\service\impl\ApiMongoDbControllerServiceImpl.class
 com\hupa\exp\servermng\entity\sms\SmsTempInputDto.class
@@ -18,6 +19,7 @@ com\hupa\exp\servermng\entity\funddeposit\FundDepositInfoOutputDto.class
 com\hupa\exp\servermng\entity\pcindexprice\PcIndexPriceListInputDto.class
 com\hupa\exp\servermng\service\def\IApiFundAccountControllerService.class
 com\hupa\exp\servermng\entity\pcfee\PcFeeInputDto.class
+com\hupa\exp\servermng\entity\exchangerate\ExchangeRateListInputDto.class
 com\hupa\exp\servermng\entity\operationlog\OperationLogListOutputDto.class
 com\hupa\exp\servermng\service\def\IApiMongoDbControllerService.class
 com\hupa\exp\servermng\entity\funddeposit\FundDepositListInputDto.class
@@ -32,6 +34,7 @@ com\hupa\exp\servermng\service\def\IApiRoleControllerService.class
 com\hupa\exp\servermng\entity\mongodb\MongoCollectionNamesOutputDto.class
 com\hupa\exp\servermng\entity\contract\GetContractInputDto.class
 com\hupa\exp\servermng\entity\pcfee\PcFeeOutputDto.class
+com\hupa\exp\servermng\action\controller\api\ApiExchangeRateController.class
 com\hupa\exp\servermng\action\controller\api\ApiContractController.class
 com\hupa\exp\servermng\entity\earningrate\PcEarningRateOutputDto.class
 com\hupa\exp\servermng\entity\user\FundAccountListOutputDto.class
@@ -39,6 +42,7 @@ com\hupa\exp\servermng\service\impl\ApiInformationControllerServiceImpl.class
 com\hupa\exp\servermng\entity\asset\AssetListInputDto.class
 com\hupa\exp\servermng\entity\area\GetAreaInputDto.class
 com\hupa\exp\servermng\help\OSSClientUtil.class
+com\hupa\exp\servermng\entity\exchangerate\ExchangeRateInfoOutputDto.class
 com\hupa\exp\servermng\service\def\IApiUserApiControllerService.class
 com\hupa\exp\servermng\entity\menu\MenuTreeListInputDto.class
 com\hupa\exp\servermng\entity\fundwithdraw\AuditFailFundWithdrawInputDto.class
@@ -127,6 +131,7 @@ com\hupa\exp\servermng\service\impl\ApiSmsTempControllerServiceImpl.class
 com\hupa\exp\servermng\filter\CorsFilter.class
 com\hupa\exp\servermng\entity\earningrate\PcEarningRateInfoOutputDto.class
 com\hupa\exp\servermng\annotation\CheckLogin.class
+com\hupa\exp\servermng\service\def\IApiExchangeRateControllerService.class
 com\hupa\exp\servermng\entity\information\DeleteInformationInputDto.class
 com\hupa\exp\servermng\entity\asset\GetAssetOutputDto.class
 com\hupa\exp\servermng\entity\area\AreaListOutputDto.class
@@ -217,6 +222,7 @@ com\hupa\exp\servermng\entity\login\LoginOutInputDto.class
 com\hupa\exp\servermng\entity\role\RoleListInputDto.class
 com\hupa\exp\servermng\service\impl\ApiLocaleControllerServiceImpl.class
 com\hupa\exp\servermng\filter\RequestWrapper$1.class
+com\hupa\exp\servermng\entity\exchangerate\ExchangeRateOutputDto.class
 com\hupa\exp\servermng\exception\UserException.class
 com\hupa\exp\servermng\exception\LoginException.class
 com\hupa\exp\servermng\entity\funddeposit\FundDepositListOutputDto.class
@@ -246,6 +252,7 @@ com\hupa\exp\servermng\entity\dic\DicInputDto.class
 com\hupa\exp\servermng\entity\klineconfig\KlineConfigListOutputPage.class
 com\hupa\exp\servermng\entity\area\GetAreaOutputDto.class
 com\hupa\exp\servermng\service\def\IApiFundDepositControllerService.class
+com\hupa\exp\servermng\service\impl\ApiExchangeRateControllerServiceImpl.class
 com\hupa\exp\servermng\entity\login\ExistLoginOutputDto.class
 com\hupa\exp\servermng\entity\operationlog\OperationLogListOutputDto$OperationLogInfo.class
 com\hupa\exp\servermng\entity\role\RoleMenuOutputDto.class
@@ -260,6 +267,7 @@ com\hupa\exp\servermng\entity\locale\LocaleDeleteOutputDto.class
 com\hupa\exp\servermng\entity\mongodb\MongoCollectionFieldOutputDto.class
 com\hupa\exp\servermng\entity\appversion\AppVersionInfoInputDto.class
 com\hupa\exp\servermng\entity\assetchange\PcAssetChangeOutputDto.class
+com\hupa\exp\servermng\entity\exchangerate\ExchangeRateInputDto.class
 com\hupa\exp\servermng\service\def\IApiOperationLogControllerService.class
 com\hupa\exp\servermng\action\controller\api\ApiPcOrderController.class
 com\hupa\exp\servermng\entity\symbolrate\SymbolRateListOutputDto.class
@@ -273,6 +281,7 @@ com\hupa\exp\servermng\service\def\IApiModuleLimitControllerService.class
 com\hupa\exp\servermng\entity\earningrate\PcEarningRatePageDataInputDto.class
 com\hupa\exp\servermng\entity\assetchange\PcAssetChangeInputDto.class
 com\hupa\exp\servermng\entity\user\CheckExistUserInputDto.class
+com\hupa\exp\servermng\entity\exchangerate\ExchangeRateListOutputDto.class
 com\hupa\exp\servermng\entity\asset\AssetListOutputDto.class
 com\hupa\exp\servermng\entity\contract\ContractInputDto.class
 com\hupa\exp\servermng\entity\pcaccount\PcAccountLogListOutputDto.class

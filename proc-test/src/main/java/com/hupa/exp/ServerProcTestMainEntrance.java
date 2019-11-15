@@ -16,7 +16,7 @@ public class ServerProcTestMainEntrance {
 
     public static void main(String[] args){
         ConfigurableApplicationContext ctx = new SpringApplicationBuilder(ServerProcTestMainEntrance.class)
-                .web(WebApplicationType.NONE)
+                .web(WebApplicationType.SERVLET)
                 .initializers((ConfigurableApplicationContext context) -> {
                     ConfigurableEnvironment env = context.getEnvironment();
                     System.setProperty("logDir", env.getProperty("exp.mng.config.logDir"));

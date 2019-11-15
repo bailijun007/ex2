@@ -45,7 +45,7 @@
                                         <div class="btn-group hidden-xs" id="toolbar" role="group">
 
                                             <a class="btn btn-outline btn-default" href="javascript:addCatalogEvent('Add','0')"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>新增</a>
-                                            <a class="btn btn-outline btn-default" href="javascript:del_ck_confirm('tb_departments','/v1/http/dictype/delete')"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>删除</a>
+                                            <a class="btn btn-outline btn-default" href="javascript:del_ck_confirm('tb_departments','/v1/http/contract/delete')"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>删除</a>
                                         </div>
                                     </div>
                                 </div>
@@ -209,6 +209,11 @@
                                 title: '顺序',
                                 field: 'sort'
                             }
+                            , {
+                                title: '合约面值计价货币',
+                                field: 'quote_currency'
+                            }
+
                             , {
                                 title: '是否启用',
                                 formatter: function (value, row, index) {

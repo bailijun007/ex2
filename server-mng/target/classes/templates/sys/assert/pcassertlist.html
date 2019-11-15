@@ -29,6 +29,9 @@
                                         <select class="form-control input-outline" id="asset">
                                         </select>
                                     </div>
+                                    <div class="pull-left search">
+                                        <input type="text" placeholder="请输入用户ID" id="accountId" class="form-control input-outline">
+                                    </div>
                                     <div class="columns columns-left btn-group pull-left">
                                         <button type="button" class="btn btn-primary" id="btn_query">搜索</button>
                                     </div>
@@ -57,12 +60,32 @@
 </html>
 <script type="text/javascript">
     var oTable;
+    var startTime=null;
+    var endTime=null;
+    var startId=null;
+    var endId=null;
+    var pageStatus=0;
+    var queryTime=null;
+    var queryId=null;
+    var pageNumber=1;
+
+    function resetQuery() {
+        startTime=null;
+        endTime=null;
+        startId=null;
+        endId=null;
+        pageStatus=0;
+        queryTime=null;
+        queryId=null;
+        pageNumber=1;
+    }
     $(function () {
         //1.初始化Table
         oTable = new TableInit();
         oTable.Init();
 
         $("#btn_query").click(function () {
+            resetQuery()
             $('#tb_departments').bootstrapTable('destroy');
             oTable.Init();
         });
@@ -73,26 +96,7 @@
     });
 
     bindAsset("asset",true);
-    var addCatalogEvent = function (action, id) {
-        var text = "添加币种"
-        url = "/sys/coin/edit.html?id=" + id + "&action=" + action + "";
 
-        parent.layer.open({
-            type: 2,
-            title: text,
-            shadeClose: true,
-            shade: 0.8,
-            area: ['800px', '65%'],
-            content: url,
-            success: function (layero, index) {
-
-            },
-            end: function () {
-                $('#tb_departments').bootstrapTable('destroy');
-                oTable.Init();
-            }
-        });
-    }
 
     var TableInit = function () {
         var oTableInit = new Object();
@@ -134,16 +138,31 @@
                         formatter: function (value, row, index) {
 
                             var content = "Info</br>";
-                            content += "id:</br>" + row.id + "</br>";
-                            content += "accountId:</br>" + row.accountId + "</br>";
-                            content += "symbol:</br>" + row.symbol + "</br>";
-                            content += "asset:</br>" + row.asset + "</br>";
-                            content += "bidFlag:</br>" + row.bidFlag + "</br>";
-                            content += "closeFlag:</br>" + row.closeFlag + "</br>";
-                            content += "tradePrice:</br>" + row.tradePrice + "</br>";
-                            content += "objectId:</br>" + row.objectId + "</br>";
-                            content += "ratio:</br>" + row.ratio + "</br>";
-                            content += "unfilledAmt:</br>" + row.unfilledAmt + "</br>";
+                            content += "id:</br>" + row.id + "</br>";;
+                            content += "srcAccountId:</br>" + row.srcAccountId + "</br>";;
+                            content += "accountId:</br>" + row.accountId + "</br>";;
+                            content += "asset:</br>" + row.asset + "</br>";;
+                            content += "symbol:</br>" + row.symbol + "</br>";;
+                            content += "bidFlag:</br>" + row.bidFlag + "</br>";;
+                            content += "closeFlag:</br>" + row.closeFlag + "</br>";;
+                            content += "longFlag:</br>" + row.longFlag + "</br>";;
+                            content += "makerFlag:</br>" + row.makerFlag + "</br>";;
+                            content += "tradePrice:</br>" + row.tradePrice + "</br>";;
+                            content += "tradeAmt:</br>" + row.tradeAmt + "</br>";;
+                            content += "changeType:</br>" + row.changeType + "</br>";;
+                            content += "changeVolume:</br>" + row.changeVolume + "</br>";;
+                            content += "transVolume:</br>" + row.transVolume + "</br>";;
+                            content += "tradeVolume:</br>" + row.tradeVolume + "</br>";;
+                            content += "marginVolume:</br>" + row.marginVolume + "</br>";;
+                            content += "objectType:</br>" + row.objectType + "</br>";;
+                            content += "objectId:</br>" + row.objectId + "</br>";;
+                            content += "ratio:</br>" + row.ratio + "</br>";;
+                            content += "fee:</br>" + row.fee + "</br>";;
+                            content += "unfilledAmt:</br>" + row.unfilledAmt + "</br>";;
+                            content += "posId:</br>" + row.posId + "</br>";;
+                            content += "orderId:</br>" + row.orderId + "</br>";;
+                            content += "pnl:</br>" + row.pnl + "</br>";;
+                            content += "remark:</br>" + row.remark + "</br>";
                             content += "changeTime:</br>" + row.changeTime + "</br>";
                             content += "ctime:</br>" + row.ctime + "</br>";
                             content += "mtime:</br>" + row.mtime + "</br>";
@@ -156,12 +175,12 @@
                         formatter: function (value, row, index) {
 
                             var content = "Order</br>";
-                            content += "orderId:</br>" + row.posId + "</br>";
-                            content += "orderType:</br>" + row.posMarginRls + "</br>";
-                            content += "orderPrice:</br>" + row.posMargin + "</br>";
-                            content += "orderAmt:</br>" + row.posMargin + "</br>";
-                            content += "orderMarginRls:</br>" + row.orderMarginRls + "</br>";
-                            content += "orderMargin:</br>" + row.orderMargin + "</br>";
+                            content += "orderFeeCost:</br>" + row.orderFeeCost + "</br>";
+                            content += "orderOrderMargin:</br>" + row.orderOrderMargin + "</br>";
+                            content += "orderOpenFee:</br>" + row.orderOpenFee + "</br>";
+                            content += "orderCloseFee:</br>" + row.orderCloseFee + "</br>";
+                            content += "orderFundingFee:</br>" + row.orderFundingFee + "</br>";
+                            content += "orderTotalMargin:</br>" + row.orderTotalMargin + "</br>";
                             return content;
                         }
                     }
@@ -170,9 +189,14 @@
                         formatter: function (value, row, index) {
 
                             var content = "Pos</br>";
-                            content += "PosId:</br>" + row.posId + "</br>";
-                            content += "posMarginRls:</br>" + row.posMarginRls + "</br>";
-                            content += "posMargin:</br>" + row.posMargin;
+                            content += "posFeeCost:</br>" + row.posFeeCost + "</br>";
+                            content += "posPosMargin:</br>" + row.posPosMargin + "</br>";
+                            content += "posEntryPrice:</br>" + row.posEntryPrice + "</br>";
+                            content += "posLiqPrice:</br>" + row.posLiqPrice + "</br>";
+                            content += "posBankruptPrice:</br>" + row.posBankruptPrice + "</br>";
+                            content += "posRealisedPnl:</br>" + row.posRealisedPnl + "</br>";
+                            content += "posLeverage:</br>" + row.posLeverage + "</br>";
+                            content += "posHoldMarginRatio:</br>" + row.posHoldMarginRatio + "</br>";
                             return content;
                         }
                     }
@@ -181,14 +205,11 @@
                         formatter: function (value, row, index) {
 
                             var content = "Acc</br>";
-                            content += "accOrderMarginPre:</br>" + row.accOrderMarginPre + "</br>";
                             content += "accOrderMargin:</br>" + row.accOrderMargin + "</br>";
-                            content += "accPosMarginPre:</br>" + row.accPosMarginPre + "</br>";
                             content += "accPosMargin:</br>" + row.accPosMargin + "</br>";
-                            content += "accTotalPre:</br>" + row.accTotalPre + "</br>";
                             content += "accTotal:</br>" + row.accTotal + "</br>";
-                            content += "accAvailPre:</br>" + row.accAvailPre + "</br>";
                             content += "accAvail:</br>" + row.accAvail + "</br>";
+                            content += "accLock:</br>" + row.accToaccLocktalPre + "</br>";
                             return content;
                         }
                     }
@@ -196,41 +217,61 @@
                         title: 'Asset',
                         formatter: function (value, row, index) {
 
-                            var content = "Asset</br>";
-                            content += "symbolOrderMarginPre:</br>" + row.symbolOrderMarginPre + "</br>";
+                            var content = "symbol</br>";
                             content += "symbolOrderMargin:</br>" + row.symbolOrderMargin + "</br>";
-                            content += "symbolPosMarginPre:</br>" + row.symbolPosMarginPre + "</br>";
                             content += "symbolPosMargin:</br>" + row.symbolPosMargin + "</br>";
                             return content;
                         }
                     }
-                    , {
-                        title: 'TradeAmt',
-                        field: 'tradeVolume'
-                    }, {
-                        title: 'TradePrice',
-                        field: 'tradePrice'
-                    }
-                    , {
-                        title: 'Fee',
-                        field: 'fee'
-                    }
-                    , {
-                        title: 'TradeType',
-                        field: 'changeType'
-                    }
+
                 ],
                 responseHandler: function (res) {
+                    if(res.data.rows.length>0)
+                    {
+                        //倒序
+                        //开始时间为本页最后一条
+                        startTime=res.data.rows[res.data.rows.length-1].ctime;
+                        startId=res.data.rows[res.data.rows.length-1].id;
+                        console.log(startTime);
+                        //结束时间为本页第一条
+                        endTime=res.data.rows[0].ctime;
+                        endId=res.data.rows[0].id;
+                        console.log(endTime);
+                    }
                     return res.data;
                 }
             });
         };
         oTableInit.queryParams = function (params) {
+            var current_page= params.offset==0?1:(params.offset/params.limit)+1;
+            if(current_page>pageNumber)
+            {
+                pageStatus=1;
+                queryTime=startTime;
+                queryId=startId;
+            }
+            else if(current_page<pageNumber)
+            {
+                pageStatus=-1;
+                queryTime=endTime;
+                queryId=endId;
+            }
+            else
+            {
+                pageStatus=0;
+                queryTime=endId;
+                queryId=endId;
+            }
+
+            pageNumber=current_page;
             var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+
+                id: queryId,
+                account_id:$("#accountId").val(),
+                asset: $("#asset").val(),
+                page_status:pageStatus,
                 page_size: params.limit,   //页面大小
-                current_page: params.offset == 0 ? 1 : (params.offset / params.limit) + 1,  //页码
-                id: 0,
-                symbol: $("#asset").val()
+                current_page: current_page,  //页码
             };
             //console.log(temp);
             return temp;

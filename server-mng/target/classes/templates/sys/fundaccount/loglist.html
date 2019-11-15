@@ -26,6 +26,9 @@
                                         <select class="form-control input-outline" id="asset">
                                         </select>
                                     </div>
+                                    <div class="pull-left search">
+                                        <input type="text" placeholder="请输入用户ID" id="accountId" class="form-control input-outline">
+                                    </div>
                                     <div class="columns columns-left btn-group pull-left">
                                         <button type="button" class="btn btn-primary" id="btn_query">搜索</button>
                                     </div>
@@ -52,12 +55,33 @@
 </html>
 <script type="text/javascript">
     var oTable;
+    var startTime=null;
+    var endTime=null;
+    var startId=null;
+    var endId=null;
+    var pageStatus=0;
+    var queryTime=null;
+    var queryId=null;
+    var pageNumber=1;
+
+    function resetQuery() {
+        startTime=null;
+        endTime=null;
+        startId=null;
+        endId=null;
+        pageStatus=0;
+        queryTime=null;
+        queryId=null;
+        pageNumber=1;
+    }
+
     $(function () {
         //1.初始化Table
         oTable = new TableInit();
         oTable.Init();
 
         $("#btn_query").click(function () {
+            resetQuery()
             $('#tb_departments').bootstrapTable('destroy');
             oTable.Init();
         });
@@ -128,51 +152,67 @@ bindAsset("asset",true);
                                 field: 'accountId'
                             }
                             , {
-                                title: '币的符号',
-                                field: 'symbol'
+                                title: '资产类型',
+                                field: 'asset'
                             }, {
-                                title: 'tradeVolume',
-                                field: 'tradeVolume'
+                                title: 'txId',
+                                field: 'txId'
                             }
                             , {
-                                title: 'changeType',
-                                field: 'changeType'
+                                title: 'checksum',
+                                field: 'checksum'
                             }
                             , {
-                                title: 'objectId',
-                                field: 'objectId'
+                                title: 'operator',
+                                field: 'operator'
                             }
                             , {
-                                title: 'fee',
-                                field: 'fee'
+                                title: 'refId',
+                                field: 'refId'
                             }
                             , {
-                                title: 'accTotalPre',
-                                field: 'accTotalPre'
+                                title: 'reason',
+                                field: 'reason'
                             }
                             , {
-                                title: 'accTotal',
-                                field: 'accTotal'
+                                title: 'success',
+                                field: 'success'
                             }
                             , {
-                                title: 'accAvailPre',
-                                field: 'accAvailPre'
+                                title: 'total',
+                                field: 'total'
                             }
                             , {
-                                title: 'accAvail',
-                                field: 'accAvail'
+                                title: 'lock',
+                                field: 'lock'
                             }
                             , {
-                                title: 'changeTime',
-                                field: 'changeTime'
+                                title: 'available',
+                                field: 'available'
+                            }
+                            , {
+                                title: 'privilege',
+                                field: 'privilege'
+                            }
+                            , {
+                                title: 'mngPrivilege',
+                                field: 'mngPrivilege'
                             }
                             , {
                                 title: 'ctime',
-                                field: 'ctime'
+                                formatter: function (value, row, index) {
+                                    if(row.ctime!=null)
+                                        return time(parseInt(row.ctime));
+                                    return "";
+                                }
                             }
                             , {
                                 title: 'mtime',
-                                field: 'mtime'
+                                formatter: function (value, row, index) {
+                                    if(row.mtime!=null)
+                                        return time(parseInt(row.mtime));
+                                    return "";
+                                }
                             }
                             // , {
                             //     title: '操作', field: '#', align: 'center',
@@ -181,18 +221,55 @@ bindAsset("asset",true);
                             //         return d;
                             //     }
                             // }
-                            ],
-                        responseHandler:function(res) {
+                        ],
+                        responseHandler:function(res){
+                        if(res.data.rows.length>0)
+                        {
+                            //倒序
+                            //开始时间为本页最后一条
+                            startTime=res.data.rows[res.data.rows.length-1].ctime;
+                            startId=res.data.rows[res.data.rows.length-1].id;
+                            console.log(startTime);
+                            //结束时间为本页第一条
+                            endTime=res.data.rows[0].ctime;
+                            endId=res.data.rows[0].id;
+                            console.log(endTime);
+                        }
+
                             return res.data;
                         }
                     });
         };
         oTableInit.queryParams = function (params) {
+            var current_page= params.offset==0?1:(params.offset/params.limit)+1;
+            if(current_page>pageNumber)
+            {
+                pageStatus=1;
+                queryTime=startTime;
+                queryId=startId;
+            }
+            else if(current_page<pageNumber)
+            {
+                pageStatus=-1;
+                queryTime=endTime;
+                queryId=endId;
+            }
+            else
+            {
+                pageStatus=0;
+                queryTime=endId;
+                queryId=endId;
+            }
+
+            pageNumber=current_page;
+
             var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                id: queryId,
+                account_id:$("#accountId").val(),
+                asset: $("#asset").val(),
+                page_status:pageStatus,
                 page_size: params.limit,   //页面大小
-                current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
-                id: 0,
-                symbol: $("#asset").val()
+                current_page: current_page,  //页码
 
             };
             //console.log(temp);

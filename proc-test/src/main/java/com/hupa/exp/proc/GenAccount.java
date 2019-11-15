@@ -62,7 +62,7 @@ public class GenAccount {
     @Autowired
     private SecurityPwdHelper securityPwdHelper;
 
-    @PostConstruct
+    //@PostConstruct
     private void stat()
     {
 
