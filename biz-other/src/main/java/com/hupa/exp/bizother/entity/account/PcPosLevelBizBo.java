@@ -1,5 +1,7 @@
 package com.hupa.exp.bizother.entity.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 
 public class PcPosLevelBizBo {
@@ -10,7 +12,8 @@ public class PcPosLevelBizBo {
     private Integer minAmt;
     private Integer maxAmt;
     private Integer maxLeverage;
-    private BigDecimal posMatinMarginRatio;
+    @JsonProperty("posHoldMarginRatio")
+    private BigDecimal posHoldMarginRatio;
     private Long ctime;
     private Long mtime;
 
@@ -86,11 +89,11 @@ public class PcPosLevelBizBo {
         this.maxLeverage = maxLeverage;
     }
 
-    public BigDecimal getPosMatinMarginRatio() {
-        return posMatinMarginRatio;
+    public BigDecimal getPosHoldMarginRatio() {
+        return posHoldMarginRatio;
     }
 
-    public void setPosMatinMarginRatio(BigDecimal posMatinMarginRatio) {
-        this.posMatinMarginRatio = posMatinMarginRatio;
+    public void setPosHoldMarginRatio(BigDecimal posHoldMarginRatio) {
+        this.posHoldMarginRatio = posHoldMarginRatio;
     }
 }

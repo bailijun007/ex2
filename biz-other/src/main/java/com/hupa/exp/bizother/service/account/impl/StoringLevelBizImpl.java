@@ -52,12 +52,27 @@ public class StoringLevelBizImpl implements IPosLevelBiz {
     public long editPosLevel(PcPosLevelBizBo bo) throws BizException {
         PcPosLevelPo po= ConventObjectUtil.conventObject(bo,PcPosLevelPo.class);
         List<PcPosLevelPo> pos= iPcPosLevelDao.selectAllPosLevelList(bo.getAsset(),bo.getSymbol());
+        List<PcPosLevelBizBo> boList=new ArrayList<>();
+        pos.forEach(pcPosLevelPo->{
+            PcPosLevelBizBo posLevelBizBo=new PcPosLevelBizBo();
+            posLevelBizBo.setId(pcPosLevelPo.getId());
+            posLevelBizBo.setAsset(pcPosLevelPo.getAsset());
+            posLevelBizBo.setSymbol(pcPosLevelPo.getSymbol()) ;
+            posLevelBizBo.setGear(pcPosLevelPo.getGear());
+            posLevelBizBo.setMinAmt(pcPosLevelPo.getMinAmt()) ;
+            posLevelBizBo.setMaxAmt(pcPosLevelPo.getMaxAmt());
+            posLevelBizBo.setMaxLeverage(pcPosLevelPo.getMaxLeverage());
+            posLevelBizBo.setPosHoldMarginRatio(pcPosLevelPo.getPosMatinMarginRatio());
+            posLevelBizBo.setCtime(pcPosLevelPo.getCtime());
+            posLevelBizBo.setMtime(pcPosLevelPo.getMtime());
+            boList.add(posLevelBizBo);
+        });
         ExpDicPo dicPo= dicDao.selectDicByKey("PosLevel");
         if(iPcPosLevelDao.updateById(po)>0)
         {
             if(dicPo!=null)
             {
-                redisUtilDb0.hset(dicPo.getValue(),bo.getAsset()+"__"+bo.getSymbol(), JsonUtil.toJsonString(pos));
+                redisUtilDb0.hset(dicPo.getValue(),bo.getAsset()+"__"+bo.getSymbol(), JsonUtil.toJsonString(boList));
             }
         }
         return po.getId();
@@ -69,11 +84,20 @@ public class StoringLevelBizImpl implements IPosLevelBiz {
         PosLevelPageListBizBo pageListBizBo=new PosLevelPageListBizBo();
         pageListBizBo.setTotal(storingLevelPoIPage.getTotal());
         List<PcPosLevelBizBo> bizBoList=new ArrayList<>();
-        for(PcPosLevelPo po:storingLevelPoIPage.getRecords())
-        {
-            PcPosLevelBizBo bo=ConventObjectUtil.conventObject(po,PcPosLevelBizBo.class);
-            bizBoList.add(bo);
-        }
+        storingLevelPoIPage.getRecords().forEach(pcPosLevelPo->{
+            PcPosLevelBizBo posLevelBizBo=new PcPosLevelBizBo();
+            posLevelBizBo.setId(pcPosLevelPo.getId());
+            posLevelBizBo.setAsset(pcPosLevelPo.getAsset());
+            posLevelBizBo.setSymbol(pcPosLevelPo.getSymbol()) ;
+            posLevelBizBo.setGear(pcPosLevelPo.getGear());
+            posLevelBizBo.setMinAmt(pcPosLevelPo.getMinAmt()) ;
+            posLevelBizBo.setMaxAmt(pcPosLevelPo.getMaxAmt());
+            posLevelBizBo.setMaxLeverage(pcPosLevelPo.getMaxLeverage());
+            posLevelBizBo.setPosHoldMarginRatio(pcPosLevelPo.getPosMatinMarginRatio());
+            posLevelBizBo.setCtime(pcPosLevelPo.getCtime());
+            posLevelBizBo.setMtime(pcPosLevelPo.getMtime());
+            bizBoList.add(posLevelBizBo);
+        });
         pageListBizBo.setRows(bizBoList);
         return pageListBizBo;
     }
@@ -83,8 +107,18 @@ public class StoringLevelBizImpl implements IPosLevelBiz {
         PcPosLevelPo po= iPcPosLevelDao.selectPoById(id);
         if(po!=null)
         {
-            PcPosLevelBizBo bo=ConventObjectUtil.conventObject(po,PcPosLevelBizBo.class);
-            return bo;
+            PcPosLevelBizBo posLevelBizBo=new PcPosLevelBizBo();
+            posLevelBizBo.setId(po.getId());
+            posLevelBizBo.setAsset(po.getAsset());
+            posLevelBizBo.setSymbol(po.getSymbol()) ;
+            posLevelBizBo.setGear(po.getGear());
+            posLevelBizBo.setMinAmt(po.getMinAmt()) ;
+            posLevelBizBo.setMaxAmt(po.getMaxAmt());
+            posLevelBizBo.setMaxLeverage(po.getMaxLeverage());
+            posLevelBizBo.setPosHoldMarginRatio(po.getPosMatinMarginRatio());
+            posLevelBizBo.setCtime(po.getCtime());
+            posLevelBizBo.setMtime(po.getMtime());
+            return posLevelBizBo;
         }
         return null;
     }

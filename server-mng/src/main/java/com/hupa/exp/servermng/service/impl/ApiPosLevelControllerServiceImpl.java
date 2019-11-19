@@ -60,7 +60,15 @@ public class ApiPosLevelControllerServiceImpl implements IApiPosLevelControllerS
     @Override
     public PosLevelInfoOutputDto getPosLevel(PosLevelInfoInputDto inputDto) throws BizException {
         PcPosLevelBizBo bo= iPosLevelBiz.queryPosLevelById(inputDto.getId());
-        PosLevelInfoOutputDto outputDto=ConventObjectUtil.conventObject(bo,PosLevelInfoOutputDto.class);
+        PosLevelInfoOutputDto outputDto=new PosLevelInfoOutputDto();
+        outputDto.setId(String.valueOf(bo.getId()));
+        outputDto.setAsset(bo.getAsset());
+        outputDto.setSymbol(bo.getSymbol());
+        outputDto.setGear(String.valueOf(bo.getGear()));
+        outputDto.setMinAmt(String.valueOf(bo.getMinAmt()));
+        outputDto.setMaxAmt(String.valueOf(bo.getMaxAmt()));
+        outputDto.setMaxLeverage(String.valueOf(bo.getMaxLeverage()));
+        outputDto.setPosMatinMarginRatio(DecimalUtil.toTrimLiteral(bo.getPosHoldMarginRatio()));
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
     }
@@ -81,7 +89,7 @@ public class ApiPosLevelControllerServiceImpl implements IApiPosLevelControllerS
             info.setMinAmt(String.valueOf(bo.getMinAmt()));
             info.setMaxAmt(String.valueOf(bo.getMaxAmt()));
             info.setMaxLeverage(String.valueOf(bo.getMaxLeverage()));
-            info.setPosMatinMarginRatio(DecimalUtil.toTrimLiteral(bo.getPosMatinMarginRatio()));
+            info.setPosMatinMarginRatio(DecimalUtil.toTrimLiteral(bo.getPosHoldMarginRatio()));
             outputDtoList.add(info);
         }
         outputDto.setRows(outputDtoList);
