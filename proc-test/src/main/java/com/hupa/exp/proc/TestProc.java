@@ -79,7 +79,8 @@ public class TestProc {
             System.out.println(k);
             System.out.println(JSON.toJSONString(v));
         });
-
+        //List<Object>转List<String>
+//        List<String> aaa= intervalValue.stream().map(PcCandleIntervalCountPo::getTime).collect(Collectors.toList());
         //List分组
         Map<String,List<User>> userGroupMap= userList.stream().collect(Collectors.groupingBy(User::getAge));
         userGroupMap.forEach((k,v)->

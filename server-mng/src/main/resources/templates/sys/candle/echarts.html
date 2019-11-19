@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<!-- saved from url=(0065)http://yanshi.sucaihuo.com/modals/40/4078/demo/graph_echarts.html -->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>K线统计图</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+    <link rel="shortcut icon" href="http://yanshi.sucaihuo.com/modals/40/4078/demo/favicon.ico">
+    <link href="../../../static/echarts/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../static/echarts/font-awesome.css" rel="stylesheet">
+
+    <link href="../../../static/echarts/animate.css" rel="stylesheet">
+    <link href="../../../static/echarts/style.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="row  border-bottom white-bg dashboard-header">
+    <div class="col-sm-12">
+        <div class="form-group" style="width: 15%; float: left;">
+            <label class="sr-only">标的符号</label>
+            <select class="form-control" id="asset">
+            </select>
+        </div>
+        <div class="form-group" style="width: 15%; float: left;">
+            <label class="sr-only">标的符号</label>
+            <select class="form-control" id="symbol">
+            </select>
+        </div>
+        <div class="input-group">
+
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-primary" id="btn_query">搜索</button>
+                                </span>
+        </div>
+
+    </div>
+
+</div>
+<div class="wrapper wrapper-content animated fadeInRight" id="chartsDiv">
+    <!--<div class="row">-->
+    <!--<div class="col-sm-6">-->
+    <!--<div class="ibox float-e-margins">-->
+    <!--<div class="ibox-title">-->
+    <!--<h5>折线图</h5>-->
+    <!--<div class="ibox-tools">-->
+    <!--<a class="collapse-link">-->
+    <!--<i class="fa fa-chevron-up"></i>-->
+    <!--</a>-->
+    <!--<a class="dropdown-toggle" data-toggle="dropdown"-->
+    <!--href="http://yanshi.sucaihuo.com/modals/40/4078/demo/graph_flot.html#">-->
+    <!--<i class="fa fa-wrench"></i>-->
+    <!--</a>-->
+    <!--<ul class="dropdown-menu dropdown-user">-->
+    <!--<li><a href="http://yanshi.sucaihuo.com/modals/40/4078/demo/graph_flot.html#">选项1</a>-->
+    <!--</li>-->
+    <!--<li><a href="http://yanshi.sucaihuo.com/modals/40/4078/demo/graph_flot.html#">选项2</a>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <!--<a class="close-link">-->
+    <!--<i class="fa fa-times"></i>-->
+    <!--</a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="ibox-content">-->
+    <!--<div class="echarts" id="echarts-line-chart" _echarts_instance_="1573803507724"-->
+    <!--style="-webkit-tap-highlight-color: transparent; user-select: none; background-color: rgba(0, 0, 0, 0); cursor: default;">-->
+    <!--<div style="position: relative; overflow: hidden; width: 882px; height: 240px;">-->
+    <!--<div data-zr-dom-id="bg" class="zr-element"-->
+    <!--style="position: absolute; left: 0px; top: 0px; width: 882px; height: 240px; user-select: none;">-->
+    <!--</div>-->
+    <!--<canvas width="882" height="240" data-zr-dom-id="0" class="zr-element"-->
+    <!--style="position: absolute; left: 0px; top: 0px; width: 882px; height: 240px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">-->
+    <!--</canvas>-->
+    <!--<canvas width="882" height="240" data-zr-dom-id="1" class="zr-element"-->
+    <!--style="position: absolute; left: 0px; top: 0px; width: 882px; height: 240px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">-->
+    <!--</canvas>-->
+    <!--<canvas width="882" height="240" data-zr-dom-id="_zrender_hover_" class="zr-element"-->
+    <!--style="position: absolute; left: 0px; top: 0px; width: 882px; height: 240px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">-->
+    <!--</canvas>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="col-sm-6">-->
+    <!--<div class="ibox float-e-margins">-->
+    <!--<div class="ibox-title">-->
+    <!--<h5>柱状图</h5>-->
+    <!--<div class="ibox-tools">-->
+    <!--<a class="collapse-link">-->
+    <!--<i class="fa fa-chevron-up"></i>-->
+    <!--</a>-->
+    <!--<a class="dropdown-toggle" data-toggle="dropdown"-->
+    <!--href="http://yanshi.sucaihuo.com/modals/40/4078/demo/graph_flot.html#">-->
+    <!--<i class="fa fa-wrench"></i>-->
+    <!--</a>-->
+    <!--<ul class="dropdown-menu dropdown-user">-->
+    <!--<li><a href="http://yanshi.sucaihuo.com/modals/40/4078/demo/graph_flot.html#">选项1</a>-->
+    <!--</li>-->
+    <!--<li><a href="http://yanshi.sucaihuo.com/modals/40/4078/demo/graph_flot.html#">选项2</a>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <!--<a class="close-link">-->
+    <!--<i class="fa fa-times"></i>-->
+    <!--</a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="ibox-content">-->
+
+    <!--<div class="echarts" id="echarts-bar-chart" _echarts_instance_="1573803507725"-->
+    <!--style="-webkit-tap-highlight-color: transparent; user-select: none; background-color: rgba(0, 0, 0, 0); cursor: default;">-->
+    <!--<div style="position: relative; overflow: hidden; width: 882px; height: 240px;">-->
+    <!--<div data-zr-dom-id="bg" class="zr-element"-->
+    <!--style="position: absolute; left: 0px; top: 0px; width: 882px; height: 240px; user-select: none;">-->
+    <!--</div>-->
+    <!--<canvas width="882" height="240" data-zr-dom-id="0" class="zr-element"-->
+    <!--style="position: absolute; left: 0px; top: 0px; width: 882px; height: 240px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">-->
+    <!--</canvas>-->
+    <!--<canvas width="882" height="240" data-zr-dom-id="1" class="zr-element"-->
+    <!--style="position: absolute; left: 0px; top: 0px; width: 882px; height: 240px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">-->
+    <!--</canvas>-->
+    <!--<canvas width="882" height="240" data-zr-dom-id="_zrender_hover_" class="zr-element"-->
+    <!--style="position: absolute; left: 0px; top: 0px; width: 882px; height: 240px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">-->
+    <!--</canvas>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+
+</div>
+<!-- 全局js -->
+<script src="../../../static/echarts/hm.js"></script>
+<script src="../../../static/echarts/jquery.min.js"></script>
+<script src="../../../static/echarts/bootstrap.min.js"></script>
+
+
+<!-- ECharts -->
+<script src="../../../static/echarts/echarts-all.js"></script>
+
+<!-- 自定义js -->
+<script src="../../../static/echarts/content.js"></script>
+<!--<div class="gohome"><a class="animated bounceInUp"-->
+<!--href="http://yanshi.sucaihuo.com/modals/40/4078/demo/index.html?v=4.0" title="返回首页"><i-->
+<!--class="fa fa-home"></i></a></div>-->
+
+
+<!-- ECharts demo data -->
+<!--<script src="../../../static/echarts/echarts-demo.js"></script>-->
+<script src="../../../static/js/LayerTool.js"></script>
+<script src="../../../static/js/ChartsTool.js"></script>
+<!--<script type="text/javascript" src="../../static/echarts/stats" charset="UTF-8"></script>-->
+<!--&lt;!&ndash;统计代码，可删除&ndash;&gt;-->
+<script type="text/javascript">
+
+
+    var contractList = getContract();
+    var intervalList = getDicList("interval");
+    var candleData;
+    $(function () {
+
+        bindAsset("asset", true);
+        bindAssetSymbol("symbol", $("#asset").val(), true);
+
+
+        $("#asset").change(function () {
+            $("#symbol").empty();
+            bindAssetSymbol("symbol", $("#asset").val(), true);
+            RefreshChart();
+        })
+        $("#symbol").change(function () {
+            RefreshChart();
+        })
+
+        $("#btn_query").click(function () {
+            RefreshChart();
+        })
+
+        function getCandleData() {
+            var asset = $("#asset").val();
+            var symbol = $("#symbol").val();
+            var param = "?";
+            param += "asset=" + asset;
+            param += "&symbol=" + symbol;
+            $.ajax({
+                type: "get",
+                url: "/v1/http/candle/query_interval_count" + param,
+                contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+                async: false,
+                //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+                //data:JSON.stringify({id:id}),
+                success: function (data) {
+                    debugger;
+                    console.log(data);
+                    if (data.data != null) {
+                        candleData = data.data.pcCandleStatisticsData;
+                    }
+                }
+            });
+        }
+
+        getCandleData();
+
+        function randomWord(length) {//默认32位
+            //由以下元素组成
+            var arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            var num = '';
+            for (var i = 0; i < length; i++) {
+                num += arr[parseInt(Math.random() * arr.length)];
+            }
+            return num;
+        }
+
+
+        function buildBarChartHtml() {
+            var html = "";
+            var num = 0;
+            for (var i = 0; i < contractList.length; i++) {
+                var asset = contractList[i].asset;
+                var symbol = contractList[i].symbol;
+                if (candleData[asset] != undefined &&
+                    candleData[asset][symbol] != undefined) {
+                    for (var j = 0; j < intervalList.length; j++) {
+                        if (num == 0) {
+                            html += '<div class="row">';
+                        }
+                        html += '<div class="col-sm-6">';
+                        html += '<div class="ibox float-e-margins">';
+                        html += '<div class="ibox-title">';
+                        var title = contractList[i].asset + "_" + contractList[i].symbol + "_" + intervalList[j].key;
+                        html += '<h5>' + title + '</h5>';
+                        html += '<div class="ibox-tools">';
+                        html += '<a class="collapse-link">';
+                        html += '<i class="fa fa-chevron-up"></i>';
+                        html += '</a>';
+                        html += '<a class="dropdown-toggle" data-toggle="dropdown" href="http://yanshi.sucaihuo.com/modals/40/4078/demo/graph_flot.html#">';
+                        html += '<i class="fa fa-wrench"></i>';
+                        html += '</a>';
+                        html += '<ul class="dropdown-menu dropdown-user">';
+                        html += '<li><a href="http://yanshi.sucaihuo.com/modals/40/4078/demo/graph_flot.html#">选项1</a>';
+                        html += '</li>';
+                        html += '<li><a href="http://yanshi.sucaihuo.com/modals/40/4078/demo/graph_flot.html#">选项2</a>';
+                        html += '</li>';
+                        html += '</ul>';
+                        html += '<a class="close-link">';
+                        html += '<i class="fa fa-times"></i>';
+                        html += '</a>';
+                        html += '</div>';
+                        html += '</div>';
+                        html += '<div class="ibox-content">';
+                        var chartId = title + "_chart";
+                        var instance = randomWord(13);
+                        html += '<div class="echarts" id="' + chartId + '" _echarts_instance_="' + instance + '" style="-webkit-tap-highlight-color: transparent; user-select: none; background-color: rgba(0, 0, 0, 0); cursor: default;">';
+                        html += '<div style="position: relative; overflow: hidden; width: 882px; height: 240px;">';
+                        html += '<div data-zr-dom-id="bg" class="zr-element" style="position: absolute; left: 0px; top: 0px; width: 882px; height: 240px; user-select: none;">';
+                        html += '</div>';
+                        html += '<canvas width="882" height="240" data-zr-dom-id="0" class="zr-element" style="position: absolute; left: 0px; top: 0px; width: 882px; height: 240px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">';
+                        html += '</canvas>';
+                        html += '<canvas width="882" height="240" data-zr-dom-id="1" class="zr-element" style="position: absolute; left: 0px; top: 0px; width: 882px; height: 240px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">';
+                        html += '</canvas>';
+                        html += '<canvas width="882" height="240" data-zr-dom-id="_zrender_hover_" class="zr-element" style="position: absolute; left: 0px; top: 0px; width: 882px; height: 240px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">';
+                        html += '</canvas>';
+                        html += '</div>';
+                        html += '</div>';
+                        html += '</div>';
+                        html += '</div>';
+                        html += '</div>';
+                        if (num == 1) {
+                            html += '</div>';
+                            num = 0;
+                        }
+                        else {
+                            num = 1;
+                        }
+                    }
+                }
+            }
+            $("#chartsDiv").html(html);
+        }
+
+        buildBarChartHtml();
+
+        function buildChart() {
+            if (candleData != null) {
+                for (var i = 0; i < contractList.length; i++) {
+                    var asset = contractList[i].asset;
+                    var symbol = contractList[i].symbol;
+                    if (candleData[asset] != undefined &&
+                        candleData[asset][symbol] != undefined) {
+                        for (var j = 0; j < intervalList.length; j++) {
+                            var interval = intervalList[j].key;
+                            var chartId = asset + "_" + symbol + "_" + interval + "_chart";
+                            if (candleData[asset][symbol][interval] != undefined) {
+                                var countList = candleData[asset][symbol][interval].countList;
+                                var timeList = candleData[asset][symbol][interval].timeList;
+                                var colorList = candleData[asset][symbol][interval].colorList;
+                                var title = candleData[asset][symbol][interval].assetSymbol;
+                                buildLineChart(chartId, title, timeList, countList, colorList);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        buildChart();
+
+        function RefreshChart() {
+            getCandleData();
+            $("#chartsDiv").html("");
+            buildBarChartHtml();
+            buildChart();
+        }
+
+        // setInterval("Close()", 1000);
+    })
+
+
+</script>
+</body>
+</html>

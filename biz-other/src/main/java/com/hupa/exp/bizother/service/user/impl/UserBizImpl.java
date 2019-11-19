@@ -66,10 +66,15 @@ public class UserBizImpl implements IUserBiz {
             throw new ValidateException(ValidateExceptionCode.VALIDATE_PARAM_EMPTY_ERROR);
         ExpUserPo expUserPo = ConventObjectUtil.conventObject(expUserBo, ExpUserPo.class);
         String pwd = pwdHelper.getMd5Pwd("PwdMD5Key", expUserBo.getUserpwd());
-        String fundPwd = pwdHelper.getMd5Pwd("FundPwdMD5Key", expUserBo.getFundPwd());
+        if(!StringUtils.isEmpty( expUserBo.getFundPwd()))
+        {
+            String fundPwd = pwdHelper.getMd5Pwd("FundPwdMD5Key", expUserBo.getFundPwd());
+            expUserPo.setFundPwd(fundPwd);
+        }
+
         long userId = 0;
         expUserPo.setUserpwd(pwd);//加密后的密码
-        expUserPo.setFundPwd(fundPwd);
+
         expUserPo.setMtime(System.currentTimeMillis());//修改时间
         //expUserPo.setUserType(0);
         expUserBo.setCtime(new Date().getTime());

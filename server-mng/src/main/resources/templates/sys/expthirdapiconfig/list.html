@@ -2,15 +2,13 @@
 <html>
 <head runat="server">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
     <link rel="shortcut icon" href="../../../static/img/favicon.ico">
     <link href="../../../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="../../../static/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
     <link href="../../../static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
     <link href="../../../static/css/style.css?v=4.1.0" rel="stylesheet">
-
-
 
 </head>
 
@@ -21,8 +19,9 @@
             <div class="row row-lg">
                 <div class="col-sm-11">
                     <div class="form-group" style="width: 15%; float: left;">
-                        <label class="sr-only">交易对</label>
-                        <select class="form-control" id="symbol">
+                        <label class="sr-only">类型</label>
+                        <select id="parentId" class="form-control">
+
                         </select>
                     </div>
                     <div class="input-group">
@@ -41,8 +40,12 @@
                                     <div class="bars pull-left">
                                         <div class="btn-group hidden-xs" id="toolbar" role="group">
 
-                                            <a class="btn btn-outline btn-default" href="javascript:addCatalogEvent('Add','0')"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>新增</a>
-                                            <a class="btn btn-outline btn-default" href="javascript:del_ck_confirm('tb_departments','/v1/http/dictype/delete')"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>删除</a>
+                                            <a class="btn btn-outline btn-default"
+                                               href="javascript:addCatalogEvent('Add','0')"><i
+                                                    class="glyphicon glyphicon-plus" aria-hidden="true"></i>新增</a>
+                                            <a class="btn btn-outline btn-default"
+                                               href="javascript:del_ck_confirm('tb_departments','/v1/http/dic/delete')"><i
+                                                    class="glyphicon glyphicon-trash" aria-hidden="true"></i>删除</a>
                                         </div>
                                     </div>
                                 </div>
@@ -60,9 +63,8 @@
 </div>
 <script src="../../../static/js/jquery.min.js?v=2.1.4"></script>
 <script src="../../../static/js/bootstrap.min.js?v=3.3.6"></script>
-<script src="../../../static/js/plugins/bootstrap-table/locale/bootstrap-table.js"></script>
-<script src="../../../static/js/bootstrap-editable.min.js"></script>
-<script src="../../../static/js/bootstrap-table-editable.js"></script>
+<script src="../../../static/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="../../../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
 <script src="../../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
 <script src="../../../static/js/plugins/layer/layer.min.js"></script>
 <script src="../../../static/js/LayerTool.js"></script>
@@ -70,7 +72,9 @@
 </html>
 <script type="text/javascript">
     var oTable;
+    var apiModuleList;
     $(function () {
+        apiModuleList= getDicList("ExpThirdApiConfigApiModule");
         //1.初始化Table
         oTable = new TableInit();
         oTable.Init();
@@ -80,18 +84,25 @@
             oTable.Init();
         });
 
+        $("#parentId").change(function () {
+            $('#tb_departments').bootstrapTable('destroy');
+            oTable.Init();
+        })
+
         // var oButtonInit = new ButtonInit();
-        // oButtonInit.Init();
+        // oTable.Init(1,10);
 
     });
-bindSymbol("symbol",true);
+
     function ShowParam(id) {
         alert(id);
     }
 
-    var addCatalogEvent = function (action,id) {
-        var text = "添加档位信息"
-        url = "/sys/storinglevel/edit.html?id="+id+"&action="+action+"";
+    var addCatalogEvent = function (action, id) {
+        var text = "添加字典"
+        if (action == "Edit")
+            text = "修改字典"
+        url = "/sys/expthirdapiconfig/edit.html?id=" + id + "&action=" + action + "";
 
         parent.layer.open({
             type: 2,
@@ -111,25 +122,12 @@ bindSymbol("symbol",true);
     }
 
 
-
-    function DoAction(action) {
-        var RowSelects = $('#tb_departments').bootstrapTable('getSelections'); //获取表选择的行
-        var SelectRow = $.parseJSON(JSON.stringify(RowSelects));
-
-        if (action == "add")
-            window.location.href = "ModuleEdit.aspx?action=Add&typeId=" + GetQueryString('typeId') + "";
-        else if (SelectRow.length != 0)
-            window.location.href = "ModuleEdit.aspx?id=" + SelectRow[0].id + "&action=Edit";
-        else
-            alert("请勾选要操作的记录");
-    }
-
     var TableInit = function () {
         var oTableInit = new Object();
         //初始化Table
         oTableInit.Init = function () {
             $('#tb_departments').bootstrapTable({
-                url: '/v1/http/poslevel/query_list',//+param,         //请求后台的URL（*）
+                url: '/v1/http/expthirdapiconfig/query_list',//+param,         //请求后台的URL（*）
                 method: 'get',                      //请求方式（*）
                 //toolbar: '#toolbar',                //工具按钮用哪个容器
                 //striped: true,                      //是否显示行间隔色
@@ -159,49 +157,46 @@ bindSymbol("symbol",true);
                         checkbox: true
                     }
                     , {
-                        title: '交易对',
-                        field: 'symbol',
-                        editable: {
-                            type: 'select',
-                            title: '交易对',
-                            source:[{value:"ETH_USD",text:"ETH_USD"},{value:"BTC_USD",text:"BTC_USD"},{value:"EOS_USD",text:"EOS_USD"}]
-                        }
+                        title: '第三方api_id',
+                        field: 'third_api_id'
                     }, {
-                        title: '档位',
-                        field: 'gear',
-                        editable: {
-                            type: 'text',
-                            title: '档位',
-                            validate: function (v) {
-                                if (!v) return '档位不能为空';
-
+                        title: 'api名称',
+                        field: 'third_api_name'
+                    }
+                    , {
+                        title: '类型',
+                        formatter: function (value, row, index) {
+                            for(var i=0;i<apiModuleList.length;i++)
+                            {
+                                if(row.api_module==apiModuleList[i].key)
+                                    return apiModuleList[i].value;
                             }
+                            return row.api_module;
                         }
-                    }, {
-                        title: '最小张数',
-                        field: 'minAmt'
                     }
                     , {
-                        title: '最大张数',
-                        field: 'maxAmt'
+                        title: '时间单位',
+                        field: 'time_unit'
                     }
                     , {
-                        title: '最高可用杠杆倍数',
-                        field: 'maxLeverage'
+                        title: '时间间隔',
+                        field: 'limit_time'
                     }
                     , {
-                        title: '维持保证金率',
-                        field: 'posMatinMarginRatio'
+                        title: '每个时间单位限制的次数',
+                        field: 'limit_count'
                     }
-                    ,
-                    // {
-                    //     title: '时间',
-                    //     field: 'ctime',
-                    //     editable: {
-                    //         type: 'date',
-                    //         title: '时间'
-                    //     }
-                    // },
+                    , {
+                        title: '是否启用',
+                        // field: 'dic_type',
+                        formatter: function (value, row, index) {
+
+                            if (row.enable_flag == "1")
+                                return "是";
+                            else
+                                return "否";
+                        }
+                    },
                     {
                         title: '操作', field: '#', align: 'center',
                         formatter: function (value, row, index) {
@@ -209,78 +204,38 @@ bindSymbol("symbol",true);
                             return d;
                         }
                     }],
-                responseHandler:function(res) {
+                responseHandler: function (res) {
+                    //console.log(res);
                     return res.data;
-                },
-                onEditableSave: function (field, row, oldValue, $el) {
-                    var parmes="?";
-                    parmes+= "id="+row.id;
-                    parmes+="&symbol="+row.symbol;
-                    parmes+="&gear="+row.gear;
-                    parmes+="&min_amt="+row.minAmt;
-                    parmes+="&max_amt="+row.maxAmt;
-                    parmes+="&max_leverage="+row.maxLeverage;
-                    parmes+="&pos_matin_margin_ratio="+row.posMatinMarginRatio;;
-                    $.ajax({
-                        type:"post",
-                        url:"/v1/http/poslevel/create_or_edit"+parmes,
-                        contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
-
-                        success:function(data) {
-                            debugger
-                            //console.log(data);
-                            if(data.code==0)
-                            {
-                                if(row.id>0)
-                                    layer.msg("修改成功！");
-                                else
-                                    layer.msg("修改失败！");
-                                setTimeout("Close()", 1000);
-                            }
-                            else
-                            {
-                                layer.msg(data.msg);
-                            }
-
-
-                        }
-                    })
                 }
             });
-
-
-
-
         };
         oTableInit.queryParams = function (params) {
             var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                 page_size: params.limit,   //页面大小
-                current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
-                asset:"BTC",
-                symbol: "BTC_USD",
+                current_page: params.offset == 0 ? 1 : (params.offset / params.limit) + 1,  //页码
+                parent_id: $("#parentId").val()
+                //action: "GetBakModuleList"
+
             };
             //console.log(temp);
             return temp;
         };
         return oTableInit;
     };
-
-
-
-
-    function GetQueryString(name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-        var r = window.location.search.substr(1).match(reg);  //获取url中"?"符后的字符串并正则匹配
-        var context = "";
-        if (r != null)
-            context = r[2];
-        reg = null;
-        r = null;
-        return context == null || context == "" || context == "undefined" ? "" : context;
-    }//获取连接中的参数
-
-
-
+    // $('#tb_departments').on('page-change.bs.table', function (number,size) {
+    //     //debugger;
+    //     //alert("1213");
+    //     $('#tb_departments').bootstrapTable('destroy');
+    //     oTable.Init();
+    //     // ...
+    // });
+    $('#tb_departments').on('load-success.bs.table', function (e) {
+        //debugger;
+        //alert("1213");
+        $(".fixed-table-loading").attr("style", "display:none");//不知道什么鬼原因  反正先加载时候先去掉
+        // ...
+    });
 
 </script>
 

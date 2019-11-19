@@ -111,7 +111,7 @@
             }),
             success:function(data) {
                 var id=GetQueryString("id");
-                if(data==true)
+                if(data.code==0)
                 {
                     if(id>0)
                         layer.msg("修改成功！");

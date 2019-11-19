@@ -174,7 +174,7 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
     }
 
     @Override
-    public ContractListOutputDto selectPosPageByParam(ContractListInputDto inputDto) throws ContractException  {
+    public ContractListOutputDto getPosPageByParam(ContractListInputDto inputDto) throws ContractException  {
         PcContractListBizBo listBizBo= iPcContractBiz.selectPosPageByParam(inputDto.getAsset(),inputDto.getSymbol(),inputDto.getCurrentPage(),inputDto.getPageSize());
         ContractListOutputDto outputDto=new ContractListOutputDto();
         List<ContractListOutputPage> pageList=new ArrayList<>();
@@ -209,7 +209,39 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
     }
 
     @Override
-    public GetAllSymbolOutputDto selectAllSymbolList(GetAllSymbolInputDto inputDto) throws ContractException {
+    public GetAllActiveContractOutputDto getAllActiveContract(GetAllActiveContractInputDto inputDto) throws BizException {
+        List<PcContractPo> pcContractPos= iPcContractDao.selectPosByStatus(1);
+        List<GetContractOutputDto> activeContract=new ArrayList<>();
+        GetAllActiveContractOutputDto outputDto =new GetAllActiveContractOutputDto();
+        pcContractPos.forEach(bo->{
+            GetContractOutputDto info=new GetContractOutputDto();
+            info.setId(String.valueOf(bo.getId()));
+            info.setSymbol(bo.getSymbol());
+            info.setSymbolType(String.valueOf(bo.getSymbolType()));
+            info.setAsset(bo.getAsset());
+            //info.setCurrency(bo.getCurrency());
+            info.setPrecision(String.valueOf(bo.getPrecision()));
+            info.setContractName(bo.getContractName());
+            info.setDisplayName(bo.getDisplayName());
+            info.setDisplayNameSplit(bo.getDisplayNameSplit());
+            info.setDefaultPrice(DecimalUtil.toTrimLiteral(bo.getDefaultPrice()));
+            info.setLastPrice(DecimalUtil.toTrimLiteral(bo.getLastPrice()));
+            info.setStep(DecimalUtil.toTrimLiteral(bo.getStep()));
+            info.setFaceValue(String.valueOf(bo.getFaceValue()));
+            info.setSort(String.valueOf(bo.getSort()));
+            info.setStatus(String.valueOf(bo.getStatus()));
+            info.setPrivilege(String.valueOf(bo.getPrivilege()));
+            info.setCtime(String.valueOf(bo.getCtime()));
+            info.setMtime(String.valueOf(bo.getMtime()));
+            info.setQuoteCurrency(bo.getQuoteCurrency());
+            activeContract.add(info);
+        });
+        outputDto.setActiveContract(activeContract);
+        return outputDto;
+    }
+
+    @Override
+    public GetAllSymbolOutputDto getAllSymbolList(GetAllSymbolInputDto inputDto) throws ContractException {
         List<String> symbolList= iPcContractBiz.selectAllSymbol();
         GetAllSymbolOutputDto outputDto=new GetAllSymbolOutputDto();
         Set<String> set = new HashSet<>(symbolList);
@@ -284,6 +316,38 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
                 inputDto.getIds(),"");
         DeleteOutputDto outputDto=new DeleteOutputDto();
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
+        return outputDto;
+    }
+
+    @Override
+    public GetContractListByAssetOutputDto GetContractListByAsset(GetContractListByAssetInputDto inputDto) throws BizException {
+        List<PcContractPo> poList=iPcContractDao.selectPosByAsset(inputDto.getAsset());
+        List<GetContractOutputDto> assetSymbolList=new ArrayList<>();
+        poList.forEach(bo->{
+            GetContractOutputDto info=new GetContractOutputDto();
+            info.setId(String.valueOf(bo.getId()));
+            info.setSymbol(bo.getSymbol());
+            info.setSymbolType(String.valueOf(bo.getSymbolType()));
+            info.setAsset(bo.getAsset());
+            //info.setCurrency(bo.getCurrency());
+            info.setPrecision(String.valueOf(bo.getPrecision()));
+            info.setContractName(bo.getContractName());
+            info.setDisplayName(bo.getDisplayName());
+            info.setDisplayNameSplit(bo.getDisplayNameSplit());
+            info.setDefaultPrice(DecimalUtil.toTrimLiteral(bo.getDefaultPrice()));
+            info.setLastPrice(DecimalUtil.toTrimLiteral(bo.getLastPrice()));
+            info.setStep(DecimalUtil.toTrimLiteral(bo.getStep()));
+            info.setFaceValue(String.valueOf(bo.getFaceValue()));
+            info.setSort(String.valueOf(bo.getSort()));
+            info.setStatus(String.valueOf(bo.getStatus()));
+            info.setPrivilege(String.valueOf(bo.getPrivilege()));
+            info.setCtime(String.valueOf(bo.getCtime()));
+            info.setMtime(String.valueOf(bo.getMtime()));
+            info.setQuoteCurrency(bo.getQuoteCurrency());
+            assetSymbolList.add(info);
+        });
+        GetContractListByAssetOutputDto outputDto=new GetContractListByAssetOutputDto();
+        outputDto.setAssetSymbolList(assetSymbolList);
         return outputDto;
     }
 }

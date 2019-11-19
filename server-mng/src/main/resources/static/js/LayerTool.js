@@ -531,6 +531,25 @@ function bindDrop(type,id,needAll)
     })
 }
 
+function getDicList(type)
+{
+    var dicList;
+    $.ajax({
+        type: "get",
+        url: "/v1/http/dic/query_type_list?dic_type_key="+type,
+        contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+        async: false,
+        //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+        //data:JSON.stringify({id:id}),
+        success: function (data) {
+            //console.log(data);
+            var list= data.data.dic_list;
+            dicList=list;
+        }
+    })
+    return dicList;
+}
+
 function bindAsset(id,needAll)
 {
     $.ajax({
@@ -584,6 +603,59 @@ function bindSymbol(id,needAll)
         }
     })
 }
+
+function getContract()
+{
+    var contractList;
+    $.ajax({
+        type: "get",
+        url: "/v1/http/contract/get_all_contract",
+        contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+        async: false,
+        //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+        //data:JSON.stringify({id:id}),
+        success: function (data) {
+            //console.log(data);
+            contractList= data.data.active_contract;
+        }
+    })
+    return contractList;
+}
+
+function bindAssetSymbol(id,asset,needAll)
+{
+    var html="";
+    if(asset=="")
+    {
+        html +="<option value=''>全部</option>";
+        $("#"+id+"").html(html);
+    }else
+    {
+        $.ajax({
+            type: "get",
+            url: "/v1/http/contract/get_contract_list_by_asset?asset="+asset,
+            contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+            async: false,
+            //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+            //data:JSON.stringify({id:id}),
+            success: function (data) {
+                //console.log(data);
+                var assetSymbolList= data.data.asset_symbol_list;
+                if (assetSymbolList != null) {
+
+                    if(needAll)
+                        html +="<option value=''>全部</option>";
+                    for(var i=0;i<assetSymbolList.length;i++)
+                    {
+                        html+="<option value='"+assetSymbolList[i].symbol+"'>"+assetSymbolList[i].symbol+"</option>"
+                    }
+                    $("#"+id+"").html(html);
+                }
+            }
+        })
+    }
+}
+
 function time(time) {
     var date = new Date(time+1000*60*60*8);
     return date.toJSON().substr(0, 19).replace('T', ' ');//.replace(/-/g, '.')
@@ -628,3 +700,4 @@ function cutZero(old){
     }
     return old;
 }
+

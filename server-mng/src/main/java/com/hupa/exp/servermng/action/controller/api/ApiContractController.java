@@ -136,7 +136,7 @@ public class ApiContractController {
         inputDto.setCurrentPage(currentPage);
         ContractListOutputDto outputDto=new ContractListOutputDto();
         try {
-            outputDto=iApiContractControllerService.selectPosPageByParam(inputDto);
+            outputDto=iApiContractControllerService.getPosPageByParam(inputDto);
         } catch (ContractException e) {
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
         }
@@ -196,8 +196,40 @@ public class ApiContractController {
 
         GetAllSymbolOutputDto outputDto=new GetAllSymbolOutputDto();
         try {
-            outputDto=iApiContractControllerService.selectAllSymbolList(inputDto);
+            outputDto=iApiContractControllerService.getAllSymbolList(inputDto);
         } catch (ContractException e) {
+            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
+        }
+        return  BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
+    }
+    @ApiOperation(value = "获取有效交易对")
+    @GetMapping(path = "/get_all_contract")
+    public BaseResultViaApiDto<GetAllActiveContractInputDto,GetAllActiveContractOutputDto> getActiveContract()
+    {
+        GetAllActiveContractInputDto inputDto=new GetAllActiveContractInputDto();
+
+        GetAllActiveContractOutputDto outputDto=new GetAllActiveContractOutputDto();
+        try {
+            outputDto=iApiContractControllerService.getAllActiveContract(inputDto);
+        } catch (BizException e) {
+            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
+        }
+        return  BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
+    }
+
+    @ApiOperation(value = "获取asset对应的symbol")
+    @GetMapping(path = "/get_contract_list_by_asset")
+    public BaseResultViaApiDto<GetContractListByAssetInputDto,GetContractListByAssetOutputDto> GetContractListByAsset(
+            @ApiParam(name="asset",value = "标的符号",required = true)
+            @RequestParam(name = "asset",required = false) String asset
+    )
+    {
+        GetContractListByAssetInputDto inputDto=new GetContractListByAssetInputDto();
+        inputDto.setAsset(asset);
+        GetContractListByAssetOutputDto outputDto=new GetContractListByAssetOutputDto();
+        try {
+            outputDto=iApiContractControllerService.GetContractListByAsset(inputDto);
+        } catch (BizException e) {
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
         }
         return  BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);

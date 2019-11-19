@@ -12,13 +12,17 @@ public interface IApiContractControllerService {
 
     GetContractOutputDto getContract(GetContractInputDto inputDto) throws ContractException;
 
-    ContractListOutputDto selectPosPageByParam(ContractListInputDto inputDto) throws ContractException;
+    ContractListOutputDto getPosPageByParam(ContractListInputDto inputDto) throws ContractException;
 
-    GetAllSymbolOutputDto selectAllSymbolList(GetAllSymbolInputDto inputDto) throws ContractException;
+    GetAllActiveContractOutputDto getAllActiveContract(GetAllActiveContractInputDto inputDto) throws BizException;
+
+    GetAllSymbolOutputDto getAllSymbolList(GetAllSymbolInputDto inputDto) throws ContractException;
 
     CheckHasContractOutputDto checkHasContract(CheckHasContractInputDto inputDto) throws  MngException;
 
     CheckHasLastPriceOutputDto checkHasLastPrice(CheckHasLastPriceInputDto inputDto)throws ContractException;
 
     DeleteOutputDto deleteContract(DeleteInputDto inputDto) throws BizException;
+
+    GetContractListByAssetOutputDto GetContractListByAsset(GetContractListByAssetInputDto inputDto)throws BizException;
 }
