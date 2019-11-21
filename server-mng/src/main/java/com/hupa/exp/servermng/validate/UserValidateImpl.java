@@ -6,6 +6,7 @@ import com.hupa.exp.servermng.enums.MngExceptionCode;
 import com.hupa.exp.servermng.enums.UserExceptionCode;
 import com.hupa.exp.servermng.exception.MngException;
 import com.hupa.exp.servermng.exception.UserException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +22,9 @@ public class UserValidateImpl implements IValidate<UserInputDto> {
 //            throw new UserException(UserExceptionCode.USERNAME_NULL_ERROR);
         if(obj.getPassword()==null||obj.getPassword().isEmpty())
             throw new MngException(MngExceptionCode.PWD_NULL_ERROR);
-        if(iExpUserDao.getUserInfoByPhone(obj.getPhone())!=null)
+        if(!StringUtils.isEmpty(obj.getPhone())&&iExpUserDao.getUserInfoByPhone(obj.getPhone())!=null)
             throw new MngException(MngExceptionCode.PHONE_EXIST_ERROR_MNG);
-        if(iExpUserDao.getUserInfoByEmail(obj.getEmail())!=null)
+        if(!StringUtils.isEmpty(obj.getEmail())&&iExpUserDao.getUserInfoByEmail(obj.getEmail())!=null)
             throw new MngException(MngExceptionCode.EMAIL_EXIST_ERROR_MNG);
     }
 }

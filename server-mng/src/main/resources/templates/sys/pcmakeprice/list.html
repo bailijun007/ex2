@@ -19,11 +19,20 @@
             <div class="row row-lg">
                 <div class="col-sm-11">
                     <div class="form-group" style="width: 15%; float: left;">
-                        <label class="sr-only">用户名</label>
-                        <input type="text" placeholder="请输入用户名称" id="userName" class="form-control">
+                        <label class="sr-only">年份</label>
+                        <select class="form-control" id="year">
+                            <option value="2019" selected="selected">2019</option>
+                        </select>
                     </div>
-                    <div class="pull-left search">
-                        <input type="text" placeholder="请输入用户ID" id="id" class="form-control input-outline">
+                    <div class="form-group" style="width: 15%; float: left;">
+                        <label class="sr-only">币种</label>
+                        <select class="form-control" id="asset">
+                        </select>
+                    </div>
+                    <div class="form-group" style="width: 15%; float: left;">
+                        <label class="sr-only">标的符号</label>
+                        <select class="form-control" id="symbol">
+                        </select>
                     </div>
                     <div class="input-group">
 
@@ -40,8 +49,9 @@
                                 <div class="fixed-table-toolbar">
                                     <div class="bars pull-left">
                                         <div class="btn-group hidden-xs" id="toolbar" role="group">
-                                            <a class="btn btn-outline btn-default" href="javascript:addCatalogEvent('Add')"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>新增</a>
-                                            <a class="btn btn-outline btn-default" href="javascript:del_ck_confirm('tb_departments','/v1/http/dictype/delete')"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>删除</a>
+
+                                            <!--<a class="btn btn-outline btn-default" href="javascript:addCatalogEvent('Add','0')"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>新增</a>-->
+                                            <!--<a class="btn btn-outline btn-default" href="javascript:del_ck_confirm('tb_departments','/v1/http/dictype/delete')"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>删除</a>-->
                                         </div>
                                     </div>
                                 </div>
@@ -77,82 +87,30 @@
             $('#tb_departments').bootstrapTable('destroy');
             oTable.Init();
         });
-
-        var oButtonInit = new ButtonInit();
-        oButtonInit.Init();
-
-    });
-
-    function ShowParam(id) {
-        //alert(id);
-    }
-
-    var addCatalogEvent = function (action,id) {
-        var text = "添加用户"
-        url = "/sys/user/edit.html";
-        url +="?id="+id+"&action="+action;
-
-        var index=layer.open({
-            type: 2,
-            title: text,
-            shadeClose: false,
-            shade: 0.5,
-            maxmin: true, //开启最大化最小化按钮
-            area: ['1000px', '500px'],
-            content: url,
-            success: function (layero, index) {
-
-            },
-            end: function () {
-                $('#tb_departments').bootstrapTable('destroy');
-                oTable.Init();
-            }
+        $("#symbol").change(function () {
+            $('#tb_departments').bootstrapTable('destroy');
+            oTable.Init();
         });
-        layer.full(index);
-    }
-
-
-
-    function DoAction(action) {
-        var RowSelects = $('#tb_departments').bootstrapTable('getSelections'); //获取表选择的行
-        var SelectRow = $.parseJSON(JSON.stringify(RowSelects));
-
-        if (action == "add")
-            window.location.href = "ModuleEdit.aspx?action=Add&typeId=" + GetQueryString('typeId') + "";
-        else if (SelectRow.length != 0)
-            window.location.href = "ModuleEdit.aspx?id=" + SelectRow[0].id + "&action=Edit";
-        else
-            alert("请勾选要操作的记录");
-    }
-    function getCheckRow()
-    {
-        var RowSelects = $('#tb_departments').bootstrapTable('getSelections'); //获取表选择的行
-        //console.log(RowSelects);
-        //alert(RowSelects);
-    }
+        $("#asset").change(function () {
+            $('#tb_departments').bootstrapTable('destroy');
+            oTable.Init();
+        });
+        bindSymbol("symbol",true);
+        bindAsset("asset",true);
+    });
     var TableInit = function () {
         var oTableInit = new Object();
         //初始化Table
         oTableInit.Init = function () {
-            // $.ajax({
-            //     type: "get",
-            //     url: "/v1/http/user/query_list",
-            //     contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
-            //     async: false,
-            //     //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
-            //     //data:JSON.stringify({id:id}),
-            //     success: function (data) {
-            //         console.log(data);
                     $('#tb_departments').bootstrapTable({
-                        url: '/v1/http/user/query_list_by_type',         //请求后台的URL（*）
-                        //method: 'get',                      //请求方式（*）
+                         url: '/v1/http/makeprice/query_list',//+param,         //请求后台的URL（*）
+                         method: 'get',                      //请求方式（*）
                         //toolbar: '#toolbar',                //工具按钮用哪个容器
                         //striped: true,                      //是否显示行间隔色
                         //cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
                         pagination: true,                   //是否显示分页（*）
                         //sortable: true,                     //是否启用排序
                         //sortOrder: "asc",                   //排序方式
-                        height:750,
                         queryParams: oTableInit.queryParams,//传递参数（*）
                         sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
                         pageNumber: 1,                       //初始化加载第一页，默认第一页
@@ -169,99 +127,125 @@
                         uniqueId: "id",                     //每一行的唯一标识，一般为主键列
                         //showToggle: true,                    //是否显示详细视图和列表视图的切换按钮
                         //cardView: false,                    //是否显示详细视图
-                        //detailView: false,                   //是否显示父子表
+                        //detailView: true,                   //是否显示父子表
                         columns: [
                             {
                                 checkbox: true
                             }
                             , {
-                                title: '用户名',
-                                field:'userName'
+                                title: '币种',
+                                field: 'asset'
                             }, {
-                                title: '邮箱',
-                                field: 'email'
-                            }
-                            ,
-                            {
-                                title: '手机号码',
-                                field: 'phone'
-                            }
-                            ,
-                            {
-                                title: '用户类型',
-                                formatter: function (value, row, index) {
-                                    if(row.status=="1")
-                                        return "交易所用户";
-                                    else
-                                        return "后台用户";
-                                }
+                                title: '交易对',
+                                field: 'symbol'
+                            }, {
+                                title: '价格',
+                                field: 'price'
                             }
                             , {
-                                title: '是否启用',
-                                formatter: function (value, row, index) {
-                                    if(row.status=="1")
-                                        return "是";
-                                    else
-                                        return "否";
-                                }
-
-                            }, {
-                                title: '操作', field: '#', align: 'center',
-                                formatter: function (value, row, index) {
-                                    var d ="     <a href=\"javascript:addCatalogEvent('Edit','" + row.id + "')\">修改</a>";
-                                    return d;
-                                }
-                            }],
-                        responseHandler:function(res) {
-                            console.log(res);
-                            if(res.code<0)
-                            {
-                               layer.msg(res.msg);
-                                return false;
+                                title: '资金费率',
+                                field: 'fund_rate'
                             }
+                            , {
+                                title: '源数据',
+                                field: 'source_value'
+                            }
+                            , {
+                                title: '创建时间',
+                                formatter: function (value, row, index) {
+                                    if(row.ctime!=null)
+                                        return time(parseInt(row.ctime));
+                                    return"";
+                                }
+                            }, {
+                                title: '修改时间',
+                                formatter: function (value, row, index) {
+                                    if(row.mtime!=null)
+                                        return time(parseInt(row.mtime));
+                                    return"";
+                                }
+                            }
+                            // ,
+                            // {
+                            //     title: '操作', field: '#', align: 'center',
+                            //     formatter: function (value, row, index) {
+                            //         var d = "<a href=\"javascript:addCatalogEvent('Edit'," + row.id + ")\">修改</a>";
+                            //         return d;
+                            //     }
+                            // }
+                            ],
+                        responseHandler:function(res) {
                             return res.data;
-                        },
-                        onLoadError:function (res) {
-                            //alert(123);
                         }
+                        // , onExpandRow: function (index, row, $detail) {
+                        //      var data=JSON.parse(row.source_value)
+                        //     // alert(data);
+                        //     var prjLogBookProblemTable = $detail.html('<table></table>').find('table');
+                        //     var columns= [
+                        //         {
+                        //             title: 'id',
+                        //             field: 'id'
+                        //         },
+                        //         {
+                        //             title: '交易所名称',
+                        //             field: 'expName'
+                        //         }, {
+                        //             title: '交易对',
+                        //             field: 'symbol'
+                        //         }, {
+                        //             title: '价格',
+                        //             field: 'last'
+                        //         }
+                        //         , {
+                        //             title: '行情时间',
+                        //             formatter: function (value, row, index) {
+                        //                 if(row.tickerTime!=null)
+                        //                     return time(parseInt(row.tickerTime));
+                        //                 return"";
+                        //             }
+                        //         }
+                        //         , {
+                        //             title: '创建时间',
+                        //             formatter: function (value, row, index) {
+                        //                 if(row.ctime!=null)
+                        //                     return time(parseInt(row.ctime));
+                        //                 return"";
+                        //             }
+                        //         }
+                        //         , {
+                        //             title: '修改时间',
+                        //             formatter: function (value, row, index) {
+                        //                 if(row.mtime!=null)
+                        //                     return time(parseInt(row.mtime));
+                        //                 return"";
+                        //             }
+                        //         }
+                        //         ];
+                        //     $(prjLogBookProblemTable).bootstrapTable({
+                        //         columns:columns,
+                        //         data:data
+                        //     })
+                        // }
                     });
-               // }
-            //})
+
+
 
 
         };
-
         oTableInit.queryParams = function (params) {
             var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                 page_size: params.limit,   //页面大小
                 current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
-                user_type:0,
-                user_name:$("#userName").val(),
-                id:$("#id").val(),
+                asset: $("#asset").val(),
+                symbol: $("#symbol").val(),
+                year:$("#year").val()
             };
+            //console.log(temp);
             return temp;
         };
         return oTableInit;
     };
 
-    $('#tb_departments').on('load-error.bs.table', function (e) {
-        //debugger;
-        //alert("1213");
-        $(".fixed-table-loading").attr("style","display:none");//不知道什么鬼原因  反正先加载时候先去掉
-        // ...
-        //alert("123456")
-    });
-
-    var ButtonInit = function () {
-        var oInit = new Object();
-        var postdata = {};
-
-        oInit.Init = function () {
-            //初始化页面上面的按钮事件
-        };
-
-        return oInit;
-    };
 </script>
 
 

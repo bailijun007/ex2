@@ -19,6 +19,12 @@
             <div class="row row-lg">
                 <div class="col-sm-11">
                     <div class="form-group" style="width: 15%; float: left;">
+                        <label class="sr-only">年份</label>
+                        <select class="form-control" id="year">
+                            <option value="2019" selected="selected">2019</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="width: 15%; float: left;">
                         <label class="sr-only">币种</label>
                         <select class="form-control" id="asset">
                         </select>
@@ -213,7 +219,41 @@
                                 ];
                             $(prjLogBookProblemTable).bootstrapTable({
                                 columns:columns,
-                                data:data
+                                data:data,
+                                detailView: true,                   //是否显示父子表
+                                onExpandRow: function (index, row, $detail) {
+                                    var i; var j; var row
+                                    var columns = []
+                                    var data = []
+
+                                    for (i = 0; i < 8; i++) {
+                                        columns.push({
+                                            field: 'field' + i,
+                                            title: 'Cell' + i,
+                                            //sortable: true
+                                        })
+                                    }
+                                    for (i = 0; i < 8; i++) {
+                                        row = {}
+                                        for (j = 0; j < 8; j++) {
+                                            row['field' + j] = 'Row-' + i + '-' + j
+                                        }
+                                        data.push(row)
+                                    }
+                                    console.log(columns);
+                                    console.log(data)
+                                    console.log($detail);
+                                    var table3 = $detail.html('<table></table>').find('table');
+                                    $(table3).bootstrapTable({
+                                        columns:columns,
+                                        data:data
+                                    })
+                                    var table4= $detail.html('<table></table>').find('table');
+                                    $(table4).bootstrapTable({
+                                        columns:columns,
+                                        data:data
+                                    })
+                                }
                             })
                         }
                     });
@@ -227,7 +267,8 @@
                 page_size: params.limit,   //页面大小
                 current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
                 asset: $("#asset").val(),
-                symbol: $("#symbol").val()
+                symbol: $("#symbol").val(),
+                year:$("#year").val()
             };
             //console.log(temp);
             return temp;

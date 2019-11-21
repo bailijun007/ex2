@@ -1,21 +1,13 @@
-package com.hupa.exp.servermng.entity.pcindexprice;
+package com.hupa.exp.servermng.entity.pcmakepricehistory;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 
-public class PcIndexPriceListInputDto extends BaseInputDto {
-    private Integer currentPage;
-    private Integer pageSize;
+public class PcMakePriceHistoryListInputDto extends BaseInputDto {
+    private String year;
     private String asset;
     private String symbol;
-    private String year;
-
-    public String getYear() {
-        return year;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
-    }
+    private Integer currentPage;
+    private Integer pageSize;
 
     public Integer getCurrentPage() {
         return currentPage;
@@ -31,6 +23,14 @@ public class PcIndexPriceListInputDto extends BaseInputDto {
 
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
     }
 
     public String getAsset() {

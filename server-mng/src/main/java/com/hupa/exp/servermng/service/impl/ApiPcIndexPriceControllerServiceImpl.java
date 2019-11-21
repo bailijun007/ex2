@@ -20,10 +20,11 @@ import java.util.List;
 public class ApiPcIndexPriceControllerServiceImpl implements IApiPcIndexPriceControllerService {
     @Autowired
     private IPcIndexPriceDao iPcIndexPriceDao;
-
     @Override
     public PcIndexPriceListOutputDto getPcIndexPricePageData(PcIndexPriceListInputDto inputDto) throws BizException {
-        IPage<PcIndexPricePo> pageData= iPcIndexPriceDao.selectPcIndexPricePageData("pc_index_price_2019",inputDto.getAsset(),inputDto.getSymbol(),inputDto.getCurrentPage(),inputDto.getPageSize());
+        IPage<PcIndexPricePo> pageData= iPcIndexPriceDao.selectPcIndexPricePageData(
+                PcIndexPricePo.tableNamePattern+inputDto.getYear(),inputDto.getAsset(),inputDto.getSymbol(),
+                inputDto.getCurrentPage(),inputDto.getPageSize());
         PcIndexPriceListOutputDto outputDto=new PcIndexPriceListOutputDto();
         outputDto.setTotal(pageData.getTotal());
         List<PcIndexPriceInfoOutputDto> rows=new ArrayList<>();

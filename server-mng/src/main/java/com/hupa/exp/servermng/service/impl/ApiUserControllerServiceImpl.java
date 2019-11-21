@@ -149,8 +149,8 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
                 expUserBo = beforeBo;
         }
         expUserBo.setAreaCode(inputDto.getAreaCode());
-        expUserBo.setEmail(inputDto.getEmail());
-        expUserBo.setPhone(inputDto.getPhone());
+        expUserBo.setEmail(StringUtils.isEmpty(inputDto.getEmail())?null:inputDto.getEmail());
+        expUserBo.setPhone(StringUtils.isEmpty(inputDto.getPhone())?null:inputDto.getPhone());
         expUserBo.setRoleList(inputDto.getRoleList());
         expUserBo.setPwdLevel(1);
         expUserBo.setUserType(inputDto.getUserType());
