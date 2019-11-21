@@ -89,8 +89,11 @@
         // var oButtonInit = new ButtonInit();
         // oButtonInit.Init();
         bindAsset("asset",true);
-        bindSymbol("symbol",true);
-
+        bindAssetSymbol("symbol", $("#asset").val(), true);
+        $("#asset").change(function () {
+            $("#symbol").empty();
+            bindAssetSymbol("symbol", $("#asset").val(), true);
+        })
     });
 
     var addCatalogEvent = function (action,id) {

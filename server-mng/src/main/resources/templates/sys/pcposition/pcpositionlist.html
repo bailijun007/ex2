@@ -114,10 +114,11 @@
 
     });
     bindAsset("asset",false);
-    bindSymbol("symbol",false);
-    function ShowParam(id) {
-        alert(id);
-    }
+    bindAssetSymbol("symbol", $("#asset").val(), true);
+    $("#asset").change(function () {
+        $("#symbol").empty();
+        bindAssetSymbol("symbol", $("#asset").val(), true);
+    })
 
     var addCatalogEvent = function (action,id) {
         var text = "添加手续费信息"

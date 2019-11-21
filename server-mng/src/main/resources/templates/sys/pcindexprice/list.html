@@ -95,8 +95,12 @@
             $('#tb_departments').bootstrapTable('destroy');
             oTable.Init();
         });
-        bindSymbol("symbol",true);
         bindAsset("asset",true);
+        bindAssetSymbol("symbol", $("#asset").val(), true);
+        $("#asset").change(function () {
+            $("#symbol").empty();
+            bindAssetSymbol("symbol", $("#asset").val(), true);
+        })
     });
     var TableInit = function () {
         var oTableInit = new Object();

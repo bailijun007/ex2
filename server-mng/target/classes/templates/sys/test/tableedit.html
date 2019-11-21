@@ -84,7 +84,12 @@
         // oButtonInit.Init();
 
     });
-bindSymbol("symbol",true);
+
+    bindAssetSymbol("symbol", $("#asset").val(), true);
+    $("#asset").change(function () {
+        $("#symbol").empty();
+        bindAssetSymbol("symbol", $("#asset").val(), true);
+    })
     function ShowParam(id) {
         alert(id);
     }

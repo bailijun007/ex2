@@ -58,6 +58,7 @@ com\hupa\exp\servermng\service\impl\ApiFundRateSettingControllerServiceImpl.clas
 com\hupa\exp\servermng\entity\role\RoleAllOutputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiFundWithdrawController.class
 com\hupa\exp\servermng\interceptor\ResponseBodyHandlerImpl.class
+com\hupa\exp\servermng\service\impl\ApiPcMakePriceHistoryControllerServiceImpl.class
 com\hupa\exp\servermng\entity\fundwithdraw\FundWithdrawAccountListOutputDto.class
 com\hupa\exp\servermng\entity\dic\DicAllListInputDto.class
 com\hupa\exp\servermng\entity\fundaccount\FundAccountLogInputDto.class
@@ -105,7 +106,9 @@ com\hupa\exp\servermng\entity\expthirdapiconfig\ExpThirdApiConfigOutputDto.class
 com\hupa\exp\servermng\entity\locale\LocaleInfoOutputDto.class
 com\hupa\exp\servermng\entity\user\UserListOutputDto.class
 com\hupa\exp\servermng\entity\dic\DicAllListOutputDto.class
+com\hupa\exp\servermng\service\def\IApiPcMakePriceHistoryControllerService.class
 com\hupa\exp\servermng\exception\LocaleException.class
+com\hupa\exp\servermng\entity\pcmakepricehistory\PcMakePriceHistoryInfoOutputDto.class
 com\hupa\exp\servermng\service\impl\ApiKlineConfigControllerServiceImpl.class
 com\hupa\exp\servermng\action\controller\api\ApiEarningRateController.class
 com\hupa\exp\servermng\entity\contract\GetAllSymbolOutputDto.class
@@ -146,6 +149,7 @@ com\hupa\exp\servermng\validate\IValidate.class
 com\hupa\exp\servermng\enums\MongoDbExceptionCode.class
 com\hupa\exp\servermng\action\controller\api\ApiInformationController.class
 com\hupa\exp\servermng\help\Swagger2Helper.class
+com\hupa\exp\servermng\entity\pcmakepricehistory\PcMakePriceHistoryListInputDto.class
 com\hupa\exp\servermng\service\def\IApiPosLevelControllerService.class
 com\hupa\exp\servermng\entity\locale\LocaleListInputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiAppVersionController.class
@@ -176,6 +180,7 @@ com\hupa\exp\servermng\service\impl\ApiContractControllerServiceImpl.class
 com\hupa\exp\servermng\entity\locale\LocaleListOutputDto.class
 com\hupa\exp\servermng\entity\symbolrate\SymbolRateListInputDto.class
 com\hupa\exp\servermng\entity\contract\GetAllActiveContractOutputDto.class
+com\hupa\exp\servermng\action\controller\api\ApiPcMakePriceHistoryController.class
 com\hupa\exp\servermng\entity\klineconfig\KlineConfigOutputDto.class
 com\hupa\exp\servermng\entity\earningrate\PcEarningRateInfoInputDto.class
 com\hupa\exp\servermng\entity\user\GenFeeOutputDto.class
@@ -190,6 +195,7 @@ com\hupa\exp\servermng\service\def\IApiSmsTempControllerService.class
 com\hupa\exp\servermng\entity\pcindexprice\PcIndexPriceInfoOutputDto.class
 com\hupa\exp\servermng\entity\role\RoleMenuInputDto.class
 com\hupa\exp\servermng\entity\symbolrate\SymbolRateInfoInputDto.class
+com\hupa\exp\servermng\entity\pcmakepricehistory\PcMakePriceHistoryListOutputDto.class
 com\hupa\exp\servermng\entity\fundrate\FundRateSettingInfoOutputDto.class
 com\hupa\exp\servermng\entity\locale\LocaleInfoInputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiPcIndexPriceController.class

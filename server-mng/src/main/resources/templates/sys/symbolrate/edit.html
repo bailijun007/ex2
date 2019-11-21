@@ -112,8 +112,10 @@
 <script type="text/javascript">
     $(function () {
         bindAsset("asset",false);
-        bindSymbol("symbol",false);
-        //$("#symbol option[value='']").remove(); //删除Select中Value='3'的Optiona
+        bindAssetSymbol("symbol", $("#asset").val(), false); $("#asset").change(function () {
+            $("#symbol").empty();
+            bindAssetSymbol("symbol", $("#asset").val(), true);
+        })
         function initData() {
 
             var id = GetQueryString("id");
