@@ -59,6 +59,7 @@ public class ApiEarningRateControllerServiceImpl implements IApiEarningRateContr
         po.setMtime(System.currentTimeMillis());
         po.setSort(inputDto.getSort());
         po.setEarningRateTime(inputDto.getEarningRateTime());
+        po.setSelfInput(1);
         iPcEarningRateDao.insert(po);
         PcEarningRateOutputDto outputDto=new PcEarningRateOutputDto();
         return outputDto;
