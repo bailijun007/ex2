@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 public class FundWithdrawMongoBizBo  {
     private long id;
-    private String symbol;
+    private String asset;
     private long accountId;
     private String targetAddr;
     private BigDecimal volume;
@@ -15,12 +15,12 @@ public class FundWithdrawMongoBizBo  {
     private Long ctime;
     private Long mtime;
 
-    public String getSymbol() {
-        return symbol;
+    public String getAsset() {
+        return asset;
     }
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
+    public void setAsset(String asset) {
+        this.asset = asset;
     }
 
     public long getId() {

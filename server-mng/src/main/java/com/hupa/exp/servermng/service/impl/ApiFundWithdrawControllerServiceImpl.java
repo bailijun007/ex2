@@ -75,7 +75,7 @@ public class ApiFundWithdrawControllerServiceImpl implements IApiFundWithdrawCon
         for (FundWithdrawMongoBizBo bo : pageBizBo.getRows()) {
             FundWithdrawOutputDto info = new FundWithdrawOutputDto();
             info.setId(String.valueOf(bo.getId()));
-            info.setAsset(bo.getSymbol());
+            info.setAsset(bo.getAsset());
             info.setAccountId(String.valueOf(bo.getAccountId()));
             info.setTargetAddr(bo.getTargetAddr());
             info.setVolume(DecimalUtil.trimZeroPlainString(bo.getVolume()));

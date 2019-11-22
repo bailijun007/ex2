@@ -38,8 +38,8 @@ public class ApiFundWithdrawController {
             @RequestParam(name = "account") String account,
             @ApiParam(name="id",value = "id",required = true)
             @RequestParam(name = "id") long id,
-            @ApiParam(name="symbol",value = "symbol",required = true)
-            @RequestParam(name = "symbol") String symbol,
+            @ApiParam(name="asset",value = "asset",required = true)
+            @RequestParam(name = "asset") String asset,
             @ApiParam(name="page_size",value = "条数",required = true)
             @RequestParam(name = "page_size") Integer pageSize,
             @ApiParam(name="current_page",value = "页码",required = true)
@@ -49,7 +49,7 @@ public class ApiFundWithdrawController {
         FundWithdrawListInputDto inputDto=new FundWithdrawListInputDto();
         inputDto.setId(id);
         inputDto.setAccount(account);
-        inputDto.setSymbol(symbol);
+        inputDto.setSymbol(asset);
         inputDto.setCurrentPage(currentPage);
         inputDto.setPageSize(pageSize);
         try{
@@ -103,8 +103,8 @@ public class ApiFundWithdrawController {
     public BaseResultViaApiDto<AuditFailFundWithdrawInputDto,AuditFundWithdrawOutputDto> auditFailFundWithdraw(
             @ApiParam(name="accountid",value = "accountid",required = true)
             @RequestParam(name = "accountid") long accountId,
-            @ApiParam(name="symbol",value = "币",required = true)
-            @RequestParam(name = "symbol") String symbol,
+            @ApiParam(name="asset",value = "币",required = true)
+            @RequestParam(name = "asset") String symbol,
             @ApiParam(name="withdrawid",value = "主键id",required = true)
             @RequestParam(name = "withdrawid") long withdrawId,
             @ApiParam(name="reason",value = "原因",required = true)
@@ -131,8 +131,8 @@ public class ApiFundWithdrawController {
     public BaseResultViaApiDto<AuditPassFundWithdrawInputDto,AuditFundWithdrawOutputDto> auditPassFundWithdraw(
             @ApiParam(name="accountid",value = "accountid",required = true)
             @RequestParam(name = "accountid") long accountId,
-            @ApiParam(name="symbol",value = "币",required = true)
-            @RequestParam(name = "symbol") String symbol,
+            @ApiParam(name="asset",value = "币",required = true)
+            @RequestParam(name = "asset") String symbol,
             @ApiParam(name="withdrawid",value = "主键id",required = true)
             @RequestParam(name = "withdrawid") long withdrawId
     ){
