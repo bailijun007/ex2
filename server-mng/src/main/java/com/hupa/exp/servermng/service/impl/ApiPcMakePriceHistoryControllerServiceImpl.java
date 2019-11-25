@@ -3,11 +3,16 @@ package com.hupa.exp.servermng.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.DecimalUtil;
+import com.hupa.exp.daomysql.config.Expv2MySqlConfig;
+import com.hupa.exp.daomysql.dao.expv2.def.IDataBaseDao;
 import com.hupa.exp.daomysql.dao.expv2.def.IPcMarkPriceHistoryDao;
+import com.hupa.exp.daomysql.entity.po.expv2.PcIndexPricePo;
 import com.hupa.exp.daomysql.entity.po.expv2.PcMarkPriceHistoryPo;
 import com.hupa.exp.servermng.entity.pcmakepricehistory.PcMakePriceHistoryInfoOutputDto;
 import com.hupa.exp.servermng.entity.pcmakepricehistory.PcMakePriceHistoryListInputDto;
 import com.hupa.exp.servermng.entity.pcmakepricehistory.PcMakePriceHistoryListOutputDto;
+import com.hupa.exp.servermng.enums.MngExceptionCode;
+import com.hupa.exp.servermng.exception.MngException;
 import com.hupa.exp.servermng.service.def.IApiPcMakePriceHistoryControllerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,10 +26,17 @@ public class ApiPcMakePriceHistoryControllerServiceImpl implements IApiPcMakePri
     @Autowired
     private IPcMarkPriceHistoryDao iPcMakePriceHistoryDao;
 
+    @Autowired
+    private IDataBaseDao iDataBaseDao;
 
+    @Autowired
+    private Expv2MySqlConfig expv2MySqlConfig;
     @Override
     public PcMakePriceHistoryListOutputDto getPcMakePriceHistoryPageData(PcMakePriceHistoryListInputDto inputDto) throws BizException {
-
+        if(!iDataBaseDao.existTable(expv2MySqlConfig.getDbName(), PcIndexPricePo.tableNamePattern+inputDto.getYear()))
+        {
+            throw new MngException(MngExceptionCode.TABLE_NOT_EXIST_ERROR);
+        }
 
         IPage<PcMarkPriceHistoryPo> pageData= iPcMakePriceHistoryDao.selectPcMarkPriceHistoryPageData(
                 PcMarkPriceHistoryPo.tableNamePattern+inputDto.getYear(),inputDto.getAsset(),inputDto.getSymbol(),

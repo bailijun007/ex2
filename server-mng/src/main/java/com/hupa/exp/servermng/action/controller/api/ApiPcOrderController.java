@@ -76,7 +76,7 @@ public class ApiPcOrderController {
         try {
             outputDto= service.getPcOrderPageData(inputDto);
         } catch (BizException e) {
-            e.printStackTrace();
+            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
         }
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }

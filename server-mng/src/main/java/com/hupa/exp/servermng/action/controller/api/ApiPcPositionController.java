@@ -69,7 +69,7 @@ public class ApiPcPositionController {
         try {
             outputDto= service.getPcPositionPageData(inputDto);
         } catch (BizException e) {
-            e.printStackTrace();
+            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
         }
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }

@@ -51,7 +51,7 @@ public class ApiPcMakePriceHistoryController {
         try {
             outputDto= service.getPcMakePriceHistoryPageData(inputDto);
         } catch (BizException e) {
-            e.printStackTrace();
+            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
         }
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }

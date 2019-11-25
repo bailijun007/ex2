@@ -79,7 +79,7 @@ public class ApiPcFeeController {
         try {
             outputDto= service.getPcFeeInfo(inputDto);
         } catch (BizException e) {
-            e.printStackTrace();
+            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
         }
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
@@ -102,7 +102,7 @@ public class ApiPcFeeController {
         try {
             outputDto= service.getPcFeePageData(inputDto);
         } catch (BizException e) {
-            e.printStackTrace();
+            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
         }
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }

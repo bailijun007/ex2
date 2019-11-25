@@ -9,6 +9,7 @@ import com.hupa.exp.servermng.entity.pcfee.PcFeeListOutputDto;
 import com.hupa.exp.servermng.entity.pcindexprice.PcIndexPriceListInputDto;
 import com.hupa.exp.servermng.entity.pcindexprice.PcIndexPriceListOutputDto;
 import com.hupa.exp.servermng.service.def.IApiPcIndexPriceControllerService;
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -52,7 +53,7 @@ public class ApiPcIndexPriceController {
         try {
             outputDto= service.getPcIndexPricePageData(inputDto);
         } catch (BizException e) {
-            e.printStackTrace();
+            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
         }
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
