@@ -33,7 +33,7 @@ public class ApiPcMakePriceHistoryControllerServiceImpl implements IApiPcMakePri
     private Expv2MySqlConfig expv2MySqlConfig;
     @Override
     public PcMakePriceHistoryListOutputDto getPcMakePriceHistoryPageData(PcMakePriceHistoryListInputDto inputDto) throws BizException {
-        if(!iDataBaseDao.existTable(expv2MySqlConfig.getDbName(), PcIndexPricePo.tableNamePattern+inputDto.getYear()))
+        if(!iDataBaseDao.existTable(expv2MySqlConfig.getDbName(), PcMarkPriceHistoryPo.tableNamePattern+inputDto.getYear()))
         {
             throw new MngException(MngExceptionCode.TABLE_NOT_EXIST_ERROR);
         }
