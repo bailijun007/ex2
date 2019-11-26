@@ -3,6 +3,8 @@ package com.hupa.exp.servermng.action.controller.api;//package com.hupa.exp.acti
 import com.hupa.exp.common.entity.dto.BaseResultViaApiDto;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
+import com.hupa.exp.servermng.entity.base.DeleteInputDto;
+import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.user.*;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiUserControllerService;
@@ -274,4 +276,23 @@ public class ApiUserController {
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto) ;
     }
 
+    @ApiOperation(value = "删除")
+    @PostMapping("/delete")
+    public BaseResultViaApiDto<DeleteInputDto,DeleteOutputDto> deleteArea(
+            @ApiParam(name="ids",value = "ids",required = true)
+            @RequestParam(name = "ids") String ids
+    ){
+        //logger.info("打印日志--------------------->");
+        DeleteInputDto inputDto=new DeleteInputDto();
+        DeleteOutputDto outputDto=new DeleteOutputDto();
+        inputDto.setIds(ids);
+
+        try{
+            outputDto = iApiUserControllerService.deleteUser(inputDto);
+
+        }catch(BizException e){
+            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
+        }
+        return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
+    }
 }

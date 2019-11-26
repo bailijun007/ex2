@@ -82,7 +82,9 @@ public class ApiDicControllerServiceImpl implements IApiDicControllerService {
     public DicOutputDto createDic(DicInputDto inputDto) throws BizException {
         try {
             String  key = URLDecoder.decode(inputDto.getKey(), "UTF-8");
+            String value=URLDecoder.decode(inputDto.getValue(), "UTF-8");
             inputDto.setKey(key);
+            inputDto.setValue(value);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -101,9 +103,17 @@ public class ApiDicControllerServiceImpl implements IApiDicControllerService {
     public DicOutputDto editDic(DicInputDto inputDto) throws BizException {
         ExpDicBizBo bo=dicService.queryDicById(inputDto.getId());// ConventObjectUtil.conventObject(inputDto,ExpDicBizBo.class);
         String before=JSON.toJSONString(bo);
+        try {
+            String  key = URLDecoder.decode(inputDto.getKey(), "UTF-8");
+            String value=URLDecoder.decode(inputDto.getValue(), "UTF-8");
+            inputDto.setKey(key);
+            inputDto.setValue(value);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         bo.setParentId(inputDto.getParentId());
-        bo.setKey(inputDto.getKey());
-        bo.setValue(inputDto.getValue());
+//        bo.setKey(inputDto.getKey());
+//        bo.setValue(inputDto.getValue());
         bo.setParent(inputDto.isParent());
         bo.setRemarks(inputDto.getRemarks());
         String after=JSON.toJSONString(bo);

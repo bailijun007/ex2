@@ -118,7 +118,7 @@ public class ApiInformationControllerServiceImpl implements IApiInformationContr
     public DeleteOutputDto deleteInformation(DeleteInputDto inputDto) throws BizException {
         ExpUserBizBo user=sessionHelper.getUserInfoBySession();
         logService.createOperationLog(user.getId(),user.getUserName(),
-                OperationModule.DicType.toString(), OperationType.Delete.toString(),
+                OperationModule.Information.toString(), OperationType.Delete.toString(),
                 inputDto.getIds(),"");
         String[] ids=inputDto.getIds().split(",");
         for(String id:ids)

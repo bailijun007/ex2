@@ -1,6 +1,8 @@
 package com.hupa.exp.servermng.service.def;
 
 import com.hupa.exp.common.exception.BizException;
+import com.hupa.exp.servermng.entity.base.DeleteInputDto;
+import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.role.*;
 import com.hupa.exp.servermng.exception.RoleException;
 
@@ -13,4 +15,6 @@ public interface IApiRoleControllerService {
     RoleListOutputDto queryRolePageList(RoleListInputDto inputDto) throws BizException;
 
     RoleOutputDto queryRoleById(long id) throws RoleException;
+
+    DeleteOutputDto deleteRole(DeleteInputDto inputDto) throws BizException;
 }

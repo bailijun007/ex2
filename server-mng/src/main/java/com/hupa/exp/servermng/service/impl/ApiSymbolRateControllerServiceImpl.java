@@ -96,7 +96,7 @@ public class ApiSymbolRateControllerServiceImpl implements IApiSymbolRateControl
         }
         ExpUserBizBo user=sessionHelper.getUserInfoBySession();
         logService.createOperationLog(user.getId(),user.getUserName(),
-                OperationModule.Dic.toString(), OperationType.Delete.toString(),
+                OperationModule.SymbolRate.toString(), OperationType.Delete.toString(),
                 inputDto.getIds(),"");
         DeleteOutputDto outputDto=new DeleteOutputDto();
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));

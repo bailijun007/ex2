@@ -10,6 +10,9 @@ import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.DecimalUtil;
 import com.hupa.exp.common.tool.format.JsonUtil;
+import com.hupa.exp.daomysql.dao.expv2.def.IPcFeeDao;
+import com.hupa.exp.servermng.entity.base.DeleteInputDto;
+import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.pcfee.*;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiPcFeeControllerService;
@@ -24,6 +27,9 @@ import java.util.List;
 public class ApiPcFeeControllerServiceImpl implements IApiPcFeeControllerService {
     @Autowired
     private IPcFeeBiz iPcFeeBiz;
+
+    @Autowired
+    private IPcFeeDao iPcFeeDao;
     @Autowired
     private IExpOperationLogService logService;
 
@@ -96,5 +102,23 @@ public class ApiPcFeeControllerServiceImpl implements IApiPcFeeControllerService
         outputDto.setTotal(listBizBo.getTotal());
         outputDto.setSizePerPage(inputDto.getPageSize());
         return outputDto;
+    }
+
+    @Override
+    public DeleteOutputDto deletePcFee(DeleteInputDto inputDto) throws BizException {
+        ExpUserBizBo user=sessionHelper.getUserInfoBySession();
+        logService.createOperationLog(user.getId(),user.getUserName(),
+                OperationModule.PcFee.toString(), OperationType.Delete.toString(),
+                inputDto.getIds(),"");
+
+        String[] ids=inputDto.getIds().split(",");
+        for(String id:ids)
+        {
+            iPcFeeDao.deleteById(Integer.valueOf(id));
+        }
+        DeleteOutputDto outputDto=new DeleteOutputDto();
+        outputDto.setTime(String.valueOf(System.currentTimeMillis()));
+        return outputDto;
+
     }
 }

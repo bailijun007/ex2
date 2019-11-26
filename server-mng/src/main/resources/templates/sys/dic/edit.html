@@ -179,8 +179,9 @@
         }
         param+= "id="+id;
         var key=$("#key").val();
+        var value=$("#value").val();
         param+="&key="+encodeURIComponent(encodeURIComponent(key));
-        param+="&value="+$("#value").val();
+        param+="&value="+encodeURIComponent(encodeURIComponent(value));
         param+="&parent_id="+$("#parentId").val();
         param+="&parent="+isCheck;
         param+="&remarks="+$("#remarks").val();

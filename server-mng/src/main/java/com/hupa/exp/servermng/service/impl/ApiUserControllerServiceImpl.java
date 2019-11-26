@@ -43,6 +43,8 @@ import com.hupa.exp.pc.margin.def.account.PcAccount4MngDef;
 import com.hupa.exp.pc.margin.def.account.PcAccount4ServerDef;
 import com.hupa.exp.pc.margin.util.token.PcAccount4ServerTokenUtil;
 import com.hupa.exp.pc.service.def.PcAccountService;
+import com.hupa.exp.servermng.entity.base.DeleteInputDto;
+import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.user.*;
 import com.hupa.exp.servermng.enums.LoginExceptionCode;
 import com.hupa.exp.servermng.enums.MngExceptionCode;
@@ -469,6 +471,22 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         outputDto.setHasUser(false);
         if (iExpUserDao.selectUserByAccount(inputDto.getAccount()) != null)
             outputDto.setHasUser(true);
+        return outputDto;
+    }
+
+    @Override
+    public DeleteOutputDto deleteUser(DeleteInputDto inputDto) throws BizException {
+        String[] ids=inputDto.getIds().split(",");
+        for(String id:ids)
+        {
+            iExpUserDao.deleteById(Long.parseLong(id));
+        }
+        ExpUserBizBo user=sessionHelper.getUserInfoBySession();
+        logService.createOperationLog(user.getId(),user.getUserName(),
+                OperationModule.User.toString(), OperationType.Delete.toString(),
+                inputDto.getIds(),"");
+        DeleteOutputDto outputDto=new DeleteOutputDto();
+        outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
     }
 

@@ -10,6 +10,9 @@ import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.bizother.service.sms.def.ISmsTempBiz;
 import com.hupa.exp.common.exception.BizException;
+import com.hupa.exp.daomysql.dao.expv2.def.IExpSmsTempDao;
+import com.hupa.exp.servermng.entity.base.DeleteInputDto;
+import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.sms.*;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiSmsTempControllerService;
@@ -35,6 +38,9 @@ public class ApiSmsTempControllerServiceImpl implements IApiSmsTempControllerSer
 
     @Autowired
     private SessionHelper sessionHelper;
+
+    @Autowired
+    private IExpSmsTempDao iExpSmsTempDao;
 
     @Override
     public SmsTempOutputDto createSmsTemp(SmsTempInputDto inputDto) throws BizException {
@@ -105,6 +111,22 @@ public class ApiSmsTempControllerServiceImpl implements IApiSmsTempControllerSer
         validateService.validate(inputDto,true,true,false);
         ExpSmsTempBizBo bo=iSmsTempBiz.querySmsTempById(inputDto.getId());
         SmsTempInfoOutputDto outputDto=ConventObjectUtil.conventObject(bo,SmsTempInfoOutputDto.class);
+        return outputDto;
+    }
+
+    @Override
+    public DeleteOutputDto deleteSmsTemp(DeleteInputDto inputDto) throws BizException {
+        String[] ids=inputDto.getIds().split(",");
+        for(String id:ids)
+        {
+            iExpSmsTempDao.deleteById(Long.parseLong(id));
+        }
+        ExpUserBizBo user=sessionHelper.getUserInfoBySession();
+        logService.createOperationLog(user.getId(),user.getUserName(),
+                OperationModule.SmsTemp.toString(), OperationType.Delete.toString(),
+                inputDto.getIds(),"");
+        DeleteOutputDto outputDto=new DeleteOutputDto();
+        outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
     }
 }

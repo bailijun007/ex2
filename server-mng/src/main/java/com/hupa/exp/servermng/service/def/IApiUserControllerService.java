@@ -1,6 +1,8 @@
 package com.hupa.exp.servermng.service.def;
 
 import com.hupa.exp.common.exception.BizException;
+import com.hupa.exp.servermng.entity.base.DeleteInputDto;
+import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.user.*;
 import com.hupa.exp.servermng.exception.MngException;
 
@@ -30,5 +32,7 @@ public interface IApiUserControllerService {
     GenFeeOutputDto genFee(GenFeeInputDto inputDto) throws BizException;
 
     CheckExistUserOutputDto checkExistUser(CheckExistUserInputDto inputDto) throws BizException;
+
+    DeleteOutputDto deleteUser(DeleteInputDto inputDto) throws BizException;
 
 }

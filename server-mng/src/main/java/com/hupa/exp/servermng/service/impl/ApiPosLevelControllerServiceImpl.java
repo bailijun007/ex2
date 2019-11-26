@@ -10,6 +10,9 @@ import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.DecimalUtil;
 import com.hupa.exp.common.tool.format.JsonUtil;
+import com.hupa.exp.daomysql.dao.expv2.def.IPcPosLevelDao;
+import com.hupa.exp.servermng.entity.base.DeleteInputDto;
+import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.poslevel.*;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiPosLevelControllerService;
@@ -25,6 +28,9 @@ import java.util.List;
 public class ApiPosLevelControllerServiceImpl implements IApiPosLevelControllerService {
     @Autowired
     private IPosLevelBiz iPosLevelBiz;
+
+    @Autowired
+    private IPcPosLevelDao iPcPosLevelDao;
 
     @Autowired
     private IExpOperationLogService logService;
@@ -95,6 +101,22 @@ public class ApiPosLevelControllerServiceImpl implements IApiPosLevelControllerS
         outputDto.setRows(outputDtoList);
         outputDto.setSizePerPage(inputDto.getPageSize());
         outputDto.setTotal(listBizBo.getTotal());
+        return outputDto;
+    }
+
+    @Override
+    public DeleteOutputDto deletePosLevel(DeleteInputDto inputDto) throws BizException {
+        String[] ids=inputDto.getIds().split(",");
+        for(String id:ids)
+        {
+            iPcPosLevelDao.deleteById(Long.parseLong(id));
+        }
+        ExpUserBizBo user=sessionHelper.getUserInfoBySession();
+        logService.createOperationLog(user.getId(),user.getUserName(),
+                OperationModule.PosLevel.toString(), OperationType.Delete.toString(),
+                inputDto.getIds(),"");
+        DeleteOutputDto outputDto=new DeleteOutputDto();
+        outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
     }
 }

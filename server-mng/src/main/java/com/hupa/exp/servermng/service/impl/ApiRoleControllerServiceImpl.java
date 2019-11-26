@@ -2,16 +2,24 @@ package com.hupa.exp.servermng.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.hupa.exp.base.enums.OperationModule;
+import com.hupa.exp.base.enums.OperationType;
 import com.hupa.exp.bizother.entity.role.ExpRoleBizBo;
 import com.hupa.exp.bizother.entity.role.ExpRoleListBizBo;
+import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
+import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.bizother.service.role.def.IRoleMenuService;
 import com.hupa.exp.bizother.service.role.def.IRoleService;
 import com.hupa.exp.common.exception.BizException;
+import com.hupa.exp.daomysql.dao.expv2.def.IExpRoleDao;
 import com.hupa.exp.daomysql.entity.po.expv2.ExpRoleMenuPo;
 import com.hupa.exp.daomysql.entity.po.expv2.ExpRolePo;
+import com.hupa.exp.servermng.entity.base.DeleteInputDto;
+import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.role.*;
 import com.hupa.exp.servermng.enums.RoleExceptionCode;
 import com.hupa.exp.servermng.exception.RoleException;
+import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiRoleControllerService;
 import com.hupa.exp.servermng.validate.RoleValidateImpl;
 import com.hupa.exp.util.convent.ConventObjectUtil;
@@ -30,6 +38,14 @@ public class ApiRoleControllerServiceImpl implements IApiRoleControllerService{
     IRoleService iRoleService;
     @Autowired
     IRoleMenuService iRoleMenuService;
+
+    @Autowired
+    private IExpOperationLogService logService;
+
+    @Autowired
+    private SessionHelper sessionHelper;
+    @Autowired
+    private IExpRoleDao iExpRoleDao;
     @Override
     public RoleOutputDto createOrEditRole(RoleMenuInputDto inputDto) throws BizException {
         roleValidate.validate(inputDto);
@@ -120,6 +136,22 @@ public class ApiRoleControllerServiceImpl implements IApiRoleControllerService{
         }
         outputDto.setMenulist(menuList);
         String aa= JSON.toJSONString(outputDto, SerializerFeature.WriteNonStringValueAsString);
+        return outputDto;
+    }
+
+    @Override
+    public DeleteOutputDto deleteRole(DeleteInputDto inputDto) throws BizException {
+        String[] ids=inputDto.getIds().split(",");
+        for(String id:ids)
+        {
+            iExpRoleDao.deleteById(Long.parseLong(id));
+        }
+        ExpUserBizBo user=sessionHelper.getUserInfoBySession();
+        logService.createOperationLog(user.getId(),user.getUserName(),
+                OperationModule.Role.toString(), OperationType.Delete.toString(),
+                inputDto.getIds(),"");
+        DeleteOutputDto outputDto=new DeleteOutputDto();
+        outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
     }
 }

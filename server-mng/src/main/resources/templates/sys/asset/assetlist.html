@@ -108,17 +108,7 @@
 
 
 
-    function DoAction(action) {
-        var RowSelects = $('#tb_departments').bootstrapTable('getSelections'); //获取表选择的行
-        var SelectRow = $.parseJSON(JSON.stringify(RowSelects));
 
-        if (action == "add")
-            window.location.href = "ModuleEdit.aspx?action=Add&typeId=" + GetQueryString('typeId') + "";
-        else if (SelectRow.length != 0)
-            window.location.href = "ModuleEdit.aspx?id=" + SelectRow[0].id + "&action=Edit";
-        else
-            alert("请勾选要操作的记录");
-    }
 
     var TableInit = function () {
         var oTableInit = new Object();

@@ -9,6 +9,9 @@ import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
 import com.hupa.exp.bizother.service.klineconfig.def.IKlineConfigService;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.common.exception.BizException;
+import com.hupa.exp.daomysql.dao.expv2.def.IExpKlineRequestConfigDao;
+import com.hupa.exp.servermng.entity.base.DeleteInputDto;
+import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.klineconfig.*;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiKlineConfigControllerService;
@@ -24,6 +27,9 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
 
     @Autowired
     IKlineConfigService configService;
+
+    @Autowired
+    private IExpKlineRequestConfigDao iExpKlineRequestConfigDao;
 
     @Autowired
     private SessionHelper sessionHelper;
@@ -93,5 +99,22 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
         outputDto.setTotal(boList.getTotal());
         outputDto.setSizePerPage(inputDto.getPageSize());
         return outputDto;
+    }
+
+    @Override
+    public DeleteOutputDto deleteKlineConfig(DeleteInputDto inputDto) throws BizException {
+            ExpUserBizBo user=sessionHelper.getUserInfoBySession();
+            logService.createOperationLog(user.getId(),user.getUserName(),
+                    OperationModule.KlineConfig.toString(), OperationType.Delete.toString(),
+                    inputDto.getIds(),"");
+            String[] ids=inputDto.getIds().split(",");
+            for(String id:ids)
+            {
+                iExpKlineRequestConfigDao.deleteById(Long.parseLong(id));
+            }
+            DeleteOutputDto outputDto=new DeleteOutputDto();
+            outputDto.setTime(String.valueOf(System.currentTimeMillis()));
+            return outputDto;
+
     }
 }

@@ -1,6 +1,8 @@
 package com.hupa.exp.servermng.service.def;
 
 import com.hupa.exp.common.exception.BizException;
+import com.hupa.exp.servermng.entity.base.DeleteInputDto;
+import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.sms.*;
 
 public interface IApiSmsTempControllerService  {
@@ -11,4 +13,6 @@ public interface IApiSmsTempControllerService  {
     SmsTempListOutputDto querySmsTempList(SmsTempListInputDto inputDto) throws  BizException;
 
     SmsTempInfoOutputDto querySmsTempById(SmsTempInfoInputDto inputDto) throws  BizException;
+
+    DeleteOutputDto deleteSmsTemp(DeleteInputDto inputDto) throws  BizException;
 }

@@ -10,6 +10,8 @@ import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.DecimalUtil;
 import com.hupa.exp.daomysql.dao.expv2.def.IExpFundRateSettingDao;
 import com.hupa.exp.daomysql.entity.po.expv2.ExpFundRateSettingPo;
+import com.hupa.exp.servermng.entity.base.DeleteInputDto;
+import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.fundrate.*;
 import com.hupa.exp.servermng.enums.MngExceptionCode;
 import com.hupa.exp.servermng.exception.MngException;
@@ -111,6 +113,22 @@ public class ApiFundRateSettingControllerServiceImpl implements IApiFundRateSett
             rows.add(row);
         }
         outputDto.setRows(rows);
+        return outputDto;
+    }
+
+    @Override
+    public DeleteOutputDto deleteFundRateSetting(DeleteInputDto inputDto) throws BizException {
+        String[] ids=inputDto.getIds().split(",");
+        for(String id:ids)
+        {
+            iExpFundRateSettingDao.deleteById(Long.parseLong(id));
+        }
+        ExpUserBizBo user=sessionHelper.getUserInfoBySession();
+        logService.createOperationLog(user.getId(),user.getUserName(),
+                OperationModule.FundRateSetting.toString(), OperationType.Delete.toString(),
+                inputDto.getIds(),"");
+        DeleteOutputDto outputDto=new DeleteOutputDto();
+        outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
     }
 }

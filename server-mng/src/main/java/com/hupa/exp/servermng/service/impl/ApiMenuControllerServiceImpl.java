@@ -1,15 +1,22 @@
 package com.hupa.exp.servermng.service.impl;
 
+import com.hupa.exp.base.enums.OperationModule;
+import com.hupa.exp.base.enums.OperationType;
 import com.hupa.exp.base.exception.ValidateException;
 import com.hupa.exp.bizother.entity.menu.ExpMenuBizBo;
 import com.hupa.exp.bizother.entity.menu.ExpMenuTreeBizBo;
 import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
 import com.hupa.exp.bizother.entity.user.ExpUserRoleBizBo;
 import com.hupa.exp.bizother.service.menu.def.IMenuService;
+import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.bizother.service.role.def.IRoleMenuService;
 import com.hupa.exp.bizother.service.user.def.IUserRoleService;
 import com.hupa.exp.common.exception.BizException;
+import com.hupa.exp.daomysql.dao.expv2.def.IExpMenuDao;
 import com.hupa.exp.daomysql.entity.po.expv2.ExpRoleMenuPo;
+import com.hupa.exp.servermng.entity.base.DeleteInputDto;
+import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
+import com.hupa.exp.servermng.entity.locale.LocaleDeleteOutputDto;
 import com.hupa.exp.servermng.entity.menu.*;
 import com.hupa.exp.servermng.enums.LoginExceptionCode;
 import com.hupa.exp.servermng.enums.MenuExceptionCode;
@@ -32,8 +39,14 @@ public class ApiMenuControllerServiceImpl implements IApiMenuControllerService {
     private IRoleMenuService iRoleMenuService;
     @Autowired
     private IMenuService iMenuService;
+
+    @Autowired
+    private IExpMenuDao iExpMenuDao;
     @Autowired
     private MenuValidateImpl menuValidate;
+    @Autowired
+    private IExpOperationLogService logService;
+
     @Autowired
     private SessionHelper sessionHelper;
 
@@ -127,6 +140,23 @@ public class ApiMenuControllerServiceImpl implements IApiMenuControllerService {
             inputDto.setCtime(System.currentTimeMillis());
             iMenuService.createMenu(bo);
         }
+        return outputDto;
+    }
+
+    @Override
+    public DeleteOutputDto deleteMenu(DeleteInputDto inputDto) throws BizException {
+        ExpUserBizBo user=sessionHelper.getUserInfoBySession();
+        logService.createOperationLog(user.getId(),user.getUserName(),
+                OperationModule.Locale.toString(), OperationType.Delete.toString(),
+                inputDto.getIds(),"");
+
+        String[] ids=inputDto.getIds().split(",");
+        for(String id:ids)
+        {
+            iExpMenuDao.deleteById(Integer.valueOf(id));
+        }
+        DeleteOutputDto outputDto=new DeleteOutputDto();
+        outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
     }
 
