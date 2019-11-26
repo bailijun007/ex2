@@ -28,6 +28,7 @@ com\hupa\exp\servermng\entity\menu\GetMenuInputDto.class
 com\hupa\exp\servermng\entity\user\UserRoleListOutputDto.class
 com\hupa\exp\servermng\config\WebMvcConfig.class
 com\hupa\exp\servermng\config\AppSettingConfig.class
+com\hupa\exp\servermng\entity\fundrate\FundRateHistoryInfoOutputDto.class
 com\hupa\exp\servermng\entity\user\UserListOutputPage.class
 com\hupa\exp\servermng\entity\menu\MenuListOutputPage.class
 com\hupa\exp\servermng\service\def\IApiRoleControllerService.class
@@ -225,6 +226,7 @@ com\hupa\exp\servermng\entity\contract\ContractListOutputPage.class
 com\hupa\exp\servermng\entity\fundwithdraw\AuditPassFundWithdrawInputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiAssetController.class
 com\hupa\exp\servermng\entity\assetchange\PcAssetChangeListOutputDto.class
+com\hupa\exp\servermng\action\controller\api\ApiFundRateHistoryController.class
 com\hupa\exp\servermng\entity\pcorder\PcOrderInfo.class
 com\hupa\exp\servermng\entity\klineconfig\KlineConfigInfoOutputDto.class
 com\hupa\exp\servermng\entity\locale\CheckHasLocaleOutputDto.class
@@ -240,12 +242,14 @@ com\hupa\exp\servermng\entity\login\LoginOutInputDto.class
 com\hupa\exp\servermng\entity\role\RoleListInputDto.class
 com\hupa\exp\servermng\service\impl\ApiLocaleControllerServiceImpl.class
 com\hupa\exp\servermng\filter\RequestWrapper$1.class
+com\hupa\exp\servermng\entity\fundrate\FundRateHistoryListOutputDto.class
 com\hupa\exp\servermng\entity\exchangerate\ExchangeRateOutputDto.class
 com\hupa\exp\servermng\exception\UserException.class
 com\hupa\exp\servermng\exception\LoginException.class
 com\hupa\exp\servermng\action\controller\api\ApiExpThirdApiConfigController.class
 com\hupa\exp\servermng\entity\funddeposit\FundDepositListOutputDto.class
 com\hupa\exp\servermng\entity\pcposition\PcPositionInfo.class
+com\hupa\exp\servermng\entity\fundrate\FundRateHistoryListInputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiPcAccountController.class
 com\hupa\exp\servermng\service\def\IApiImportSettingControllerService.class
 com\hupa\exp\servermng\entity\asset\GetAssetInputDto.class
@@ -287,6 +291,7 @@ com\hupa\exp\servermng\entity\locale\LocaleDeleteOutputDto.class
 com\hupa\exp\servermng\entity\mongodb\MongoCollectionFieldOutputDto.class
 com\hupa\exp\servermng\entity\appversion\AppVersionInfoInputDto.class
 com\hupa\exp\servermng\entity\assetchange\PcAssetChangeOutputDto.class
+com\hupa\exp\servermng\service\def\IApiFundRateHistoryControllerService.class
 com\hupa\exp\servermng\entity\exchangerate\ExchangeRateInputDto.class
 com\hupa\exp\servermng\service\def\IApiOperationLogControllerService.class
 com\hupa\exp\servermng\action\controller\api\ApiPcOrderController.class
@@ -345,6 +350,7 @@ com\hupa\exp\servermng\service\impl\ApiOperationLogControllerServiceImpl.class
 com\hupa\exp\servermng\entity\appversion\AppVersionOutputDto.class
 com\hupa\exp\servermng\entity\pcposition\PcPositionPageOutputDto.class
 com\hupa\exp\servermng\filter\AuthSecurityInterceptor.class
+com\hupa\exp\servermng\service\impl\ApiFundRateHistoryControllerServiceImpl.class
 com\hupa\exp\servermng\entity\mongodb\MongoDataInputDto.class
 com\hupa\exp\servermng\entity\login\ExistLoginInputDto.class
 com\hupa\exp\servermng\entity\sms\SmsTempInfoOutputDto.class

@@ -35,10 +35,9 @@
                             <label class="col-sm-3 control-label">通知类型：</label>
                             <div class="col-sm-6">
                                 <div class="rule-multi-radio" id="MsgType">
-                                    <input type="radio" name="msgType"  value="1" onclick="radioClick()" checked="checked" ><label>短信</label>
-                                    <input type="radio" name="msgType"  value="2" onclick="radioClick()" ><label>邮件</label>
-                                </div>
-                            </div>
+                                    <input type="radio" name="msgType" value="PhoneVerify" onclick="radioClick()" checked="checked" ><label>短信</label>
+                                    <input type="radio" name="msgType" value="EmailVerify" onclick="radioClick()" ><label>邮件</label>
+                                </div></div>
                             <div class="Validform_checktip"></div>
                         </div>
                         <div class="form-group">
@@ -109,7 +108,7 @@
         {
             $.ajax({
                 type: "get",
-                url: "/v1/http/dic/query_type_list?dic_type=Locale",
+                url: "/v1/http/dic/query_type_list?dic_type_key=Locale",
                 contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
                 async: false,
                 //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
@@ -153,7 +152,12 @@
                     success: function (data) {
                         //console.log(data);
                         if (data.data != null) {
-                            bindDrop(data.data.type,"type",false);
+                            var type;
+                            if(data.data.type=="1")
+                                type="PhoneVerify";
+                            else
+                                type="EmailVerify";
+                            bindDrop(type,"type",false);
                             $("#id").val(data.data.id);
                             //$("#content").val(data.data.content);
                             var dataContent=JSON.parse(data.data.content);
@@ -165,7 +169,6 @@
                             //bindMsgType(data.data.type);
                             $("#type").val(data.data.code);
                             $("input[name='msgType'][value="+data.data.type+"]").attr("checked",true);
-
                         }
 
                     }
@@ -209,7 +212,12 @@
         parmes+= "id="+id;
         parmes+="&content="+encodeURIComponent(encodeURIComponent(content));
         parmes+="&remark="+$("#remark").val();
-        parmes+= "&type="+$("#MsgType").find(".selected").attr("data-value")
+        var type;
+        if($("#MsgType").find(".selected").attr("data-value")=="PhoneVerify")
+            type=1
+        else
+            type=2
+        parmes+= "&type="+type
         parmes+= "&code="+$("#type").val()
         $.ajax({
             type:"post",

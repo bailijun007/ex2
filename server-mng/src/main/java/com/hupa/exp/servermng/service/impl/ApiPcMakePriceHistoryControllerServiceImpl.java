@@ -6,7 +6,6 @@ import com.hupa.exp.common.tool.format.DecimalUtil;
 import com.hupa.exp.daomysql.config.Expv2MySqlConfig;
 import com.hupa.exp.daomysql.dao.expv2.def.IDataBaseDao;
 import com.hupa.exp.daomysql.dao.expv2.def.IPcMarkPriceHistoryDao;
-import com.hupa.exp.daomysql.entity.po.expv2.PcIndexPricePo;
 import com.hupa.exp.daomysql.entity.po.expv2.PcMarkPriceHistoryPo;
 import com.hupa.exp.servermng.entity.pcmakepricehistory.PcMakePriceHistoryInfoOutputDto;
 import com.hupa.exp.servermng.entity.pcmakepricehistory.PcMakePriceHistoryListInputDto;

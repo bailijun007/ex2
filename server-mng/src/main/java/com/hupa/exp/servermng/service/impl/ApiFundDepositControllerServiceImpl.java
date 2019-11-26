@@ -86,7 +86,7 @@ public class ApiFundDepositControllerServiceImpl implements IApiFundDepositContr
             row.setChainServerOrderId(po.getChainServerOrderId());
             row.setAccountId(String.valueOf(po.getAccountId()));
             //row.setAsset(po.getAsset());
-            row.setAsset(po.getSymbol());
+            row.setAsset(po.getAsset());
             row.setAddress(po.getAddress());
             //row.setChainTransactionUrl(po.getChainTransactionUrl());
             row.setVolume(DecimalUtil.plainString(po.getVolume()));
