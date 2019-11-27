@@ -1,5 +1,6 @@
 package com.hupa.exp.servermng.entity.contract;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 
 import java.math.BigDecimal;
@@ -19,11 +20,38 @@ public class ContractInputDto extends BaseInputDto {
     private BigDecimal step;
     private String quoteCurrency;
     private Integer faceValue;
+    private String faceCurrency;
+    private String baseCurrency;
+    private String settleCurrency;
     private Integer sort;
     private Integer status;
     private Integer privilege;
     private Long ctime;
     private Long mtime;
+
+    public String getFaceCurrency() {
+        return faceCurrency;
+    }
+
+    public void setFaceCurrency(String faceCurrency) {
+        this.faceCurrency = faceCurrency;
+    }
+
+    public String getBaseCurrency() {
+        return baseCurrency;
+    }
+
+    public void setBaseCurrency(String baseCurrency) {
+        this.baseCurrency = baseCurrency;
+    }
+
+    public String getSettleCurrency() {
+        return settleCurrency;
+    }
+
+    public void setSettleCurrency(String settleCurrency) {
+        this.settleCurrency = settleCurrency;
+    }
 
     public String getQuoteCurrency() {
         return quoteCurrency;

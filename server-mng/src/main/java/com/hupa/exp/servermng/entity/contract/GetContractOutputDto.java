@@ -26,6 +26,12 @@ public class GetContractOutputDto extends BaseOutputDto {
     private String step;
     @JsonProperty("face_value")
     private String faceValue;
+    @JsonProperty("face_currency")
+    private String faceCurrency;
+    @JsonProperty("base_currency")
+    private String baseCurrency;
+    @JsonProperty("settle_currency")
+    private String settleCurrency;
     private String sort;
     private String status;
     private String privilege;
@@ -34,6 +40,31 @@ public class GetContractOutputDto extends BaseOutputDto {
 
     private String ctime;
     private String mtime;
+
+
+    public String getFaceCurrency() {
+        return faceCurrency;
+    }
+
+    public void setFaceCurrency(String faceCurrency) {
+        this.faceCurrency = faceCurrency;
+    }
+
+    public String getBaseCurrency() {
+        return baseCurrency;
+    }
+
+    public void setBaseCurrency(String baseCurrency) {
+        this.baseCurrency = baseCurrency;
+    }
+
+    public String getSettleCurrency() {
+        return settleCurrency;
+    }
+
+    public void setSettleCurrency(String settleCurrency) {
+        this.settleCurrency = settleCurrency;
+    }
 
     public String getQuoteCurrency() {
         return quoteCurrency;

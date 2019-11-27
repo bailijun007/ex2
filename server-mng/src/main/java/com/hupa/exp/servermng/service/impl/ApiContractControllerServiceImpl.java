@@ -106,6 +106,9 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
             beforeBo.setPrivilege(bo.getPrivilege());
             beforeBo.setQuoteCurrency(bo.getQuoteCurrency());
             beforeBo.setMtime(System.currentTimeMillis());
+            beforeBo.setBaseCurrency(bo.getBaseCurrency());
+            beforeBo.setSettleCurrency(bo.getSettleCurrency());
+            beforeBo.setFaceCurrency(bo.getFaceCurrency());
             iPcContractBiz.editContract(beforeBo);
             logService.createOperationLog(user.getId(),user.getUserName(),
                     OperationModule.Asset.toString(),
@@ -168,7 +171,9 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
         outputDto.setPrivilege(String.valueOf(bo.getPrivilege()));
         outputDto.setCtime(String.valueOf(bo.getCtime()));
         outputDto.setMtime(String.valueOf(bo.getMtime()));
-
+        outputDto.setBaseCurrency(bo.getBaseCurrency());
+        outputDto.setSettleCurrency(bo.getSettleCurrency());
+        outputDto.setFaceCurrency(bo.getFaceCurrency());
         outputDto.setQuoteCurrency(bo.getQuoteCurrency());
         return outputDto;
     }
@@ -200,6 +205,9 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
             po.setCtime(String.valueOf(bo.getCtime()));
             po.setMtime(String.valueOf(bo.getMtime()));
             po.setQuoteCurrency(bo.getQuoteCurrency());
+            po.setBaseCurrency(bo.getBaseCurrency());
+            po.setSettleCurrency(bo.getSettleCurrency());
+            po.setFaceCurrency(bo.getFaceCurrency());
             pageList.add(po);
         }
         outputDto.setRows(pageList);
@@ -234,6 +242,9 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
             info.setCtime(String.valueOf(bo.getCtime()));
             info.setMtime(String.valueOf(bo.getMtime()));
             info.setQuoteCurrency(bo.getQuoteCurrency());
+            info.setBaseCurrency(bo.getBaseCurrency());
+            info.setSettleCurrency(bo.getSettleCurrency());
+            info.setFaceCurrency(bo.getFaceCurrency());
             activeContract.add(info);
         });
         outputDto.setActiveContract(activeContract);
@@ -344,6 +355,9 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
             info.setCtime(String.valueOf(bo.getCtime()));
             info.setMtime(String.valueOf(bo.getMtime()));
             info.setQuoteCurrency(bo.getQuoteCurrency());
+            info.setBaseCurrency(bo.getBaseCurrency());
+            info.setSettleCurrency(bo.getSettleCurrency());
+            info.setFaceCurrency(bo.getFaceCurrency());
             assetSymbolList.add(info);
         });
         GetContractListByAssetOutputDto outputDto=new GetContractListByAssetOutputDto();

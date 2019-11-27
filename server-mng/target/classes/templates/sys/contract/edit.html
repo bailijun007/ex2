@@ -100,13 +100,6 @@
                             <div class="Validform_checktip"></div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">合约面值：</label>
-                            <div class="col-sm-6">
-                                <input class="form-control" id="face_value" type="text" datatype="*1-100" errormsg="合约面值最多100位">
-                            </div>
-                            <div class="Validform_checktip"></div>
-                        </div>
-                        <div class="form-group">
                             <label class="col-sm-3 control-label">永续合约步进：</label>
                             <div class="col-sm-6">
                                 <input class="form-control" id="step" type="text" datatype="*1-100" errormsg="永续合约步进最多10位">
@@ -114,9 +107,37 @@
                             <div class="Validform_checktip"></div>
                         </div>
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">合约面值：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="face_value" type="text" datatype="*1-100" errormsg="合约面值最多100位">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-sm-3 control-label">合约面值计价货币：</label>
                             <div class="col-sm-6">
                                 <input class="form-control" id="quote_currency" type="text" datatype="*1-100" errormsg="永续合约步进最多10位">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">合约面值货币：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="face_currency" type="text" datatype="*1-100" errormsg="永续合约步进最多10位">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">基础货币：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="base_currency" type="text" datatype="*1-100" errormsg="永续合约步进最多10位">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">结算货币：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="settle_currency" type="text" datatype="*1-100" errormsg="永续合约步进最多10位">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
@@ -211,6 +232,12 @@
                             $("#privilege").val(data.data.privilege);
                             $("#precision").val(data.data.precision);
                             $("#quote_currency").val(data.data.quote_currency);
+                            $("#face_currency").val(data.data.face_currency);
+                            $("#settle_currency").val(data.data.settle_currency);
+                            $("#base_currency").val(data.data.base_currency);
+
+
+
                             if (data.data.status == "1")
                                 $("#ckbIsOnTop").parent().find("a").attr("class", "selected")
                         }
@@ -321,6 +348,9 @@
         parmes+="&default_price="+$("#default_price").val();
         parmes+="&last_price="+$("#last_price").val();
         parmes+="&quote_currency="+$("#quote_currency").val();
+        parmes+="&base_currency="+$("#base_currency").val();
+        parmes+="&settle_currency="+$("#settle_currency").val();
+        parmes+="&face_currency="+$("#face_currency").val();
         $.ajax({
             type:"post",
             url:"/v1/http/contract/create_or_edit"+parmes,

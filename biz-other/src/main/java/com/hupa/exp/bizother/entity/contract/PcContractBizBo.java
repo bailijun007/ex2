@@ -18,11 +18,38 @@ public class PcContractBizBo {
     private BigDecimal step;
     private Integer faceValue;
     private String quoteCurrency;
+    private String faceCurrency;
+    private String baseCurrency;
+    private String settleCurrency;
     private Integer sort;
     private Integer status;
     private Integer privilege;
     private Long ctime;
     private Long mtime;
+
+    public String getFaceCurrency() {
+        return faceCurrency;
+    }
+
+    public void setFaceCurrency(String faceCurrency) {
+        this.faceCurrency = faceCurrency;
+    }
+
+    public String getBaseCurrency() {
+        return baseCurrency;
+    }
+
+    public void setBaseCurrency(String baseCurrency) {
+        this.baseCurrency = baseCurrency;
+    }
+
+    public String getSettleCurrency() {
+        return settleCurrency;
+    }
+
+    public void setSettleCurrency(String settleCurrency) {
+        this.settleCurrency = settleCurrency;
+    }
 
     public String getQuoteCurrency() {
         return quoteCurrency;
