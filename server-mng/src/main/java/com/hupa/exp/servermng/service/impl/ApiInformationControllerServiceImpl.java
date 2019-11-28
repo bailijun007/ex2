@@ -20,8 +20,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ApiInformationControllerServiceImpl implements IApiInformationControllerService {
@@ -87,6 +91,31 @@ public class ApiInformationControllerServiceImpl implements IApiInformationContr
     @Override
     public InformationOutputDto createOrEditInformation(InformationInputDto inputDto) throws BizException {
         ExpInformationBizBo bizBo= ConventObjectUtil.conventObject(inputDto,ExpInformationBizBo.class);
+
+        String contentStr = "";
+        String titleStr="";
+        try {
+            contentStr = URLDecoder.decode(inputDto.getContent(), "UTF-8");
+            titleStr=URLDecoder.decode(inputDto.getTitle(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String[] contents= contentStr.split("[|]");
+        Map<String,String> contentMap=new HashMap<>();
+        for(String str:contents)
+        {
+            String[] keyValue=str.split(",");
+            contentMap.put(keyValue[0],keyValue.length>1?keyValue[1]:"");
+        }
+        bizBo.setContent(JSON.toJSONString(contentMap));
+        String[] titles= contentStr.split("[|]");
+        Map<String,String> titleMap=new HashMap<>();
+        for(String str:titles)
+        {
+            String[] keyValue=str.split(",");
+            titleMap.put(keyValue[0],keyValue.length>1?keyValue[1]:"");
+        }
+        bizBo.setTitle(JSON.toJSONString(titleMap));
         if(inputDto.getId()>0)
         {
             bizBo.setMtime(System.currentTimeMillis());
@@ -104,7 +133,7 @@ public class ApiInformationControllerServiceImpl implements IApiInformationContr
             bizBo.setCtime(System.currentTimeMillis());
             informationService.createInformation(bizBo);
         }
-        if(StringUtils.isEmpty(inputDto.getOldImg()))
+        if(!StringUtils.isEmpty(inputDto.getOldImg()))
         {
             String[] strArr=inputDto.getOldImg().split("/");
             ossClientUtil.deleteFile(strArr[strArr.length-1]);//把旧图片删掉
