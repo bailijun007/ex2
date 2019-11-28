@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 
 public class GetAssetOutputDto extends BaseOutputDto {
     private String id;
+    private String icon;
     private String chainAppointId;
     private String realName;
     private String displayName;
@@ -24,6 +25,14 @@ public class GetAssetOutputDto extends BaseOutputDto {
     private String dwType;
     private String ctime;
     private String mtime;
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 
     public String getDwType() {
         return dwType;

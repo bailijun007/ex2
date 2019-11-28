@@ -7,6 +7,7 @@ public class AssetBizBo {
     private Integer chainAppointId;
     private String symbol;
     private Integer chainSymbolId;
+    private String icon;
     private String realName;
     private String displayName;
     private String chainName;
@@ -21,6 +22,14 @@ public class AssetBizBo {
     private Integer dwType;
     private Long ctime;
     private Long mtime;
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 
     public Integer getChainSymbolId() {
         return chainSymbolId;

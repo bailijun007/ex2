@@ -39,6 +39,13 @@
                             <!--<div class="Validform_checktip"></div>-->
                         <!--</div>-->
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">币的展示符号：</label>
+                            <div class="col-sm-6">
+                                <input  class="form-control" type="text"  id="icon"><span style="color:red">添加后无法修改，慎重填写</span>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-sm-3 control-label">链上服务的约定的id：</label>
                             <div class="col-sm-6">
                                 <input  class="form-control" type="text"  id="chain_appoint_id"><span style="color:red">添加后无法修改，慎重填写</span>
@@ -176,6 +183,7 @@
             {
                 $("#real_name").attr("readonly","readonly");
                 $("#chain_appoint_id").attr("readonly","readonly");
+                $("#icon").attr("readonly","readonly");
                 $.ajax({
                     type: "get",
                     url: "/v1/http/asset/query?id=" + id,
@@ -187,6 +195,7 @@
                         //console.log(data);
                         if (data.data != null) {
                             $("#id").val(data.data.id);
+                            $("#icon").val(data.data.icon);
                             //$("#symbol").val(data.data.symbol);
                             $("#real_name").val(data.data.realName);
                             $("#display_name").val(data.data.displayName);
@@ -249,6 +258,7 @@
         var parmes="?";
         parmes+= "id="+id;
         //parmes+="&symbol="+$("#symbol").val();
+        parmes+="&icon="+$("#icon").val();
         parmes+="&chain_appoint_id="+$("#chain_appoint_id").val();
         parmes+="&real_name="+$("#real_name").val();
         parmes+="&display_name="+$("#display_name").val();
