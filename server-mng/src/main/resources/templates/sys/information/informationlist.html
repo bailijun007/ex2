@@ -102,14 +102,14 @@
         if(action=="Edit")
             text = "修改资讯"
         url = "/sys/information/edit.html?id="+id+"&action="+action+"";
-
         layer.open({
             type: 2,
             title: text,
-            shadeClose: true,
-            shade: 0.8,
-            area: ['800px', '65%'],
+            //shadeClose: false,
+            shade: 0.5,
+            area: ['100%', '100%'],
             content: url,
+            //maxmin: true, //开启最大化最小化按钮
             success: function (layero, index) {
                //  alert(123);
                //  alert($("#oldImg").val()) ;

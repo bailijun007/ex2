@@ -13,6 +13,7 @@
     <link href="../../../static/css/Validformstyle.css" rel="stylesheet" />
     <link href="../../../static/js/skin/default/style.css" rel="stylesheet" />
     <link href="../../../static/css/style.css"  rel="stylesheet" />
+    <link rel="stylesheet" href="../../../static/js/um/themes/default/css/umeditor.css">
     <script type="text/javascript">
         function Close() {
             //parent.layer.msg(msg);
@@ -20,6 +21,9 @@
             parent.layer.close(index);
         }
     </script>
+
+
+
 </head>
 <body class="gray-bg">
 <div class="form-horizontal">
@@ -49,20 +53,23 @@
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">标题：</label>
-                            <div class="col-sm-6">
-                                <input  class="form-control" type="text" value="" datatype="*1-100" id="title">
-                            </div>
-                            <div class="Validform_checktip"></div>
+                        <div id="div_locale">
+                            <!--<div class="form-group">-->
+                                <!--<label class="col-sm-3 control-label">标题：</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<input  class="form-control" type="text" value="" datatype="*1-100" id="title">-->
+                                <!--</div>-->
+                                <!--<div class="Validform_checktip"></div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="col-sm-3 control-label">内容：</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<input  class="form-control" type="text" value="" datatype="*1-100" id="content">-->
+                                <!--</div>-->
+                                <!--<div class="Validform_checktip"></div>-->
+                            <!--</div>-->
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">内容：</label>
-                            <div class="col-sm-6">
-                                <input  class="form-control" type="text" value="" datatype="*1-100" id="content">
-                            </div>
-                            <div class="Validform_checktip"></div>
-                        </div>
+
                         <!--<div class="form-group">-->
                             <!--<label class="col-sm-3 control-label">图片地址：</label>-->
                             <!--<div class="col-sm-6">-->
@@ -88,7 +95,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">内容链接：</label>
                             <div class="col-sm-6">
-                                <input  class="form-control" type="text" value="" datatype="*1-100" id="link_url">
+                                <input  class="form-control" type="text" value="" id="link_url">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
@@ -119,6 +126,9 @@
 <script src="../../../static/js/content.js?v=1.0.0"></script>
 <script src="../../../static/js/plugins/layer/layer.min.js"></script>
 <script src="../../../static/js/LayerTool.js"></script>
+<script src="../../../static/js/um/umeditor.js"></script>
+<script src="../../../static/js/um/umeditor.config.js"></script>
+<script src="../../../static/js/um/lang/zh-cn/zh-cn.js"></script>
 <script type="text/javascript">
     $(function () {
         // $(".form-horizontal").Validform({ tiptype: 2 });
@@ -134,6 +144,54 @@
     $(function () {
         bindDrop("Locale","language",false)
         bindDrop("Infromation","type",false)
+        var localeList=getDicList("Locale");
+        function bindLocale() {
+            var localeHtml="";
+            for(var i=0;i<localeList.length;i++)
+            {
+                var locale=localeList[i].key;
+                if(i==0)
+                    localeHtml+='<div id="div_'+locale+'" class="locale_class" style="display: block">';
+                else
+                    localeHtml+='<div id="div_'+locale+'" class="locale_class" style="display: none">';
+                localeHtml+='<div class="form-group">';
+                localeHtml+='<label class="col-sm-3 control-label">标题：</label>';
+                localeHtml+='<div class="col-sm-6">';
+                localeHtml+='<input  class="form-control" type="text" value="" datatype="*1-100" id="title_'+locale+'">';
+                localeHtml+='</div>';
+                localeHtml+='<div class="Validform_checktip"></div>';
+                localeHtml+='</div>';
+                localeHtml+='<div class="form-group">';
+                localeHtml+='<label class="col-sm-3 control-label">内容：</label>';
+                localeHtml+='<div class="col-sm-6">';
+                localeHtml+='<textarea class="form-control"   value=""  id="content_'+locale+'"></textarea>';
+                localeHtml+='</div>';
+                localeHtml+='<div class="Validform_checktip"></div>';
+                localeHtml+='</div>';
+                localeHtml+='</div>';
+            }
+            $("#div_locale").html(localeHtml);
+            for(var i=0;i<localeList.length;i++) {
+              var ue=  UM.getEditor('content_'+localeList[i].key
+                  , {
+                      wordCount: true, //开启字数统计
+                      elementPathEnabled: false,//是否启用元素路径，默认是显示
+                      maximumWords: 10000,       //允许的最大字符数
+                      initialContent: '',    //初始化编辑器的内容,也可以通过textarea/script给值，看官网例子
+                      //autoClearinitialContent: true, //是否自动清除编辑器初始内容，注意：如果focus属性设置为true,这个也为真，那么编辑器一上来就会触发导致初始化的内容看不到了
+                      pasteplain: false,  //是否默认为纯文本粘贴。false为不使用纯文本粘贴，true为使用纯文本粘贴
+                      //imageUrlPrefix: "http://localhost:4176", /* 图片访问路径前缀 */
+                      //imagePathFormat: "/UploadFiles/{yyyy}{mm}{dd}/{time}{rand:6}",/* 上传保存路径,可以自定义保存路径和文件名格式 */
+                      //urlTarget: "Email",
+                      initialFrameWidth: 750, //初始化宽度
+                      initialFrameHeight: 420, //初始化高度
+                      autoHeightEnabled: true //关闭高度自适应
+                  });
+            }
+
+    }
+        bindLocale();
+
         function initData() {
 
             var id = GetQueryString("id");
@@ -151,10 +209,20 @@
                         //console.log(data);
                         if (data.data != null) {
                           $("#id").val(data.data.id);
-                          $("#title").val(data.data.title);
+                          var titles=JSON.parse(data.data.title);
+                          var contents=JSON.parse(data.data.content);
+                          for(var i=0;i<localeList.length;i++)
+                          {
+
+                              $("#title_"+localeList[i].key+"").val(titles[localeList[i].key]);
+                              UM.getEditor("content_"+localeList[i].key).setContent(contents[localeList[i].key]);
+                              //$("#content_"+localeList[i].key+"").val(contents[localeList[i].key]);
+                          }
+
                           $("#oldImg").val(data.data.cover_img);
                           $("#cover_img").attr("src",data.data.cover_img);
-                          $("#content").val(data.data.content);
+                          //var localeData=JSON.parse(data.data.content);
+
                           $("#type").val(data.data.type);
                           $("#link_url").val(data.data.link_url);
                           $("#sort").val(data.data.sort);
@@ -166,6 +234,14 @@
         initData();
         $(".form-horizontal").Validform({ tiptype: 2 });
     });
+
+    $("#language").change(function () {
+        $(".locale_class").each(function () {
+            $(this).css("display","none");
+        })
+       var locale= $(this).val();
+        $("#div_"+locale+"").css("display","block");
+    })
 
     $("#BtnSave").click(function(){
         // var checkVal=$("#ckbIsOnTop").parent().find("a").attr("class");
@@ -184,14 +260,26 @@
             layer.msg("请确认信息填写是否有误！");
             return false;
         }
+        var title="";
+        var content="";
+        var localeList=getDicList("Locale");
+        for(var i=0;i<localeList.length;i++) {
+
+            title+=localeList[i].key+","+$("#title_"+localeList[i].key).val()+"|";
+            content+=localeList[i].key+","+UM.getEditor('content_'+localeList[i].key).getContent()+"|";
+        }
+        debugger;
+        title=title.substr(0,title.length-1);
+        content=content.substr(0,content.length-1);
         param+= "id="+id;
-        param+="&title="+$("#title").val();
+        param+="&title="+encodeURIComponent(encodeURIComponent(title));
+        param+="&content="+encodeURIComponent(encodeURIComponent(content));
         param+="&old_img="+$("#oldImg").val();
         param+="&cover_img="+$("#cover_img").attr("src");
-        param+="&content="+$("#content").val();
         param+="&type="+$("#type").val();
         param+="&link_url="+$("#link_url").val();
         param+="&sort="+$("#sort").val();
+
         $.ajax({
             type:"post",
             url:"/v1/http/information/create_or_edit"+param,
@@ -220,8 +308,8 @@
     {
         var oldImgName=$("#upImg").val();
         var f=$(obj).val();
-        alert(f);
-        console.log(obj);
+        //alert(f);
+        //console.log(obj);
         if(f == null || f ==undefined || f == ''){
             return false;
         }

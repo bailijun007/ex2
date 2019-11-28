@@ -108,7 +108,7 @@ public class ApiInformationControllerServiceImpl implements IApiInformationContr
             contentMap.put(keyValue[0],keyValue.length>1?keyValue[1]:"");
         }
         bizBo.setContent(JSON.toJSONString(contentMap));
-        String[] titles= contentStr.split("[|]");
+        String[] titles= titleStr.split("[|]");
         Map<String,String> titleMap=new HashMap<>();
         for(String str:titles)
         {
