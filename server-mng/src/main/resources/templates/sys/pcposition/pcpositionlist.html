@@ -114,10 +114,12 @@
 
     });
     bindAsset("asset",false);
-    bindAssetSymbol("symbol", $("#asset").val(), true);
+    bindAssetSymbol("symbol", $("#asset").val(), false);
     $("#asset").change(function () {
         $("#symbol").empty();
-        bindAssetSymbol("symbol", $("#asset").val(), true);
+        bindAssetSymbol("symbol", $("#asset").val(), false);
+        $('#tb_departments').bootstrapTable('destroy');
+        oTable.Init();
     })
 
     var addCatalogEvent = function (action,id) {
@@ -236,6 +238,14 @@
                             } , {
                                 title: '已实现盈亏',
                                 field: 'realisedPnl'
+                            }
+                            , {
+                                title: '建仓时间',
+                                formatter: function (value, row, index) {
+                                    if(row.ctime!=null)
+                                        return time(parseInt(row.ctime));
+                                    return"";
+                                }
                             }],
                         responseHandler:function(res) {
                             var data=JSON.parse(res.data.page_data);
