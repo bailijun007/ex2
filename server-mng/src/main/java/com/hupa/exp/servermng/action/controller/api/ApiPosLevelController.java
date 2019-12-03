@@ -46,9 +46,9 @@ public class ApiPosLevelController {
             @ApiParam(name="gear",value = "档次",required = true)
             @RequestParam(name = "gear") Integer gear,
             @ApiParam(name="min_amt",value = "最小张数",required = true)
-            @RequestParam(name = "min_amt") Integer minAmt,
+            @RequestParam(name = "min_amt") Long minAmt,
             @ApiParam(name="max_amt",value = "最大张数",required = true)
-            @RequestParam(name = "max_amt") Integer maxAmt,
+            @RequestParam(name = "max_amt") Long maxAmt,
             @ApiParam(name="max_leverage",value = "最大杠杆",required = true)
             @RequestParam(name = "max_leverage") BigDecimal maxLeverage,
             @ApiParam(name="pos_hold_margin_ratio",value = "维持保证金率",required = true)

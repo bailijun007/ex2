@@ -9,8 +9,8 @@ public class PcPosLevelBizBo {
     private String asset;
     private String symbol;
     private Integer gear;
-    private Integer minAmt;
-    private Integer maxAmt;
+    private Long minAmt;
+    private Long maxAmt;
     private BigDecimal maxLeverage;
     @JsonProperty("posHoldMarginRatio")
     private BigDecimal posHoldMarginRatio;
@@ -74,19 +74,19 @@ public class PcPosLevelBizBo {
         this.gear = gear;
     }
 
-    public Integer getMinAmt() {
+    public Long getMinAmt() {
         return minAmt;
     }
 
-    public void setMinAmt(Integer minAmt) {
+    public void setMinAmt(Long minAmt) {
         this.minAmt = minAmt;
     }
 
-    public Integer getMaxAmt() {
+    public Long getMaxAmt() {
         return maxAmt;
     }
 
-    public void setMaxAmt(Integer maxAmt) {
+    public void setMaxAmt(Long maxAmt) {
         this.maxAmt = maxAmt;
     }
 
