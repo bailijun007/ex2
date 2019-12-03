@@ -50,9 +50,12 @@ public class ApiPosLevelController {
             @ApiParam(name="max_amt",value = "最大张数",required = true)
             @RequestParam(name = "max_amt") Integer maxAmt,
             @ApiParam(name="max_leverage",value = "最大杠杆",required = true)
-            @RequestParam(name = "max_leverage") Integer maxLeverage,
-            @ApiParam(name="pos_matin_margin_ratio",value = "维持保证金率",required = true)
-            @RequestParam(name = "pos_matin_margin_ratio") BigDecimal posMatinMarginRatio
+            @RequestParam(name = "max_leverage") BigDecimal maxLeverage,
+            @ApiParam(name="pos_hold_margin_ratio",value = "维持保证金率",required = true)
+            @RequestParam(name = "pos_hold_margin_ratio") BigDecimal posHoldMarginRatio,
+            @ApiParam(name="min_hold_margin_ratio",value = "初始保证金率",required = true)
+            @RequestParam(name = "min_hold_margin_ratio") BigDecimal minHoldMarginRatio
+
     ){
         PosLevelOutputDto outputDto=new PosLevelOutputDto();
         PosLevelInputDto inputDto=new PosLevelInputDto();
@@ -63,7 +66,8 @@ public class ApiPosLevelController {
         inputDto.setMaxAmt(maxAmt);
         inputDto.setMinAmt(minAmt);
         inputDto.setMaxLeverage(maxLeverage);
-        inputDto.setPosMatinMarginRatio(posMatinMarginRatio);
+        inputDto.setPosHoldMarginRatio(posHoldMarginRatio);
+        inputDto.setMinHoldMarginRatio(minHoldMarginRatio);
         try{
             outputDto= service.createOrEditPosLevel(inputDto);
         }catch(BizException e){

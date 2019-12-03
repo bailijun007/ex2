@@ -70,17 +70,25 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">最大杠杆数：</label>
                             <div class="col-sm-6">
-                                <input class="form-control" id="max_leverage" type="text" datatype="n1-10" errormsg="菜单名称最多不能超过100位数">
+                                <input class="form-control" id="max_leverage" type="text" datatype="*1-10" errormsg="菜单名称最多不能超过100位数">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">维持保证金率：</label>
                             <div class="col-sm-6">
-                                <input class="form-control" id="pos_matin_margin_ratio" type="text" datatype="*1-100" errormsg="合约展示名最多10位">
+                                <input class="form-control" id="pos_hold_margin_ratio" type="text" datatype="*1-100" errormsg="合约展示名最多10位">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">初始保证金率：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="min_hold_margin_ratio" type="text" datatype="*1-100" errormsg="合约展示名最多10位">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-3">
                                 <input type="button" id="BtnSave" value="提交" class="btn btn-primary">
@@ -137,7 +145,8 @@
                             $("#min_amt").val(data.data.minAmt);
                             $("#max_amt").val(data.data.maxAmt);
                             $("#max_leverage").val(data.data.maxLeverage);
-                            $("#pos_matin_margin_ratio").val(data.data.posMatinMarginRatio);
+                            $("#pos_hold_margin_ratio").val(data.data.posHoldMarginRatio);
+                            $("#min_hold_margin_ratio").val(data.data.minHoldMarginRatio);
 
                         }
                     }
@@ -186,7 +195,8 @@
         parmes+="&min_amt="+$("#min_amt").val();
         parmes+="&max_amt="+$("#max_amt").val();
         parmes+="&max_leverage="+$("#max_leverage").val();
-        parmes+="&pos_matin_margin_ratio="+$("#pos_matin_margin_ratio").val();
+        parmes+="&pos_hold_margin_ratio="+$("#pos_hold_margin_ratio").val();
+        parmes+="&min_hold_margin_ratio="+$("#min_hold_margin_ratio").val();
 
         $.ajax({
             type:"post",

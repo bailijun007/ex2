@@ -73,8 +73,9 @@ public class ApiPosLevelControllerServiceImpl implements IApiPosLevelControllerS
         outputDto.setGear(String.valueOf(bo.getGear()));
         outputDto.setMinAmt(String.valueOf(bo.getMinAmt()));
         outputDto.setMaxAmt(String.valueOf(bo.getMaxAmt()));
-        outputDto.setMaxLeverage(String.valueOf(bo.getMaxLeverage()));
-        outputDto.setPosMatinMarginRatio(DecimalUtil.toTrimLiteral(bo.getPosHoldMarginRatio()));
+        outputDto.setMaxLeverage(DecimalUtil.toTrimLiteral(bo.getMaxLeverage()));
+        outputDto.setPosHoldMarginRatio(DecimalUtil.toTrimLiteral(bo.getPosHoldMarginRatio()));
+        outputDto.setMinHoldMarginRatio(DecimalUtil.toTrimLiteral(bo.getMinHoldMarginRatio()));
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
     }
@@ -94,8 +95,9 @@ public class ApiPosLevelControllerServiceImpl implements IApiPosLevelControllerS
             info.setGear(String.valueOf(bo.getGear()));
             info.setMinAmt(String.valueOf(bo.getMinAmt()));
             info.setMaxAmt(String.valueOf(bo.getMaxAmt()));
-            info.setMaxLeverage(String.valueOf(bo.getMaxLeverage()));
-            info.setPosMatinMarginRatio(DecimalUtil.toTrimLiteral(bo.getPosHoldMarginRatio()));
+            info.setMaxLeverage(DecimalUtil.toTrimLiteral(bo.getMaxLeverage()));
+            info.setPosHoldMarginRatio(DecimalUtil.toTrimLiteral(bo.getPosHoldMarginRatio()));
+            info.setMinHoldMarginRatio(DecimalUtil.toTrimLiteral(bo.getMinHoldMarginRatio()));
             outputDtoList.add(info);
         }
         outputDto.setRows(outputDtoList);

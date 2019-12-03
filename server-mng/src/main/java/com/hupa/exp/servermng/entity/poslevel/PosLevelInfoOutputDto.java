@@ -1,6 +1,9 @@
 package com.hupa.exp.servermng.entity.poslevel;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hupa.exp.common.entity.dto.output.BaseOutputDto;
+
+import java.math.BigDecimal;
 
 public class PosLevelInfoOutputDto extends BaseOutputDto {
     private String id;
@@ -10,9 +13,18 @@ public class PosLevelInfoOutputDto extends BaseOutputDto {
     private String minAmt;
     private String maxAmt;
     private String maxLeverage;
-    private String posMatinMarginRatio;
+    private String posHoldMarginRatio;
+    private String minHoldMarginRatio;
     private Long ctime;
     private Long mtime;
+
+    public String getMinHoldMarginRatio() {
+        return minHoldMarginRatio;
+    }
+
+    public void setMinHoldMarginRatio(String minHoldMarginRatio) {
+        this.minHoldMarginRatio = minHoldMarginRatio;
+    }
 
     public Long getCtime() {
         return ctime;
@@ -86,11 +98,11 @@ public class PosLevelInfoOutputDto extends BaseOutputDto {
         this.maxLeverage = maxLeverage;
     }
 
-    public String getPosMatinMarginRatio() {
-        return posMatinMarginRatio;
+    public String getPosHoldMarginRatio() {
+        return posHoldMarginRatio;
     }
 
-    public void setPosMatinMarginRatio(String posMatinMarginRatio) {
-        this.posMatinMarginRatio = posMatinMarginRatio;
+    public void setPosHoldMarginRatio(String posHoldMarginRatio) {
+        this.posHoldMarginRatio = posHoldMarginRatio;
     }
 }

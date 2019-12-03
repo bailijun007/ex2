@@ -11,11 +11,20 @@ public class PcPosLevelBizBo {
     private Integer gear;
     private Integer minAmt;
     private Integer maxAmt;
-    private Integer maxLeverage;
+    private BigDecimal maxLeverage;
     @JsonProperty("posHoldMarginRatio")
     private BigDecimal posHoldMarginRatio;
+    private BigDecimal minHoldMarginRatio;
     private Long ctime;
     private Long mtime;
+
+    public BigDecimal getMinHoldMarginRatio() {
+        return minHoldMarginRatio;
+    }
+
+    public void setMinHoldMarginRatio(BigDecimal minHoldMarginRatio) {
+        this.minHoldMarginRatio = minHoldMarginRatio;
+    }
 
     public Long getCtime() {
         return ctime;
@@ -81,11 +90,11 @@ public class PcPosLevelBizBo {
         this.maxAmt = maxAmt;
     }
 
-    public Integer getMaxLeverage() {
+    public BigDecimal getMaxLeverage() {
         return maxLeverage;
     }
 
-    public void setMaxLeverage(Integer maxLeverage) {
+    public void setMaxLeverage(BigDecimal maxLeverage) {
         this.maxLeverage = maxLeverage;
     }
 

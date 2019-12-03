@@ -11,10 +11,19 @@ public class PosLevelInputDto extends BaseInputDto {
     private Integer gear;
     private Integer minAmt;
     private Integer maxAmt;
-    private Integer maxLeverage;
-    private BigDecimal posMatinMarginRatio;
+    private BigDecimal maxLeverage;
+    private BigDecimal posHoldMarginRatio;
+    private BigDecimal minHoldMarginRatio;
     private Long ctime;
     private Long mtime;
+
+    public BigDecimal getMinHoldMarginRatio() {
+        return minHoldMarginRatio;
+    }
+
+    public void setMinHoldMarginRatio(BigDecimal minHoldMarginRatio) {
+        this.minHoldMarginRatio = minHoldMarginRatio;
+    }
 
     public Long getCtime() {
         return ctime;
@@ -81,19 +90,19 @@ public class PosLevelInputDto extends BaseInputDto {
         this.maxAmt = maxAmt;
     }
 
-    public Integer getMaxLeverage() {
+    public BigDecimal getMaxLeverage() {
         return maxLeverage;
     }
 
-    public void setMaxLeverage(Integer maxLeverage) {
+    public void setMaxLeverage(BigDecimal maxLeverage) {
         this.maxLeverage = maxLeverage;
     }
 
-    public BigDecimal getPosMatinMarginRatio() {
-        return posMatinMarginRatio;
+    public BigDecimal getPosHoldMarginRatio() {
+        return posHoldMarginRatio;
     }
 
-    public void setPosMatinMarginRatio(BigDecimal posMatinMarginRatio) {
-        this.posMatinMarginRatio = posMatinMarginRatio;
+    public void setPosHoldMarginRatio(BigDecimal posHoldMarginRatio) {
+        this.posHoldMarginRatio = posHoldMarginRatio;
     }
 }
