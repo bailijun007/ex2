@@ -58,8 +58,10 @@ com\hupa\exp\servermng\entity\sms\SmsTempListInputDto.class
 com\hupa\exp\servermng\service\impl\ApiFundRateSettingControllerServiceImpl.class
 com\hupa\exp\servermng\entity\role\RoleAllOutputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiFundWithdrawController.class
+com\hupa\exp\servermng\entity\constant\ConstantListOutputDto.class
 com\hupa\exp\servermng\interceptor\ResponseBodyHandlerImpl.class
 com\hupa\exp\servermng\service\impl\ApiPcMakePriceHistoryControllerServiceImpl.class
+com\hupa\exp\servermng\service\impl\ConstantServiceImpl.class
 com\hupa\exp\servermng\entity\fundwithdraw\FundWithdrawAccountListOutputDto.class
 com\hupa\exp\servermng\entity\dic\DicAllListInputDto.class
 com\hupa\exp\servermng\entity\fundaccount\FundAccountLogInputDto.class
@@ -112,6 +114,7 @@ com\hupa\exp\servermng\exception\LocaleException.class
 com\hupa\exp\servermng\entity\pcmakepricehistory\PcMakePriceHistoryInfoOutputDto.class
 com\hupa\exp\servermng\service\impl\ApiKlineConfigControllerServiceImpl.class
 com\hupa\exp\servermng\action\controller\api\ApiEarningRateController.class
+com\hupa\exp\servermng\entity\constant\ConstantOutputDto.class
 com\hupa\exp\servermng\entity\contract\GetAllSymbolOutputDto.class
 com\hupa\exp\servermng\entity\area\AreaOutputDto.class
 com\hupa\exp\servermng\entity\pcindexprice\PcIndexPriceListOutputDto.class
@@ -151,6 +154,7 @@ com\hupa\exp\servermng\enums\MongoDbExceptionCode.class
 com\hupa\exp\servermng\action\controller\api\ApiInformationController.class
 com\hupa\exp\servermng\help\Swagger2Helper.class
 com\hupa\exp\servermng\entity\pcmakepricehistory\PcMakePriceHistoryListInputDto.class
+com\hupa\exp\servermng\service\def\IConstantService.class
 com\hupa\exp\servermng\service\def\IApiPosLevelControllerService.class
 com\hupa\exp\servermng\entity\locale\LocaleListInputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiAppVersionController.class
@@ -281,7 +285,9 @@ com\hupa\exp\servermng\entity\operationlog\OperationLogListOutputDto$OperationLo
 com\hupa\exp\servermng\entity\role\RoleMenuOutputDto.class
 com\hupa\exp\servermng\entity\asset\AssetInputDto.class
 com\hupa\exp\servermng\entity\sms\SmsTempOutputDto.class
+com\hupa\exp\servermng\entity\constant\ConstantInfoOutputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiMenuController.class
+com\hupa\exp\servermng\entity\constant\ConstantInputDto.class
 com\hupa\exp\servermng\entity\contract\GetContractListByAssetOutputDto.class
 com\hupa\exp\servermng\entity\area\AreaListOutputPage.class
 com\hupa\exp\servermng\entity\fundwithdraw\FundWithdrawAccountListInputDto.class
@@ -297,6 +303,7 @@ com\hupa\exp\servermng\service\def\IApiOperationLogControllerService.class
 com\hupa\exp\servermng\action\controller\api\ApiPcOrderController.class
 com\hupa\exp\servermng\entity\symbolrate\SymbolRateListOutputDto.class
 com\hupa\exp\servermng\entity\pcaccount\PcAccountLogListInputDto.class
+com\hupa\exp\servermng\action\controller\api\ApiConstantController.class
 com\hupa\exp\servermng\service\impl\ApiLoginControllerServiceImpl.class
 com\hupa\exp\servermng\service\def\IApiUserControllerService.class
 com\hupa\exp\servermng\entity\user\EnableUserInputDto.class
@@ -365,6 +372,7 @@ com\hupa\exp\servermng\service\def\IApiMenuControllerService.class
 com\hupa\exp\servermng\service\def\IApiLocaleControllerService.class
 com\hupa\exp\servermng\service\def\IApiKlineConfigControllerService.class
 com\hupa\exp\servermng\entity\fundwithdraw\FundWithdrawOutputDto.class
+com\hupa\exp\servermng\entity\constant\ConstantInfoInputDto.class
 com\hupa\exp\servermng\entity\pcfee\PcFeeInfoInputDto.class
 com\hupa\exp\servermng\config\WebDefaultView.class
 com\hupa\exp\servermng\entity\asset\AssetListOutputPage.class
@@ -384,6 +392,7 @@ com\hupa\exp\servermng\entity\contract\CheckHasContractInputDto.class
 com\hupa\exp\servermng\entity\modulelimit\GetModuleLimitOutputDto.class
 com\hupa\exp\servermng\entity\contract\GetContractOutputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiAccountTransferController.class
+com\hupa\exp\servermng\entity\constant\ConstantListInputDto.class
 com\hupa\exp\servermng\service\def\IApiSymbolRateControllerService.class
 com\hupa\exp\servermng\entity\assetchange\FundAssetChangeListOutputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiKlineConfigController.class

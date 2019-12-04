@@ -37,6 +37,7 @@ G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\earnin
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\login\ExistLoginOutputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\def\IApiAssetChangeControllerService.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\pcmakepricehistory\PcMakePriceHistoryListOutputDto.java
+G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\constant\ConstantInfoInputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\impl\ApiPcMakePriceHistoryControllerServiceImpl.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\filter\RequestWrapper.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\action\controller\api\ApiFundRateSettingController.java
@@ -55,6 +56,7 @@ G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\import
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\impl\ApiPcCandleControllerServiceImpl.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\pcfee\PcFeeInputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\exchangerate\ExchangeRateListOutputDto.java
+G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\action\controller\api\ApiConstantController.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\def\IApiSmsTempControllerService.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\fundrate\FundRateHistoryListOutputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\enums\LoginExceptionCode.java
@@ -149,14 +151,18 @@ G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\area\G
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\area\AreaListInputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\config\aliyunoss\OSSClientConfig.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\impl\ApiFundRateSettingControllerServiceImpl.java
+G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\constant\ConstantListOutputDto.java
+G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\constant\ConstantInfoOutputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\impl\ApiLoginControllerServiceImpl.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\action\controller\api\ApiPcTickerLastController.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\impl\ApiPcAccountControllerServiceImpl.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\validate\ContractValidateImpl.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\impl\ApiDicControllerServiceImpl.java
+G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\constant\ConstantOutputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\impl\ApiTickerLastControllerServiceImpl.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\sms\SmsTempInfoInputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\klineconfig\KlineConfigInfoOutputDto.java
+G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\impl\ConstantServiceImpl.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\asset\AssetListOutputPage.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\exception\MongoDbException.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\menu\MenuTreeListOutputDto.java
@@ -179,6 +185,7 @@ G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\klinec
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\klineconfig\KlineConfigListOutputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\action\controller\api\ApiLoginController.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\action\controller\api\ApiPcMakePriceHistoryController.java
+G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\constant\ConstantInputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\validate\MenuValidateImpl.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\action\controller\api\ApiExpThirdApiConfigController.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\def\IApiPcAccountControllerService.java
@@ -215,6 +222,7 @@ G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\enums\ImgExce
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\action\controller\api\ApiPcOrderController.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\locale\LocaleInfoOutputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\userapi\UserApiListInputDto.java
+G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\constant\ConstantListInputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\action\controller\api\ApiAreaController.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\information\GetInformationByTypeOutputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\impl\ApiPcFeeControllerServiceImpl.java
@@ -346,6 +354,7 @@ G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\pcinde
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\transfer\TransferListInputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\impl\ApiMongoDbControllerServiceImpl.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\exchangerate\ExchangeRateInputDto.java
+G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\service\def\IConstantService.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\information\GetInformationInfoInputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\mongodb\MongoCollectionFieldInputDto.java
 G:\Ben\pro\ex2-mng\server-mng\src\main\java\com\hupa\exp\servermng\entity\pcaccount\PcAccountLogListInputDto.java

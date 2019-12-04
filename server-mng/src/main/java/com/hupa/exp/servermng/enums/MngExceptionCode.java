@@ -13,6 +13,7 @@ public enum MngExceptionCode implements ExceptionDescribe {
     PHONE_EXIST_ERROR_MNG(-90007,"PHONE_EXIST_ERROR_MNG",""),
     EMAIL_EXIST_ERROR_MNG(-90008,"EMAIL_EXIST_ERROR_MNG",""),
     TABLE_NOT_EXIST_ERROR(-90010,"TABLE_NOT_EXIST_ERROR",""),
+    CONSTANT_EXIST_ERROR(-90011,"CONSTANT_EXIST_ERROR",""),
     ;
     private int code;
     private String constant;
