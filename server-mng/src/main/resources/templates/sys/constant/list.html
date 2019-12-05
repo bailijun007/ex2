@@ -22,6 +22,12 @@
                         <label class="sr-only">类型</label>
                         <input type="text" placeholder="请输入key" id="key" class="form-control">
                     </div>
+                    <div class="form-group" style="width: 15%; float: left;">
+                        <label class="sr-only">类型</label>
+                        <select id="parentId" class="form-control">
+
+                        </select>
+                    </div>
                     <div class="input-group">
 
                                 <span class="input-group-btn">
@@ -67,6 +73,31 @@
 <script type="text/javascript">
     var oTable;
     $(function () {
+        function bindType()
+        {
+            $.ajax({
+                type: "get",
+                url: "/v1/http/constant/query_parent_list",//?dic_type_key=ParentDicKey
+                contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+                async: false,
+                //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+                //data:JSON.stringify({id:id}),
+                success: function (data) {
+                    //console.log(data);
+                    var list= data.data.constant_list;
+                    if (list != null) {
+                        var html="<option value='0'>全部</option><option value='999'>父类</option>";
+                        for(var i=0;i<list.length;i++)
+                        {
+                            html+="<option value='"+list[i].id+"'>"+list[i].remark+"</option>"
+                        }
+                        $("#parentId").html(html);
+                    }
+                }
+            })
+        }
+        bindType();
+
         //1.初始化Table
         oTable = new TableInit();
         oTable.Init();
@@ -180,12 +211,26 @@
                                 title: '键',
                                 field: 'key'
                             }, {
+                                title: '备注',
+                                // field: 'dic_type',
+                                field: 'remark'
+                            }, {
                                 title: '值',
                                 field: 'value'
                             }
                             , {
                                 title: '分隔符',
                                 field: 'splitSymbol'
+                            }, {
+                                title: '是否父类',
+                                // field: 'dic_type',
+                                formatter: function (value, row, index) {
+
+                                    if(row.parent=="1")
+                                        return "是";
+                                    else
+                                        return "否";
+                                }
                             }
                              ,
 
@@ -210,8 +255,8 @@
             var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                 page_size: params.limit,   //页面大小
                 current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
-                key: $("#key").val()
-                //action: "GetBakModuleList"
+                key: $("#key").val(),
+                parent_id: $("#parentId").val()
 
             };
             //console.log(temp);

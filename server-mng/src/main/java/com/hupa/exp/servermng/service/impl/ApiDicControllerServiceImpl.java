@@ -106,8 +106,8 @@ public class ApiDicControllerServiceImpl implements IApiDicControllerService {
         try {
             String  key = URLDecoder.decode(inputDto.getKey(), "UTF-8");
             String value=URLDecoder.decode(inputDto.getValue(), "UTF-8");
-            inputDto.setKey(key);
-            inputDto.setValue(value);
+            bo.setKey(key);
+            bo.setValue(value);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -116,6 +116,7 @@ public class ApiDicControllerServiceImpl implements IApiDicControllerService {
 //        bo.setValue(inputDto.getValue());
         bo.setParent(inputDto.isParent());
         bo.setRemarks(inputDto.getRemarks());
+        
         String after=JSON.toJSONString(bo);
         ExpUserBizBo user=sessionHelper.getUserInfoBySession();
         logService.createOperationLog(user.getId(),user.getUserName(),

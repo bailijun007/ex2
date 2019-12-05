@@ -8,8 +8,36 @@ public class ConstantInfoOutputDto extends BaseOutputDto {
     private String key;
     private String value;
     private String splitSymbol;
+    private String parentId;
+
+    private String remark;
+    private String parent;
     private String ctime;
     private String mtime;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getParent() {
+        return parent;
+    }
+
+    public void setParent(String parent) {
+        this.parent = parent;
+    }
 
     public String getKey() {
         return key;

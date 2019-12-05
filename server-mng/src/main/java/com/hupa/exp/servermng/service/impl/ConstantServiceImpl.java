@@ -55,11 +55,14 @@ public class ConstantServiceImpl implements IConstantService {
         }
         po.setKey(inputDto.getKey());
         po.setSplitSymbol(symbol);
+        po.setParent(inputDto.isParent());
+        po.setParentId(inputDto.getParentId());
+        po.setRemark(inputDto.getRemark());
         String[] contents= value.split("[|]");
         Map<String,String> map=new HashMap<>();
         for(String str:contents)
         {
-            String[] keyValue=str.split(",");
+            String[] keyValue=str.split("[┊]");
             map.put(keyValue[0],keyValue.length>1?keyValue[1]:"");
         }
         po.setValue(JSON.toJSONString(map));
@@ -97,6 +100,9 @@ public class ConstantServiceImpl implements IConstantService {
             outputDto.setKey(po.getKey());
             outputDto.setValue(po.getValue());
             outputDto.setSplitSymbol(po.getSplitSymbol());
+            outputDto.setParent(po.isParent()?"1":"0");
+            outputDto.setParentId(String.valueOf(po.getParentId()));
+            outputDto.setRemark(po.getRemark());
         }
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
@@ -104,7 +110,7 @@ public class ConstantServiceImpl implements IConstantService {
 
     @Override
     public ConstantListOutputDto getConstantPage(ConstantListInputDto inputDto) throws BizException {
-        IPage<ExpConstantPo> pageData=iExpConstantDao.selectPagePos(inputDto.getKey(),
+        IPage<ExpConstantPo> pageData=iExpConstantDao.selectPagePos(inputDto.getKey(),inputDto.getParentId(),
                 inputDto.getCurrentPage(),inputDto.getPageSize());
         List<ConstantInfoOutputDto> rows=new ArrayList<>();
         pageData.getRecords().forEach(po->{
@@ -115,6 +121,9 @@ public class ConstantServiceImpl implements IConstantService {
             info.setKey(po.getKey());
             info.setValue(po.getValue());
             info.setSplitSymbol(po.getSplitSymbol());
+            info.setRemark(po.getRemark());
+            info.setParent(po.isParent()?"1":"0");
+            info.setParentId(String.valueOf(po.getParentId()));
             rows.add(info);
         });
         ConstantListOutputDto outputDto=new ConstantListOutputDto();
@@ -137,6 +146,50 @@ public class ConstantServiceImpl implements IConstantService {
                 inputDto.getIds(),"");
         DeleteOutputDto outputDto=new DeleteOutputDto();
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
+        return outputDto;
+    }
+
+    @Override
+    public ConstantAllListOutputDto getAllConstant(ConstantAllListInputDto inputDto) throws BizException {
+        List<ExpConstantPo> poList=iExpConstantDao.selectListByParentId(inputDto.getParentId());
+        List<ConstantInfoOutputDto> rows=new ArrayList<>();
+        poList.forEach(po->{
+            ConstantInfoOutputDto info=new ConstantInfoOutputDto();
+            info.setId(String.valueOf(po.getId()));
+            info.setCtime(String.valueOf(po.getCtime()));
+            info.setMtime(String.valueOf(po.getMtime()));
+            info.setKey(po.getKey());
+            info.setValue(po.getValue());
+            info.setSplitSymbol(po.getSplitSymbol());
+            info.setParent(po.isParent()?"1":"0");
+            info.setParentId(String.valueOf(po.getParentId()));
+            info.setRemark(po.getRemark());
+            rows.add(info);
+        });
+        ConstantAllListOutputDto outputDto=new ConstantAllListOutputDto();
+        outputDto.setConstantList(rows);
+        return outputDto;
+    }
+
+    @Override
+    public ConstantAllListOutputDto getParentConstant(ConstantAllListInputDto inputDto) throws BizException {
+        List<ExpConstantPo> poList=iExpConstantDao.selectParentList();
+        List<ConstantInfoOutputDto> rows=new ArrayList<>();
+        poList.forEach(po->{
+            ConstantInfoOutputDto info=new ConstantInfoOutputDto();
+            info.setId(String.valueOf(po.getId()));
+            info.setCtime(String.valueOf(po.getCtime()));
+            info.setMtime(String.valueOf(po.getMtime()));
+            info.setKey(po.getKey());
+            info.setValue(po.getValue());
+            info.setSplitSymbol(po.getSplitSymbol());
+            info.setParent(po.isParent()?"1":"0");
+            info.setRemark(po.getRemark());
+            info.setParentId(String.valueOf(po.getParentId()));
+            rows.add(info);
+        });
+        ConstantAllListOutputDto outputDto=new ConstantAllListOutputDto();
+        outputDto.setConstantList(rows);
         return outputDto;
     }
 }

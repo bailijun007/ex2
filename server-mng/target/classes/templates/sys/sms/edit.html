@@ -168,7 +168,7 @@
                             $("#remark").val(data.data.remark);
                             //bindMsgType(data.data.type);
                             $("#type").val(data.data.code);
-                            $("input[name='msgType'][value="+data.data.type+"]").attr("checked",true);
+                            $("input[name='msgType'][value="+type+"]").attr("checked",true);
                         }
 
                     }
@@ -206,7 +206,7 @@
 
         var content="";
         $("#append textarea").each(function () {
-            content +=$(this).attr("key")+","
+            content +=$(this).attr("key")+"┊"
             content +=$(this).val()+"|"
         })
         parmes+= "id="+id;

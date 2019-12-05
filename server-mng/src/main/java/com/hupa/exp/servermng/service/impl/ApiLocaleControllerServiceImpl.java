@@ -48,7 +48,7 @@ public class ApiLocaleControllerServiceImpl implements IApiLocaleControllerServi
         Map<String,String> map=new HashMap<>();
         for(String str:contents)
         {
-            String[] keyValue=str.split(",");
+            String[] keyValue=str.split("[┊]");
             map.put(keyValue[0],keyValue.length>1?keyValue[1]:"");
         }
         inputDto.setLocaleContent(JSON.toJSONString(map));
@@ -77,7 +77,7 @@ public class ApiLocaleControllerServiceImpl implements IApiLocaleControllerServi
         Map<String,String> map=new HashMap<>();
         for(String str:contents)
         {
-            String[] keyValue=str.split(",");
+            String[] keyValue=str.split("[┊]");
             map.put(keyValue[0],keyValue.length>1?keyValue[1]:"");
         }
         inputDto.setLocaleContent(JSON.toJSONString(map));

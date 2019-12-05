@@ -227,6 +227,7 @@ com\hupa\exp\servermng\validate\ILoginValidate.class
 com\hupa\exp\servermng\entity\contract\GetAllActiveContractInputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiFundAccountController.class
 com\hupa\exp\servermng\entity\contract\ContractListOutputPage.class
+com\hupa\exp\servermng\entity\constant\ConstantAllListInputDto.class
 com\hupa\exp\servermng\entity\fundwithdraw\AuditPassFundWithdrawInputDto.class
 com\hupa\exp\servermng\action\controller\api\ApiAssetController.class
 com\hupa\exp\servermng\entity\assetchange\PcAssetChangeListOutputDto.class
@@ -369,6 +370,7 @@ com\hupa\exp\servermng\enums\LocaleExceptionCode.class
 com\hupa\exp\servermng\entity\earningrate\CheckHasEarningRateOutputDto.class
 com\hupa\exp\servermng\service\impl\ApiRoleControllerServiceImpl.class
 com\hupa\exp\servermng\service\def\IApiMenuControllerService.class
+com\hupa\exp\servermng\entity\constant\ConstantAllListOutputDto.class
 com\hupa\exp\servermng\service\def\IApiLocaleControllerService.class
 com\hupa\exp\servermng\service\def\IApiKlineConfigControllerService.class
 com\hupa\exp\servermng\entity\fundwithdraw\FundWithdrawOutputDto.class

@@ -265,8 +265,8 @@
         var localeList=getDicList("Locale");
         for(var i=0;i<localeList.length;i++) {
 
-            title+=localeList[i].key+","+$("#title_"+localeList[i].key).val()+"|";
-            content+=localeList[i].key+","+UM.getEditor('content_'+localeList[i].key).getContent()+"|";
+            title+=localeList[i].key+"┊"+$("#title_"+localeList[i].key).val()+"|";
+            content+=localeList[i].key+"┊"+UM.getEditor('content_'+localeList[i].key).getContent()+"|";
         }
         debugger;
         title=title.substr(0,title.length-1);

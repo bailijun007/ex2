@@ -32,12 +32,37 @@
                     <div class="ibox-content">
                         <input type="hidden" id="id" value="0">
 
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">是否为父类：</label>
+                            <div class="col-sm-5">
+                                <div class="rule-single-checkbox">
+                                    <input type="checkbox" id="parent"  />
+                                </div>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">类型：</label>
+                            <div class="col-sm-6">
+                                <select id="parentId" class="form-control">
 
+                                </select>
+                                <span style="color: red;">父类无需录入值</span>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
 
                         <div class="form-group">
                             <label class="col-sm-3 control-label">键：</label>
                             <div class="col-sm-6">
                                 <input  class="form-control" type="text" value="" id="key">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">备注：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="remark" type="text" >  <span style="color: red;">为父类时也当下拉款展示名用</span>
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
@@ -55,10 +80,12 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">分隔符：</label>
                             <div class="col-sm-6">
-                                <input class="form-control" id="split_symbol" type="text" >
+                                <input class="form-control" id="split_symbol" type="text" ><span style="color: red">录入某些文本的时候给前端分隔</span>
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
+
+
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-3">
                                 <input type="button" id="BtnSave" value="提交" class="btn btn-primary">
@@ -92,8 +119,30 @@
 
 <script type="text/javascript">
     $(function () {
-
-        bindDrop("ErrorMessage",'module',false);
+        function bindType()
+        {
+            $.ajax({
+                type: "get",
+                url: "/v1/http/constant/query_parent_list",//?dic_type_key=ParentDicKey
+                contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+                async: false,
+                //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+                //data:JSON.stringify({id:id}),
+                success: function (data) {
+                    //console.log(data);
+                    var list= data.data.constant_list;
+                    if (list != null) {
+                        var html="<option value='999'>父类</option>";
+                        for(var i=0;i<list.length;i++)
+                        {
+                            html+="<option value='"+list[i].id+"'>"+list[i].remark+"</option>"
+                        }
+                        $("#parentId").html(html);
+                    }
+                }
+            })
+        }
+        bindType();
         function initLanguage()
         {
             $.ajax({
@@ -114,6 +163,7 @@
                             html+="<label class='col-sm-3 control-label'>"+list[i].key+"：</label>"
                             html+="<div class='col-sm-6'>"
                             html+="<input class='form-control' id='"+list[i].key+"' key='"+list[i].key+"' value=''  type='text' >"
+                            html+="<span style='color: red'>前端需要文本的时候可以用分隔符，比如（123/456），前端自定义</span>"
                             html+="</div>"
                             html+="</div>"
                         }
@@ -139,9 +189,13 @@
                     success: function (data) {
                         //console.log(data);
                         if (data.data != null) {
+                            if (data.data.parent == "1")
+                                $("#parent").parent().find("a").attr("class", "selected")
+                            $("#parentId").val(data.data.parentId);
                             $("#id").val(data.data.id);
                             $("#key").val(data.data.key);
                             $("#split_symbol").val(data.data.splitSymbol);
+                            $("#remark").val(data.data.remark);
                             var dataContent=JSON.parse(data.data.value);
                             for(var item in dataContent)
                             {
@@ -166,7 +220,12 @@
 
 
     $("#BtnSave").click(function(){
-
+        var checkVal=$("#parent").parent().find("a").attr("class");
+        var isCheck;
+        if(checkVal=="selected")
+            isCheck=1;
+        else
+            isCheck=0;
         var id = GetQueryString("id");
         var action=GetQueryString("action");
         if(action!="Edit")
@@ -180,7 +239,7 @@
         }
         var content="";
         $("#append input").each(function () {
-            content +=$(this).attr("key")+","
+            content +=$(this).attr("key")+"┊"
             content +=$(this).val()+"|"
         })
         var parmes="?";
@@ -189,6 +248,9 @@
         parmes+="&value="+ encodeURIComponent(encodeURIComponent(content));
         var symbol=$("#split_symbol").val();
         parmes+="&split_symbol="+encodeURIComponent(encodeURIComponent(symbol));;
+        parmes+="&parent_id="+$("#parentId").val();
+        parmes+="&remark="+$("#remark").val();
+        parmes+="&parent="+isCheck;
         $.ajax({
             type:"post",
             url:"/v1/http/constant/create_or_edit"+parmes,

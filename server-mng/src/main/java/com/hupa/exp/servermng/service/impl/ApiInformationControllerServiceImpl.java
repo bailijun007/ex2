@@ -104,7 +104,7 @@ public class ApiInformationControllerServiceImpl implements IApiInformationContr
         Map<String,String> contentMap=new HashMap<>();
         for(String str:contents)
         {
-            String[] keyValue=str.split(",");
+            String[] keyValue=str.split("[┊]");
             contentMap.put(keyValue[0],keyValue.length>1?keyValue[1]:"");
         }
         bizBo.setContent(JSON.toJSONString(contentMap));
@@ -112,7 +112,7 @@ public class ApiInformationControllerServiceImpl implements IApiInformationContr
         Map<String,String> titleMap=new HashMap<>();
         for(String str:titles)
         {
-            String[] keyValue=str.split(",");
+            String[] keyValue=str.split("[┊]");
             titleMap.put(keyValue[0],keyValue.length>1?keyValue[1]:"");
         }
         bizBo.setTitle(JSON.toJSONString(titleMap));

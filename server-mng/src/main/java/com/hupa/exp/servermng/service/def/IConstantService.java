@@ -14,4 +14,7 @@ public interface IConstantService
     ConstantListOutputDto getConstantPage(ConstantListInputDto inputDto) throws BizException;
 
     DeleteOutputDto deleteConstant(DeleteInputDto inputDto) throws BizException;
+
+    ConstantAllListOutputDto getAllConstant(ConstantAllListInputDto inputDto) throws BizException;
+    ConstantAllListOutputDto getParentConstant(ConstantAllListInputDto inputDto) throws BizException;
 }
