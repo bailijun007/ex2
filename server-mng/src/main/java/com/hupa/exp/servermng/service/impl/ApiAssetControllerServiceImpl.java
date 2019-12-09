@@ -140,6 +140,15 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
         afterBo.setMtime(System.currentTimeMillis());
         afterBo.setCtime(beforeBo.getCtime());
         iAssetBiz.editAsset(afterBo);
+        ExpDicPo dicPo= iExpDicDao.selectDicByKey(DbKeyDic.MongoDbAssetTableKey);
+        if(dicPo!=null)
+        {
+            List<ExpDicPo> dicPoList=iExpDicDao.selectDicListByParentId(Integer.parseInt(String.valueOf(dicPo.getId())));
+
+            List<String> tableNames= dicPoList.stream().map(p -> p.getKey().replace("{asset}",beforeBo.getRealName())).collect(Collectors.toList());
+
+            iMongoTableDao.createMongoTable(tableNames);
+        }
         //添加操作日志
         ExpUserBizBo user= sessionHelper.getUserInfoBySession();
         logService.createOperationLog(user.getId(),user.getUserName(),

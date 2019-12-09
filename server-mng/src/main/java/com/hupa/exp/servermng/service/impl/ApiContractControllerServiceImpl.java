@@ -123,19 +123,19 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
             bo.setCtime(System.currentTimeMillis());
             bo.setMtime(System.currentTimeMillis());
             id= iPcContractBiz.createPcContract(bo);
-            ExpDicPo dicPo= iExpDicDao.selectDicByKey(DbKeyDic.MongoDbAssetSymbolTableKey);
-            if(dicPo!=null)
-            {
-                List<ExpDicPo> dicPoList=iExpDicDao.selectDicListByParentId(Integer.parseInt(String.valueOf(dicPo.getId())));
-
-                List<String> tableNames= dicPoList.stream().map(p -> p.getKey().replace("{asset}",bo.getAsset()).replace("{symbol}",bo.getSymbol())).collect(Collectors.toList());
-                //创建mongodb的表
-                iMongoTableDao.createMongoTable(tableNames);
-            }
             logService.createOperationLog(user.getId(),user.getUserName(),
                     OperationModule.Asset.toString(),
                     OperationType.Update.toString(),
                     JsonUtil.toJsonString(bo),"");
+        }
+        ExpDicPo dicPo= iExpDicDao.selectDicByKey(DbKeyDic.MongoDbAssetSymbolTableKey);
+        if(dicPo!=null)
+        {
+            List<ExpDicPo> dicPoList=iExpDicDao.selectDicListByParentId(Integer.parseInt(String.valueOf(dicPo.getId())));
+
+            List<String> tableNames= dicPoList.stream().map(p -> p.getKey().replace("{asset}",bo.getAsset()).replace("{symbol}",bo.getSymbol())).collect(Collectors.toList());
+            //创建mongodb的表
+            iMongoTableDao.createMongoTable(tableNames);
         }
 //        //查一下有没有最新成交价
 //        if(iLastPriceBiz.get(inputDto.getSymbol())==null)
