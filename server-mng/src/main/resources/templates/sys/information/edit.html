@@ -271,13 +271,14 @@
         debugger;
         title=title.substr(0,title.length-1);
         content=content.substr(0,content.length-1);
+        linkUrl=$("#link_url").val();
         param+= "id="+id;
         param+="&title="+encodeURIComponent(encodeURIComponent(title));
         param+="&content="+encodeURIComponent(encodeURIComponent(content));
         param+="&old_img="+$("#oldImg").val();
         param+="&cover_img="+$("#cover_img").attr("src");
         param+="&type="+$("#type").val();
-        param+="&link_url="+$("#link_url").val();
+        param+="&link_url="+encodeURIComponent(encodeURIComponent(linkUrl));
         param+="&sort="+$("#sort").val();
 
         $.ajax({

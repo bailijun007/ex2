@@ -94,12 +94,15 @@ public class ApiInformationControllerServiceImpl implements IApiInformationContr
 
         String contentStr = "";
         String titleStr="";
+        String linkUrl="";
         try {
             contentStr = URLDecoder.decode(inputDto.getContent(), "UTF-8");
             titleStr=URLDecoder.decode(inputDto.getTitle(), "UTF-8");
+            linkUrl=URLDecoder.decode(inputDto.getLinkUrl(), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+        bizBo.setLinkUrl(linkUrl);
         String[] contents= contentStr.split("[|]");
         Map<String,String> contentMap=new HashMap<>();
         for(String str:contents)
