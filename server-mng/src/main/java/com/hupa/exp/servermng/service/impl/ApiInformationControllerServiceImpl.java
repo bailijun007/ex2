@@ -59,6 +59,7 @@ public class ApiInformationControllerServiceImpl implements IApiInformationContr
             row.setSort(String.valueOf(po.getSort()));
             row.setCtime(String.valueOf(po.getCtime()));
             row.setMtime(String.valueOf(po.getMtime()));
+            row.setGoHome(String.valueOf(po.getGoHome()));
             rows.add(row);
         }
         GetInformationByTypeOutputDto outputDto=new GetInformationByTypeOutputDto();
@@ -83,6 +84,7 @@ public class ApiInformationControllerServiceImpl implements IApiInformationContr
             outputDto.setSort(String.valueOf(po.getSort()));
             outputDto.setCtime(String.valueOf(po.getCtime()));
             outputDto.setMtime(String.valueOf(po.getMtime()));
+            outputDto.setGoHome(String.valueOf(po.getGoHome()));
         }
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
@@ -119,6 +121,7 @@ public class ApiInformationControllerServiceImpl implements IApiInformationContr
             titleMap.put(keyValue[0],keyValue.length>1?keyValue[1]:"");
         }
         bizBo.setTitle(JSON.toJSONString(titleMap));
+        bizBo.setGoHome(inputDto.getGoHome());
         if(inputDto.getId()>0)
         {
             bizBo.setMtime(System.currentTimeMillis());

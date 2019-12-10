@@ -1,6 +1,7 @@
 package com.hupa.exp.bizother.entity.information;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ExpInformationBizBo {
     private Long id;
@@ -10,8 +11,17 @@ public class ExpInformationBizBo {
     private Integer type;
     private String linkUrl;
     private Integer sort;
+    private Integer goHome;
     private Long ctime;
     private Long mtime;
+
+    public Integer getGoHome() {
+        return goHome;
+    }
+
+    public void setGoHome(Integer goHome) {
+        this.goHome = goHome;
+    }
 
     public Long getId() {
         return id;

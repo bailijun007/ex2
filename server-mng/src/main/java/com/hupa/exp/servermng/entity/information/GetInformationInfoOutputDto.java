@@ -12,9 +12,19 @@ public class GetInformationInfoOutputDto extends BaseOutputDto {
     private String type;
     @JsonProperty("link_url")
     private String linkUrl;
+    @JsonProperty("go_home")
+    private String goHome;
     private String sort;
     private String ctime;
     private String mtime;
+
+    public String getGoHome() {
+        return goHome;
+    }
+
+    public void setGoHome(String goHome) {
+        this.goHome = goHome;
+    }
 
     public String getId() {
         return id;

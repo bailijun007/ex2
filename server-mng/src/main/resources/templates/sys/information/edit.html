@@ -100,6 +100,14 @@
                             <div class="Validform_checktip"></div>
                         </div>
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">是否内部跳转：</label>
+                            <div class="col-sm-5">
+                                <div class="rule-single-checkbox">
+                                    <input type="checkbox" id="go_home" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-sm-3 control-label">排序：</label>
                             <div class="col-sm-6">
                                 <input  class="form-control" type="text" value="99" datatype="*1-100" id="sort">
@@ -226,6 +234,9 @@
                           $("#type").val(data.data.type);
                           $("#link_url").val(data.data.link_url);
                           $("#sort").val(data.data.sort);
+                            if (data.data.go_home == "1")
+                                $("#go_home").parent().find("a").attr("class","selected")//$("#ckbIsOnTop").parent().find("a").attr("class", "selected");
+
                         }
                     }
                 })
@@ -244,16 +255,16 @@
     })
 
     $("#BtnSave").click(function(){
-        // var checkVal=$("#ckbIsOnTop").parent().find("a").attr("class");
-        // var isCheck;
+        var checkVal=$("#go_home").parent().find("a").attr("class");
+        var isCheck;
         var id = GetQueryString("id");
         var action=GetQueryString("action");
         if(action!="Edit")
             id=0;
-        // if(checkVal=="selected")
-        //     isCheck=1;
-        // else
-        //     isCheck=0;
+        if(checkVal=="selected")
+            isCheck=1;
+        else
+            isCheck=0;
         var param="?";
         if($(".Validform_wrong").length>0)
         {
@@ -268,7 +279,7 @@
             title+=localeList[i].key+"┊"+$("#title_"+localeList[i].key).val()+"|";
             content+=localeList[i].key+"┊"+UM.getEditor('content_'+localeList[i].key).getContent()+"|";
         }
-        debugger;
+
         title=title.substr(0,title.length-1);
         content=content.substr(0,content.length-1);
         linkUrl=$("#link_url").val();
@@ -293,7 +304,8 @@
                 coverImg:$("#cover_img").attr("src"),
                 type:$("#type").val(),
                 linkUrl:encodeURIComponent(encodeURIComponent(linkUrl)),
-                sort:$("#sort").val()
+                sort:$("#sort").val(),
+                goHome:isCheck
             }),
             success:function(data) {
                 debugger

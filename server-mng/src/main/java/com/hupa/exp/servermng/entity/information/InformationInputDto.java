@@ -1,5 +1,6 @@
 package com.hupa.exp.servermng.entity.information;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 
 public class InformationInputDto extends BaseInputDto {
@@ -11,8 +12,17 @@ public class InformationInputDto extends BaseInputDto {
     private Integer type;
     private String linkUrl;
     private Integer sort;
+    private Integer goHome;
     private Long ctime;
     private Long mtime;
+
+    public Integer getGoHome() {
+        return goHome;
+    }
+
+    public void setGoHome(Integer goHome) {
+        this.goHome = goHome;
+    }
 
     public String getOldImg() {
         return oldImg;
