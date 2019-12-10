@@ -96,9 +96,9 @@ public class ApiInformationControllerServiceImpl implements IApiInformationContr
         String titleStr="";
         String linkUrl="";
         try {
-            contentStr = URLDecoder.decode(inputDto.getContent(), "UTF-8");
-            titleStr=URLDecoder.decode(inputDto.getTitle(), "UTF-8");
-            linkUrl=URLDecoder.decode(inputDto.getLinkUrl(), "UTF-8");
+            contentStr = URLDecoder.decode(URLDecoder.decode(inputDto.getContent(), "UTF-8"),"UTF-8");
+            titleStr=URLDecoder.decode(URLDecoder.decode(inputDto.getTitle(), "UTF-8"),"UTF-8");
+            linkUrl=URLDecoder.decode(URLDecoder.decode(inputDto.getLinkUrl(), "UTF-8"),"UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -136,11 +136,12 @@ public class ApiInformationControllerServiceImpl implements IApiInformationContr
             bizBo.setCtime(System.currentTimeMillis());
             informationService.createInformation(bizBo);
         }
-        if(!StringUtils.isEmpty(inputDto.getOldImg()))
-        {
-            String[] strArr=inputDto.getOldImg().split("/");
-            ossClientUtil.deleteFile(strArr[strArr.length-1]);//把旧图片删掉
-        }
+        //上传时候已经删过了
+//        if(!StringUtils.isEmpty(inputDto.getOldImg()))
+//        {
+//            String[] strArr=inputDto.getOldImg().split("/");
+//            ossClientUtil.deleteFile(strArr[strArr.length-1]);//把旧图片删掉
+//        }
         InformationOutputDto outputDto=new InformationOutputDto();
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;

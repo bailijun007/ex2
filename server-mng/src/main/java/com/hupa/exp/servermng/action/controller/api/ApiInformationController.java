@@ -34,32 +34,17 @@ public class ApiInformationController {
     @ApiOperation(value = "获取资讯详情")
     @PostMapping("/create_or_edit")
     public BaseResultViaApiDto<InformationInputDto,InformationOutputDto> createOrEditInformation(
-            @ApiParam(name = "id" ,value = "主键id",required =true)
-            @RequestParam(name = "id") Long id,
-            @ApiParam(name = "title" ,value = "标题",required =true)
-            @RequestParam(name = "title") String title,
-            @ApiParam(name = "old_img" ,value = "旧的封面图片",required =true)
-            @RequestParam(name = "old_img") String oldImg,
-            @ApiParam(name = "cover_img" ,value = "封面图片",required =true)
-            @RequestParam(name = "cover_img") String coverImg,
-            @ApiParam(name = "content" ,value = "内容",required =true)
-            @RequestParam(name = "content") String content,
-            @ApiParam(name = "type" ,value = "类型",required =true)
-            @RequestParam(name = "type") Integer type,
-            @ApiParam(name = "link_url" ,value = "外链",required =true)
-            @RequestParam(name = "link_url") String linkUrl,
-            @ApiParam(name = "sort" ,value = "排序",required =true)
-            @RequestParam(name = "sort") Integer sort
+            @RequestBody InformationInputDto inputDto
     )  {
-        InformationInputDto inputDto=new InformationInputDto();
-        inputDto.setId(id);
-        inputDto.setTitle(title);
-        inputDto.setOldImg(oldImg);
-        inputDto.setCoverImg(coverImg);
-        inputDto.setContent(content);
-        inputDto.setType(type);
-        inputDto.setLinkUrl(linkUrl);
-        inputDto.setSort(sort);
+//        InformationInputDto inputDto=new InformationInputDto();
+//        inputDto.setId(id);
+//        inputDto.setTitle(title);
+//        inputDto.setOldImg(oldImg);
+//        inputDto.setCoverImg(coverImg);
+//        inputDto.setContent(content);
+//        inputDto.setType(type);
+//        inputDto.setLinkUrl(linkUrl);
+//        inputDto.setSort(sort);
         InformationOutputDto outputDto=new InformationOutputDto();
         try {
             outputDto=service.createOrEditInformation(inputDto);

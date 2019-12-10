@@ -209,8 +209,8 @@
                         //console.log(data);
                         if (data.data != null) {
                           $("#id").val(data.data.id);
-                          var titles=JSON.parse(data.data.title);
-                          var contents=JSON.parse(data.data.content);
+                          var titles=JSON.parse(decodeURIComponent(data.data.title));
+                          var contents=JSON.parse(decodeURIComponent(data.data.content));
                           for(var i=0;i<localeList.length;i++)
                           {
 
@@ -272,19 +272,29 @@
         title=title.substr(0,title.length-1);
         content=content.substr(0,content.length-1);
         linkUrl=$("#link_url").val();
-        param+= "id="+id;
-        param+="&title="+encodeURIComponent(encodeURIComponent(title));
-        param+="&content="+encodeURIComponent(encodeURIComponent(content));
-        param+="&old_img="+$("#oldImg").val();
-        param+="&cover_img="+$("#cover_img").attr("src");
-        param+="&type="+$("#type").val();
-        param+="&link_url="+encodeURIComponent(encodeURIComponent(linkUrl));
-        param+="&sort="+$("#sort").val();
+        // param+= "id="+id;
+        // param+="&title="+encodeURIComponent(encodeURIComponent(title));
+        // param+="&content="+encodeURIComponent(encodeURIComponent(content));
+        // param+="&oldImg="+$("#oldImg").val();
+        // param+="&coverImg="+$("#cover_img").attr("src");
+        // param+="&type="+$("#type").val();
+        // param+="&linkUrl="+encodeURIComponent(encodeURIComponent(linkUrl));
+        // param+="&sort="+$("#sort").val();
 
         $.ajax({
             type:"post",
-            url:"/v1/http/information/create_or_edit"+param,
+            url:"/v1/http/information/create_or_edit",//+param,
             contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+            data:JSON.stringify({
+                id:id,
+                title:encodeURIComponent(encodeURIComponent(title)),
+                content:encodeURIComponent(encodeURIComponent(content)),
+                oldImg:$("#oldImg").val(),
+                coverImg:$("#cover_img").attr("src"),
+                type:$("#type").val(),
+                linkUrl:encodeURIComponent(encodeURIComponent(linkUrl)),
+                sort:$("#sort").val()
+            }),
             success:function(data) {
                 debugger
                 //console.log(data);
