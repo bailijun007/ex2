@@ -38,13 +38,7 @@
                             <!--</div>-->
                             <!--<div class="Validform_checktip"></div>-->
                         <!--</div>-->
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">币的展示符号：</label>
-                            <div class="col-sm-6">
-                                <input  class="form-control" type="text"  id="icon"><span style="color:red">添加后无法修改，慎重填写</span>
-                            </div>
-                            <div class="Validform_checktip"></div>
-                        </div>
+
                         <div class="form-group">
                             <label class="col-sm-3 control-label">链上服务的约定的id：</label>
                             <div class="col-sm-6">
@@ -71,6 +65,28 @@
                                 <input class="form-control" id="chain_name" type="text">
                             </div>
                             <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">币的展示符号：</label>
+                            <div class="col-sm-6">
+                                <input  class="form-control" type="text"  id="icon">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <input type="hidden" id="oldImg" value="">
+                        <input type="hidden" id="upImg" value="">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">币的展示图标：</label>
+                            <div class="col-sm-6">
+                                <input type="file" id="file" name="file" value="上传" onchange="uploadImg(this);"/>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">预览：</label>
+                            <div class="col-sm-5">
+                                <img src="" id="icon_img" style="width:50%;height: 50%">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">精度：</label>
@@ -183,7 +199,7 @@
             {
                 $("#real_name").attr("readonly","readonly");
                 $("#chain_appoint_id").attr("readonly","readonly");
-                $("#icon").attr("readonly","readonly");
+                //$("#icon").attr("readonly","readonly");
                 $.ajax({
                     type: "get",
                     url: "/v1/http/asset/query?id=" + id,
@@ -196,6 +212,8 @@
                         if (data.data != null) {
                             $("#id").val(data.data.id);
                             $("#icon").val(data.data.icon);
+                            $("#oldImg").val(data.data.cover_img);
+                            $("#icon_img").attr("src",data.data.iconImg);
                             //$("#symbol").val(data.data.symbol);
                             $("#real_name").val(data.data.realName);
                             $("#display_name").val(data.data.displayName);
@@ -259,6 +277,7 @@
         parmes+= "id="+id;
         //parmes+="&symbol="+$("#symbol").val();
         parmes+="&icon="+$("#icon").val();
+        parmes+="&icon_img="+$("#icon_img").attr("src"),
         parmes+="&chain_appoint_id="+$("#chain_appoint_id").val();
         parmes+="&real_name="+$("#real_name").val();
         parmes+="&display_name="+$("#display_name").val();
@@ -297,6 +316,51 @@
             }
         })
     })
+
+
+    function uploadImg(obj)
+    {
+        var oldImgName=$("#upImg").val();
+        var f=$(obj).val();
+        //alert(f);
+        //console.log(obj);
+        if(f == null || f ==undefined || f == ''){
+            return false;
+        }
+        if(!/\.(?:png|jpg|bmp|gif|PNG|JPG|BMP|GIF)$/.test(f)) {
+            alert("类型必须是图片(.png|jpg|bmp|gif|PNG|JPG|BMP|GIF)");
+            $(obj).val('');
+            return false;
+        }
+
+        var data = new FormData();
+
+        $.each($(obj)[0].files,function(i,file){
+            data.append('file', file);
+        });
+        //其实不应该写在这   应该写在提交哪里
+        data.append('oldImg', oldImgName);
+        $.ajax({
+            url: "/v1/http/upload/img",
+            method: 'POST',
+            data: data,
+            contentType: false,
+            processData: false,
+            success: function (resp) {
+                var data= JSON.parse(resp);
+                if(data.code==0)
+                {
+                    $("#icon_img").attr("src",data.data);
+                    $("#upImg").val(data.data);
+                    layer.msg("上传成功");
+                }
+                else
+                    layer.msg("上传失败");
+
+            }
+        });
+    }
+
 </script>
 
 </body>

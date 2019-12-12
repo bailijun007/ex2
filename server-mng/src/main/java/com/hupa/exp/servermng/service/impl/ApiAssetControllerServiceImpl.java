@@ -78,6 +78,7 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
         bo.setStatus(inputDto.getStatus());
         bo.setSort(inputDto.getSort());
         bo.setIcon(inputDto.getIcon());
+        bo.setIconImg(inputDto.getIconImg());
         bo.setMinDepositVolume(inputDto.getMinDepositVolume());
         bo.setMinWithdrawVolume(inputDto.getMinWithdrawVolume());
         bo.setWithdrawFee(inputDto.getWithdrawFee());
@@ -124,6 +125,7 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
         //afterBo.setSymbol(inputDto.getSymbol());
         //链上ID和真实名不让修改 用之前的
         afterBo.setIcon(inputDto.getIcon());
+        afterBo.setIconImg(inputDto.getIconImg());
         afterBo.setChainAppointId(beforeBo.getChainAppointId());
         afterBo.setRealName(beforeBo.getRealName());
         afterBo.setChainName(inputDto.getChainNname());
@@ -167,6 +169,7 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
         //outputDto.setSymbol(bo.getSymbol());
         outputDto.setChainAppointId(String.valueOf(bo.getChainAppointId()==null?"":bo.getChainAppointId()));
         outputDto.setIcon(bo.getIcon());
+        outputDto.setIconImg(bo.getIconImg());
         outputDto.setChainName(bo.getChainName());
         outputDto.setRealName(bo.getRealName());
         outputDto.setDisplayName(bo.getDisplayName());
@@ -195,6 +198,7 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
             po.setId(String.valueOf(bo.getId()));
             //po.setSymbol(bo.getSymbol());
             po.setIcon(bo.getIcon());
+            po.setIconImg(bo.getIconImg());
             po.setChainAppointId(String.valueOf(bo.getChainAppointId()==null?"":bo.getChainAppointId()));
             po.setChainName(bo.getChainName());
             po.setRealName(bo.getRealName());

@@ -40,6 +40,8 @@ public class ApiAssetController {
 //            @RequestParam(name = "symbol") String symbol,
             @ApiParam(name="icon",value = "图标",required = true)
             @RequestParam(name = "icon") String icon,
+            @ApiParam(name="icon_img",value = "图标图片",required = true)
+            @RequestParam(name = "icon_img") String iconImg,
             @ApiParam(name="chain_appoint_id",value = "链上服务的Id",required = true)
             @RequestParam(name = "chain_appoint_id") Integer chainAppointId,
             @ApiParam(name="real_name",value = "币的名称",required = true)
@@ -71,6 +73,7 @@ public class ApiAssetController {
         AssetInputDto inputDto=new AssetInputDto();
         inputDto.setId(id);
         //inputDto.setSymbol(symbol);
+        inputDto.setIconImg(iconImg);
         inputDto.setIcon(icon);
         inputDto.setChainAppointId(chainAppointId);
         inputDto.setRealName(realName);

@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 public class AssetInputDto extends BaseInputDto {
     private Long id;
     private String icon;
+    private String iconImg;
     private Integer chainAppointId;
     private String realName;
     private String displayName;
@@ -22,6 +23,14 @@ public class AssetInputDto extends BaseInputDto {
     private Integer dwType;
     private Long ctime;
     private Long mtime;
+
+    public String getIconImg() {
+        return iconImg;
+    }
+
+    public void setIconImg(String iconImg) {
+        this.iconImg = iconImg;
+    }
 
     public String getIcon() {
         return icon;

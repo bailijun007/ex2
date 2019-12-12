@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 public class AssetListOutputPage {
     private String id;
     private String icon;
+    private String iconImg;
     private String chainAppointId;
     private String realName;
     private String displayName;
@@ -20,6 +21,14 @@ public class AssetListOutputPage {
     private String dwType;
     private String ctime;
     private String mtime;
+
+    public String getIconImg() {
+        return iconImg;
+    }
+
+    public void setIconImg(String iconImg) {
+        this.iconImg = iconImg;
+    }
 
     public String getIcon() {
         return icon;
