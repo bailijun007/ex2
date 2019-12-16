@@ -10,6 +10,7 @@ import com.hupa.exp.account.util.token.Account4ServerTokenUtil;
 import com.hupa.exp.account.util.token.fund.FundAccount4MngTokenUtil;
 import com.hupa.exp.account.util.token.fund.FundAccount4ServerTokenUtil;
 import com.hupa.exp.base.config.redis.Db0RedisBean;
+import com.hupa.exp.base.dic.expv2.DbKeyDic;
 import com.hupa.exp.base.enums.OperationModule;
 import com.hupa.exp.base.enums.OperationType;
 import com.hupa.exp.base.enums.ValidateExceptionCode;
@@ -416,7 +417,7 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
     @Override
     public GenFeeOutputDto genFee(GenFeeInputDto inputDto) throws BizException {
         List<ExpUserBizBo> bizBos = iUserBiz.queryList();
-        ExpDicBizBo dicBizBo = dicService.queryDicByKey("PcFeeRedisKey");
+        ExpDicBizBo dicBizBo = dicService.queryDicByKey(DbKeyDic.InviteRegisterFee);
         String redisKey = dicBizBo.getValue();
         List<PcFeeBizBo> pcFeeBizBoList = iPcFeeBiz.getAllPcFee();
         Map<Integer, PcFeeBizBo> feeMap = pcFeeBizBoList.stream().collect(Collectors.toMap(PcFeeBizBo::getTier, a -> a, (k1, k2) -> k1));
