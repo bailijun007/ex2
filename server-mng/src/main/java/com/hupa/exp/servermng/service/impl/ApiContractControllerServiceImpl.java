@@ -95,6 +95,10 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
             //outputDto.setCurrency(bo.getCurrency());
             beforeBo.setPrecision(bo.getPrecision());
             beforeBo.setContractName(bo.getContractName());
+            beforeBo.setContractNameSplit(bo.getContractNameSplit());
+            beforeBo.setContractGroup(bo.getContractGroup());
+            beforeBo.setContractType(bo.getContractType());
+            beforeBo.setSettlePrice(bo.getSettlePrice());
             beforeBo.setDisplayName(bo.getDisplayName());
             beforeBo.setDisplayNameSplit(bo.getDisplayNameSplit());
             beforeBo.setDefaultPrice(bo.getDefaultPrice());
@@ -160,6 +164,10 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
         //outputDto.setCurrency(bo.getCurrency());
         outputDto.setPrecision(String.valueOf(bo.getPrecision()));
         outputDto.setContractName(bo.getContractName());
+        outputDto.setContractNameSplit(bo.getContractNameSplit());
+        outputDto.setContractGroup(bo.getContractGroup());
+        outputDto.setContractType(bo.getContractType());
+        outputDto.setSettlePrice(bo.getSettlePrice());
         outputDto.setDisplayName(bo.getDisplayName());
         outputDto.setDisplayNameSplit(bo.getDisplayNameSplit());
         outputDto.setDefaultPrice(DecimalUtil.toTrimLiteral(bo.getDefaultPrice()));
@@ -193,6 +201,10 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
             //po.setCurrency(bo.getCurrency());
             po.setPrecision(String.valueOf(bo.getPrecision()));
             po.setContractName(bo.getContractName());
+            po.setContractNameSplit(bo.getContractNameSplit());
+            po.setContractGroup(bo.getContractGroup());
+            po.setContractType(bo.getContractType());
+            po.setSettlePrice(bo.getSettlePrice());
             po.setDisplayName(bo.getDisplayName());
             po.setDisplayNameSplit(bo.getDisplayNameSplit());
             po.setDefaultPrice(DecimalUtil.toTrimLiteral(bo.getDefaultPrice()));
@@ -230,6 +242,10 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
             //info.setCurrency(bo.getCurrency());
             info.setPrecision(String.valueOf(bo.getPrecision()));
             info.setContractName(bo.getContractName());
+            info.setContractNameSplit(bo.getContractNameSplit());
+            info.setContractGroup(bo.getContractGroup());
+            info.setContractType(bo.getContractType());
+            info.setSettlePrice(bo.getSettlePrice());
             info.setDisplayName(bo.getDisplayName());
             info.setDisplayNameSplit(bo.getDisplayNameSplit());
             info.setDefaultPrice(DecimalUtil.toTrimLiteral(bo.getDefaultPrice()));
@@ -343,6 +359,10 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
             //info.setCurrency(bo.getCurrency());
             info.setPrecision(String.valueOf(bo.getPrecision()));
             info.setContractName(bo.getContractName());
+            info.setContractNameSplit(bo.getContractNameSplit());
+            info.setContractGroup(bo.getContractGroup());
+            info.setContractType(bo.getContractType());
+            info.setSettlePrice(bo.getSettlePrice());
             info.setDisplayName(bo.getDisplayName());
             info.setDisplayNameSplit(bo.getDisplayNameSplit());
             info.setDefaultPrice(DecimalUtil.toTrimLiteral(bo.getDefaultPrice()));

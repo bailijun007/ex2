@@ -6,27 +6,81 @@ import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 import java.math.BigDecimal;
 
 public class ContractInputDto extends BaseInputDto {
+
     private Long id;
+
     private String symbol;
+
     private Integer symbolType;
+
     private String asset;
-//    private String currency;
+
     private Integer precision;
+    /**
+     *  合约名称
+     */
     private String contractName;
+    /**
+     * 合约名称分隔符
+     */
+    private String contractNameSplit;
+    /**
+     * 合约类型：正向、反向 contract_type
+     */
+    private Integer contractType;
+    /**
+     * 合约分组 contract_group
+     */
+    private Integer contractGroup;
+    /**
+     * 结算金额 settle_price
+     */
+    private BigDecimal settlePrice;
+
+    /**
+     * 合约显示名
+     */
     private String displayName;
+
     private String displayNameSplit;
+
     private BigDecimal defaultPrice;
+
     private BigDecimal lastPrice;
+
+    /**
+     * 步长
+     */
     private BigDecimal step;
+
     private String quoteCurrency;
+
     private Integer faceValue;
+
     private String faceCurrency;
+
     private String baseCurrency;
+
     private String settleCurrency;
-    private Integer sort;
-    private Integer status;
+    /**
+     * 权限
+     */
     private Integer privilege;
+    /**
+     * 状态
+     */
+    private Integer status;
+    /**
+     * 排序
+     */
+    private Integer sort;
+    /**
+     * 创建时间(时间戳)
+     */
     private Long ctime;
+    /**
+     *  修改时间(时间戳)
+     */
     private Long mtime;
 
     public String getFaceCurrency() {
@@ -196,5 +250,38 @@ public class ContractInputDto extends BaseInputDto {
 
     public void setMtime(Long mtime) {
         this.mtime = mtime;
+    }
+
+    public String getContractNameSplit() {
+        return contractNameSplit;
+    }
+
+    public void setContractNameSplit(String contractNameSplit) {
+        this.contractNameSplit = contractNameSplit;
+    }
+
+
+    public Integer getContractType() {
+        return contractType;
+    }
+
+    public void setContractType(Integer contractType) {
+        this.contractType = contractType;
+    }
+
+    public Integer getContractGroup() {
+        return contractGroup;
+    }
+
+    public void setContractGroup(Integer contractGroup) {
+        this.contractGroup = contractGroup;
+    }
+
+    public BigDecimal getSettlePrice() {
+        return settlePrice;
+    }
+
+    public void setSettlePrice(BigDecimal settlePrice) {
+        this.settlePrice = settlePrice;
     }
 }

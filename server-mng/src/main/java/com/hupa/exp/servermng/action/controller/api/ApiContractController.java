@@ -47,8 +47,16 @@ public class ApiContractController {
 //            @RequestParam(name = "currency") String currency,
             @ApiParam(name="precision",value = "精度",required = true)
             @RequestParam(name = "precision") Integer precision,
+            @ApiParam(name="contract_type",value = "合约类型",required = true)
+            @RequestParam(name = "contract_type") Integer contractType,
+            @ApiParam(name="contract_group",value = "合约分组",required = true)
+            @RequestParam(name = "contract_group") Integer contractGroup,
+            @ApiParam(name="settle_price",value = "结算金额",required = true)
+            @RequestParam(name = "settle_price") BigDecimal settlePrice,
             @ApiParam(name="contract_name",value = "合约名称",required = true)
             @RequestParam(name = "contract_name") String contractName,
+            @ApiParam(name="contract_name_split",value = "合约名称分隔符",required = true)
+            @RequestParam(name = "contract_name_split") String contractNameSplit,
             @ApiParam(name="display_name",value = "合约展示名",required = true)
             @RequestParam(name = "display_name") String displayName,
             @ApiParam(name="display_name_split",value = "合约展示名",required = true)
@@ -85,6 +93,10 @@ public class ApiContractController {
         //inputDto.setCurrency(currency);
         inputDto.setPrecision(precision);
         inputDto.setContractName(contractName);
+        inputDto.setContractType(contractType);//合约类型（新加）
+        inputDto.setContractGroup(contractGroup);//合约分组（新加）
+        inputDto.setSettlePrice(settlePrice);//结算金额（新加）
+        inputDto.setContractNameSplit(contractNameSplit);//合约名分割符（新加）
         inputDto.setDisplayName(displayName);
         inputDto.setDefaultPrice(defaultPrice);
         inputDto.setLastPrice(lastPrice);

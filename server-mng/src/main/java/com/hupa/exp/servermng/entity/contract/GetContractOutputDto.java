@@ -13,8 +13,27 @@ public class GetContractOutputDto extends BaseOutputDto {
     private String asset;
 //    private String currency;
     private String precision;
+
+    /**
+     * 合约类型
+     */
+    @JsonProperty("contract_type")
+    private Integer contractType;
+    /**
+     * 合约分组
+     */
+    @JsonProperty("contract_group")
+    private Integer contractGroup;
+    /**
+     * 合约名称
+     */
     @JsonProperty("contract_name")
     private String contractName;
+    /**
+     * 合约名称分隔符
+     */
+    @JsonProperty("contract_name_split")
+    private String contractNameSplit;
     @JsonProperty("display_name")
     private String displayName;
     @JsonProperty("display_name_split")
@@ -32,6 +51,11 @@ public class GetContractOutputDto extends BaseOutputDto {
     private String baseCurrency;
     @JsonProperty("settle_currency")
     private String settleCurrency;
+    /**
+     * 结算金额
+     */
+    @JsonProperty("settle_price")
+    private BigDecimal settlePrice;
     private String sort;
     private String status;
     private String privilege;
@@ -216,5 +240,37 @@ public class GetContractOutputDto extends BaseOutputDto {
 
     public void setMtime(String mtime) {
         this.mtime = mtime;
+    }
+
+    public String getContractNameSplit() {
+        return contractNameSplit;
+    }
+
+    public void setContractNameSplit(String contractNameSplit) {
+        this.contractNameSplit = contractNameSplit;
+    }
+
+    public Integer getContractType() {
+        return contractType;
+    }
+
+    public void setContractType(Integer contractType) {
+        this.contractType = contractType;
+    }
+
+    public Integer getContractGroup() {
+        return contractGroup;
+    }
+
+    public void setContractGroup(Integer contractGroup) {
+        this.contractGroup = contractGroup;
+    }
+
+    public BigDecimal getSettlePrice() {
+        return settlePrice;
+    }
+
+    public void setSettlePrice(BigDecimal settlePrice) {
+        this.settlePrice = settlePrice;
     }
 }

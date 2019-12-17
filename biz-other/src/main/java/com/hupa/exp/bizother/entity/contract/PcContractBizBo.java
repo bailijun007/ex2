@@ -10,7 +10,22 @@ public class PcContractBizBo {
     private String asset;
 //    private String currency;
     private Integer precision;
+    /**
+     * 合约类型
+     */
+    private Integer contractType;
+    /**
+     * 合约分组
+     */
+    private Integer contractGroup;
+    /**
+     * 合约名称
+     */
     private String contractName;
+    /**
+     * 合约名称分隔符
+     */
+    private String contractNameSplit;
     private String displayName;
     private String displayNameSplit;
     private BigDecimal defaultPrice;
@@ -21,6 +36,10 @@ public class PcContractBizBo {
     private String faceCurrency;
     private String baseCurrency;
     private String settleCurrency;
+    /**
+     * 结算金额
+     */
+    private BigDecimal settlePrice;
     private Integer sort;
     private Integer status;
     private Integer privilege;
@@ -195,7 +214,6 @@ public class PcContractBizBo {
         this.mtime = mtime;
     }
 
-
     public String getDisplayNameSplit() {
         return displayNameSplit;
     }
@@ -204,4 +222,35 @@ public class PcContractBizBo {
         this.displayNameSplit = displayNameSplit;
     }
 
+    public String getContractNameSplit() {
+        return contractNameSplit;
+    }
+
+    public void setContractNameSplit(String contractNameSplit) {
+        this.contractNameSplit = contractNameSplit;
+    }
+
+    public Integer getContractType() {
+        return contractType;
+    }
+
+    public void setContractType(Integer contractType) {
+        this.contractType = contractType;
+    }
+
+    public Integer getContractGroup() {
+        return contractGroup;
+    }
+
+    public void setContractGroup(Integer contractGroup) {
+        this.contractGroup = contractGroup;
+    }
+
+    public BigDecimal getSettlePrice() {
+        return settlePrice;
+    }
+
+    public void setSettlePrice(BigDecimal settlePrice) {
+        this.settlePrice = settlePrice;
+    }
 }
