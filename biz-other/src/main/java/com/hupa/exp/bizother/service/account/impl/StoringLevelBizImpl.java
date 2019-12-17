@@ -36,13 +36,30 @@ public class StoringLevelBizImpl implements IPosLevelBiz {
     @Override
     public long createPosLevel(PcPosLevelBizBo bo) throws BizException {
         PcPosLevelPo po= ConventObjectUtil.conventObject(bo,PcPosLevelPo.class);
-        List<PcPosLevelPo> pos= iPcPosLevelDao.selectAllPosLevelList(bo.getAsset(),bo.getSymbol());
-        ExpDicPo dicPo= dicDao.selectDicByKey("PosLevel");
+
         if(iPcPosLevelDao.insert(po)>0)
         {
+            List<PcPosLevelPo> pos= iPcPosLevelDao.selectAllPosLevelList(bo.getAsset(),bo.getSymbol());
+            ExpDicPo dicPo= dicDao.selectDicByKey("PosLevel");
+            List<PcPosLevelBizBo> boList=new ArrayList<>();
+            pos.forEach(pcPosLevelPo->{
+                PcPosLevelBizBo posLevelBizBo=new PcPosLevelBizBo();
+                posLevelBizBo.setId(pcPosLevelPo.getId());
+                posLevelBizBo.setAsset(pcPosLevelPo.getAsset());
+                posLevelBizBo.setSymbol(pcPosLevelPo.getSymbol()) ;
+                posLevelBizBo.setGear(pcPosLevelPo.getGear());
+                posLevelBizBo.setMinAmt(pcPosLevelPo.getMinAmt()) ;
+                posLevelBizBo.setMaxAmt(pcPosLevelPo.getMaxAmt());
+                posLevelBizBo.setMaxLeverage(pcPosLevelPo.getMaxLeverage());
+                posLevelBizBo.setPosHoldMarginRatio(pcPosLevelPo.getPosHoldMarginRatio());
+                posLevelBizBo.setMinHoldMarginRatio(po.getMinHoldMarginRatio());
+                posLevelBizBo.setCtime(pcPosLevelPo.getCtime());
+                posLevelBizBo.setMtime(pcPosLevelPo.getMtime());
+                boList.add(posLevelBizBo);
+            });
             if(dicPo!=null)
             {
-                redisUtilDb0.hset(dicPo.getValue(),bo.getAsset()+"__"+bo.getSymbol(), JsonUtil.toJsonString(pos));
+                redisUtilDb0.hset(dicPo.getValue(),bo.getAsset()+"__"+bo.getSymbol(), JsonUtil.toJsonString(boList));
             }
         }
         return po.getId();
@@ -51,26 +68,26 @@ public class StoringLevelBizImpl implements IPosLevelBiz {
     @Override
     public long editPosLevel(PcPosLevelBizBo bo) throws BizException {
         PcPosLevelPo po= ConventObjectUtil.conventObject(bo,PcPosLevelPo.class);
-        List<PcPosLevelPo> pos= iPcPosLevelDao.selectAllPosLevelList(bo.getAsset(),bo.getSymbol());
-        List<PcPosLevelBizBo> boList=new ArrayList<>();
-        pos.forEach(pcPosLevelPo->{
-            PcPosLevelBizBo posLevelBizBo=new PcPosLevelBizBo();
-            posLevelBizBo.setId(pcPosLevelPo.getId());
-            posLevelBizBo.setAsset(pcPosLevelPo.getAsset());
-            posLevelBizBo.setSymbol(pcPosLevelPo.getSymbol()) ;
-            posLevelBizBo.setGear(pcPosLevelPo.getGear());
-            posLevelBizBo.setMinAmt(pcPosLevelPo.getMinAmt()) ;
-            posLevelBizBo.setMaxAmt(pcPosLevelPo.getMaxAmt());
-            posLevelBizBo.setMaxLeverage(pcPosLevelPo.getMaxLeverage());
-            posLevelBizBo.setPosHoldMarginRatio(pcPosLevelPo.getPosHoldMarginRatio());
-            posLevelBizBo.setMinHoldMarginRatio(po.getMinHoldMarginRatio());
-            posLevelBizBo.setCtime(pcPosLevelPo.getCtime());
-            posLevelBizBo.setMtime(pcPosLevelPo.getMtime());
-            boList.add(posLevelBizBo);
-        });
-        ExpDicPo dicPo= dicDao.selectDicByKey("PosLevel");
         if(iPcPosLevelDao.updateById(po)>0)
         {
+            ExpDicPo dicPo= dicDao.selectDicByKey("PosLevel");
+            List<PcPosLevelPo> pos= iPcPosLevelDao.selectAllPosLevelList(bo.getAsset(),bo.getSymbol());
+            List<PcPosLevelBizBo> boList=new ArrayList<>();
+            pos.forEach(pcPosLevelPo->{
+                PcPosLevelBizBo posLevelBizBo=new PcPosLevelBizBo();
+                posLevelBizBo.setId(pcPosLevelPo.getId());
+                posLevelBizBo.setAsset(pcPosLevelPo.getAsset());
+                posLevelBizBo.setSymbol(pcPosLevelPo.getSymbol()) ;
+                posLevelBizBo.setGear(pcPosLevelPo.getGear());
+                posLevelBizBo.setMinAmt(pcPosLevelPo.getMinAmt()) ;
+                posLevelBizBo.setMaxAmt(pcPosLevelPo.getMaxAmt());
+                posLevelBizBo.setMaxLeverage(pcPosLevelPo.getMaxLeverage());
+                posLevelBizBo.setPosHoldMarginRatio(pcPosLevelPo.getPosHoldMarginRatio());
+                posLevelBizBo.setMinHoldMarginRatio(po.getMinHoldMarginRatio());
+                posLevelBizBo.setCtime(pcPosLevelPo.getCtime());
+                posLevelBizBo.setMtime(pcPosLevelPo.getMtime());
+                boList.add(posLevelBizBo);
+            });
             if(dicPo!=null)
             {
                 redisUtilDb0.hset(dicPo.getValue(),bo.getAsset()+"__"+bo.getSymbol(), JsonUtil.toJsonString(boList));
