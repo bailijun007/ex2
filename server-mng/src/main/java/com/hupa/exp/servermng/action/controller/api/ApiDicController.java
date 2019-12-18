@@ -41,10 +41,6 @@ public class ApiDicController {
 
         inputDto.setTypekey(dicTypeKey);
         try{
-            if("ContractGroupNum".equals(dicTypeKey)){
-                System.out.println();
-                logger.info("打印日志--------------------->");
-            }
             outputDto = service.queryDicListByType(inputDto);
         }catch(BizException e){
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
