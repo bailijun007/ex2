@@ -18,5 +18,10 @@ public interface IAssetBiz {
 
     AssetBizBo queryAssetById(long id);
 
+    /**
+     * 根据币的名称，查询是否存在
+     * @param symbol
+     * @return
+     */
     boolean checkHasAsset(String symbol);
 }

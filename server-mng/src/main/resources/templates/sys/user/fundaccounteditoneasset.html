@@ -34,14 +34,14 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
                         <input type="hidden" id="id" value="0">
+
                         <div class="form-group" id="idDiv">
-                            <label class="col-sm-3 control-label">用户id</label>
+                            <label class="col-sm-3 control-label">用户id:</label>
                             <div class="col-sm-6">
                                 <label class="col-sm-3 form-control" id="userId"></label>
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
-
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-3">
                                 <input type="button" id="BtnSave" value="提交" class="btn btn-primary">
@@ -83,16 +83,26 @@
                             if(data.data.assets[i].asset==asset)
                             {
                                 htmlStr+="";
+
+                                htmlStr+='<div class="form-group">';
+                                htmlStr+='<label class="col-sm-3 control-label">类型</label>';
+                                htmlStr+='<div class="col-sm-6">';
+                                htmlStr+="<select id=\"type_div\" class=\"form-control\"><option value=\"0\">扣钱</option><option value=\"1\">加钱</option></select>";
+                                htmlStr+='</div>';
+                                htmlStr+='</div>';
+
                                 htmlStr+='<div class="form-group">';
                                 htmlStr+='<label class="col-sm-3 control-label">'+data.data.assets[i].asset+'</label>';
                                 htmlStr+='<div class="col-sm-6">';
                                 htmlStr+="<input class=\"form-control\" id=\"email\" type=\"text\" value=\"0\" datatype=\"*1-10\" errormsg=\"最大长度为10位数\">";
                                 htmlStr+='</div>';
                                 htmlStr+='</div>';
+
                                 htmlStr+='<div class="form-group">';
                                 htmlStr+='<label class="col-sm-3 control-label"></label>';
                                 htmlStr+='<div class="col-sm-6">';
-                                htmlStr+="<span style='color:red'>该值为增量修改。例如当前资产为100，需增加10则填写10，需减少10则填写-10</span>";
+                                htmlStr+="<span style='color:red'>增加资产或扣除资产部能少于10</span>";<!-- 该值为增量修改。例如当前资产为100，需增加10则填写10，需减少10则填写-10 -->
+
                                 htmlStr+='</div>';
                                 htmlStr+='</div>';
                             }
@@ -129,6 +139,7 @@
         }
         var param="?";
         param+="id="+$("#id").val();
+        param+="&type="+$("#type_div").val();
         param+="&funds="+encodeURIComponent(encodeURIComponent(fundStr));
         $.ajax({
             type:"post",

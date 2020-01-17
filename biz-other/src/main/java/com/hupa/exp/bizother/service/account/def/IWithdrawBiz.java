@@ -1,11 +1,8 @@
 package com.hupa.exp.bizother.service.account.def;
 
 
-import com.hupa.exp.bizother.entity.account.FundWithdrawAddressBizBo;
 import com.hupa.exp.bizother.entity.account.MongoBo.FundWithdrawMongoBizBo;
 import com.hupa.exp.bizother.entity.account.MongoBo.FundWithdrawMongoPageBizBo;
-import com.hupa.exp.bizother.entity.account.QueryFundWithdrawAddressBizBo;
-import com.hupa.exp.bizother.entity.account.QueryFundWithdrawHistoryBizBo;
 
 /**
  *

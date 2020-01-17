@@ -1,6 +1,5 @@
 package com.hupa.exp.servermng.service.impl;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.daomysql.dao.expv2.def.IExpUserApiDao;
@@ -23,26 +22,32 @@ public class ApiUserApiControllerServiceImpl implements IApiUserApiControllerSer
 
     @Autowired
     private IExpUserApiDao iExpUserApiDao;
+
     @Autowired
     private IExpUserDao iExpUserDao;
+
+    /**
+     * 用户api查询
+     * @param inputDto
+     * @return
+     * @throws BizException
+     */
     @Override
     public UserApiListOutputDto getUserApiPageData(UserApiListInputDto inputDto) throws BizException {
-        if(!StringUtils.isEmpty(inputDto.getUserName()))
-        {
+
+        UserApiListOutputDto outputDto = new UserApiListOutputDto();
+        if(!StringUtils.isEmpty(inputDto.getUserName())) {
             ExpUserPo userPo=iExpUserDao.selectUserByAccount(inputDto.getUserName());
             if(userPo!=null)
                 inputDto.setAccountId(userPo.getId());
         }
-        IPage<ExpUserApiPo> pageData= iExpUserApiDao.selectUserApiPageData(inputDto.getAccountId(),inputDto.getCurrentPage(),inputDto.getPageSize());
-        UserApiListOutputDto outputDto=new UserApiListOutputDto();
-        List<UserApiInfoOutputDto> rows=new ArrayList<>();
-        for(ExpUserApiPo po:pageData.getRecords())
-        {
-            UserApiInfoOutputDto row=new UserApiInfoOutputDto();
 
+        IPage<ExpUserApiPo> pageData= iExpUserApiDao.selectUserApiPageData(inputDto.getAccountId(),inputDto.getCurrentPage(),inputDto.getPageSize());
+        List<UserApiInfoOutputDto> rows = new ArrayList<>();
+        for(ExpUserApiPo po : pageData.getRecords()) {
+            UserApiInfoOutputDto row=new UserApiInfoOutputDto();
             row.setApiKey(po.getApiKey());
             row.setApiName(po.getApiName());
-//            row.setApiSecret(po.getApiSecret());
             row.setBindIp(po.getBindIp());
             row.setId(String.valueOf(po.getId()));
             row.setPurview(String.valueOf(po.getPurview()));
@@ -58,7 +63,6 @@ public class ApiUserApiControllerServiceImpl implements IApiUserApiControllerSer
         }
         outputDto.setRows(rows);
         outputDto.setTotal(pageData.getTotal());
-
         return outputDto;
     }
 }

@@ -3,12 +3,9 @@ package com.hupa.exp.servermng.action.controller.api;
 import com.hupa.exp.common.entity.dto.BaseResultDto;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
-import com.hupa.exp.servermng.entity.pcfee.PcFeeListInputDto;
-import com.hupa.exp.servermng.entity.pcfee.PcFeeListOutputDto;
 import com.hupa.exp.servermng.entity.pcposition.PcPositionPageInputDto;
 import com.hupa.exp.servermng.entity.pcposition.PcPositionPageOutputDto;
 import com.hupa.exp.servermng.help.SessionHelper;
-import com.hupa.exp.servermng.service.def.IApiPcOrderControllerService;
 import com.hupa.exp.servermng.service.def.IApiPcPositionControllerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,14 +23,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path = "/v1/http/pcposition",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ApiPcPositionController {
+
+    private Logger logger = LoggerFactory.getLogger(ApiPcPositionController.class);
+
     @Autowired
     private IApiPcPositionControllerService service;
 
-    @Autowired
-    private SessionHelper sessionHelper;
 
-    private Logger logger = LoggerFactory.getLogger(ApiPcOrderController.class);
 
+    /**
+     * 仓位列表查询
+     * @param account
+     * @param posId
+     * @param accountId
+     * @param asset
+     * @param symbol
+     * @param liqStatus
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
     @ApiOperation(value = "查询列表")
     @GetMapping("/query_list")
     public BaseResultDto<PcPositionPageInputDto,PcPositionPageOutputDto> getPcPositionList(

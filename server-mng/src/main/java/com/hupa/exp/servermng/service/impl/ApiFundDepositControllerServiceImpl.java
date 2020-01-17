@@ -1,107 +1,82 @@
 package com.hupa.exp.servermng.service.impl;
 
-import com.hupa.exp.base.enums.DepositStatusEnum;
+import com.gitee.hupadev.base.api.PageResult;
+import com.hp.sh.expv3.fund.extension.api.DepositRecordExtApi;
+import com.hp.sh.expv3.fund.extension.vo.DepositRecordHistoryVo;
 import com.hupa.exp.common.exception.BizException;
-import com.hupa.exp.daomongo.dao.expv2.def.IFundDepositSymbolMongoDao;
-import com.hupa.exp.daomongo.entity.po.expv2mongo.FundDepositSymbolMongoPo;
-import com.hupa.exp.daomongo.entity.po.expv2mongo.MongoPage;
-import com.hupa.exp.daomongo.enums.MongoSortEnum;
-import com.hupa.exp.daomysql.dao.expv2.def.IAssetDao;
-import com.hupa.exp.daomysql.entity.po.expv2.AssetPo;
 import com.hupa.exp.servermng.entity.funddeposit.FundDepositInfoOutputDto;
 import com.hupa.exp.servermng.entity.funddeposit.FundDepositListInputDto;
 import com.hupa.exp.servermng.entity.funddeposit.FundDepositListOutputDto;
 import com.hupa.exp.servermng.service.def.IApiFundDepositControllerService;
-import com.hupa.exp.util.convent.ConventObjectUtil;
-import com.hupa.exp.util.math.DecimalUtil;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ApiFundDepositControllerServiceImpl implements IApiFundDepositControllerService {
 
-    @Autowired
-    private IFundDepositSymbolMongoDao depositSymbolMongoDao;
-    @Autowired
-    private IAssetDao iAssetDao;
+    private static Logger logger = LoggerFactory.getLogger(ApiFundDepositControllerServiceImpl.class);
 
+    @Autowired
+    private DepositRecordExtApi depositRecordExtApi;
+
+    /**
+     * 充值历史记录查询
+     * 调用第三方接口
+     * @param inputDto
+     * @return
+     * @throws BizException
+     */
     @Override
     public FundDepositListOutputDto getAccountAllFundDeposit(FundDepositListInputDto inputDto) throws BizException {
-        List<AssetPo> assetPos = iAssetDao.selectActiveList();
-        List<FundDepositSymbolMongoPo> depositSymbolMongoPoArrayList = new ArrayList<>();
-        int counts = 0;
-        MongoSortEnum sort = MongoSortEnum.desc;
-        List<FundDepositSymbolMongoPo> newList = new ArrayList<>();
-        if (inputDto.getPageStatus() == -1)
-            sort = MongoSortEnum.asc;
-        //为第一页的时候重置查询条件
-        if (inputDto.getCurrentPage() == 1) {
-            sort = MongoSortEnum.desc;
-            inputDto.setDepositTime(null);
-            inputDto.setDepositId(null);
-        }
-        for (AssetPo assetPo : assetPos) {
-            //如果传进来的币种部位空的时候  只查传进来的币种
-            if (!StringUtils.isEmpty(inputDto.getAsset())) {
-                if (!assetPo.getRealName().equals(inputDto.getAsset()))
-                    continue;
-            }
-            MongoPage<FundDepositSymbolMongoPo> withdrawSymbolMongoPoMongoPage = depositSymbolMongoDao.pageAllDepositPosByAccountId(
-                    inputDto.getAccountId(), assetPo.getRealName(),
-                    inputDto.getDepositTime(), inputDto.getDepositId(),
-                    inputDto.getPageStatus(),
-                    inputDto.getCurrentPage(), inputDto.getPageSize(),
-                    sort
-            );
-            depositSymbolMongoPoArrayList.addAll(withdrawSymbolMongoPoMongoPage.getRows());
-            counts += withdrawSymbolMongoPoMongoPage.getTotalCount();
-        }
-        newList = depositSymbolMongoPoArrayList.stream().sorted(Comparator.comparing(FundDepositSymbolMongoPo::getId).reversed())
-                .collect(Collectors.toList());
-        if (newList.size() > 10) {
-            if (inputDto.getPageStatus() == -1&&inputDto.getCurrentPage()!=1)
-                newList = newList.subList(newList.size() - 10, newList.size());
-            else
-                newList = newList.subList(0, 10);
-        } else {
-            newList = newList.subList(0, newList.size());
-        }
-
-
+        //返回对象
         FundDepositListOutputDto outputDto = new FundDepositListOutputDto();
-        outputDto.setTotal(Long.parseLong(String.valueOf(counts)));
-        outputDto.setTotalCount(Long.parseLong(String.valueOf(counts)));
-        List<FundDepositInfoOutputDto> list = new ArrayList<>();
-        for (FundDepositSymbolMongoPo po : newList) {
-            FundDepositInfoOutputDto row = new FundDepositInfoOutputDto();
-            row.setId(String.valueOf(po.getId()));
-            //row.setAssetByDisplay(po.getSymbol());
-            row.setId(String.valueOf(po.getId()));
-            row.setChainServerOrderId(po.getChainServerOrderId());
-            row.setAccountId(String.valueOf(po.getAccountId()));
-            //row.setAsset(po.getAsset());
-            row.setAsset(po.getAsset());
-            row.setAddress(po.getAddress());
-            //row.setChainTransactionUrl(po.getChainTransactionUrl());
-            row.setVolume(DecimalUtil.plainString(po.getVolume()));
-            row.setDepositTime(String.valueOf(po.getDepositTime()));
-            row.setLastConfirmTime(String.valueOf(po.getLastConfirmTime()));
-            row.setTxHash(po.getTxHash());
-            row.setStatus(String.valueOf(po.getStatus()));
-            row.setCtime(String.valueOf(po.getCtime()));
-            row.setMtime(String.valueOf(po.getMtime()));
-            list.add(row);
-        }
-        outputDto.setRows(list);
-        outputDto.setSizePerPage(inputDto.getPageSize());
-        outputDto.setTime(String.valueOf(System.currentTimeMillis()));
-        return outputDto;
+        try{
+           // 调用第三方接口：查询充值历史记录
+           PageResult<DepositRecordHistoryVo> pageResult = depositRecordExtApi.queryAllUserHistory(
+                   inputDto.getAccountId()==null || inputDto.getAccountId()==0?null:inputDto.getAccountId(),
+                   StringUtils.isNotBlank(inputDto.getAsset())?inputDto.getAsset():null,
+                   inputDto.getCurrentPage()!=0?(int)inputDto.getCurrentPage():1,
+                   inputDto.getPageSize());
+           if(pageResult!=null){
+               //遍历赋值
+               List<FundDepositInfoOutputDto> list = new ArrayList();
+               if(CollectionUtils.isNotEmpty(pageResult.getList())){
+                   for (DepositRecordHistoryVo depositRecordHistoryVo : pageResult.getList()) {
+                       FundDepositInfoOutputDto fundDepositInfoOutputDto = new FundDepositInfoOutputDto();
+                       fundDepositInfoOutputDto.setId(String.valueOf(depositRecordHistoryVo.getId()));
+                       fundDepositInfoOutputDto.setAccountId(String.valueOf(depositRecordHistoryVo.getUserId()));
+                       fundDepositInfoOutputDto.setAddress(depositRecordHistoryVo.getAddress());
+                       fundDepositInfoOutputDto.setAsset(depositRecordHistoryVo.getAsset());
+                       fundDepositInfoOutputDto.setVolume(String.valueOf(depositRecordHistoryVo.getVolume()));
+                       fundDepositInfoOutputDto.setStatus(String.valueOf(depositRecordHistoryVo.getStatus()));//状态
+                       fundDepositInfoOutputDto.setTxHash(depositRecordHistoryVo.getTxHash());
+                       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                       fundDepositInfoOutputDto.setCtime(depositRecordHistoryVo.getMtime()==null ? null : String.valueOf(depositRecordHistoryVo.getMtime()));//创建时间
+                       fundDepositInfoOutputDto.setDepositTime(depositRecordHistoryVo.getDepositTime()==null?null:String.valueOf(depositRecordHistoryVo.getDepositTime()));//充值时间
+                       fundDepositInfoOutputDto.setPayTime(depositRecordHistoryVo.getPayTime()==null? null : sdf.format(depositRecordHistoryVo.getPayTime()));//支付时间
+                       fundDepositInfoOutputDto.setMtime(depositRecordHistoryVo.getMtime()==null ? null : String.valueOf(depositRecordHistoryVo.getMtime()));
+                       fundDepositInfoOutputDto.setModified(depositRecordHistoryVo.getModified()==null?null:sdf.format(depositRecordHistoryVo.getModified()));
+                       list.add(fundDepositInfoOutputDto);
+                   }
+               }
+               outputDto.setTotal(pageResult.getRowTotal());
+               outputDto.setTotalCount(pageResult.getRowTotal());
+               outputDto.setRows(list);
+           }
+           outputDto.setSizePerPage(inputDto.getPageSize());
+           outputDto.setTime(String.valueOf(System.currentTimeMillis()));
+       }catch(Exception e){
+           logger.info("ApiFundDepositControllerServiceImpl getAccountAllFundDeposit exception: " + e.getMessage());
+       }
+       return outputDto;
     }
 }
 

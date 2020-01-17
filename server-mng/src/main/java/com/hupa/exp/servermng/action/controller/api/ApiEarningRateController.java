@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 @RestController
 @RequestMapping(path = "/v1/http/earningrate",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ApiEarningRateController {
+
     private Logger logger = LoggerFactory.getLogger(ApiEarningRateController.class);
 
     @Autowired

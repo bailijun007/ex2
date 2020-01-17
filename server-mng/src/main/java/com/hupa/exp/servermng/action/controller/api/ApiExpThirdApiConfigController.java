@@ -24,6 +24,12 @@ public class ApiExpThirdApiConfigController {
     @Autowired
     private IApiExpThirdApiConfigControllerService service;
 
+    /**
+     * 第三方Api配置
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
     @ApiOperation(value = "获取字典信息")
     @GetMapping("/query_list")
     public BaseResultViaApiDto<ExpThirdApiConfigListInputDto,ExpThirdApiConfigListOutputDto> getDicList(

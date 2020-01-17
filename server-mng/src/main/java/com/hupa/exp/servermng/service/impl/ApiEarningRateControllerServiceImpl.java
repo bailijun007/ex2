@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ApiEarningRateControllerServiceImpl implements IApiEarningRateControllerService {
+
     @Autowired
     private IPcEarningRateDao iPcEarningRateDao;
     @Autowired
@@ -34,7 +35,12 @@ public class ApiEarningRateControllerServiceImpl implements IApiEarningRateContr
     @Autowired
     private IExpUserDao iExpUserDao;
 
-
+    /**
+     * 收益率排行
+     * @param inputDto
+     * @return
+     * @throws BizException
+     */
     @Override
     public PcEarningRatePageDataOutputDto queryEarningRatePageData(PcEarningRatePageDataInputDto inputDto) throws BizException {
         IPage<PcEarningRatePo> pageData=iPcEarningRateDao.selectPcFeePageData(inputDto.getUserName(),inputDto.getRateTime(),

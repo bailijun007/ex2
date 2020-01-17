@@ -51,10 +51,7 @@
                         </select>
                     </div>
                     <div class="input-group">
-
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-primary" id="btn_query">搜索</button>
-                                </span>
+                        <span class="input-group-btn"><button type="button" class="btn btn-primary" id="btn_query">搜索</button></span>
                     </div>
                 </div>
                 <div class="col-sm-12">
@@ -65,9 +62,8 @@
                                 <div class="fixed-table-toolbar">
                                     <div class="bars pull-left">
                                         <div class="btn-group hidden-xs" id="toolbar" role="group">
-
-                                            <a class="btn btn-outline btn-default" href="javascript:addCatalogEvent('Add','0')"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>新增</a>
-                                            <a class="btn btn-outline btn-default" href="javascript:del_ck_confirm('tb_departments','/v1/http/dictype/delete')"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>删除</a>
+<!--                                            <a class="btn btn-outline btn-default" href="javascript:addCatalogEvent('Add','0')"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>新增</a>
+                                            <a class="btn btn-outline btn-default" href="javascript:del_ck_confirm('tb_departments','/v1/http/dictype/delete')"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>删除</a>-->
                                         </div>
                                     </div>
                                 </div>
@@ -99,6 +95,10 @@
         oTable = new TableInit();
         oTable.Init();
 
+        bindAsset("asset",false);
+
+        bindAssetSymbol("symbol", $("#asset").val(), false);
+
         $("#btn_query").click(function () {
             $('#tb_departments').bootstrapTable('destroy');
             oTable.Init();
@@ -109,20 +109,21 @@
             oTable.Init();
         })
 
+        $("#asset").change(function () {
+            $("#symbol").empty();
+            bindAssetSymbol("symbol", $("#asset").val(), false);
+            $('#tb_departments').bootstrapTable('destroy');
+            oTable.Init();
+        })
+
         // var oButtonInit = new ButtonInit();
         // oButtonInit.Init();
 
     });
-    bindAsset("asset",false);
-    bindAssetSymbol("symbol", $("#asset").val(), false);
-    $("#asset").change(function () {
-        $("#symbol").empty();
-        bindAssetSymbol("symbol", $("#asset").val(), false);
-        $('#tb_departments').bootstrapTable('destroy');
-        oTable.Init();
-    })
 
-    var addCatalogEvent = function (action,id) {
+
+
+/*    var addCatalogEvent = function (action,id) {
         var text = "添加手续费信息"
         url = "/sys/pcfee/edit.html?id="+id+"&action="+action+"";
 
@@ -141,7 +142,7 @@
                 oTable.Init();
             }
         });
-    }
+    }*/
 
 
 
@@ -184,63 +185,93 @@
                             , {
                                 title: 'id',
                                 field: 'id'
-                            }, {
+                            },
+                            {
                                 title: '账户Id',
-                                field: 'accountId'
-                            }, {
-                                title: '仓位，合约金额',
-                                field: 'amt'
-                            }, {
-                                title: '破产价',
-                                field: 'bankruptPrice'
-                            }, {
-                                title: '是否多仓',
-                                field: 'bidFlag'
-                            }
-                            , {
-                                title: '开仓杠杆',
-                                field: 'entryLeverage'
-                            }
-                            , {
-                                title: '均价',
-                                field: 'entryPrice'
-                            }
-                            , {
-                                title: '初始保证金',
-                                field: 'initMargin'
-                            } , {
-                                title: '开仓杠杆',
-                                field: 'leverage'
-                            } , {
-                                title: '触发强平的标记价格',
-                                field: 'liqMarkPrice'
-                            } , {
-                                title: '触发强平的标记时间',
-                                field: 'liqMarkTime'
-                            } , {
-                                title: '强平价',
-                                field: 'liqPrice'
-                            } , {
-                                title: '仓位强平状态',
-                                field: 'liqStatus'
-                            } , {
-                                title: '仓位类型',
-                                field: 'marginMode'
-                            } , {
-                                title: '交易对',
+                                field: 'userId'
+                            },
+                            {
+                                title: '币种',
+                                field: 'asset'
+                            },
+                            {
+                                title: '货币对',
                                 field: 'symbol'
-                            } , {
+                            },
+                            {
+                                title: '类型',//1:全仓,2:逐仓
+                                //field: 'marginMode'
+                                formatter: function (value, row, index) {
+                                    if(row.marginMode==1) {
+                                        return "全仓";
+                                    }else if(row.marginMode==2){
+                                        return "逐仓";
+                                    }
+                                    return "";
+                                }
+                            },
+                            {
+                                title: '可平数量',
+                                field: 'availQty'
+                            },
+                            {
+                                title: '平均开仓价',
+                                field: 'entryPrice'
+                            },
+                            {
+                                title: '杠杆',
+                                field: 'leverage'
+                            },
+                            {
+                                title: '预估强平价',
+                                field: 'liquidationPrice'
+                            },
+                            {
                                 title: '仓位保证金',
                                 field: 'posMargin'
-                            } , {
-                                title: '维持保证金比率',
-                                field: 'posMatinMarginRatio'
-                            } , {
+                            },
+                            {
+                                title: '保证金率',
+                                field: 'posMarginRatio'
+                            },
+                            {
+                                title: '维持保证金率',
+                                field: 'maintMarginRatio'
+                            },
+                            {
+                                title: '持仓量',
+                                field: 'qty'
+                            },
+                            {
+                                title: '收益率',
+                                field: 'posPnlRatio'
+                            },
+                            {
                                 title: '已实现盈亏',
                                 field: 'realisedPnl'
-                            }
-                            , {
-                                title: '建仓时间',
+                            },
+                            {
+                                title: '未实现盈亏',
+                                field: 'pnl'
+                            },
+                            {
+                                title: '是否多仓',//1多,0空
+                                //field: 'bidFlag'
+                                formatter: function (value, row, index) {
+                                    if(row.bidFlag==0) {
+                                        return "空仓";
+                                    }else if(row.bidFlag==1){
+                                        return "多仓";
+                                    }
+                                    return "";
+                                }
+                            },
+                            {
+                                title: '追加保证金状态',//打开自动追加保证金,0.关闭
+                                field: 'autoIncreaseFlag'
+                            },
+                            {
+                                title: '开仓时间',
                                 formatter: function (value, row, index) {
                                     if(row.ctime!=null)
                                         return time(parseInt(row.ctime));

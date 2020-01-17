@@ -3,8 +3,6 @@ package com.hupa.exp.servermng.action.controller.api;
 import com.hupa.exp.common.entity.dto.BaseResultViaApiDto;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
-import com.hupa.exp.servermng.entity.symbolrate.SymbolRateListInputDto;
-import com.hupa.exp.servermng.entity.symbolrate.SymbolRateListOutputDto;
 import com.hupa.exp.servermng.entity.userapi.UserApiListInputDto;
 import com.hupa.exp.servermng.entity.userapi.UserApiListOutputDto;
 import com.hupa.exp.servermng.service.def.IApiUserApiControllerService;
@@ -25,6 +23,15 @@ public class ApiUserApiController {
 
     @Autowired
     private IApiUserApiControllerService service;
+
+    /**
+     * 用户api查询
+     * @param userName
+     * @param accountId
+     * @param pageSize
+     * @param currentPage
+     * @return
+     */
     @ApiOperation(value = "查询列表")
     @GetMapping("/query_list")
     public BaseResultViaApiDto<UserApiListInputDto,UserApiListOutputDto> querySymbolRateList(

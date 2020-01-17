@@ -26,6 +26,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApiFundRateHistoryController {
     @Autowired
     private IApiFundRateHistoryControllerService service;
+
+    /**
+     * 查询资金费率
+     * @param year
+     * @param asset
+     * @param symbol
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
     @ApiOperation(value = "查询列表")
     @GetMapping("/query_history")
     public BaseResultDto<FundRateHistoryListInputDto,FundRateHistoryListOutputDto> getPcFeeById(

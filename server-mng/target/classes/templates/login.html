@@ -109,7 +109,11 @@
                         if(data.code==0)
                         {
                             document.cookie
-                            sessionStorage.setItem('token',data.data.loginBizBo.token);
+                            if(data.data!=null){
+                                if(data.data.loginBizBo!=null){
+                                    sessionStorage.setItem('token',data.data.loginBizBo.token);
+                                }
+                            }
                             window.location.href="index.html";
                         }
                         else

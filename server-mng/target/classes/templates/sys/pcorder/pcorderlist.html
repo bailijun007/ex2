@@ -40,10 +40,10 @@
                         <label class="sr-only">仓位Id</label>
                         <input type="text" placeholder="请输入委托Id" id="orderId" class="form-control">
                     </div>
-                    <div class="form-group" style="width: 15%; float: left;">
+                   <!-- <div class="form-group" style="width: 15%; float: left;">
                         <label class="sr-only">交易价格</label>
                         <input type="text" placeholder="请输入价格" id="price" class="form-control">
-                    </div>
+                    </div>-->
 
                     <div class="form-group" style="width: 15%; float: left;">
                         <label class="sr-only">状态</label>
@@ -56,7 +56,6 @@
                             <option value="16">部分成交</option>
                             <option value="32">全部成交</option>
                             <option value="64">提交失败</option>
-
                         </select>
                     </div>
                     <div class="form-group" style="width: 15%; float: left;">
@@ -69,10 +68,7 @@
                         </select>
                     </div>
                     <div class="input-group">
-
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-primary" id="btn_query">搜索</button>
-                                </span>
+                         <span class="input-group-btn"><button type="button" class="btn btn-primary" id="btn_query">搜索</button></span>
                     </div>
                 </div>
 
@@ -85,8 +81,8 @@
                                     <div class="bars pull-left">
                                         <div class="btn-group hidden-xs" id="toolbar" role="group">
 
-                                            <a class="btn btn-outline btn-default" href="javascript:addCatalogEvent('Add','0')"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>新增</a>
-                                            <a class="btn btn-outline btn-default" href="javascript:del_ck_confirm('tb_departments','/v1/http/dictype/delete')"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>删除</a>
+                                           <!-- <a class="btn btn-outline btn-default" href="javascript:addCatalogEvent('Add','0')"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>新增</a>
+                                            <a class="btn btn-outline btn-default" href="javascript:del_ck_confirm('tb_departments','/v1/http/dictype/delete')"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>删除</a>-->
                                         </div>
                                     </div>
                                 </div>
@@ -118,30 +114,34 @@
         oTable = new TableInit();
         oTable.Init();
 
+        //获取币种
+        bindAsset("asset",false);
+
+        //获取交易对
+        bindAssetSymbol("symbol", $("#asset").val(), false);
+
         $("#btn_query").click(function () {
             $('#tb_departments').bootstrapTable('destroy');
             oTable.Init();
         });
+
         $("#symbol").change(function () {
             $('#tb_departments').bootstrapTable('destroy');
             oTable.Init();
         })
 
+        $("#asset").change(function () {
+            $("#symbol").empty();
+            bindAssetSymbol("symbol", $("#asset").val(), true);
+        })
+
         // var oButtonInit = new ButtonInit();
         // oButtonInit.Init();
-
     });
-    bindAsset("asset",false);
-    bindAssetSymbol("symbol", $("#asset").val(), false);
-    $("#asset").change(function () {
-        $("#symbol").empty();
-        bindAssetSymbol("symbol", $("#asset").val(), true);
-    })
 
-    var addCatalogEvent = function (action,id) {
+   /* var addCatalogEvent = function (action,id) {
         var text = "添加手续费信息"
         url = "/sys/pcfee/edit.html?id="+id+"&action="+action+"";
-
         parent.layer.open({
             type: 2,
             title: text,
@@ -157,7 +157,7 @@
                 oTable.Init();
             }
         });
-    }
+    }*/
 
 
 
@@ -168,7 +168,7 @@
         //初始化Table
         oTableInit.Init = function () {
                     $('#tb_departments').bootstrapTable({
-                         url: '/v1/http/pcorder/query_list',//+param,         //请求后台的URL（*）
+                         url: '/v1/http/pcorder/query_list',//+param,         //请求后台的URL（*）  永续合约 订单查询
                          method: 'get',                      //请求方式（*）
                         //toolbar: '#toolbar',                //工具按钮用哪个容器
                         //striped: true,                      //是否显示行间隔色
@@ -200,113 +200,98 @@
                             , {
                                 title: 'id',
                                 field: 'id'
-                            }, {
+                            },
+                            {
                                 title: '账户Id',
-                                field: 'accountId'
-                            }, {
-                                title: '委托金额',
-                                field: 'amt'
-                            }
-                            , {
-                                title: '是否买卖',
-                                field: 'bidFlag'
-                            }
-                            , {
-                                title: '待取消金额',
-                                field: 'cancelAmt'
-                            }
-                            , {
-                                title: '客户自定义委托ID',
-                                field: 'clientOrderId'
-                            }, {
-                                title: '是否平仓',
-                                field: 'closeFlag'
-                            }, {
-                                title: '创建时间',
-                                // field: 'ctime'
+                                field: 'userId'
+                            },
+                            {
+                                title: '委托状态',
+                                field: 'status'
+                            },
+                            {
+                                title: '手续费',
+                                field: 'fee'
+                            },
+                            {
+                                title: '委托价',
+                                field: 'price'
+                            },
+                            {
+                                title: '展示量',
+                                field: 'qty'
+                            },
+                            {
+                                title: '仓位类型', //是否：1-多仓，0-空仓
+                                //field: 'longFlag'
+                                formatter: function (value, row, index) {
+                                    if(row.longFlag==0) {
+                                        return "空仓";
+                                    }else if(row.longFlag==1){
+                                        return "多仓";
+                                    }
+                                    return "";
+                                }
+                            },
+                            {
+                                title: '杠杆',
+                                field: 'leverage'
+                            },
+                            {
+                                title: '币种',
+                                field: 'asset'
+                            },
+                            {
+                                title: '交易对',
+                                field: 'symol'
+                            },
+                            {
+                                title: '委托创建时间',
                                 formatter: function (value, row, index) {
                                     if(row.ctime!=null)
                                         return time(parseInt(row.ctime));
                                     return"";
                                 }
-                            }, {
-                                title: '展示量',
-                                field: 'displayAmt'
-                            }, {
-                                title: '实收手续费',
-                                field: 'feeCost'
-                            }, {
-                                title: '已成交金额',
-                                field: 'filledAmt'
-                            }
-                            , {
+                            },
+                            {
+                                title: '平均价',
+                                field: 'avgPrice'
+                            },
+                            {
                                 title: '已成交量',
-                                field: 'filledVolume'
-                            }, {
-                                title: '初始杠杆',
-                                field: 'leverage'
-                            }, {
-                                title: '关联的强平',
-                                field: 'liqOrderId'
-                            }
-                            , {
-                                title: '关联的强平仓位ID',
-                                field: 'liqPosId'
-                            }
-                            , {
-                                title: '保证金模式',
-                                field: 'marginMode'
-                            }
-                            , {
+                                field: 'filledQty'
+                            },
+                            {
+                                title: '类型', //是否:1-平仓,0-开
+                                //field: 'closeFlag'
+                                formatter: function (value, row, index) {
+                                    if(row.closeFlag==0) {
+                                        return "开";
+                                    }else if(row.closeFlag==1){
+                                        return "平仓";
+                                    }
+                                    return "";
+                                }
+                            },
+                            {
+                                title: '成交比例',
+                                field: 'tradeRatio'
+                            },
+                            {
                                 title: '委托保证金',
                                 field: 'orderMargin'
-                            }
-                            , {
-                                title: '永续合约委托类型',
+                            },
+                            {
+                                title: '委托类型',
                                 field: 'orderType'
-                            }, {
-                                title: '币种',
-                                field: 'symbol'
-                            }, {
-                                title: '合约交易对',
-                                field: 'price'
-                            }, {
-                                title: '拒绝理由',
-                                field: 'rejectReason'
-                            }, {
-                                title: '备注',
-                                field: 'remark'
-                            }, {
-                                title: '来源',
-                                field: 'src'
-                            }, {
-                                title: '委托状态',
-                                field: 'status'
-                            }, {
-                                title: '触发价',
-                                field: 'stopPrice'
-                            }
-                            // , {
-                            //     title: 'symbol',
-                            //     field: 'symbol'
-                            // }
-                            , {
-                                title: '委托有效时间',
-                                field: 'timeInForce'
-                            }, {
-                                title: '上一笔成交时间',
-                                // field: 'transactTime'
-                                formatter: function (value, row, index) {
-                                    if(row.transactTime!=null)
-                                        return time(parseInt(row.transactTime));
-                                    return"";
-                                }
-                            }, {
-                                title: '是否已触发',
-                                field: 'triggerFlag'
-                            }, {
-                                title: '可见性',
-                                field: 'visibleFlag'
+                            },
+                            {
+                                title: '收益',
+                                field: 'realisedPnl'
+                            },
+                            {
+                                title: '客户端id',
+                                field: 'clientOid'
                             }
                             ],
                         responseHandler:function(res) {
@@ -326,7 +311,8 @@
                 account:$("#account").val(),
                 status:$("#status").val(),
                 close_flag:$("#closeFlag").val(),
-                price:$("#price").val()
+                price:null
+                //price:$("#price").val()
             };
             //console.log(temp);
             return temp;

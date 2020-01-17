@@ -51,6 +51,17 @@ public class ApiAssetChangeController {
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
 
+
+    /**
+     * 查询资金账户列表
+     * @param id
+     * @param accountId
+     * @param asset
+     * @param pageStatus
+     * @param pageSize
+     * @param currentPage
+     * @return
+     */
     @ApiOperation(value = "获取资金账户列表")
     @GetMapping("/query_fund_asset_list")
     public BaseResultViaApiDto<FundAssetChangeListInputDto,FundAssetChangeListOutputDto> getFundAssetChangeList(
@@ -107,6 +118,16 @@ public class ApiAssetChangeController {
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
 
+    /**
+     * 查询合约账户列表
+     * @param id
+     * @param accountId
+     * @param asset
+     * @param pageStatus
+     * @param pageSize
+     * @param currentPage
+     * @return
+     */
     @ApiOperation(value = "获取合约账户列表")
     @GetMapping("/query_pc_asset_list")
     public BaseResultViaApiDto<PcAssetChangeListInputDto,PcAssetChangeListOutputDto> getPcAssetChangeList(

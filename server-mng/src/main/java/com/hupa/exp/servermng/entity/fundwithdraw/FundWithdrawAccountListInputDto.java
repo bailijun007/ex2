@@ -1,16 +1,34 @@
 package com.hupa.exp.servermng.entity.fundwithdraw;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
-import com.hupa.exp.daomongo.enums.MongoSortEnum;
 
 public class FundWithdrawAccountListInputDto extends BaseInputDto {
+
+    /**
+     * 币种
+     */
     private String asset;
+    /**
+     * 账户Id
+     */
     private Long accountId;
-    private Long withdrawTime;
-    private Long withdrawId;
-    private Integer pageStatus;
+    /**
+     * 每页显示记录数
+     */
     private long currentPage;
+    /**
+     * 页码
+     */
     private int pageSize;
+
+    /**
+     * 审批状态(4:审批中 5:审批通过:6:拒绝)
+     */
+    private Integer approvalStatus;
+
+    /* private Long withdrawTime;
+    private Long withdrawId;
+    private Integer pageStatus*/;
 
 
 
@@ -30,21 +48,6 @@ public class FundWithdrawAccountListInputDto extends BaseInputDto {
         this.accountId = accountId;
     }
 
-    public Long getWithdrawTime() {
-        return withdrawTime;
-    }
-
-    public void setWithdrawTime(Long withdrawTime) {
-        this.withdrawTime = withdrawTime;
-    }
-
-    public Long getWithdrawId() {
-        return withdrawId;
-    }
-
-    public void setWithdrawId(Long withdrawId) {
-        this.withdrawId = withdrawId;
-    }
 
     public long getCurrentPage() {
         return currentPage;
@@ -62,13 +65,39 @@ public class FundWithdrawAccountListInputDto extends BaseInputDto {
         this.pageSize = pageSize;
     }
 
+    public Integer getApprovalStatus() {
+        return approvalStatus;
+    }
+
+    public void setApprovalStatus(Integer approvalStatus) {
+        this.approvalStatus = approvalStatus;
+    }
+
+    /*
+   public Long getWithdrawTime() {
+        return withdrawTime;
+    }
+
+    public void setWithdrawTime(Long withdrawTime) {
+        this.withdrawTime = withdrawTime;
+    }
+
+    public Long getWithdrawId() {
+        return withdrawId;
+    }
+
+    public void setWithdrawId(Long withdrawId) {
+        this.withdrawId = withdrawId;
+    }
     public Integer getPageStatus() {
         return pageStatus;
     }
 
     public void setPageStatus(Integer pageStatus) {
         this.pageStatus = pageStatus;
-    }
+    }*/
+
+
 
 
 }

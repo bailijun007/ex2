@@ -22,8 +22,9 @@ public class ApiPcCandleControllerServiceImpl implements IApiPcCandleControllerS
 
     @Override
     public PcCandleStatisticsOutputDto getPcCandleStatisticsData(PcCandleStatisticsInputDto inputDto) throws BizException {
+
         PcCandleStatisticsOutputDto outputDto=new PcCandleStatisticsOutputDto();
-        List<PcCandleIntervalCountPo> list = iPcCandleDao.selectIntervalCount("pc_candle_2019",inputDto.getAsset(),inputDto.getSymbol());
+        List<PcCandleIntervalCountPo> list = iPcCandleDao.selectIntervalCount("pc_candle_2020",inputDto.getAsset(),inputDto.getSymbol());
         Map<String, Map<String, Map<String, List<PcCandleIntervalCountPo>>>> map1 = list.stream().collect(
                 Collectors.groupingBy(PcCandleIntervalCountPo::getAsset,
                         Collectors.groupingBy(PcCandleIntervalCountPo::getSymbol,

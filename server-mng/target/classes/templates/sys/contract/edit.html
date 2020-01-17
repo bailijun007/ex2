@@ -65,9 +65,30 @@
                             <div class="Validform_checktip"></div>
                         </div>
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">合约类型：</label>
+                            <div class="col-sm-6">
+                                <select id="contract_type" class="form-control"></select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">合约分组：</label>
+                            <div class="col-sm-6">
+                                <select id="contract_group" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-sm-3 control-label">合约名称：</label>
                             <div class="col-sm-6">
                                 <input class="form-control" id="contract_name" type="text" datatype="*1-100" errormsg="菜单名称最多不能超过100位数">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">合约名称分隔符：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="contract_name_split" type="text" datatype="*1-100" errormsg="">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
@@ -143,6 +164,14 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">结算金额：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="settle_price" type="text" datatype="*1-100" errormsg="">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-sm-3 control-label">顺序：</label>
                             <div class="col-sm-6">
                                 <input class="form-control" id="sort" value="99" type="text" datatype="*1-100" errormsg="排序最大为10位数">
@@ -198,6 +227,10 @@
 
 <script type="text/javascript">
     $(function () {
+
+
+
+
         function initData() {
 
             var id = GetQueryString("id");
@@ -220,8 +253,10 @@
                             $("#symbol").val(data.data.symbol);
                             $("#symbol_type").val(data.data.symbol_type);
                             $("#asset").val(data.data.asset);
-
+                            $("#contract_type").val(data.data.contract_type);
+                            $("#contract_group").val(data.data.contract_group);
                             $("#contract_name").val(data.data.contract_name);
+                            $("#contract_name_split").val(data.data.contract_name_split);
                             $("#display_name").val(data.data.display_name);
                             $("#display_name_split").val(data.data.display_name_split);
                             $("#default_price").val(data.data.default_price);
@@ -234,6 +269,7 @@
                             $("#quote_currency").val(data.data.quote_currency);
                             $("#face_currency").val(data.data.face_currency);
                             $("#settle_currency").val(data.data.settle_currency);
+                            $("#settle_price").val(data.data.settle_price);
                             $("#base_currency").val(data.data.base_currency);
 
 
@@ -249,7 +285,13 @@
         initData();
     });
     bindAsset("asset",false);
+
     bindDrop("SymbolType","symbol_type",false);
+    //获取合约分组
+    bindDrop("ContractGroup","contract_group",false);
+    //获取合约类型
+    bindDrop("ContractType","contract_type",false);
+
     $("#symbol").blur(function(){
 
     })
@@ -336,7 +378,10 @@
         parmes+="&symbol="+$("#symbol").val();
         parmes+="&symbol_type="+$("#symbol_type").val();
         parmes+="&asset="+$("#asset").val();
+        parmes+="&contract_type="+$("#contract_type").val();
+        parmes+="&contract_group="+$("#contract_group").val();
         parmes+="&contract_name="+$("#contract_name").val();
+        parmes+="&contract_name_split="+$("#contract_name_split").val();
         parmes+="&display_name="+$("#display_name").val();
         parmes+="&step="+$("#step").val();
         parmes+="&face_value="+$("#face_value").val();
@@ -350,6 +395,7 @@
         parmes+="&quote_currency="+$("#quote_currency").val();
         parmes+="&base_currency="+$("#base_currency").val();
         parmes+="&settle_currency="+$("#settle_currency").val();
+        parmes+="&settle_price="+$("#settle_price").val();
         parmes+="&face_currency="+$("#face_currency").val();
         $.ajax({
             type:"post",

@@ -6,7 +6,6 @@ import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
 import com.hupa.exp.servermng.entity.base.DeleteInputDto;
 import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.user.*;
-import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiUserControllerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,14 +22,11 @@ import java.util.Date;
 @RestController
 @RequestMapping(path = "/v1/http/user",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ApiUserController {
+
     private Logger logger = LoggerFactory.getLogger(ApiUserController.class);
 
     @Autowired
     private IApiUserControllerService iApiUserControllerService;
-
-
-    @Autowired
-    private SessionHelper sessionHelper;
 
 
     /**
@@ -68,7 +64,6 @@ public class ApiUserController {
         } catch (BizException e) {
             return  BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
         }
-
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
         //return JSON.toJSONString(list);
     }
@@ -121,6 +116,17 @@ public class ApiUserController {
         }
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto) ;
     }
+
+
+    /**
+     * 获取资金账户列表
+     * @param id
+     * @param userName
+     * @param userType
+     * @param pageSize
+     * @param currentPage
+     * @return
+     */
     @ApiOperation(value = "获取账户资金列表")
     @GetMapping("/query_fund_account_list")
     public BaseResultViaApiDto<FundAccountListInputDto,FundAccountListOutputDto> getFundAccountList(
@@ -188,17 +194,27 @@ public class ApiUserController {
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto) ;
     }
 
+
+    /**
+     * 给账户加钱和扣钱操作
+     * @param id
+     * @param funds
+     * @return
+     */
     @ApiOperation(value = "给某一个交易对资金账户加钱")
     @PostMapping("/edit_fund_account_asset")
     public BaseResultViaApiDto<EditFundAccountInputDto,EditFundAccountOutputDto> editFundAccountAsset(
             @ApiParam(name="id",value = "id",required = true)
             @RequestParam(name = "id") String id,
+            @ApiParam(name="type",value = "type",required = true)
+            @RequestParam(name = "type") Integer type,
             @ApiParam(name="funds",value = "funds",required = true)
             @RequestParam(name = "funds") String funds)
     {
         EditFundAccountOutputDto outputDto=new EditFundAccountOutputDto();
         EditFundAccountInputDto inputDto=new EditFundAccountInputDto();
         inputDto.setId(Long.parseLong(id));
+        inputDto.setType(type);
         inputDto.setFunds(funds);
         try {
             outputDto= iApiUserControllerService.editFundAccountOneAsset(inputDto);

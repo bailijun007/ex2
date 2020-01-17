@@ -26,6 +26,18 @@ public class ApiAccountTransferController {
 
     @Autowired
     private IApiAccountTransferControllerService service;
+
+    /**
+     * 查询用户划转历史记录
+     * @param accountId
+     * @param asset
+     * @param transferTime
+     * @param transferId
+     * @param pageStatus
+     * @param pageSize
+     * @param currentPage
+     * @return
+     */
     @ApiOperation(value = "获取fundwithdraw")
     @GetMapping("/query_account_transfer_list")
     public BaseResultViaApiDto<TransferListInputDto,TransferListOutputDto> getAccountAllFundWith(
@@ -33,12 +45,12 @@ public class ApiAccountTransferController {
             @RequestParam(name = "account_id") Long accountId,
             @ApiParam(name="asset",value = "币种",required = true)
             @RequestParam(name = "asset") String asset,
-            @ApiParam(name="transfer_time",value = "transfer_time",required = true)
+        /*    @ApiParam(name="transfer_time",value = "transfer_time",required = true)
             @RequestParam(name = "transfer_time") Long transferTime,
             @ApiParam(name="transfer_id",value = "transfer_id",required = true)
             @RequestParam(name = "transfer_id") Long transferId,
             @ApiParam(name="page_status",value = "条数",required = true)
-            @RequestParam(name = "page_status") Integer pageStatus,
+            @RequestParam(name = "page_status") Integer pageStatus,*/
             @ApiParam(name="page_size",value = "条数",required = true)
             @RequestParam(name = "page_size") Integer pageSize,
             @ApiParam(name="current_page",value = "页码",required = true)
@@ -47,10 +59,10 @@ public class ApiAccountTransferController {
         TransferListOutputDto outputDto=new TransferListOutputDto();
         TransferListInputDto inputDto=new TransferListInputDto();
         inputDto.setAsset(asset);
-        inputDto.setTransferTime(transferTime);
+/*        inputDto.setTransferTime(transferTime);
         inputDto.setTransferId(transferId);
+        inputDto.setPageStatus(pageStatus);*/
         inputDto.setAccountId(accountId);
-        inputDto.setPageStatus(pageStatus);
         inputDto.setCurrentPage(currentPage);
         inputDto.setPageSize(pageSize);
 

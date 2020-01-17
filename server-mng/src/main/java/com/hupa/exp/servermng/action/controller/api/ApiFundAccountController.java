@@ -32,6 +32,16 @@ public class ApiFundAccountController {
     private Logger logger = LoggerFactory.getLogger(ApiFundAccountController.class);
 
 
+    /**
+     * 查询资金账户日志
+     * @param id
+     * @param accountId
+     * @param asset
+     * @param pageStatus
+     * @param pageSize
+     * @param currentPage
+     * @return
+     */
     @ApiOperation(value = "获取fundaccountlog")
     @GetMapping("/query_fund_account_log_list")
     public BaseResultViaApiDto<FundAccountLogListInputDto,FundAccountLogListOutputDto> getPcAccountLogList(

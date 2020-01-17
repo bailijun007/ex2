@@ -1,12 +1,9 @@
 package com.hupa.exp.servermng.service.impl;
 
-import com.hupa.exp.bizother.entity.account.MongoBo.PcAccountLogMongoBizBo;
-import com.hupa.exp.bizother.entity.account.MongoBo.PcAccountLogMongoPageBizBo;
-import com.hupa.exp.bizother.service.account.def.IPcAccountMongoBiz;
-import com.hupa.exp.daomongo.dao.expv2.def.IPcAccountAssetMongoDao;
+/*import com.hupa.exp.daomongo.dao.expv2.def.IPcAccountAssetMongoDao;
 import com.hupa.exp.daomongo.entity.po.expv2mongo.MongoPage;
 import com.hupa.exp.daomongo.entity.po.expv2mongo.PcAccountLogAssetMongoPo;
-import com.hupa.exp.daomongo.enums.MongoSortEnum;
+import com.hupa.exp.daomongo.enums.MongoSortEnum;*/
 import com.hupa.exp.daomysql.dao.expv2.def.IAssetDao;
 import com.hupa.exp.daomysql.entity.po.expv2.AssetPo;
 import com.hupa.exp.servermng.entity.pcaccount.PcAccountLogListInputDto;
@@ -17,7 +14,6 @@ import com.hupa.exp.util.convent.ConventObjectUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -25,15 +21,21 @@ import java.util.stream.Collectors;
 
 @Service
 public class ApiPcAccountControllerServiceImpl implements IApiPcAccountControllerService {
-    @Autowired
-    private IPcAccountAssetMongoDao iPcAccountAssetMongoDao;
+
+    //@Autowired
+    //private IPcAccountAssetMongoDao iPcAccountAssetMongoDao;
 
     @Autowired
     private IAssetDao iAssetDao;
 
+    /**
+     * 合约账户日志查询
+     * @param inputDto
+     * @return
+     */
     @Override
     public PcAccountLogListOutputDto getPcAccountLogList(PcAccountLogListInputDto inputDto) {
-        List<AssetPo> assetPos = iAssetDao.selectActiveList();
+      /*  List<AssetPo> assetPos = iAssetDao.selectActiveList();
         List<PcAccountLogAssetMongoPo> withdrawSymbolMongoPoList = new ArrayList<>();
         int counts = 0;
         MongoSortEnum sort = MongoSortEnum.desc;
@@ -80,7 +82,8 @@ public class ApiPcAccountControllerServiceImpl implements IApiPcAccountControlle
         PcAccountLogListOutputDto outputDto=new PcAccountLogListOutputDto();
         outputDto.setSizePerPage(Integer.valueOf(String.valueOf(inputDto.getPageSize())));
         outputDto.setTotal(Long.parseLong(String.valueOf(counts)));
-        outputDto.setRows(rows);
+        outputDto.setRows(rows);*/
+        PcAccountLogListOutputDto outputDto=new PcAccountLogListOutputDto();
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
     }

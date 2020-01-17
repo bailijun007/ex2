@@ -22,30 +22,35 @@
                 <div class="col-sm-11">
                     <div class="form-group" style="width: 15%; float: left;">
                         <label class="sr-only">账号</label>
-                        <input type="text" placeholder="请输入账号" id="account" class="form-control">
+                        <input type="text" placeholder="请输入账号" id="accountId" class="form-control">
                     </div>
                     <div class="form-group" style="width: 15%; float: left;">
                         <label class="sr-only">币种</label>
-                        <select id="asset" class="form-control">
+                        <select id="assetSelect" class="form-control">
+                        </select>
+                    </div>
+                    <div class="form-group" style="width: 15%; float: left;">
+                        <label class="sr-only">审批状态</label>
+                        <select id="approvalStatus" class="form-control">
+                            <option value="">全部</option>
+                            <option value="4">审批中 </option>
+                            <option value="5">审批通过</option>
+                            <option value="6">拒绝</option>
                         </select>
                     </div>
                     <div class="input-group">
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-primary" id="btn_query">搜索</button>
-                                </span>
+                         <span class="input-group-btn"><button type="button" class="btn btn-primary" id="btn_query">搜索</button></span>
                     </div>
                 </div>
                 <input type="hidden" id="lastId" value="0">
                 <input type="hidden" id="pageIndex" value="1">
                 <div class="col-sm-12">
-
                     <div class="example-wrap">
                         <div class="example">
                             <div class="bootstrap-table">
                                 <div class="fixed-table-toolbar">
                                     <div class="bars pull-left">
                                         <!--<div class="btn-group hidden-xs" id="toolbar" role="group">-->
-
                                             <!--<a class="btn btn-outline btn-default" href="javascript:auditFundWithdraw('Add','0')"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>新增</a>-->
                                             <!--<a class="btn btn-outline btn-default" href="javascript:del_ck_confirm('tb_departments','/v1/http/dictype/delete')"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>删除</a>-->
                                         <!--</div>-->
@@ -76,24 +81,38 @@
 <script type="text/javascript">
     var oTable;
     $(function () {
-        //1.初始化Table
+
+        //1.初始化DataTables
         oTable = new TableInit();
         oTable.Init();
 
+        //2、初始化分页按钮
+        var oButtonInit = new ButtonInit();
+        oButtonInit.Init();
+
+        //3、加载币种下拉选项列表
+        bindAsset("assetSelect",true);
+
+        //搜索事件
         $("#btn_query").click(function () {
             $('#tb_departments').bootstrapTable('destroy');
             oTable.Init();
         });
 
-        $("#asset").change(function () {
+        //选择币种事件
+        $("#assetSelect").change(function () {
             $('#tb_departments').bootstrapTable('destroy');
             oTable.Init();
         });
 
-
     });
 
-    bindAsset("asset",false);
+    /**
+     * 提币通过
+     * @param accountId
+     * @param asset
+     * @param withdrawId
+     */
     var auditPassFundWithdraw = function (accountId,asset,withdrawId) {
         layer.confirm('确定审核通过？', {
             btn: ['确定','取消'] //按钮
@@ -119,6 +138,13 @@
 
         });
     }
+
+    /**
+     * 提币不通过
+     * @param accountId
+     * @param asset
+     * @param withdrawId
+     */
     var auditFailFundWithdraw = function (accountId,asset,withdrawId) {
         var text = ""
         layer.prompt({title: '请填写拒绝理由，并确认！', formType: 2}, function(reason, index){
@@ -150,7 +176,7 @@
         //初始化Table
         oTableInit.Init = function () {
                     $('#tb_departments').bootstrapTable({
-                         url: '/v1/http/fundwithdraw/query_fund_withdraw_list',//+param,         //请求后台的URL（*）
+                         url: '/v1/http/fundwithdraw/query_account_fund_withdraw_list',//+param,         //请求后台的URL（*）提币审核列表query_fund_withdraw_list
                          method: 'get',                      //请求方式（*）
                         //toolbar: '#toolbar',                //工具按钮用哪个容器
                         //striped: true,                      //是否显示行间隔色
@@ -180,28 +206,33 @@
                         columns: [
                             {
                                 checkbox: true
-                            }
-                            , {
+                            },
+                            {
+                                title: 'id',
+                                field: 'id'
+                            },
+                            {
                                 title: '账户Id',
                                 field: 'accountId'
-                            }
-                            , {
-                                title: '币的符号',
+                            } ,
+                            {
+                                title: '币种',
                                 field: 'asset'
-                            }, {
-                                title: 'targetAddr',
+                            },
+                            {
+                                title: '接受地址',
                                 field: 'targetAddr'
-                            }
-                            , {
-                                title: 'volume',
+                            } ,
+                            {
+                                title: '金额',
                                 field: 'volume'
                             }
+                            /*                    , {
+                             title: 'fee',
+                             field: 'fee'
+                             }*/
                             , {
-                                title: 'fee',
-                                field: 'fee'
-                            }
-                            , {
-                                title: 'withdrawTime',
+                                title: '提现时间',
                                 formatter: function (value, row, index) {
                                     if(row.withdrawTime!=null)
                                         return time(parseInt(row.withdrawTime));
@@ -209,11 +240,31 @@
                                 }
                             }
                             , {
-                                title: 'status',
-                                field: 'status'
+                                title: '状态',
+                                //0：已创建，1：成功，2：失败，3-同步余额,4：审核中，5-审核通过,6：审核不通过
+                                // field: 'status'
+                                formatter: function (value, row, index) {
+                                    if(row.status==0) {
+                                        return "已创建";
+                                    }else if(row.status==1){
+                                        return "成功";
+                                    }else if(row.status==2){
+                                        return "失败";
+                                    }else if(row.status==3){
+                                        return "同步余额";
+                                    }else if(row.status==4){
+                                        return "审核中";
+                                    }else if(row.status==5){
+                                        return "审核通过";
+                                    }else if(row.status==6){
+                                        return "审核不通过";
+                                    }
+                                    return "";
+
+                                }
                             }
                             , {
-                                title: 'ctime',
+                                title: '创建时间',
                                 formatter: function (value, row, index) {
                                     if(row.ctime!=null)
                                         return time(parseInt(row.ctime));
@@ -221,16 +272,16 @@
                                 }
                             }
                             , {
-                                title: 'mtime',
+                                title: '修改时间',
                                 formatter: function (value, row, index) {
                                     if(row.mtime!=null)
                                         return time(parseInt(row.mtime));
                                     return"";
                                 }
-                            }
-                            , {
+                            },
+                            {
                                 title: '操作', field: '#', align: 'center',
-                                formatter: function (value, row, index) {
+                                formatter: function (value, row, index) { //0：已创建，1：成功，2：失败，3-同步余额,4：审核中，5-审核通过,6：审核不通过
                                     if(row.status==1)
                                     {
                                         var d = "<a href=\"javascript:auditPassFundWithdraw('" + row.accountId + "','"+row.asset+"','"+row.id+"')\">通过</a>";
@@ -238,7 +289,6 @@
                                         return d;
                                     }
                                     return "";
-
                                 }
                             }],
                         responseHandler:function(res) {
@@ -253,17 +303,26 @@
         };
         oTableInit.queryParams = function (params) {
             var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-                page_size: params.limit,   //页面大小
-                current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
-                id: $("#lastId").val(),
-                asset: $("#asset").val(),
-                account:$("#account").val()
-
+                //id: $("#lastId").val(),
+                account_id:$("#accountId").val(), //账户Id
+                asset:$("#assetSelect").val(), //币种
+                approval_status:$("#approvalStatus").val(), //币种
+                page_size: params.limit,   //页面大小 每页显示多少条记录
+                current_page: params.offset==0?1:(params.offset/params.limit)+1  //页码 当前第几页
             };
-            //console.log(temp);
             return temp;
         };
         return oTableInit;
+    };
+
+    //分页按钮
+    var ButtonInit = function () {
+        var oInit = new Object();
+        var postdata = {};
+        oInit.Init = function () {
+            //初始化页面上面的按钮事件
+        };
+        return oInit;
     };
 
     $('#tb_departments').on('load-success.bs.table', function (e) {
@@ -285,8 +344,6 @@
         //oTable.Init(size,10);
         // ...
     });
-
-
 
     function GetQueryString(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");

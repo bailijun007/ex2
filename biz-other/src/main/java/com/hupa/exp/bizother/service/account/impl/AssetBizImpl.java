@@ -115,6 +115,12 @@ public class AssetBizImpl implements IAssetBiz {
         return bo;
     }
 
+
+    /**
+     * 根据币的名称，查询是否存在
+     * @param realName
+     * @return
+     */
     @Override
     public boolean checkHasAsset(String realName) {
         return iAssetDao.checkHasCoin(realName);

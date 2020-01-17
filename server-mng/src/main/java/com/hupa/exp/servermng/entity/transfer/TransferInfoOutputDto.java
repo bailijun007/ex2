@@ -1,13 +1,50 @@
 package com.hupa.exp.servermng.entity.transfer;
 
 import com.hupa.exp.base.entity.bo.BaseAccountTransferBo;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
+/**
+ * 交易输出对象
+ */
 public class TransferInfoOutputDto {
-    private String id;
+
+    private String id;//等于返回transferId
+    /**
+     * 货币
+     */
     private String asset;
+    /**
+     * 金额
+     */
+    private String amount;
+
+    /**
+     * 创建时间
+     */
+    private String created;
+    /**
+     * 状态：1-成功，2-失败
+     */
+    private String status;
+    /**
+     * 转出账户
+     */
+    private String fromAccount;
+    /**
+     * 转入账户
+     */
+    private String toAccount;
+
+    /**
+     * 转账时间
+     */
+    private String ctime;
+
+/*
     private String srcAccountId;
     private String tarAccountId;
     private String srcAccType;
@@ -17,7 +54,10 @@ public class TransferInfoOutputDto {
     private String receiveTime;
     private String remark;
     private String operator;
-    private String ctime;
+   */
+    /**
+     * 修改时间
+     */
     private String mtime;
 
     public String getId() {
@@ -36,7 +76,7 @@ public class TransferInfoOutputDto {
         this.asset = asset;
     }
 
-    public String getSrcAccountId() {
+   /* public String getSrcAccountId() {
         return srcAccountId;
     }
 
@@ -107,7 +147,7 @@ public class TransferInfoOutputDto {
     public void setOperator(String operator) {
         this.operator = operator;
     }
-
+*/
     public String getCtime() {
         return ctime;
     }
@@ -122,5 +162,45 @@ public class TransferInfoOutputDto {
 
     public void setMtime(String mtime) {
         this.mtime = mtime;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getFromAccount() {
+        return fromAccount;
+    }
+
+    public void setFromAccount(String fromAccount) {
+        this.fromAccount = fromAccount;
+    }
+
+    public String getToAccount() {
+        return toAccount;
+    }
+
+    public void setToAccount(String toAccount) {
+        this.toAccount = toAccount;
     }
 }

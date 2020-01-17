@@ -4,11 +4,8 @@ package com.hupa.exp.servermng.action.controller.api;
 import com.hupa.exp.common.entity.dto.BaseResultViaApiDto;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
-import com.hupa.exp.daomongo.enums.MongoSortEnum;
 import com.hupa.exp.servermng.entity.funddeposit.FundDepositListInputDto;
 import com.hupa.exp.servermng.entity.funddeposit.FundDepositListOutputDto;
-import com.hupa.exp.servermng.entity.fundwithdraw.FundWithdrawAccountListInputDto;
-import com.hupa.exp.servermng.entity.fundwithdraw.FundWithdrawAccountListOutputDto;
 import com.hupa.exp.servermng.service.def.IApiFundDepositControllerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,9 +21,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path="/v1/http/funddeposit",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ApiFundDepositController {
-@Autowired
-private IApiFundDepositControllerService service;
 
+    @Autowired
+    private IApiFundDepositControllerService service;
+
+    /**
+     * 用户充币历史记录查询
+     * @param asset
+     * @param accountId
+     * @param depositTime
+     * @param depositId
+     * @param pageStatus
+     * @param pageSize
+     * @param currentPage
+     * @return
+     */
     @ApiOperation(value = "获取fundwithdraw")
     @GetMapping("/query_account_fund_deposit_list")
     public BaseResultViaApiDto<FundDepositListInputDto,FundDepositListOutputDto> getAccountAllFundWith(
@@ -34,12 +43,12 @@ private IApiFundDepositControllerService service;
             @RequestParam(name = "asset") String asset,
             @ApiParam(name="account_id",value = "用户id",required = true)
             @RequestParam(name = "account_id") Long accountId,
-            @ApiParam(name="deposit_time",value = "deposit_time",required = true)
+/*            @ApiParam(name="deposit_time",value = "deposit_time",required = true)
             @RequestParam(name = "deposit_time") Long depositTime,
             @ApiParam(name="deposit_id",value = "deposit_id",required = true)
             @RequestParam(name = "deposit_id") Long depositId,
             @ApiParam(name="page_status",value = "条数",required = true)
-            @RequestParam(name = "page_status") Integer pageStatus,
+            @RequestParam(name = "page_status") Integer pageStatus,*/
             @ApiParam(name="page_size",value = "条数",required = true)
             @RequestParam(name = "page_size") Integer pageSize,
             @ApiParam(name="current_page",value = "页码",required = true)
@@ -49,9 +58,9 @@ private IApiFundDepositControllerService service;
         FundDepositListInputDto inputDto=new FundDepositListInputDto();
         inputDto.setAsset(asset);
         inputDto.setAccountId(accountId);
-        inputDto.setDepositTime(depositTime);
+/*        inputDto.setDepositTime(depositTime);
         inputDto.setDepositId(depositId);
-        inputDto.setPageStatus(pageStatus);
+        inputDto.setPageStatus(pageStatus);*/
         inputDto.setCurrentPage(currentPage);
         inputDto.setPageSize(pageSize);
 

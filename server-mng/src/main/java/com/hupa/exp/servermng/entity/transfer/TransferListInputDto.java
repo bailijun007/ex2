@@ -3,6 +3,7 @@ package com.hupa.exp.servermng.entity.transfer;
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 
 public class TransferListInputDto extends BaseInputDto {
+
     private String asset;
     private Long accountId;
     private Long transferTime;

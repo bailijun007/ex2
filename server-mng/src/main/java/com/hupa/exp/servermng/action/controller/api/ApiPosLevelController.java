@@ -51,9 +51,9 @@ public class ApiPosLevelController {
             @RequestParam(name = "max_amt") Long maxAmt,
             @ApiParam(name="max_leverage",value = "最大杠杆",required = true)
             @RequestParam(name = "max_leverage") BigDecimal maxLeverage,
-            @ApiParam(name="pos_hold_margin_ratio",value = "维持保证金率",required = true)
-            @RequestParam(name = "pos_hold_margin_ratio") BigDecimal posHoldMarginRatio,
-            @ApiParam(name="min_hold_margin_ratio",value = "初始保证金率",required = true)
+           /* @ApiParam(name="pos_hold_margin_ratio",value = "初始保证金率",required = true)
+            @RequestParam(name = "pos_hold_margin_ratio") BigDecimal posHoldMarginRatio,*/
+            @ApiParam(name="min_hold_margin_ratio",value = "维持保证金率 ",required = true)
             @RequestParam(name = "min_hold_margin_ratio") BigDecimal minHoldMarginRatio
 
     ){
@@ -66,7 +66,12 @@ public class ApiPosLevelController {
         inputDto.setMaxAmt(maxAmt);
         inputDto.setMinAmt(minAmt);
         inputDto.setMaxLeverage(maxLeverage);
-        inputDto.setPosHoldMarginRatio(posHoldMarginRatio);
+        if(maxLeverage!=null){
+            //初始保证金率
+            //min_hold_margin_ratio 初始保证金率 -> 维持保证金率
+            //pos_hold_margin_ratio 维持保证金率 -> 初始保证金率 = 1 / max_leverage 保留4位小数，直接截取第5位
+           inputDto.setPosHoldMarginRatio(new BigDecimal("1").divide(maxLeverage,4, BigDecimal.ROUND_HALF_DOWN));//posHoldMarginRatio
+        }
         inputDto.setMinHoldMarginRatio(minHoldMarginRatio);
         try{
             outputDto= service.createOrEditPosLevel(inputDto);

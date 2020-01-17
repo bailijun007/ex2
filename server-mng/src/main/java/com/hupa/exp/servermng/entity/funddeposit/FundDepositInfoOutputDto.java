@@ -1,22 +1,61 @@
 package com.hupa.exp.servermng.entity.funddeposit;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class FundDepositInfoOutputDto {
-    private String id;
-    private String chainServerOrderId;
+
+     private String id;
+    /**
+     * 用户编号
+     */
     private String accountId;
-    //private String symbol;
+    /**
+     * 币种
+     */
     private String asset;
-    private String chainTransactionUrl;
-    private String txHash;
-    private String volume;
-    private String depositTime;
+    /**
+     * 充值地址
+     */
     private String address;
-    private String lastConfirmTime;
+    /**
+     *  数量、金额
+     */
+    private String volume;
+    /**
+     * 充值时间
+     */
+    private String depositTime;
+    /**
+     * 支付时间
+     */
+    private String payTime;
+    /**
+     * 充值状态(0:已创建，3：已到账)
+     */
     private String status;
+    /**
+     * 修改时间
+     */
+    private String modified;
+    /**
+     * 创建时间
+     */
     private String ctime;
+    /**
+     * 更新时间
+     */
     private String mtime;
+    /**
+     * 充值hash
+     */
+    private String txHash;
+
+
+    private String chainTransactionUrl;
+    private String chainServerOrderId;
+    //最后确认时间
+    private String lastConfirmTime;
 
     public String getId() {
         return id;
@@ -120,5 +159,21 @@ public class FundDepositInfoOutputDto {
 
     public void setMtime(String mtime) {
         this.mtime = mtime;
+    }
+
+    public String getPayTime() {
+        return payTime;
+    }
+
+    public void setPayTime(String payTime) {
+        this.payTime = payTime;
+    }
+
+    public String getModified() {
+        return modified;
+    }
+
+    public void setModified(String modified) {
+        this.modified = modified;
     }
 }

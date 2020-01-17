@@ -87,8 +87,12 @@
     function ShowParam(id) {
         alert(id);
     }
-
-    var addCatalogEvent = function (action,id) {
+    /**
+     * 总资产不用了
+     * @param action
+     * @param id
+     */
+/*    var addCatalogEvent = function (action,id) {
         var text = "添加用户资产"
         url = "/sys/user/fundaccountedit.html?id="+id+"&action="+action+"";
 
@@ -107,7 +111,7 @@
                 oTable.Init();
             }
         });
-    }
+    }*/
 
     var addFundAccountOne = function (action,id,asset) {
         var text = "添加用户资产"
@@ -243,7 +247,7 @@
                 uniqueId: "id",                     //每一行的唯一标识，一般为主键列
                 //showToggle: true,                    //是否显示详细视图和列表视图的切换按钮
                 //cardView: false,                    //是否显示详细视图
-                //detailView: false,                   //是否显示父子表
+                detailView: false,                   //是否显示父子表
                 columns: myColumns,
                 responseHandler:function(res) {
                     //console.log(res);

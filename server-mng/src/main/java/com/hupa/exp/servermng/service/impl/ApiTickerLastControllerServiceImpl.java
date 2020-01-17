@@ -14,9 +14,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ApiTickerLastControllerServiceImpl implements IApiTickerLastControllerService{
+
     @Autowired
     private IThirdTickerLastDataDao iThirdTickerLastDataDao;
 
+    /**
+     * 查询行情列表
+     * @param inputDto
+     * @return
+     * @throws BizException
+     */
     @Override
     public PcTickerLastPageDataOutputDto getTickerLastPageData(PcTickerLastPageDataInputDto inputDto) throws BizException {
        IPage<ThirdTickerLastDataPo> pos= iThirdTickerLastDataDao.selectPageData(inputDto.getPair(),
@@ -27,4 +34,5 @@ public class ApiTickerLastControllerServiceImpl implements IApiTickerLastControl
         outputDto.setPageData(JSON.toJSONString(outputDto,SerializerFeature.WriteNonStringValueAsString));
         return outputDto;
     }
+
 }

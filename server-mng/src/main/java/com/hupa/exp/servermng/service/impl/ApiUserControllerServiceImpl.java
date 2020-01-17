@@ -1,22 +1,15 @@
 package com.hupa.exp.servermng.service.impl;
 
-import com.alibaba.druid.sql.dialect.mysql.ast.clause.ConditionValue;
-import com.hupa.exp.account.def.Account4ServerDef;
-import com.hupa.exp.account.def.fund.FundAccount4MngDef;
-import com.hupa.exp.account.def.fund.FundAccount4ServerDef;
-import com.hupa.exp.account.service.def.account.AccountService;
-import com.hupa.exp.account.service.def.fund.FundAccountService;
-import com.hupa.exp.account.util.token.Account4ServerTokenUtil;
-import com.hupa.exp.account.util.token.fund.FundAccount4MngTokenUtil;
-import com.hupa.exp.account.util.token.fund.FundAccount4ServerTokenUtil;
+
+import com.hp.sh.expv3.fund.user.api.ZwIdGeneratorApi;
+import com.hp.sh.expv3.fund.wallet.vo.request.FundAddRequest;
+import com.hp.sh.expv3.fund.wallet.vo.request.FundCutRequest;
 import com.hupa.exp.base.config.redis.Db0RedisBean;
 import com.hupa.exp.base.dic.expv2.DbKeyDic;
 import com.hupa.exp.base.enums.OperationModule;
 import com.hupa.exp.base.enums.OperationType;
 import com.hupa.exp.base.enums.ValidateExceptionCode;
 import com.hupa.exp.base.exception.ValidateException;
-import com.hupa.exp.base.exception.account.FundAccountException;
-import com.hupa.exp.base.exception.pc.PcAccountException;
 import com.hupa.exp.bizother.entity.account.PcFeeBizBo;
 import com.hupa.exp.bizother.entity.dic.ExpDicBizBo;
 import com.hupa.exp.bizother.entity.fundaccount.FundAccountMngBizBo;
@@ -33,33 +26,24 @@ import com.hupa.exp.bizother.service.user.def.IUserRoleService;
 import com.hupa.exp.common.component.redis.RedisUtil;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.JsonUtil;
-import com.hupa.exp.daomongo.dao.expv2.def.IAccountMongoDao;
-import com.hupa.exp.daomongo.dao.expv2.def.IFundAccountAssetMongoDao;
-import com.hupa.exp.daomongo.dao.expv2.def.IPcAccountAssetMongoDao;
 import com.hupa.exp.daomysql.dao.expv2.def.IAssetDao;
 import com.hupa.exp.daomysql.dao.expv2.def.IExpUserDao;
 import com.hupa.exp.daomysql.entity.po.expv2.AssetPo;
 import com.hupa.exp.daomysql.entity.po.expv2.ExpUserPo;
-import com.hupa.exp.pc.margin.def.account.PcAccount4MngDef;
-import com.hupa.exp.pc.margin.def.account.PcAccount4ServerDef;
-import com.hupa.exp.pc.margin.util.token.PcAccount4ServerTokenUtil;
-import com.hupa.exp.pc.service.def.PcAccountService;
 import com.hupa.exp.servermng.entity.base.DeleteInputDto;
 import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.user.*;
 import com.hupa.exp.servermng.enums.LoginExceptionCode;
 import com.hupa.exp.servermng.enums.MngExceptionCode;
-import com.hupa.exp.servermng.enums.UserExceptionCode;
 import com.hupa.exp.servermng.exception.LoginException;
 import com.hupa.exp.servermng.exception.MngException;
-import com.hupa.exp.servermng.exception.UserException;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiUserControllerService;
 import com.hupa.exp.servermng.validate.UserValidateImpl;
 import com.hupa.exp.util.convent.ConventObjectUtil;
-import com.hupa.exp.util.test.UserPo;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.dubbo.config.annotation.Reference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -67,46 +51,20 @@ import org.springframework.stereotype.Service;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class ApiUserControllerServiceImpl implements IApiUserControllerService {
+
+    private Logger logger = LoggerFactory.getLogger(ApiUserControllerServiceImpl.class);
+
     @Autowired
     private IUserBiz iUserBiz;
-
     @Autowired
     private IUserRoleService iUserRoleService;
     @Autowired
     private UserValidateImpl userValidate;
-
-    @Reference
-    private Account4ServerDef account4ServerDef;
-
-    @Reference
-    private FundAccount4MngDef fundAccount4MngDef;
-
-    @Reference
-    private PcAccount4MngDef pcAccount4MngDef;
-
-    @Reference
-    private FundAccount4ServerDef fundAccount4ServerDef;
-
-    @Reference
-    private PcAccount4ServerDef pcAccount4ServerDef;
-
-
-    @Autowired
-    private FundAccountService fundAccountService;
-
-    @Autowired
-    private PcAccountService pcAccountService;
-
-    @Autowired
-    private AccountService accountService;
 
     @Autowired
     @Qualifier(Db0RedisBean.beanName)
@@ -131,26 +89,40 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
     private IAssetDao iAssetDao;
 
     @Autowired
-    private IAccountMongoDao iAccountMongoDao;
+    private IAccountBiz accountBiz;
 
-
-
+    //获取主键-- 使用雪花算法
     @Autowired
-    private IFundAccountAssetMongoDao  iFundAccountAssetMongoDao;
+    private ZwIdGeneratorApi zwIdGeneratorApi;
 
-    @Autowired
-    private IPcAccountAssetMongoDao iPcAccountAssetMongoDao;
-
+    /**
+     * 创建或修改用户信息
+     * @param inputDto
+     * @return
+     * @throws BizException
+     */
     @Override
     public UserOutputDto createUser(UserInputDto inputDto) throws BizException {
-
-        ExpUserBizBo expUserBo = new ExpUserBizBo();
-        ExpUserBizBo beforeBo = null;
+        ExpUserBizBo user = sessionHelper.getUserInfoBySession();
+        UserOutputDto outputDto = new UserOutputDto();
+        ExpUserBizBo expUserBo = null;
+        ExpUserBizBo beforeBo = iUserBiz.queryById(inputDto.getId());
         if (inputDto.getId() != null && inputDto.getId() > 0) {
-            beforeBo = iUserBiz.queryById(inputDto.getId());
-            if (beforeBo != null)
-                expUserBo = beforeBo;
-        }
+            //如果没查询到数据，不能修改
+            if(beforeBo ==null)
+                throw new MngException(MngExceptionCode.EMAIL_EXIST_ERROR_MNG);
+            expUserBo = beforeBo;
+            //判断手机号是否已经注册过
+            ExpUserPo userPhone=iExpUserDao.getUserInfoByPhone(inputDto.getPhone());
+            //传进来的手机号不等于当前用户的手机号码但是找到的数据   表示已存在该手机号码
+            if(beforeBo!=null && userPhone!=null && !beforeBo.getPhone().equals(userPhone.getPhone()))
+                throw new MngException(MngExceptionCode.PHONE_EXIST_ERROR_MNG);
+            //判断邮箱是否已经注册过
+            ExpUserPo userEmail=iExpUserDao.selectUserInfoByEmail(inputDto.getEmail());
+            //传进来的邮箱不等于当前用户的手机号码但是找到的数据   表示已存在该邮箱
+            if(beforeBo!=null && userEmail!=null && !beforeBo.getEmail().equals(userEmail.getEmail()))
+                throw new MngException(MngExceptionCode.EMAIL_EXIST_ERROR_MNG);
+
         expUserBo.setAreaCode(inputDto.getAreaCode());
         expUserBo.setEmail(StringUtils.isEmpty(inputDto.getEmail())?null:inputDto.getEmail());
         expUserBo.setPhone(StringUtils.isEmpty(inputDto.getPhone())?null:inputDto.getPhone());
@@ -163,31 +135,34 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         expUserBo.setNationality(inputDto.getNationality());
         expUserBo.setUserpwd(inputDto.getPassword());
         expUserBo.setFundPwd(inputDto.getFundPwd());
-        UserOutputDto outputDto = new UserOutputDto();
-
-        long id = account4ServerDef.newAccountId();
-        ExpUserBizBo user = sessionHelper.getUserInfoBySession();
-        if (inputDto.getId() > 0) {
-            ExpUserPo userPhone=iExpUserDao.getUserInfoByPhone(inputDto.getPhone());
-            //传进来的手机号不等于当前用户的手机号码但是找到的数据   表示已存在该手机号码
-            if(beforeBo!=null&&userPhone!=null&&!beforeBo.getPhone().equals(userPhone.getPhone()))
-                throw new MngException(MngExceptionCode.PHONE_EXIST_ERROR_MNG);
-
-            ExpUserPo userEmail=iExpUserDao.getUserInfoByPhone(inputDto.getEmail());
-            //传进来的邮箱不等于当前用户的手机号码但是找到的数据   表示已存在该邮箱
-            if(beforeBo!=null&&userEmail!=null&&beforeBo.getEmail().equals(userEmail.getEmail()))
-                throw new MngException(MngExceptionCode.EMAIL_EXIST_ERROR_MNG);
-            iUserBiz.editById(expUserBo);
-            //记日志
-            logService.createOperationLog(user.getId(), user.getUserName(), OperationModule.User.toString(),
-                    OperationType.Update.toString(), JsonUtil.toJsonString(beforeBo),
-                    JsonUtil.toJsonString(expUserBo));
-            id = expUserBo.getId();
+        iUserBiz.editById(expUserBo);//入库
+        //记日志
+        logService.createOperationLog(user.getId(), user.getUserName(), OperationModule.User.toString(),
+                OperationType.Update.toString(), JsonUtil.toJsonString(beforeBo),
+                JsonUtil.toJsonString(expUserBo));
         } else {
-            userValidate.validate(inputDto);//验证参数
+            //验证参数
+            userValidate.validate(inputDto);
+            expUserBo = new ExpUserBizBo();
+            expUserBo.setAreaCode(inputDto.getAreaCode());
+            expUserBo.setEmail(StringUtils.isEmpty(inputDto.getEmail())?null:inputDto.getEmail());
+            expUserBo.setPhone(StringUtils.isEmpty(inputDto.getPhone())?null:inputDto.getPhone());
+            expUserBo.setRoleList(inputDto.getRoleList());
+            expUserBo.setPwdLevel(1);
+            expUserBo.setUserType(inputDto.getUserType());
+            expUserBo.setStatus(inputDto.getStatus());
+            expUserBo.setIdNum(inputDto.getIdNum());
+            expUserBo.setRealName(inputDto.getRealName());
+            expUserBo.setNationality(inputDto.getNationality());
+            expUserBo.setUserpwd(inputDto.getPassword());
+            expUserBo.setFundPwd(inputDto.getFundPwd());
+
             //用户名不让改  只有创建的时候可以有一个
             expUserBo.setUserName(inputDto.getUserName());
-            expUserBo.setId(id);
+            //生成随机数---主键
+            //Integer number = new Random().nextInt(900000) + 100000;
+            //expUserBo.setId(Long.parseLong(System.currentTimeMillis() + String.valueOf(number)));
+            expUserBo.setId(zwIdGeneratorApi.getNextId());
             iUserBiz.createUser(expUserBo);
             //记日志
             logService.createOperationLog(user.getId(), user.getUserName(), OperationModule.User.toString(),
@@ -195,18 +170,17 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
                     "");
             if (inputDto.getUserType() != 0) {
                 try {
-                    account4ServerDef.createAccount(String.valueOf(id),id,
-                            Account4ServerTokenUtil.genToken4CreateAccount(String.valueOf(id),id));
-                    //fundAccount4ServerDef.createFundAccount(id, "BTC", FundAccount4ServerTokenUtil.genToken4CreateFundAccount(id, "BTC"));
+                    accountBiz.createFundAccount(expUserBo.getId(), "BTC");
                 } catch (Exception e) {
                     throw new MngException(MngExceptionCode.DUBBO_SERVER_ERROR);
                 }
             }
         }
-        outputDto.setId(String.valueOf(id));
+        outputDto.setId(String.valueOf(expUserBo.getId()));
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
     }
+
 
     @Override
     public UserListOutputDto queryList(UserListInputDto inputDto) throws BizException {
@@ -260,6 +234,12 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         return outputDto;
     }
 
+    /**
+     * 查询用户信息---修改
+     * @param inputDto
+     * @return
+     * @throws BizException
+     */
     @Override
     public UserOutputDto queryUserInfoById(UserInputDto inputDto) throws BizException {
 
@@ -291,7 +271,6 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         outputDto.setFeeLevel(String.valueOf(expUserBo.getFeeLevel()));
         outputDto.setIdType(String.valueOf(expUserBo.getIdType()));
         outputDto.setSurname(expUserBo.getSurname());
-        outputDto.setRealName(String.valueOf(expUserBo.getId()));
         outputDto.setLoginTime(String.valueOf(expUserBo.getLoginTime()));
         outputDto.setLoginIp(expUserBo.getLoginIp());
         List<String> roleList = new ArrayList<>();
@@ -299,7 +278,6 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
             roleList.add(String.valueOf(expUserRoleList.get(i).getRoleid()));
         }
         outputDto.setRoleList(roleList);
-
         return outputDto;
     }
 
@@ -325,6 +303,12 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         return outputDto;
     }
 
+    /**
+     * 获取账户资金列表
+     * @param inputDto
+     * @return
+     * @throws BizException
+     */
     @Override
     public FundAccountListOutputDto queryFundAccountListByParam(FundAccountListInputDto inputDto) throws BizException {
         if (inputDto.getPageSize() > 100)
@@ -361,54 +345,21 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         return outputDto;
     }
 
+
     @Override
     public CreateAccountOutputDto createAccount(CreateAccountInputDto inputDto) throws MngException {
         List<ExpUserBizBo> bizBos = iUserBiz.queryList();
         List<AssetPo> assetPos=iAssetDao.selectActiveList();
         for (ExpUserBizBo bo : bizBos) {
             if (bo.getUserType() != 0) {
-                try {
-                    //创建账户
-                    if(iAccountMongoDao.selectPoById(bo.getId())==null)
-                    {
-                        account4ServerDef.createAccount(String.valueOf(bo.getId()),
-                                bo.getId(), Account4ServerTokenUtil.genToken4CreateAccount(
-                                        String.valueOf(bo.getId()),bo.getId()));
-                    }
-                } catch (Exception e) {
-                    e.getStackTrace();
-                    //throw new MngException(MngExceptionCode.DUBBO_SERVER_ERROR);
-                }
-
-
                 assetPos.forEach(assetPo -> {
-                    //创建资金账户
                     try {
-                        if(iFundAccountAssetMongoDao.selectPoById(bo.getId(),assetPo.getRealName())==null)
-                        {
-                            fundAccount4ServerDef.createFundAccount(String.valueOf(bo.getId()),bo.getId(),assetPo.getRealName()
-                                    ,FundAccount4ServerTokenUtil.genToken4CreateFundAccount(String.valueOf(bo.getId()),bo.getId(),assetPo.getRealName()));
-                        }
-                    } catch (FundAccountException e) {
-                        e.printStackTrace();
-                    }
-                    //创建合约账户
-                    try {
-                        if(iPcAccountAssetMongoDao.selectPoById(bo.getId(),assetPo.getRealName())==null)
-                        {
-                            pcAccount4ServerDef.createPcAccount(String.valueOf(bo.getId()),bo.getId()
-                                    ,assetPo.getRealName(), PcAccount4ServerTokenUtil.genToken4CreatePcAccount(
-                                            String.valueOf(bo.getId()),bo.getId()
-                                            ,assetPo.getRealName()
-                                    ));
-                        }
-                    } catch (PcAccountException e) {
-                        e.printStackTrace();
+                        accountBiz.createFundAccount(bo.getId(),assetPo.getRealName());//创建资金账户
+                        accountBiz.createPcAccount(bo.getId(),assetPo.getRealName());//创建合约账户
+                    } catch (Exception e) {
+                        logger.info("ApiUserControllerServiceImpl createAccount Exception:"+e.getMessage());
                     }
                 });
-
-
-                //fundAccount4ServerDef.createFundAccount(id, "BTC", FundAccount4ServerTokenUtil.genToken4CreateFundAccount(id, "BTC"));
             }
         }
         return null;
@@ -417,7 +368,7 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
     @Override
     public GenFeeOutputDto genFee(GenFeeInputDto inputDto) throws BizException {
         List<ExpUserBizBo> bizBos = iUserBiz.queryList();
-        ExpDicBizBo dicBizBo = dicService.queryDicByKey(DbKeyDic.InviteRegisterFee);
+        ExpDicBizBo dicBizBo = dicService.queryDicByKey(DbKeyDic.PcFeeRedisKey);
         String redisKey = dicBizBo.getValue();
         List<PcFeeBizBo> pcFeeBizBoList = iPcFeeBiz.getAllPcFee();
         Map<Integer, PcFeeBizBo> feeMap = pcFeeBizBoList.stream().collect(Collectors.toMap(PcFeeBizBo::getTier, a -> a, (k1, k2) -> k1));
@@ -509,6 +460,12 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         return null;
     }
 
+    /**
+     * 给资金账户加钱和扣钱
+     * @param inputDto
+     * @return
+     * @throws BizException
+     */
     @Override
     public EditFundAccountOutputDto editFundAccountOneAsset(EditFundAccountInputDto inputDto) throws BizException {
         String fundStr = "";
@@ -517,36 +474,53 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         } catch (UnsupportedEncodingException e) {
             throw new ValidateException(ValidateExceptionCode.VALIDATE_PARAM_VALUE_ERROR);
         }
-        String[] fundArr = fundStr.split("[|]");
-        if (fundArr.length > 0) {
-//            try {
-                String symbol = fundArr[0];
-
-                //if (fundAccountService.getFundAccount(inputDto.getId(), symbol, true) == null) {
-//                    fundAccount4ServerDef.createFundAccount(String.valueOf(inputDto.getId()),inputDto.getId(), symbol,
-//                            FundAccount4ServerTokenUtil.genToken4CreateFundAccount(String.valueOf(inputDto.getId()),inputDto.getId(), symbol));
-                //}
-
-                BigDecimal delta = new BigDecimal(fundArr[1]);
-                FundAccountMngBizBo beforeBo = iUserBiz.queryFundAccountById(inputDto.getId());
-                //加钱
-                boolean bol = fundAccount4MngDef.addAvailableByManager(String.valueOf(inputDto.getId()),inputDto.getId(), symbol, delta,
-                        FundAccount4MngTokenUtil.genToken4AddAvailableByManager(String.valueOf(inputDto.getId()),inputDto.getId(), symbol, delta
-                        ));
+        ExpUserBizBo user = sessionHelper.getUserInfoBySession();
+        FundAccountMngBizBo beforeBo = iUserBiz.queryFundAccountById(inputDto.getId());
+        String[] assetArr = fundStr.split("[|]");
+        if (assetArr.length > 0) {
+           try {
+                String asset = assetArr[0];
+                //创建资产账户
+               accountBiz.createFundAccount(inputDto.getId(),asset);
+                BigDecimal delta = new BigDecimal(assetArr[1]);
+               //生成随机数---主键
+               String tradeNo = String.valueOf(zwIdGeneratorApi.getNextId());
+               if(inputDto.getType()!=null && inputDto.getType()==1){
+                //if(delta.compareTo(new BigDecimal("0")) == 1) {
+                    //加钱
+                    FundAddRequest fundRequest = new FundAddRequest();
+                    fundRequest.setUserId(inputDto.getId());// 用户ID
+                    fundRequest.setAsset(asset); //资产
+                    fundRequest.setAmount(delta); //本笔金额
+                    fundRequest.setTradeType(3);//订单类型：1-充值，2-消费，3-后台充值，4-后台扣款 5-撤单  6-下注 7-下级返点 8-彩票中奖
+                    fundRequest.setRemark("资产账户加钱");//备注
+                    fundRequest.setTradeNo(tradeNo); //调用方支付单号
+                    accountBiz.addFundAccount(fundRequest,inputDto.getId(),asset);
+               // }else if(delta.compareTo(new BigDecimal("0"))== -1){
+                }else if(inputDto.getType()!=null && inputDto.getType()==0){
+                    //扣钱
+                    FundCutRequest fundRequest = new FundCutRequest();
+                    fundRequest.setUserId(inputDto.getId()); // 用户ID
+                    fundRequest.setAsset(asset); //资产
+                    fundRequest.setAmount(delta); //本笔金额
+                    fundRequest.setTradeType(4);//订单类型：1-充值，2-消费，3-后台充值，4-后台扣款 5-撤单  6-下注 7-下级返点 8-彩票中奖
+                    fundRequest.setRemark("资产账户扣钱"); //备注
+                    fundRequest.setTradeNo(tradeNo);//调用方支付单号
+                    accountBiz.cutFundAccount(fundRequest, inputDto.getId(),asset);
+                }
                 FundAccountMngBizBo afterBo = iUserBiz.queryFundAccountById(inputDto.getId());
-                ExpUserBizBo user = sessionHelper.getUserInfoBySession();
                 //记日志
                 logService.createOperationLog(user.getId(), user.getUserName(), OperationModule.User.toString(),
                         OperationType.Insert.toString(), JsonUtil.toJsonString(beforeBo),
                         JsonUtil.toJsonString(afterBo));
-//            } catch (Exception e) {
-//                //e.getStackTrace();
-//                throw new MngException(MngExceptionCode.DUBBO_SERVER_ERROR);
-//            }
+            } catch (Exception e) {
+               throw new MngException(MngExceptionCode.DUBBO_SERVER_ERROR);
+           }
         }
         EditFundAccountOutputDto outputDto = new EditFundAccountOutputDto();
         return outputDto;
     }
+
 
     @Override
     public UserListOutputDto queryListByUserType(UserListInputDto inputDto) throws BizException {
@@ -584,15 +558,6 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
             user.setLoginTime(String.valueOf(bo.getLoginTime()));
             user.setLoginIp(bo.getLoginIp());
             pageList.add(user);
-//            if(bo.getRoleList()!=null)
-//            {
-//                 List<String> roleList=new ArrayList<>();
-//                 for(Integer roleId: bo.getRoleList())
-//                 {
-//                     roleList.add(String.valueOf(roleId));
-//                 }
-//                 user.setRoleList(roleList);
-//            }
         }
         UserListOutputDto outputDto = new UserListOutputDto();
         outputDto.setRows(pageList);

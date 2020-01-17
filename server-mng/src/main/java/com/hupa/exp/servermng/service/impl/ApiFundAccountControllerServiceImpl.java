@@ -1,12 +1,8 @@
 package com.hupa.exp.servermng.service.impl;
 
-import com.hupa.exp.bizother.entity.account.MongoBo.FundAccountLogMongoBizBo;
-import com.hupa.exp.bizother.entity.account.MongoBo.FundAccountLogMongoPageBizBo;
-import com.hupa.exp.bizother.service.account.def.IFundAccountMongoBiz;
-import com.hupa.exp.daomongo.dao.expv2.def.IFundAccountAssetMongoDao;
-import com.hupa.exp.daomongo.dao.expv2.def.IFundAssetChangeSymbolMongoDao;
+/*import com.hupa.exp.daomongo.dao.expv2.def.IFundAccountAssetMongoDao;
 import com.hupa.exp.daomongo.entity.po.expv2mongo.FundAccountLogSymbolMongoPo;
-import com.hupa.exp.daomongo.entity.po.expv2mongo.MongoPage;
+import com.hupa.exp.daomongo.entity.po.expv2mongo.MongoPage;*/
 import com.hupa.exp.daomysql.dao.expv2.def.IAssetDao;
 import com.hupa.exp.daomysql.entity.po.expv2.AssetPo;
 import com.hupa.exp.servermng.entity.fundaccount.FundAccountLogListInputDto;
@@ -25,14 +21,22 @@ import java.util.stream.Collectors;
 
 @Service
 public class ApiFundAccountControllerServiceImpl implements IApiFundAccountControllerService {
-    @Autowired
-    private IFundAccountAssetMongoDao iFundAccountAssetMongoDao;
+
+    /*@Autowired
+    private IFundAccountAssetMongoDao iFundAccountAssetMongoDao;*/
+
     @Autowired
     private IAssetDao iAssetDao;
+
+    /**
+     * 查询资金账户日志
+     * @param inputDto
+     * @return
+     */
     @Override
     public FundAccountLogListOutputDto getFundAccountLogList(FundAccountLogListInputDto inputDto) {
 
-        List<AssetPo> assetPos = iAssetDao.selectActiveList();
+       /* List<AssetPo> assetPos = iAssetDao.selectActiveList();
         List<FundAccountLogSymbolMongoPo> withdrawSymbolMongoPoList = new ArrayList<>();
         int counts = 0;
         List<FundAccountLogSymbolMongoPo> newList = new ArrayList<>();
@@ -77,7 +81,8 @@ public class ApiFundAccountControllerServiceImpl implements IApiFundAccountContr
         FundAccountLogListOutputDto outputDto=new FundAccountLogListOutputDto();
         outputDto.setSizePerPage(Integer.valueOf(String.valueOf(inputDto.getPageSize())));
         outputDto.setTotal(Long.parseLong(String.valueOf(counts)));
-        outputDto.setRows(rows);
+        outputDto.setRows(rows);*/
+        FundAccountLogListOutputDto outputDto=new FundAccountLogListOutputDto();
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
     }

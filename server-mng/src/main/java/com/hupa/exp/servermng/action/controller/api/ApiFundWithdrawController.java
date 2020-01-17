@@ -1,15 +1,9 @@
 package com.hupa.exp.servermng.action.controller.api;
 
-import com.alibaba.fastjson.JSON;
-import com.hupa.exp.base.enums.OperationModule;
-import com.hupa.exp.base.enums.OperationType;
-import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.common.entity.dto.BaseResultViaApiDto;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
-import com.hupa.exp.daomongo.enums.MongoSortEnum;
 import com.hupa.exp.servermng.entity.fundwithdraw.*;
-import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiFundWithdrawControllerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,13 +18,69 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path="/v1/http/fundwithdraw",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ApiFundWithdrawController {
+
+    private Logger logger = LoggerFactory.getLogger(ApiFundWithdrawController.class);
+
     @Autowired
     private IApiFundWithdrawControllerService service;
 
 
+    /**
+     * 查询用户提币历史记录
+     * @param asset
+     * @param accountId
+     * @param pageSize
+     * @param currentPage
+     * @return
+     */
+    @ApiOperation(value = "获取fundwithdraw")
+    @GetMapping("/query_account_fund_withdraw_list")
+    public BaseResultViaApiDto<FundWithdrawAccountListInputDto,FundWithdrawAccountListOutputDto> getAccountAllFundWith(
+            @ApiParam(name="asset",value = "币种",required = true)
+            @RequestParam(name = "asset") String asset,
+            @ApiParam(name="account_id",value = "用户id",required = true)
+            @RequestParam(name = "account_id") Long accountId,
+          /*  @ApiParam(name="withdraw_time",value = "withdraw_time",required = true)
+            @RequestParam(name = "withdraw_time") Long withdrawTime,
+            @ApiParam(name="withdraw_id",value = "withdraw_id",required = true)
+            @RequestParam(name = "withdraw_id") Long withdrawId,
+            @ApiParam(name="page_status",value = "条数",required = true)
+            @RequestParam(name = "page_status") Integer pageStatus,*/
+            @ApiParam(name="approval_status",value = "审批状态",required = true)
+            @RequestParam(name = "approval_status") Integer approvalStatus,
+            @ApiParam(name="page_size",value = "条数",required = true)
+            @RequestParam(name = "page_size") Integer pageSize,
+            @ApiParam(name="current_page",value = "页码",required = true)
+            @RequestParam(name = "current_page") Integer currentPage
+    ){
+        FundWithdrawAccountListOutputDto outputDto=new FundWithdrawAccountListOutputDto();
+        FundWithdrawAccountListInputDto inputDto=new FundWithdrawAccountListInputDto();
+        //inputDto.setWithdrawTime(withdrawTime);
+        //inputDto.setWithdrawId(withdrawId);
+        //inputDto.setPageStatus(pageStatus);
+        inputDto.setAccountId(accountId);
+        inputDto.setAsset(asset);
+        inputDto.setApprovalStatus(approvalStatus);
+        inputDto.setCurrentPage(currentPage);
+        inputDto.setPageSize(pageSize);
+        try{
+            outputDto = service.getAccountAllFundWith(inputDto);
+        }catch(BizException e){
+            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
+        }
+        return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
+    }
 
-    private Logger logger = LoggerFactory.getLogger(ApiFundWithdrawController.class);
 
+   /* *//**
+     * 查询提币审核列表
+     * @param account
+     * @param id
+     * @param asset
+     * @param pageSize
+     * @param currentPage
+     * @return
+     *//*
     @ApiOperation(value = "获取fundwithdraw")
     @GetMapping("/query_fund_withdraw_list")
     public BaseResultViaApiDto<FundWithdrawListInputDto,FundWithdrawListOutputDto> getFundWithdrawList(
@@ -43,8 +93,8 @@ public class ApiFundWithdrawController {
             @ApiParam(name="page_size",value = "条数",required = true)
             @RequestParam(name = "page_size") Integer pageSize,
             @ApiParam(name="current_page",value = "页码",required = true)
-            @RequestParam(name = "current_page") Integer currentPage
-    ){
+            @RequestParam(name = "current_page") Integer currentPage){
+
         FundWithdrawListOutputDto outputDto=new FundWithdrawListOutputDto();
         FundWithdrawListInputDto inputDto=new FundWithdrawListInputDto();
         inputDto.setId(id);
@@ -55,49 +105,20 @@ public class ApiFundWithdrawController {
         try{
             outputDto = service.getFundWithdrawList(inputDto);
         }catch(BizException e){
-
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
         }
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
+*/
 
-    @ApiOperation(value = "获取fundwithdraw")
-    @GetMapping("/query_account_fund_withdraw_list")
-    public BaseResultViaApiDto<FundWithdrawAccountListInputDto,FundWithdrawAccountListOutputDto> getAccountAllFundWith(
-            @ApiParam(name="asset",value = "用户id",required = true)
-            @RequestParam(name = "asset") String asset,
-            @ApiParam(name="account_id",value = "用户id",required = true)
-            @RequestParam(name = "account_id") Long accountId,
-            @ApiParam(name="withdraw_time",value = "withdraw_time",required = true)
-            @RequestParam(name = "withdraw_time") Long withdrawTime,
-            @ApiParam(name="withdraw_id",value = "withdraw_id",required = true)
-            @RequestParam(name = "withdraw_id") Long withdrawId,
-            @ApiParam(name="page_status",value = "条数",required = true)
-            @RequestParam(name = "page_status") Integer pageStatus,
-            @ApiParam(name="page_size",value = "条数",required = true)
-            @RequestParam(name = "page_size") Integer pageSize,
-            @ApiParam(name="current_page",value = "页码",required = true)
-            @RequestParam(name = "current_page") Integer currentPage
-    ){
-        FundWithdrawAccountListOutputDto outputDto=new FundWithdrawAccountListOutputDto();
-        FundWithdrawAccountListInputDto inputDto=new FundWithdrawAccountListInputDto();
-        inputDto.setAsset(asset);
-        inputDto.setWithdrawTime(withdrawTime);
-        inputDto.setWithdrawId(withdrawId);
-        inputDto.setAccountId(accountId);
-        inputDto.setPageStatus(pageStatus);
-        inputDto.setCurrentPage(currentPage);
-        inputDto.setPageSize(pageSize);
-
-        try{
-            outputDto = service.getAccountAllFundWith(inputDto);
-        }catch(BizException e){
-
-            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
-        }
-        return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
-    }
-
+    /**
+     * 审核不通过
+     * @param accountId
+     * @param symbol
+     * @param withdrawId
+     * @param reason
+     * @return
+     */
     @ApiOperation(value = "获取fundwithdraw")
     @PostMapping("/audit_fail")
     public BaseResultViaApiDto<AuditFailFundWithdrawInputDto,AuditFundWithdrawOutputDto> auditFailFundWithdraw(
@@ -126,6 +147,14 @@ public class ApiFundWithdrawController {
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
 
+
+    /**
+     *  审核通过
+     * @param accountId
+     * @param symbol
+     * @param withdrawId
+     * @return
+     */
     @ApiOperation(value = "获取fundwithdraw")
     @PostMapping("/audit_pass")
     public BaseResultViaApiDto<AuditPassFundWithdrawInputDto,AuditFundWithdrawOutputDto> auditPassFundWithdraw(

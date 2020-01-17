@@ -1,7 +1,6 @@
 package com.hupa.exp.servermng.entity.pcorder;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
-import com.hupa.exp.daomongo.enums.MongoSortEnum;
 
 import java.math.BigDecimal;
 
@@ -15,7 +14,7 @@ public class PcOrderPageInputDto extends BaseInputDto {
     private Integer status;
     private long currentPage;
     private int pageSize;
-    private MongoSortEnum sortEnum;
+    //private MongoSortEnum sortEnum;
     private BigDecimal price;
 
     public String getAsset() {
@@ -98,13 +97,5 @@ public class PcOrderPageInputDto extends BaseInputDto {
 
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
-    }
-
-    public MongoSortEnum getSortEnum() {
-        return sortEnum;
-    }
-
-    public void setSortEnum(MongoSortEnum sortEnum) {
-        this.sortEnum = sortEnum;
     }
 }

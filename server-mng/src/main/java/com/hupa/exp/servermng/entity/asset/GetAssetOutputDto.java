@@ -22,6 +22,7 @@ public class GetAssetOutputDto extends BaseOutputDto {
     private String minDepositVolume;
     private String minWithdrawVolume;
     private String  withdrawFee;
+    private String c2cFee;
     private String chainTransactionUrl;
     private String dwType;
     private String ctime;
@@ -169,5 +170,13 @@ public class GetAssetOutputDto extends BaseOutputDto {
 
     public void setMtime(String mtime) {
         this.mtime = mtime;
+    }
+
+    public String getC2cFee() {
+        return c2cFee;
+    }
+
+    public void setC2cFee(String c2cFee) {
+        this.c2cFee = c2cFee;
     }
 }

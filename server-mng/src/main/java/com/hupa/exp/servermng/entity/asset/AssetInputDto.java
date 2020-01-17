@@ -6,19 +6,50 @@ import java.math.BigDecimal;
 
 public class AssetInputDto extends BaseInputDto {
     private Long id;
+    /**
+     * 图标
+     */
     private String icon;
+    /**
+     * 图标图片
+     */
     private String iconImg;
-    private Integer chainAppointId;
+    /**
+     * 币的名称
+     */
     private String realName;
+    /**
+     * 币的展示名
+     */
     private String displayName;
+    /**
+     * 链上服务的Id
+     */
+    private Integer chainAppointId;
+    /**
+     * 币所属的链
+     */
     private String chainName;
     private BigDecimal precision;
+    /**
+     * 权限
+     */
     private Integer privilege;
     private Integer status;
     private Integer sort;
     private BigDecimal minDepositVolume;
     private BigDecimal minWithdrawVolume;
+
+
+    /**
+     * 手续费费率
+     */
     private BigDecimal  withdrawFee;
+    /**
+     * c2c手续费费率
+     */
+    private BigDecimal c2cFee;
+
     private String chainTransactionUrl;
     private Integer dwType;
     private Long ctime;
@@ -191,5 +222,13 @@ public class AssetInputDto extends BaseInputDto {
 
     public void setMtime(Long mtime) {
         this.mtime = mtime;
+    }
+
+    public BigDecimal getC2cFee() {
+        return c2cFee;
+    }
+
+    public void setC2cFee(BigDecimal c2cFee) {
+        this.c2cFee = c2cFee;
     }
 }

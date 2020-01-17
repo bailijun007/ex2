@@ -24,13 +24,32 @@ import java.math.BigDecimal;
 @RequestMapping(path = "/v1/http/asset",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ApiAssetController {
 
-    @Autowired
-    private IApiAssetControllerService iApiAssetControllerService;
-    @Autowired
-    private SessionHelper sessionHelper;
-
     private Logger logger = LoggerFactory.getLogger(ApiAssetController.class);
 
+    @Autowired
+    private IApiAssetControllerService iApiAssetControllerService;
+
+
+    /**
+     * 新增或修改币种
+     * @param id
+     * @param icon
+     * @param iconImg
+     * @param chainAppointId
+     * @param realName
+     * @param displayName
+     * @param chainName
+     * @param precision
+     * @param privilege
+     * @param status
+     * @param sort
+     * @param dwType
+     * @param minDepositVolume
+     * @param minWithdrawVolume
+     * @param withdrawFee
+     * @param chainTransactionUrl
+     * @return
+     */
     @ApiOperation(value = "新增或修改币种")
     @PostMapping("/create_or_edit")
     public BaseResultViaApiDto<AssetInputDto,AssetOutputDto> createOrEditAsset(
@@ -66,10 +85,11 @@ public class ApiAssetController {
             @RequestParam(name = "min_withdraw_volume") BigDecimal minWithdrawVolume,
             @ApiParam(name="withdraw_fee",value = "提币手续费",required = true)
             @RequestParam(name = "withdraw_fee") BigDecimal withdrawFee,
+            @ApiParam(name="c2c_fee",value = "c2c手续费",required = true)
+            @RequestParam(name = "c2c_fee") BigDecimal c2cFee,
              @ApiParam(name="chain_transaction_url",value = "以太坊地址",required = true)
             @RequestParam(name = "chain_transaction_url") String chainTransactionUrl
-    )
-    {
+    ) {
         AssetInputDto inputDto=new AssetInputDto();
         inputDto.setId(id);
         //inputDto.setSymbol(symbol);
@@ -88,6 +108,7 @@ public class ApiAssetController {
         inputDto.setWithdrawFee(withdrawFee);
         inputDto.setChainTransactionUrl(chainTransactionUrl);
         inputDto.setDwType(dwType);
+        inputDto.setC2cFee(c2cFee);
         AssetOutputDto outputDto=new AssetOutputDto();
         try {
             if(inputDto.getId()>0)
@@ -95,11 +116,12 @@ public class ApiAssetController {
             else
                 outputDto= iApiAssetControllerService.createAsset(inputDto);
         } catch (BizException e) {
-
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
         }
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
+
+
     @ApiOperation(value = "获取币")
     @GetMapping(path = "/query")
     public BaseResultViaApiDto<GetAssetInputDto,GetAssetOutputDto> getAsset(
@@ -137,12 +159,12 @@ public class ApiAssetController {
 
     @ApiOperation(value = "获取币列表")
     @GetMapping(path = "/query_list")
-    public BaseResultViaApiDto<AssetListInputDto,AssetListOutputDto> getAssetList(//
-    @ApiParam(name="real_name",value = "币的真实名称",required = true)
-    @RequestParam(name = "real_name") String realName,
-                                                                                 @ApiParam(name="page_size",value = "条数",required = true)
+    public BaseResultViaApiDto<AssetListInputDto,AssetListOutputDto> getAssetList(
+     @ApiParam(name="real_name",value = "币的真实名称",required = true)
+     @RequestParam(name = "real_name") String realName,
+     @ApiParam(name="page_size",value = "条数",required = true)
      @RequestParam(name = "page_size") Integer pageSize,
-                                                                                 @ApiParam(name="current_page",value = "页码",required = true)
+     @ApiParam(name="current_page",value = "页码",required = true)
      @RequestParam(name = "current_page") Integer currentPage
     )
     {

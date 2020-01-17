@@ -17,6 +17,4 @@ public interface IPcFeeBiz {
 
     List<PcFeeBizBo> getAllPcFee();
 
-    UserPcFee getUserPcFee(long id);
-
 }

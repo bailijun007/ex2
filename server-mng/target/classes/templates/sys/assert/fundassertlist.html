@@ -124,7 +124,7 @@
         //初始化Table
         oTableInit.Init = function () {
                     $('#tb_departments').bootstrapTable({
-                         url: '/v1/http/asset/query_fund_asset_list',//+param,         //请求后台的URL（*）
+                         url: '/v1/http/asset/query_fund_asset_list',//+param,         //请求后台的URL（*）获取资金账户列表
                          method: 'get',                      //请求方式（*）
                         //toolbar: '#toolbar',                //工具按钮用哪个容器
                         //striped: true,                      //是否显示行间隔色
@@ -232,6 +232,7 @@
                     });
         };
         oTableInit.queryParams = function (params) {
+
             var current_page= params.offset==0?1:(params.offset/params.limit)+1;
             if(current_page>pageNumber)
             {
@@ -243,8 +244,7 @@
             {
                 pageStatus=-1;
                 queryTime=endTime;
-                queryId=endId;
-            }
+                Mongo            }
             else
             {
                 pageStatus=0;

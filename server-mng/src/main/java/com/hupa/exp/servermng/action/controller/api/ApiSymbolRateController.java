@@ -61,6 +61,7 @@ public class ApiSymbolRateController {
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
 
+
     @ApiOperation(value = "查询")
     @GetMapping("/query")
     public BaseResultViaApiDto<SymbolRateInfoInputDto,SymbolRateInfoOutputDto> querySymbolRate(
@@ -79,6 +80,14 @@ public class ApiSymbolRateController {
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
 
+    /**
+     * 查询利率列表
+     * @param asset
+     * @param symbol
+     * @param pageSize
+     * @param currentPage
+     * @return
+     */
     @ApiOperation(value = "查询列表")
     @GetMapping("/query_list")
     public BaseResultViaApiDto<SymbolRateListInputDto,SymbolRateListOutputDto> querySymbolRateList(

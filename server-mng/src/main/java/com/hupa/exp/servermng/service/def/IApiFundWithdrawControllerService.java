@@ -4,7 +4,7 @@ import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.servermng.entity.fundwithdraw.*;
 
 public interface IApiFundWithdrawControllerService {
-    FundWithdrawListOutputDto getFundWithdrawList(FundWithdrawListInputDto inputDto)throws BizException;
+    //FundWithdrawListOutputDto   getFundWithdrawList(FundWithdrawListInputDto inputDto)throws BizException;
 
     AuditFundWithdrawOutputDto auditPassFundWithdraw(AuditPassFundWithdrawInputDto inputDto) throws BizException;
 

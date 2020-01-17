@@ -6,7 +6,6 @@ import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
 import com.hupa.exp.servermng.entity.tickerlast.PcTickerLastPageDataInputDto;
 import com.hupa.exp.servermng.entity.tickerlast.PcTickerLastPageDataOutputDto;
-import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiTickerLastControllerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,14 +23,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path = "/v1/http/ticker",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ApiPcTickerLastController {
-    @Autowired
-    private IApiTickerLastControllerService service;
-
-    @Autowired
-    private SessionHelper sessionHelper;
 
     private Logger logger = LoggerFactory.getLogger(ApiPcTickerLastController.class);
 
+    @Autowired
+    private IApiTickerLastControllerService service;
+
+    /**
+     * 查询行情列表
+     * @param pair
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
     @ApiOperation(value = "查询列表")
     @GetMapping("/query_list")
     public BaseResultDto<PcTickerLastPageDataInputDto,PcTickerLastPageDataOutputDto> getPcFeeById(
@@ -40,10 +44,8 @@ public class ApiPcTickerLastController {
             @ApiParam(name="current_page",value ="页码" ,required = true)
             @RequestParam(name = "current_page") Integer currentPage,
             @ApiParam(name="page_size",value ="条数" ,required = true)
-            @RequestParam(name = "page_size") Integer pageSize
+            @RequestParam(name = "page_size") Integer pageSize) {
 
-    )
-    {
         PcTickerLastPageDataInputDto inputDto=new PcTickerLastPageDataInputDto();
         inputDto.setPair(pair);
         inputDto.setCurrentPage(currentPage);
@@ -56,4 +58,6 @@ public class ApiPcTickerLastController {
         }
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
+
+
 }

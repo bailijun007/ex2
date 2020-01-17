@@ -69,6 +69,12 @@ public class ApiSymbolRateControllerServiceImpl implements IApiSymbolRateControl
         return outputDto;
     }
 
+    /**
+     * 查询利率列表
+     * @param inputDto
+     * @return
+     * @throws BizException
+     */
     @Override
     public SymbolRateListOutputDto getSymbolRateList(SymbolRateListInputDto inputDto) throws BizException {
         SymbolRateListOutputDto outputDto=new SymbolRateListOutputDto();

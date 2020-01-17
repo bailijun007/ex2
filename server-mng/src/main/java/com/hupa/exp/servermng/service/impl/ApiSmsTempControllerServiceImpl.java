@@ -17,6 +17,8 @@ import com.hupa.exp.servermng.entity.sms.*;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiSmsTempControllerService;
 import com.hupa.exp.util.convent.ConventObjectUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +30,11 @@ import java.util.Map;
 @Service
 public class ApiSmsTempControllerServiceImpl implements IApiSmsTempControllerService {
 
+    private Logger logger = LoggerFactory.getLogger(ApiSmsTempControllerServiceImpl.class);
+
     @Autowired
-    ISmsTempBiz iSmsTempBiz;
+    private ISmsTempBiz iSmsTempBiz;
+
     @Autowired
     private IValidateService validateService;
 
@@ -42,6 +47,12 @@ public class ApiSmsTempControllerServiceImpl implements IApiSmsTempControllerSer
     @Autowired
     private IExpSmsTempDao iExpSmsTempDao;
 
+    /**
+     * 创建通知模板
+     * @param inputDto
+     * @return
+     * @throws BizException
+     */
     @Override
     public SmsTempOutputDto createSmsTemp(SmsTempInputDto inputDto) throws BizException {
         SmsTempOutputDto outputDto=new SmsTempOutputDto();
@@ -49,12 +60,11 @@ public class ApiSmsTempControllerServiceImpl implements IApiSmsTempControllerSer
         try {
             contentStr = URLDecoder.decode(inputDto.getContent(), "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            logger.info("ApiSmsTempControllerServiceImpl createSmsTemp Exception:"+e.getMessage());
         }
         String[] contents= contentStr.split("[|]");
         Map<String,String> map=new HashMap<>();
-        for(String str:contents)
-        {
+        for(String str:contents) {
             String[] keyValue=str.split("[┊]");
             map.put(keyValue[0],keyValue.length>1?keyValue[1]:"");
         }
@@ -62,10 +72,18 @@ public class ApiSmsTempControllerServiceImpl implements IApiSmsTempControllerSer
 
         validateService.validate(inputDto,true,true,false);
         ExpSmsTempBizBo bo= ConventObjectUtil.conventObject(inputDto,ExpSmsTempBizBo.class);
+        bo.setCtime(System.currentTimeMillis());
+        bo.setMtime(System.currentTimeMillis());
         iSmsTempBiz.createUser(bo);
         return outputDto;
     }
 
+    /**
+     * 修改通知模板
+     * @param inputDto
+     * @return
+     * @throws BizException
+     */
     @Override
     public SmsTempOutputDto editSmsTemp(SmsTempInputDto inputDto) throws BizException {
         SmsTempOutputDto outputDto=new SmsTempOutputDto();
@@ -114,6 +132,12 @@ public class ApiSmsTempControllerServiceImpl implements IApiSmsTempControllerSer
         return outputDto;
     }
 
+    /**
+     * 删除通知模板
+     * @param inputDto
+     * @return
+     * @throws BizException
+     */
     @Override
     public DeleteOutputDto deleteSmsTemp(DeleteInputDto inputDto) throws BizException {
         String[] ids=inputDto.getIds().split(",");

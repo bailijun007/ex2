@@ -20,8 +20,8 @@ import com.hupa.exp.daomysql.entity.po.expv2.AssetPo;
 import com.hupa.exp.daomysql.entity.po.expv2.ExpUserPo;
 import com.hupa.exp.help.IdCardGenerator;
 import com.hupa.exp.help.RandomValueUtil;
-import com.hupa.exp.pc.margin.def.account.PcAccount4ServerDef;
-import com.hupa.exp.pc.margin.util.token.PcAccount4ServerTokenUtil;
+/*import com.hupa.exp.pc.margin.def.account.PcAccount4ServerDef;
+import com.hupa.exp.pc.margin.util.token.PcAccount4ServerTokenUtil;*/
 import com.hupa.exp.util.math.DecimalUtil;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +43,11 @@ public class GenAccount {
     private FundAccount4MngDef fundAccount4MngDef;
     @Reference
     private FundAccount4ServerDef fundAccount4ServerDef;
-    @Reference
-    private PcAccount4ServerDef pcAccount4ServerDef;
+ /*   @Reference
+    private PcAccount4ServerDef pcAccount4ServerDef;*/
+
+   @Autowired
+   private PcAccountCoreApi pcAccountCoreApi;
 
     @Autowired
     @Qualifier(Db0RedisBean.beanName)
@@ -113,8 +116,9 @@ public class GenAccount {
                             FundAccount4MngTokenUtil.genToken4AddAvailableByManager(String.valueOf(id),id, po.getRealName(), new BigDecimal(10000000)
                             ));
                     //创建合约账号
-                    pcAccount4ServerDef.createPcAccount(String.valueOf(id),id,po.getRealName(),
-                            PcAccount4ServerTokenUtil.genToken4CreatePcAccount(String.valueOf(id),id,po.getRealName()));
+                /*    pcAccount4ServerDef.createPcAccount(String.valueOf(id),id,po.getRealName(),
+                            PcAccount4ServerTokenUtil.genToken4CreatePcAccount(String.valueOf(id),id,po.getRealName()));*/
+                    pcAccountCoreApi.createAccount(bo.getId(),assetPo.getRealName());
                     //资金划转
                     fundAccount4ServerDef.transfer2PcAccount(String.valueOf(id),
                             id,

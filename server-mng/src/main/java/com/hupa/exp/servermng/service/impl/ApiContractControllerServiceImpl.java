@@ -2,7 +2,6 @@ package com.hupa.exp.servermng.service.impl;
 
 import com.hupa.exp.base.config.redis.Db0RedisBean;
 import com.hupa.exp.base.config.redis.LastPriceRedisConfig;
-import com.hupa.exp.base.dic.expv2.DbKeyDic;
 import com.hupa.exp.base.enums.OperationModule;
 import com.hupa.exp.base.enums.OperationType;
 import com.hupa.exp.bizother.config.BizPriceSettingConfig;
@@ -15,10 +14,8 @@ import com.hupa.exp.bizother.service.price.def.ILastPriceBiz;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.DecimalUtil;
 import com.hupa.exp.common.tool.format.JsonUtil;
-import com.hupa.exp.daomongo.dao.expv2.def.IMongoTableDao;
 import com.hupa.exp.daomysql.dao.expv2.def.IExpDicDao;
 import com.hupa.exp.daomysql.dao.expv2.def.IPcContractDao;
-import com.hupa.exp.daomysql.entity.po.expv2.AssetPo;
 import com.hupa.exp.daomysql.entity.po.expv2.ExpDicPo;
 import com.hupa.exp.daomysql.entity.po.expv2.PcContractPo;
 import com.hupa.exp.servermng.entity.base.DeleteInputDto;
@@ -31,15 +28,14 @@ import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiContractControllerService;
 import com.hupa.exp.servermng.validate.ContractValidateImpl;
 import com.hupa.exp.util.convent.ConventObjectUtil;
-import com.hupa.exp.util.redis.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
-import java.text.MessageFormat;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class ApiContractControllerServiceImpl implements IApiContractControllerService {
@@ -68,9 +64,15 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
     @Autowired
     private IExpDicDao iExpDicDao;
 
-    @Autowired
-    private IMongoTableDao iMongoTableDao;
+    //@Autowired
+    //private IMongoTableDao iMongoTableDao;
 
+    /**
+     * 新增或修改交易对
+     * @param inputDto
+     * @return
+     * @throws BizException
+     */
     @Override
     public ContractOutputDto createOrEditContract(ContractInputDto inputDto) throws BizException {
         contractValidate.validate(inputDto);
@@ -128,19 +130,19 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
             bo.setMtime(System.currentTimeMillis());
             id= iPcContractBiz.createPcContract(bo);
             logService.createOperationLog(user.getId(),user.getUserName(),
-                    OperationModule.Asset.toString(),
+                    OperationModule.Contract.toString(),
                     OperationType.Update.toString(),
                     JsonUtil.toJsonString(bo),"");
         }
+       /*
+         yan 注释
         ExpDicPo dicPo= iExpDicDao.selectDicByKey(DbKeyDic.MongoDbAssetSymbolTableKey);
-        if(dicPo!=null)
-        {
+        if(dicPo!=null) {
             List<ExpDicPo> dicPoList=iExpDicDao.selectDicListByParentId(Integer.parseInt(String.valueOf(dicPo.getId())));
-
             List<String> tableNames= dicPoList.stream().map(p -> p.getKey().replace("{asset}",bo.getAsset()).replace("{symbol}",bo.getSymbol())).collect(Collectors.toList());
             //创建mongodb的表
             iMongoTableDao.createMongoTable(tableNames);
-        }
+        }*/
 //        //查一下有没有最新成交价
 //        if(iLastPriceBiz.get(inputDto.getSymbol())==null)
 //        {

@@ -18,6 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * 通知模板
+ */
 @Api(tags = {"apiSmsTempController"})
 @RestController
 @RequestMapping(path = "/v1/http/smstemp",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -30,6 +33,7 @@ public class ApiSmsTempController {
 
     @Autowired
     private SessionHelper sessionHelper;
+
     /**
      * 插入菜单数据
      */

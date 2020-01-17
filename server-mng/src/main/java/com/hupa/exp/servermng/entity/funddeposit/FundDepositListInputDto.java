@@ -1,7 +1,6 @@
 package com.hupa.exp.servermng.entity.funddeposit;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
-import com.hupa.exp.daomongo.enums.MongoSortEnum;
 
 public class FundDepositListInputDto extends BaseInputDto {
     private String asset;

@@ -3,25 +3,89 @@ package com.hupa.exp.bizother.entity.account;
 import java.math.BigDecimal;
 
 public class AssetBizBo {
+
     private Long id;
-    private Integer chainAppointId;
+
     private String symbol;
+
     private Integer chainSymbolId;
+
+    /**
+     * 币的符号
+     */
     private String icon;
+
     private String iconImg;
+    /**
+     * 币的名称
+     */
     private String realName;
+
+    /**
+     * 币的展示名
+     */
     private String displayName;
+    /**
+     * 币所属的链
+     */
     private String chainName;
+    /**
+     * 链上服务的约定的id
+     */
+    private Integer chainAppointId;
+    /**
+     * 精度
+     */
     private BigDecimal precision;
+    /**
+     * 币的权限
+     */
     private Integer privilege;
+    /**
+     * 是否启用
+     */
     private Integer status;
+    /**
+     * 排序
+     */
     private Integer sort;
+
+    /**
+     * 充币最小值
+     */
     private BigDecimal minDepositVolume;
+
+    /**
+     * 提币最小值
+     */
     private BigDecimal minWithdrawVolume;
+
+    /**
+     * 提币手续费
+     */
     private BigDecimal  withdrawFee;
+
+    /**
+     * C2C手续费
+     */
+    private BigDecimal  c2cFee;
+
+    /**
+     * 查询地址
+     */
     private String chainTransactionUrl;
+
+    /**
+     * 冲提类型
+     */
     private Integer dwType;
+    /**
+     * 创建时间
+     */
     private Long ctime;
+    /**
+     * 修改时间
+     */
     private Long mtime;
 
 
@@ -185,5 +249,13 @@ public class AssetBizBo {
 
     public void setMtime(Long mtime) {
         this.mtime = mtime;
+    }
+
+    public BigDecimal getC2cFee() {
+        return c2cFee;
+    }
+
+    public void setC2cFee(BigDecimal c2cFee) {
+        this.c2cFee = c2cFee;
     }
 }

@@ -14,21 +14,19 @@ public class BizAccountComponent {
 
 
 
-    @Autowired
+/*    @Autowired
     @Qualifier(PcLastPriceBizImpl.serviceName)
     private ILastPriceBiz iLastPriceBiz;
 
 
-    /**
+    *//**
      * 换算成当前货币的资产
      * @param assetByValuation 计价资产
      * @param assetByCurrent 当前资产
      * @param assetVolume 量
      * @return
-     */
+     *//*
     public BigDecimal calcAssetValuationBtc(String assetByValuation, String assetByCurrent, BigDecimal assetVolume){
-
-
         String symbolByValuation= assetByValuation+"_USD";
         String symbolByCurrent = assetByCurrent+"_USD";
 
@@ -41,22 +39,13 @@ public class BizAccountComponent {
             return BigDecimal.ZERO;
         if(lastPriceBoByOther==null)
             return BigDecimal.ZERO;
-
-
         BigDecimal temp;
-
         if(assetByValuation.equalsIgnoreCase(assetByCurrent)){
-
             temp = lastPriceByValuation.divide(lastPriceByValuation, 16, BigDecimal.ROUND_DOWN);
-
         }else {
-
             temp = lastPriceBoByOther.divide(lastPriceByValuation, 16, BigDecimal.ROUND_DOWN);
         }
-
-
         temp = temp.multiply(assetVolume);
-
         return temp;
-    }
+    }*/
 }

@@ -5,9 +5,9 @@ import com.hupa.exp.common.entity.dto.output.BaseOutputDto;
 import com.hupa.exp.common.entity.dto.output.BasePageOutputDto;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-public class TransferListOutputDto extends BasePageOutputDto {
+public class TransferListOutputDto extends BasePageOutputDto<TransferInfoOutputDto> {
 
-    private class TransferInfoOutputDto extends BaseAccountTransferBo {
+  /*  private class TransferInfoOutputDto extends BaseAccountTransferBo {
         @Field("_id")
         private Long id;
 
@@ -18,5 +18,5 @@ public class TransferListOutputDto extends BasePageOutputDto {
         public void setId(Long id) {
             this.id = id;
         }
-    }
+    }*/
 }

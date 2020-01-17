@@ -1,22 +1,24 @@
 package com.hupa.exp;
 
 
+import com.gitee.hupadev.base.spring.autoconfigure.mvc.MvcConfig;
 import com.hupa.exp.servermng.filter.CorsFilter;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.ConfigurableEnvironment;
 
-
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@EnableFeignClients({"com.hp.sh.expv3"})
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class,MvcConfig.class,MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
 @SpringBootConfiguration
 @EnableDubbo(scanBasePackages = {"com.hupa.exp.account.def"})
 public class ServerMngMainEntrance {

@@ -14,6 +14,7 @@ public enum MngExceptionCode implements ExceptionDescribe {
     EMAIL_EXIST_ERROR_MNG(-90008,"EMAIL_EXIST_ERROR_MNG",""),
     TABLE_NOT_EXIST_ERROR(-90010,"TABLE_NOT_EXIST_ERROR",""),
     CONSTANT_EXIST_ERROR(-90011,"CONSTANT_EXIST_ERROR",""),
+    OPERATION_DATABASE_ERROR(-90012,"CONSTANT_OPE_DATABASE_ERROR","操作数据库错误"),
     ;
     private int code;
     private String constant;

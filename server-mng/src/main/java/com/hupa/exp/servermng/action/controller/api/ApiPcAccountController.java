@@ -31,6 +31,17 @@ public class ApiPcAccountController {
 
     private Logger logger = LoggerFactory.getLogger(ApiPcAccountController.class);
 
+
+    /**
+     * 合约账户日志查询
+     * @param id
+     * @param accountId
+     * @param asset
+     * @param pageStatus
+     * @param pageSize
+     * @param currentPage
+     * @return
+     */
     @ApiOperation(value = "获取pcaccountlog")
     @GetMapping("/query_pc_account_log_list")
     public BaseResultViaApiDto<PcAccountLogListInputDto,PcAccountLogListOutputDto> getPcAccountLogList(

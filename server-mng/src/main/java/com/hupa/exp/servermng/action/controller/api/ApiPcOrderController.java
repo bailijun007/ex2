@@ -34,6 +34,20 @@ public class ApiPcOrderController {
 
     private Logger logger = LoggerFactory.getLogger(ApiPcOrderController.class);
 
+    /**
+     * 永续合约 订单查询
+     * @param account
+     * @param orderId
+     * @param accountId
+     * @param symbol
+     * @param asset
+     * @param closeFlag
+     * @param status
+     * @param price
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
     @ApiOperation(value = "查询列表")
     @GetMapping("/query_list")
     public BaseResultDto<PcOrderPageInputDto,PcOrderPageOutputDto> getPcOrderList(

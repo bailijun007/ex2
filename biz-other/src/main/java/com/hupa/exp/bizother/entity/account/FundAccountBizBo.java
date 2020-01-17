@@ -4,14 +4,26 @@ import java.math.BigDecimal;
 
 public class FundAccountBizBo {
 
-
-    public BigDecimal getLock() {
-        return lock;
-    }
-
-    public void setLock(BigDecimal lock) {
-        this.lock = lock;
-    }
+    /**
+     * 总资产
+     */
+    private BigDecimal total;
+    /**
+     * 可用资产
+     */
+    private BigDecimal available;
+    /**
+     * 货币
+     */
+    private String asset;
+    /**
+     * 冻结资产
+     */
+    private BigDecimal lock;
+    /**
+     * 账户id
+     */
+    private Long accountId;
 
     public BigDecimal getTotal() {
         return total;
@@ -29,20 +41,6 @@ public class FundAccountBizBo {
         this.available = available;
     }
 
-//    public String getSymbol() {
-//        return symbol;
-//    }
-//
-//    public void setSymbol(String symbol) {
-//        this.symbol = symbol;
-//    }
-
-    private BigDecimal total;
-
-    private BigDecimal available;
-
-    //private String symbol;
-
     public String getAsset() {
         return asset;
     }
@@ -51,8 +49,19 @@ public class FundAccountBizBo {
         this.asset = asset;
     }
 
-    private String asset;
+    public BigDecimal getLock() {
+        return lock;
+    }
 
+    public void setLock(BigDecimal lock) {
+        this.lock = lock;
+    }
 
-    private BigDecimal lock;
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
+    }
 }

@@ -22,6 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "/v1/http/pcindexprice",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ApiPcIndexPriceController {
 
+    /**
+     * 查询指数价格列表
+     */
     @Autowired
     private IApiPcIndexPriceControllerService service;
     @ApiOperation(value = "查询列表")

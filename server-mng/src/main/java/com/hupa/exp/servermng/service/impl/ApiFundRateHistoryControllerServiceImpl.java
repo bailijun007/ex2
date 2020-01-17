@@ -31,12 +31,19 @@ public class ApiFundRateHistoryControllerServiceImpl implements IApiFundRateHist
     @Autowired
     private Expv2MySqlConfig expv2MySqlConfig;
 
+    /**
+     *  查询资金费率
+     * @param inputDto
+     * @return
+     * @throws BizException
+     */
     @Override
     public FundRateHistoryListOutputDto getFundRateHistoryPageData(FundRateHistoryListInputDto inputDto) throws BizException {
         if(!iDataBaseDao.existTable(expv2MySqlConfig.getDbName(), PcFundRateHistoryPo.tableNamePattern+inputDto.getYear()))
         {
             throw new MngException(MngExceptionCode.TABLE_NOT_EXIST_ERROR);
         }
+
 
         IPage<PcFundRateHistoryPo> pageData= iPcFundRateHistoryDao.selectPcFundRateHistoryPageData(
                 PcFundRateHistoryPo.tableNamePattern+inputDto.getYear(),inputDto.getAsset(),inputDto.getSymbol(),

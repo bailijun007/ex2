@@ -51,7 +51,7 @@ public class StoringLevelBizImpl implements IPosLevelBiz {
                 posLevelBizBo.setMinAmt(pcPosLevelPo.getMinAmt()) ;
                 posLevelBizBo.setMaxAmt(pcPosLevelPo.getMaxAmt());
                 posLevelBizBo.setMaxLeverage(pcPosLevelPo.getMaxLeverage());
-                posLevelBizBo.setPosHoldMarginRatio(pcPosLevelPo.getPosHoldMarginRatio());
+                posLevelBizBo.setPosHoldMarginRatio(pcPosLevelPo.getPosHoldMarginRatio());//pos_hold_margin_ratio
                 posLevelBizBo.setMinHoldMarginRatio(po.getMinHoldMarginRatio());
                 posLevelBizBo.setCtime(pcPosLevelPo.getCtime());
                 posLevelBizBo.setMtime(pcPosLevelPo.getMtime());
@@ -83,7 +83,7 @@ public class StoringLevelBizImpl implements IPosLevelBiz {
                 posLevelBizBo.setMaxAmt(pcPosLevelPo.getMaxAmt());
                 posLevelBizBo.setMaxLeverage(pcPosLevelPo.getMaxLeverage());
                 posLevelBizBo.setPosHoldMarginRatio(pcPosLevelPo.getPosHoldMarginRatio());
-                posLevelBizBo.setMinHoldMarginRatio(po.getMinHoldMarginRatio());
+                posLevelBizBo.setMinHoldMarginRatio(pcPosLevelPo.getMinHoldMarginRatio());
                 posLevelBizBo.setCtime(pcPosLevelPo.getCtime());
                 posLevelBizBo.setMtime(pcPosLevelPo.getMtime());
                 boList.add(posLevelBizBo);

@@ -1,8 +1,6 @@
 package com.hupa.exp.servermng.entity.pcposition;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
-import com.hupa.exp.daomongo.enums.MongoSortEnum;
-import org.omg.CORBA.PRIVATE_MEMBER;
 
 public class PcPositionPageInputDto extends BaseInputDto{
    private String asset;
@@ -12,7 +10,7 @@ public class PcPositionPageInputDto extends BaseInputDto{
    private Integer liqStatus;
    private Integer currentPage;
    private Integer pageSize;
-   private MongoSortEnum sortEnum;
+   //private MongoSortEnum sortEnum;
    private String account;
 
     public String getSymbol() {
@@ -79,11 +77,4 @@ public class PcPositionPageInputDto extends BaseInputDto{
         this.pageSize = pageSize;
     }
 
-    public MongoSortEnum getSortEnum() {
-        return sortEnum;
-    }
-
-    public void setSortEnum(MongoSortEnum sortEnum) {
-        this.sortEnum = sortEnum;
-    }
 }

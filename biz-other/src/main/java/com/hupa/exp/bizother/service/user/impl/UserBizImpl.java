@@ -1,6 +1,8 @@
 package com.hupa.exp.bizother.service.user.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.hp.sh.expv3.fund.wallet.api.FundAccountCoreApi;
+import com.hp.sh.expv3.pc.api.PcAccountCoreApi;
 import com.hupa.exp.base.config.redis.Db0RedisBean;
 import com.hupa.exp.base.dic.expv2.AccountTypeDic;
 import com.hupa.exp.base.enums.ValidateExceptionCode;
@@ -58,7 +60,6 @@ public class UserBizImpl implements IUserBiz {
 
     @Autowired
     private IExpDicDao iExpDicDao;
-
 
     @Override
     public long createUser(ExpUserBizBo expUserBo) throws BizUserException, ValidateException {
@@ -154,26 +155,22 @@ public class UserBizImpl implements IUserBiz {
     public long editById(ExpUserBizBo expUserBo) throws BizUserException, ValidateException {
         if(expUserBo==null)
             throw new ValidateException(ValidateExceptionCode.VALIDATE_PARAM_EMPTY_ERROR);
-        ExpUserPo changeBo = ConventObjectUtil.conventObject(expUserBo, ExpUserPo.class);
-        ExpUserPo defaultPo = iExpUserDao.selectPoById(expUserBo.getId());
-        String pwd = defaultPo.getUserpwd();//密码是之前的密码
-        String newPwd=pwdHelper.getMd5Pwd("PwdMD5Key",changeBo.getUserpwd());
-        if (!pwd.equals(changeBo.getUserpwd()))//不修改密码的时候密码不加密
-        {
-            pwd = newPwd;
-        }
-        String fundPwd=defaultPo.getFundPwd();
-        String newFundPwd=pwdHelper.getMd5Pwd("FundPwdMD5Key",changeBo.getUserpwd());
-        if (fundPwd==null||!fundPwd.equals(changeBo.getUserpwd()))//不修改密码的时候密码不加密
-        {
-            fundPwd = newFundPwd;
-        }
-        //long userId=0;
-        defaultPo.setUserpwd(pwd);//加密后的密码
-        defaultPo.setFundPwd(fundPwd);//加密后的密码
-        defaultPo.setMtime(System.currentTimeMillis());//修改时间
 
-        //userId= iExpUserDao.updateById(expUserPo);
+        ExpUserPo changeBo = ConventObjectUtil.conventObject(expUserBo, ExpUserPo.class);
+
+        ExpUserPo defaultPo = iExpUserDao.selectPoById(expUserBo.getId());
+
+        //密码是之前的密码
+        String newPwd= pwdHelper.getMd5Pwd("PwdMD5Key",changeBo.getUserpwd());
+        if (!defaultPo.getUserpwd().equals(changeBo.getUserpwd())){ //不修改密码的时候密码不加密
+            changeBo.setUserpwd(newPwd);//加密后的密码
+        }
+
+        String newFundPwd=pwdHelper.getMd5Pwd("FundPwdMD5Key",changeBo.getFundPwd());
+        if (defaultPo.getFundPwd()==null || !defaultPo.getFundPwd().equals(changeBo.getFundPwd())) { //不修改密码的时候密码不加密
+            changeBo.setFundPwd(newFundPwd);//加密后的密码
+        }
+
         if (defaultPo.getUserType() == 0) {
             //通过用户id删除角色
             if (defaultPo.getId() > 0) {
@@ -186,7 +183,8 @@ public class UserBizImpl implements IUserBiz {
                 iExpUserRoleDao.insert(expUserRolePo);
             }
         }
-        return iExpUserDao.updateById(defaultPo);
+        changeBo.setMtime(System.currentTimeMillis());//修改时间
+        return iExpUserDao.updateById(changeBo);
     }
 
     @Override
@@ -257,27 +255,32 @@ public class UserBizImpl implements IUserBiz {
 
     @Override
     public FundAccountMngListBizBo queryFundAccountListByParam(long currentPage, long pageSize, Integer userType, String userName, Long id) throws BizException {
-        List<AssetPo> assetPos = iAssetDao.selectList();//所有交易对
-        IPage<ExpUserPo> userPos = iExpUserDao.selectUserList(currentPage, pageSize, userType, userName,id);
+
         FundAccountMngListBizBo fundAccountListBizBo = new FundAccountMngListBizBo();
-        fundAccountListBizBo.setTotal(userPos.getTotal());
+        //获取所有交易对
+        List<AssetPo> assetPos = iAssetDao.selectList();
+        //按条件获取用户
+        IPage<ExpUserPo> userPos = iExpUserDao.selectUserList(currentPage, pageSize, userType, userName,id);
+
         List<FundAccountMngBizBo> fundAccountBizBoList = new ArrayList<>();
         for (ExpUserPo userPo : userPos.getRecords()) {
+
             FundAccountMngBizBo fundAccountBizBo = new FundAccountMngBizBo();
             fundAccountBizBo.setId(userPo.getId());
-            String name = !StringUtils.isEmpty(userPo.getPhone()) ? userPo.getPhone() : userPo.getEmail();
-            fundAccountBizBo.setUserName(name);
+            fundAccountBizBo.setUserName(!StringUtils.isEmpty(userPo.getPhone()) ? userPo.getPhone() : userPo.getEmail());
             fundAccountBizBo.setRealName(userPo.getRealName());
-            List<AssetsBizBo> assetsBizBos = new ArrayList<>();
 
+            List<AssetsBizBo> assetsBizBos = new ArrayList<>();
             for (AssetPo pcPo : assetPos) {
-                //判断存不存在资金账户  不存在新建
-                if(!iAccountBiz.existAccount(userPo.getId(), pcPo.getRealName(), AccountTypeDic.ACCOUNT_TYPE_FUND))
-                    iAccountBiz.createFundAccount(userPo.getId(), pcPo.getRealName());
+                //创建资金账户
+                iAccountBiz.createFundAccount(userPo.getId(), pcPo.getRealName());
+                // 获取资金账户
                 FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(userPo.getId(), pcPo.getRealName());
+
                 AssetsBizBo assetsBizBo = new AssetsBizBo();
                 assetsBizBo.setAsset(pcPo.getRealName());
-                if (null != fundAccount) {
+
+                if (fundAccount != null) {
                     assetsBizBo.setFundAccountAvailable(fundAccount.getAvailable());
                     assetsBizBo.setFundAccountLock(fundAccount.getLock());
                     assetsBizBo.setFundAccountTotal(fundAccount.getTotal());
@@ -286,11 +289,12 @@ public class UserBizImpl implements IUserBiz {
                     assetsBizBo.setFundAccountLock(new BigDecimal("0"));
                     assetsBizBo.setFundAccountTotal(new BigDecimal("0"));
                 }
-                //判断存不存在合约账户  不存在新建
-                if(!iAccountBiz.existAccount(userPo.getId(), pcPo.getRealName(),AccountTypeDic.ACCOUNT_TYPE_PC))
-                    iAccountBiz.createPcAccount(userPo.getId(), pcPo.getRealName());
+
+                //创建合约账户
+                iAccountBiz.createPcAccount(userPo.getId(), pcPo.getRealName());
+                //获取合约账户
                 PcAccountBizBo pcBo = iAccountBiz.getPcAccount(userPo.getId(), pcPo.getRealName());
-                if (null != pcBo) {
+                if (pcBo != null ) {
                     assetsBizBo.setPcAccountAvailable(pcBo.getAvailable());
                     assetsBizBo.setPcAccountTotal(pcBo.getTotal());
                     assetsBizBo.setPcOrderMargin(pcBo.getOrderMargin());
@@ -306,6 +310,7 @@ public class UserBizImpl implements IUserBiz {
             fundAccountBizBo.setAssets(assetsBizBos);
             fundAccountBizBoList.add(fundAccountBizBo);
         }
+        fundAccountListBizBo.setTotal(userPos.getTotal());
         fundAccountListBizBo.setRows(fundAccountBizBoList);
         return fundAccountListBizBo;
     }
