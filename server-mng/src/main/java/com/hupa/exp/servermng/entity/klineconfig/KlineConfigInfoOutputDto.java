@@ -5,15 +5,16 @@ import com.hupa.exp.common.entity.dto.output.BaseOutputDto;
 
 public class KlineConfigInfoOutputDto extends BaseOutputDto {
     private String id;
-    private String symbol;
-    private String asset;
-    private String status;
-    private String klineInterval;
+    private String symbol;//货币对
+    private String asset;//币种
+    private String status;//状态
+    private String klineInterval;//K线时间段
     @JsonProperty("stat_time")
-    private String statTime;
+    private String statTime;//开始时间
     @JsonProperty("end_time")
-    private String endTime;
-    private String type;
+    private String endTime;//结束时间
+    private String type;//类型
+    private String klineType;//类别
 
     public String getEndTime() {
         return endTime;
@@ -77,5 +78,13 @@ public class KlineConfigInfoOutputDto extends BaseOutputDto {
 
     public void setKlineInterval(String klineInterval) {
         this.klineInterval = klineInterval;
+    }
+
+    public String getKlineType() {
+        return klineType;
+    }
+
+    public void setKlineType(String klineType) {
+        this.klineType = klineType;
     }
 }

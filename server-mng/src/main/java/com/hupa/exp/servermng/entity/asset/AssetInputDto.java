@@ -52,6 +52,11 @@ public class AssetInputDto extends BaseInputDto {
 
     private String chainTransactionUrl;
     private Integer dwType;
+
+    private Integer enableFlagPc;
+
+    private Integer enableFlagBb;
+
     private Long ctime;
     private Long mtime;
 
@@ -230,5 +235,21 @@ public class AssetInputDto extends BaseInputDto {
 
     public void setC2cFee(BigDecimal c2cFee) {
         this.c2cFee = c2cFee;
+    }
+
+    public Integer getEnableFlagPc() {
+        return enableFlagPc;
+    }
+
+    public void setEnableFlagPc(Integer enableFlagPc) {
+        this.enableFlagPc = enableFlagPc;
+    }
+
+    public Integer getEnableFlagBb() {
+        return enableFlagBb;
+    }
+
+    public void setEnableFlagBb(Integer enableFlagBb) {
+        this.enableFlagBb = enableFlagBb;
     }
 }

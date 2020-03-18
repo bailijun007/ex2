@@ -3,7 +3,7 @@ package com.hupa.exp.servermng.service.impl;
 import com.gitee.hupadev.base.api.PageResult;
 import com.hp.sh.expv3.fund.cash.api.ChainCasehApi;
 import com.hp.sh.expv3.fund.extension.api.WithdrawalRecordExtApi;
-import com.hp.sh.expv3.fund.extension.vo.WithdrawalRecordVo;
+import com.hp.sh.expv3.fund.extension.vo.WithdrawalRecordByAdmin;
 import com.hupa.exp.bizother.service.account.def.IWithdrawBiz;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.daomysql.dao.expv2.def.IExpUserDao;
@@ -60,16 +60,18 @@ public class ApiFundWithdrawControllerServiceImpl implements IApiFundWithdrawCon
         FundWithdrawAccountListOutputDto outputDto = new FundWithdrawAccountListOutputDto();
         try{
             // 调用第三方接口：查询提现历史记录
-            PageResult<WithdrawalRecordVo> pageResult =  withdrawalRecordExtApi.queryAllUserHistory(
+            PageResult<WithdrawalRecordByAdmin> pageResult = withdrawalRecordExtApi.queryHistoryByAdmin(
                     inputDto.getAccountId()==null || inputDto.getAccountId()==0?null:inputDto.getAccountId(),
-                    StringUtils.isNotBlank(inputDto.getAsset())?inputDto.getAsset():null,null,null,
+                    StringUtils.isNotBlank(inputDto.getAsset())?inputDto.getAsset():null,
                     inputDto.getApprovalStatus()==null? null:inputDto.getApprovalStatus(),
-                    inputDto.getCurrentPage()!=0?(int)inputDto.getCurrentPage():1,
+                    inputDto.getPayStatus()==null? null:inputDto.getPayStatus(),
+                    inputDto.getCurrentPage()!=0? inputDto.getCurrentPage():1,
                     inputDto.getPageSize());
+
             if(pageResult!=null){
                 List<FundWithdrawOutputDto> list =  new ArrayList();
                 if(CollectionUtils.isNotEmpty(pageResult.getList())){
-                    for (WithdrawalRecordVo withdrawalRecordVo : pageResult.getList()) {
+                    for (WithdrawalRecordByAdmin withdrawalRecordVo : pageResult.getList()) {
                         FundWithdrawOutputDto fundWithdrawOutputDto = new FundWithdrawOutputDto();
                         fundWithdrawOutputDto.setId(String.valueOf(withdrawalRecordVo.getId()));
                         fundWithdrawOutputDto.setAccountId(String.valueOf(withdrawalRecordVo.getUserId()));
@@ -80,6 +82,8 @@ public class ApiFundWithdrawControllerServiceImpl implements IApiFundWithdrawCon
                         fundWithdrawOutputDto.setTxHash(withdrawalRecordVo.getTxHash()==null ? null : String.valueOf(withdrawalRecordVo.getTxHash()));
                         fundWithdrawOutputDto.setCtime(withdrawalRecordVo.getCtime()==null ? null : String.valueOf(withdrawalRecordVo.getCtime()));
                         fundWithdrawOutputDto.setStatus(String.valueOf(withdrawalRecordVo.getStatus()));
+                        fundWithdrawOutputDto.setPayStatus(String.valueOf(withdrawalRecordVo.getPayStatus()));
+                        fundWithdrawOutputDto.setPayStatusDesc(withdrawalRecordVo.getPayStatusDesc());
                         list.add(fundWithdrawOutputDto);
                     }
                 }
@@ -175,7 +179,7 @@ public class ApiFundWithdrawControllerServiceImpl implements IApiFundWithdrawCon
         Boolean withdrawStatus =  false;//提现状态
         try{
             //拒绝提现
-            chainCasehApi.reject(inputDto.getAccountId(),inputDto.getWithdrawId(),inputDto.getReason());
+            chainCasehApi.reject(inputDto.getAccountId(),inputDto.getWithdrawId(),inputDto.getReason().trim());
             withdrawStatus = true;
         }catch(Exception e){
             logger.info("ApiFundWithdrawControllerServiceImpl auditFailFundWithdraw Exception:"+e.getMessage());

@@ -41,6 +41,9 @@ public class ApiImportSettingControllerServiceImpl implements IApiImportSettingC
     private IPcFeeDao pcFeeDao;
 
     @Autowired
+    private IBbFeeDao bbFeeDao;
+
+    @Autowired
     private IExpDicDao iExpDicDao;
 
     @Autowired
@@ -98,8 +101,9 @@ public class ApiImportSettingControllerServiceImpl implements IApiImportSettingC
         }
 
         //4、初始化 吃单和挂单的手续费
-        List<ExpUserPo> expUserPos =  iExpUserDao.selectListByUserType(1);//用户类型 0.admin 1.交易所注册用户 2.后台管理系统注册的业务员
+        List<ExpUserPo> expUserPos = iExpUserDao.selectListByUserType(1);//用户类型 0.admin 1.交易所注册用户 2.后台管理系统注册的业务员
         for(ExpUserPo expUserPo : expUserPos){
+            //初始化pc
             PcFeePo pcFeePo= pcFeeDao.selectPcFeeByLevel(expUserPo.getFeeLevel());
             if(pcFeePo!=null)
             {
@@ -116,6 +120,22 @@ public class ApiImportSettingControllerServiceImpl implements IApiImportSettingC
                     redisUtilDb0.hset(dicPo.getValue(),"t_"+expUserPo.getId(), DecimalUtil.trimZeroPlainString(tPcFee));
                 }
             }
+
+         /*   //初始化bb
+            BbFeePo bbFeePo= bbFeeDao.selectBbFeeByLevel(expUserPo.getBbFeeLevel());
+            if(bbFeePo!=null) {
+                BigDecimal mBbFee=bbFeePo.getMakerFee().divide(new BigDecimal("100"));
+                BigDecimal tBbFee=bbFeePo.getTakerFee().divide(new BigDecimal("100"));
+                ExpDicPo dicBbPo= iExpDicDao.selectDicByKey("BbFeeRedisKey");
+                //给redis的不用%所以除100
+                if(dicBbPo!=null) { // "bb_fee"
+                    redisUtilDb0.hdel(dicBbPo.getValue(),"m_"+expUserPo.getId());
+                    redisUtilDb0.hset(dicBbPo.getValue(),"m_"+expUserPo.getId(), DecimalUtil.trimZeroPlainString(mBbFee));
+                    redisUtilDb0.hdel(dicBbPo.getValue(),"t_"+expUserPo.getId());
+                    redisUtilDb0.hset(dicBbPo.getValue(),"t_"+expUserPo.getId(), DecimalUtil.trimZeroPlainString(tBbFee));
+                }
+            }*/
+
         }
 
         //5、初始化仓位保证金等级

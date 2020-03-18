@@ -1,5 +1,6 @@
 package com.hupa.exp.bizother.service.account.def;
 
+import com.hp.sh.expv3.bb.extension.vo.BbAccountVo;
 import com.hp.sh.expv3.fund.wallet.vo.request.FundAddRequest;
 import com.hp.sh.expv3.fund.wallet.vo.request.FundCutRequest;
 import com.hp.sh.expv3.pc.vo.request.PcAddRequest;
@@ -8,6 +9,7 @@ import com.hupa.exp.base.exception.account.FundAccountException;
 import com.hupa.exp.base.exception.pc.PcAccountException;
 import com.hupa.exp.bizother.entity.account.FundAccountBizBo;
 import com.hupa.exp.bizother.entity.account.PcAccountBizBo;
+import com.hupa.exp.common.exception.BizException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -71,6 +73,12 @@ public interface IAccountBiz {
      * @return
      */
     Integer cutPcAccount(PcCutRequest pcCutRequest,long userId, String asset);
+
+
+    public void createBBAccount(long userId, String asset) throws BizException;
+
+
+    public BbAccountVo getBBAccount(long userId, String asset);
 
 
 }

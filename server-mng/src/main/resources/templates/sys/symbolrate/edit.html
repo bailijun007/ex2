@@ -112,10 +112,12 @@
 <script type="text/javascript">
     $(function () {
         bindAsset("asset",false);
-        bindAssetSymbol("symbol", $("#asset").val(), false); $("#asset").change(function () {
+        /* bindAssetSymbol("symbol", $("#asset").val(), false); $("#asset").change(function () {
             $("#symbol").empty();
             bindAssetSymbol("symbol", $("#asset").val(), true);
-        })
+        })*/
+        bindSymbol("symbol", null);
+
         function initData() {
 
             var id = GetQueryString("id");
@@ -146,6 +148,28 @@
         $(".form-horizontal").Validform({ tiptype: 2 });
         initData();
     });
+
+
+
+function bindSymbol(id,asset) {
+    var html="";
+    $.ajax({
+        type: "get",
+        url: "/v1/http/contract/get_contract_list_by_all?asset=",
+        contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+        async: false,
+        success: function (data) {
+            var assetSymbolList= data.data.asset_symbol_list;
+            if (assetSymbolList != null) {
+                for(var i=0;i<assetSymbolList.length;i++) {
+                    html+="<option value='"+assetSymbolList[i].symbol+"'>"+assetSymbolList[i].symbol+"</option>"
+                }
+                $("#"+id+"").html(html);
+            }
+        }
+    })
+}
+
 
     // $("#symbol").blur(function(){
     //     $.ajax({

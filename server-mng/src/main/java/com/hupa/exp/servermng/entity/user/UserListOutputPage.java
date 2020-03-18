@@ -35,7 +35,7 @@ public class UserListOutputPage  {
     public String getId() {
         return id;
     }
-
+    private String bbFeeLevel;
     public void setId(String id) {
         this.id = id;
     }
@@ -262,5 +262,13 @@ public class UserListOutputPage  {
 
     public void setLoginIp(String loginIp) {
         this.loginIp = loginIp;
+    }
+
+    public String getBbFeeLevel() {
+        return bbFeeLevel;
+    }
+
+    public void setBbFeeLevel(String bbFeeLevel) {
+        this.bbFeeLevel = bbFeeLevel;
     }
 }

@@ -23,12 +23,6 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
-      <!--  <dependency>
-            <groupId>com.hupa.exp</groupId>
-            <artifactId>dao-mongo</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>-->
-
         <dependency>
             <groupId>com.hupa.exp</groupId>
             <artifactId>project-util</artifactId>
@@ -40,6 +34,7 @@
             <artifactId>base-ex-project</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
 
 <!--        <dependency>
             <groupId>com.hp.sh.expv3</groupId>
@@ -92,6 +87,18 @@
             <groupId>com.hupa.ex3</groupId>
             <artifactId>ex-common</artifactId>
             <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hp.sh.expv3</groupId>
+            <artifactId>ex-bb-extend-def</artifactId>
+            <version>3.0.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hp.sh.expv3</groupId>
+            <artifactId>ex-bb-base-def</artifactId>
+            <version>3.0.0-SNAPSHOT</version>
         </dependency>
 
 
@@ -207,6 +214,21 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+       <!-- <dependency>
+            <groupId>com.hp.sh.expv3</groupId>
+            <artifactId>ex-bb-base-def</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hp.sh.expv3</groupId>
+            <artifactId>ex-bb-base-def</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hp.sh.expv3</groupId>
+            <artifactId>ex-bb-base-def</artifactId>
+            <version>RELEASE</version>
+        </dependency>-->
 
     </dependencies>
 

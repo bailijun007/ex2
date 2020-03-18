@@ -1,6 +1,5 @@
 package com.hupa.exp.servermng.entity.contract;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 
 import java.math.BigDecimal;
@@ -74,6 +73,17 @@ public class ContractInputDto extends BaseInputDto {
      * 排序
      */
     private Integer sort;
+
+    /**
+     * 开启下单
+     */
+    private Integer enableCreate;
+
+    /**
+     * 开启撤单
+     */
+    private Integer enableCancel;
+
     /**
      * 创建时间(时间戳)
      */
@@ -283,5 +293,21 @@ public class ContractInputDto extends BaseInputDto {
 
     public void setSettlePrice(BigDecimal settlePrice) {
         this.settlePrice = settlePrice;
+    }
+
+    public Integer getEnableCreate() {
+        return enableCreate;
+    }
+
+    public void setEnableCreate(Integer enableCreate) {
+        this.enableCreate = enableCreate;
+    }
+
+    public Integer getEnableCancel() {
+        return enableCancel;
+    }
+
+    public void setEnableCancel(Integer enableCancel) {
+        this.enableCancel = enableCancel;
     }
 }

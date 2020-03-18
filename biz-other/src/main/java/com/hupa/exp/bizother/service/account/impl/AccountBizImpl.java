@@ -1,5 +1,8 @@
 package com.hupa.exp.bizother.service.account.impl;
 
+import com.hp.sh.expv3.bb.api.BBAccountCoreApi;
+import com.hp.sh.expv3.bb.extension.api.BbAccountExtendApi;
+import com.hp.sh.expv3.bb.extension.vo.BbAccountVo;
 import com.hp.sh.expv3.fund.extension.api.FundAccountExtApi;
 import com.hp.sh.expv3.fund.extension.vo.CapitalAccountVo;
 import com.hp.sh.expv3.fund.wallet.api.FundAccountCoreApi;
@@ -15,6 +18,7 @@ import com.hupa.exp.base.exception.pc.PcAccountException;
 import com.hupa.exp.bizother.entity.account.FundAccountBizBo;
 import com.hupa.exp.bizother.entity.account.PcAccountBizBo;
 import com.hupa.exp.bizother.service.account.def.IAccountBiz;
+import com.hupa.exp.common.exception.BizException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +45,53 @@ public class AccountBizImpl implements IAccountBiz {
     private FundAccountExtApi fundAccountExtApi;
 
     //合约账户接口扩展
+     @Autowired
+     private PcAccountExtendApi pcAccountExtendApi;
+
+     @Autowired
+     private BbAccountExtendApi bbAccountExtendApi;
+
     @Autowired
-    private PcAccountExtendApi pcAccountExtendApi;
+    private BBAccountCoreApi bbAccountCoreApi;
+
+
+
+
+
+     /**
+      *  创建BB账户
+      * @param userId
+     * @param asset
+     * @throws BizException
+     */
+    @Override
+    public void createBBAccount(long userId, String asset) throws BizException {
+        Boolean bn = false;
+        try{
+            //判断资金账户是否已经创建，true：已创建，否则创建
+            //bn = bbAccountExtendApi.bbAccountExist(userId, asset);
+            bn = bbAccountCoreApi.accountExist(userId, asset);
+            if(!bn){
+                //bbAccountExtendApi.createBBAccount(userId,asset);
+                bbAccountCoreApi.createAccount(userId,asset);
+            }
+            logger.info("admin AccountBizImpl createBBAccount userId:"+ userId + ",asset:"+ asset +",BBAccountExist:"+ bn);
+        }catch(Exception e){
+            logger.info("admin AccountBizImpl createBBAccount bn:"+ bn + ", userId:"+ userId + ",asset:"+ asset + ",exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     *  获取BB账户
+     * @param userId
+     * @param asset
+     * @return
+     */
+    @Override
+    public BbAccountVo getBBAccount(long userId, String asset) {
+        BbAccountVo bbAccount = bbAccountExtendApi.getBBAccount(userId, asset);
+        return bbAccount;
+    }
 
     /**
      *  创建资金账户

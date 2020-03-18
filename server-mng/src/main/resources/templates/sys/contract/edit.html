@@ -187,6 +187,31 @@
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">开启下单：</label>
+                            <div class="col-sm-5">
+                                <div class="rule-single-checkbox">
+                                    <input type="checkbox" id="enable_create"  />
+                                </div>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">开启撤单：</label>
+                            <div class="col-sm-5">
+                                <div class="rule-single-checkbox">
+                                    <input type="checkbox"  id="enable_cancel"  />
+                                </div>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+
+
+
                         <div class="form-group">
                             <label class="col-sm-3 control-label">永续合约权限：</label>
                             <div class="col-sm-6">
@@ -226,7 +251,7 @@
 <script src="../../../static/js/plugins/jquery.searchableSelect/jquery.searchableSelect.js"></script>
 
 <script type="text/javascript">
-    $(function () {
+$(function () {
 
 
 
@@ -237,8 +262,8 @@
             var action=GetQueryString("action");
             if (id != "0"&&action=="Edit")//id不为空则需要绑定值
             {
-                $("#symbol").attr("readonly","readonly");
-                $("#asset").attr('disabled',"disabled");
+                //$("#symbol").attr("readonly","readonly");
+                //$("#asset").attr('disabled',"disabled");
                 $.ajax({
                     type: "get",
                     url: "/v1/http/contract/query?id=" + id,
@@ -272,10 +297,15 @@
                             $("#settle_price").val(data.data.settle_price);
                             $("#base_currency").val(data.data.base_currency);
 
-
-
                             if (data.data.status == "1")
                                 $("#ckbIsOnTop").parent().find("a").attr("class", "selected")
+
+                            if (data.data.enableCreate == "1"){
+                                $("#enable_create").parent().find("a").attr("class", "selected");
+                            }
+                            if (data.data.enableCancel == "1"){
+                                $("#enable_cancel").parent().find("a").attr("class", "selected");
+                            }
                         }
                     }
                 })
@@ -341,11 +371,43 @@
         return bol;
     }
 
+
+function getContractGroupNum(){
+    var bolNumber =true;
+    $.ajax({
+        type:"get",
+        url:"/v1/http/contract/getContractGroupNum?contract_group="+$("#contract_group").val(),
+        contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+        async:false,
+        success:function(data) {
+            if(data.data.number>10) {
+                bolNumber=false;
+            }
+        }
+    });
+    return bolNumber;
+}
+
     $("#BtnSave").click(function(){
-        if(!checkHasContract())
+        if(!getContractGroupNum())
             return false;
         if(!checkHasLastPrice())
             return false;
+        if(!getContractGroupNum())
+            return false;
+
+        var enableCreateCheck;
+        var enableCancelCheck;
+        if($("#enable_create").parent().find("a").attr("class")=="selected"){
+            enableCreateCheck=1;
+        }else{
+            enableCreateCheck=0;
+        }
+        if($("#enable_cancel").parent().find("a").attr("class")=="selected"){
+            enableCancelCheck=1;
+        }else{
+            enableCancelCheck=0;
+        }
         var checkVal=$("#ckbIsOnTop").parent().find("a").attr("class");
         var isCheck;
         var id = GetQueryString("id");
@@ -397,6 +459,8 @@
         parmes+="&settle_currency="+$("#settle_currency").val();
         parmes+="&settle_price="+$("#settle_price").val();
         parmes+="&face_currency="+$("#face_currency").val();
+        parmes+="&enable_create="+ enableCreateCheck;
+        parmes+="&enable_cancel="+  enableCancelCheck;
         $.ajax({
             type:"post",
             url:"/v1/http/contract/create_or_edit"+parmes,

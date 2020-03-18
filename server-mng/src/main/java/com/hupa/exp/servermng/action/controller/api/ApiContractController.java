@@ -81,6 +81,10 @@ public class ApiContractController {
             @RequestParam(name = "sort") Integer sort,
             @ApiParam(name="status",value = "状态",required = true)
             @RequestParam(name = "status") Integer status,
+            @ApiParam(name="enable_create",value = "开启下单",required = true)
+            @RequestParam(name = "enable_create") Integer enableCreate,
+            @ApiParam(name="enable_cancel",value = "开启撤单",required = true)
+            @RequestParam(name = "enable_cancel") Integer enableCancel,
             @ApiParam(name="privilege",value = "永续合约权限")
             @RequestParam(name = "privilege",required = false) Integer privilege
     )
@@ -105,6 +109,8 @@ public class ApiContractController {
         inputDto.setFaceValue(faceValue);
         inputDto.setSort(sort);
         inputDto.setStatus(status);
+        inputDto.setEnableCreate(enableCreate);
+        inputDto.setEnableCancel(enableCancel);
         inputDto.setPrivilege(privilege);
         inputDto.setQuoteCurrency(quoteCurrency);
         inputDto.setBaseCurrency(baseCurrency);
@@ -274,4 +280,47 @@ public class ApiContractController {
         }
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
+
+
+    /**
+     * 根据组，查询每组，有多少合约交易对
+     * 合约交易对,每组只能设置3个
+     * @param groupContract
+     * @return
+     */
+    @ApiOperation(value = "获取组的数量")
+    @GetMapping(path = "/getContractGroupNum")
+    public BaseResultViaApiDto<GetContractInputDto,ContractOutputDto> getContractGroupNum(
+            @ApiParam(name="contract_group",value = "合约组id",required = true)
+            @RequestParam(name = "contract_group") Integer groupContract
+    ) {
+        GetContractInputDto inputDto=new GetContractInputDto();
+        inputDto.setContractGroup(groupContract);
+        ContractOutputDto outputDto=new ContractOutputDto();
+        try {
+            outputDto=iApiContractControllerService.getContractGroupNum(inputDto);
+        } catch (BizException e) {
+            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
+        }
+        return  BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
+    }
+
+    @ApiOperation(value = "获取所有的合约交易对")
+    @GetMapping(path = "/get_contract_list_by_all")
+    public BaseResultViaApiDto<GetContractListByAssetInputDto,GetContractListByAssetOutputDto> findContractListByAll(
+            @ApiParam(name="asset",value = "标的符号",required = false)
+            @RequestParam(name = "asset",required = false) String asset) {
+        GetContractListByAssetInputDto inputDto=new GetContractListByAssetInputDto();
+        inputDto.setAsset(asset);
+        GetContractListByAssetOutputDto outputDto=new GetContractListByAssetOutputDto();
+        try {
+            outputDto=iApiContractControllerService.GetContractListByAsset(inputDto);
+        } catch (BizException e) {
+            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
+        }
+        return  BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
+    }
+
+
+
 }

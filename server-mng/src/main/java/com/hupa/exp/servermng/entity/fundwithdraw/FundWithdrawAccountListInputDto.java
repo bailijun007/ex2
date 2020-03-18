@@ -1,6 +1,7 @@
 package com.hupa.exp.servermng.entity.fundwithdraw;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
+import com.hupa.exp.daomysql.dao.expv2.def.IBbFeeDao;
 
 public class FundWithdrawAccountListInputDto extends BaseInputDto {
 
@@ -15,21 +16,26 @@ public class FundWithdrawAccountListInputDto extends BaseInputDto {
     /**
      * 每页显示记录数
      */
-    private long currentPage;
+    private Integer currentPage;//pageNo
     /**
      * 页码
      */
-    private int pageSize;
+    private Integer pageSize;
 
     /**
      * 审批状态(4:审批中 5:审批通过:6:拒绝)
      */
     private Integer approvalStatus;
 
+
+    /**
+     * 提现状态
+     */
+    private Integer payStatus;
+
     /* private Long withdrawTime;
     private Long withdrawId;
     private Integer pageStatus*/;
-
 
 
     public String getAsset() {
@@ -48,20 +54,19 @@ public class FundWithdrawAccountListInputDto extends BaseInputDto {
         this.accountId = accountId;
     }
 
-
-    public long getCurrentPage() {
+    public Integer getCurrentPage() {
         return currentPage;
     }
 
-    public void setCurrentPage(long currentPage) {
+    public void setCurrentPage(Integer currentPage) {
         this.currentPage = currentPage;
     }
 
-    public int getPageSize() {
+    public Integer getPageSize() {
         return pageSize;
     }
 
-    public void setPageSize(int pageSize) {
+    public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
     }
 
@@ -73,31 +78,11 @@ public class FundWithdrawAccountListInputDto extends BaseInputDto {
         this.approvalStatus = approvalStatus;
     }
 
-    /*
-   public Long getWithdrawTime() {
-        return withdrawTime;
+    public Integer getPayStatus() {
+        return payStatus;
     }
 
-    public void setWithdrawTime(Long withdrawTime) {
-        this.withdrawTime = withdrawTime;
+    public void setPayStatus(Integer payStatus) {
+        this.payStatus = payStatus;
     }
-
-    public Long getWithdrawId() {
-        return withdrawId;
-    }
-
-    public void setWithdrawId(Long withdrawId) {
-        this.withdrawId = withdrawId;
-    }
-    public Integer getPageStatus() {
-        return pageStatus;
-    }
-
-    public void setPageStatus(Integer pageStatus) {
-        this.pageStatus = pageStatus;
-    }*/
-
-
-
-
 }

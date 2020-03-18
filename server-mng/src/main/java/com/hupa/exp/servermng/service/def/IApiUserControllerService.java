@@ -7,7 +7,7 @@ import com.hupa.exp.servermng.entity.user.*;
 import com.hupa.exp.servermng.exception.MngException;
 
 public interface IApiUserControllerService {
-    UserOutputDto createUser(UserInputDto expUserInputDto) throws  BizException;
+    UserOutputDto  createUser(UserInputDto expUserInputDto) throws  BizException;
 
     UserListOutputDto queryList(UserListInputDto inputDto) throws BizException;
 

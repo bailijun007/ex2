@@ -88,6 +88,8 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
         bo.setMtime(System.currentTimeMillis());
         bo.setDwType(inputDto.getDwType());
         bo.setChainTransactionUrl(inputDto.getChainTransactionUrl());
+        bo.setEnableFlagPc(inputDto.getEnableFlagPc());
+        bo.setEnableFlagBb(inputDto.getEnableFlagBb());
         iAssetBiz.createAsset(bo);
 
         //存储到Mongo中，具体不是很清楚，后续修改
@@ -147,6 +149,8 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
         afterBo.setWithdrawFee(inputDto.getWithdrawFee());
         afterBo.setC2cFee(inputDto.getC2cFee());
         afterBo.setChainTransactionUrl(inputDto.getChainTransactionUrl());
+        afterBo.setEnableFlagPc(inputDto.getEnableFlagPc());
+        afterBo.setEnableFlagBb(inputDto.getEnableFlagBb());
         afterBo.setMtime(System.currentTimeMillis());
         afterBo.setCtime(beforeBo.getCtime());
         iAssetBiz.editAsset(afterBo);
@@ -199,7 +203,8 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
         outputDto.setC2cFee(DecimalUtil.trimZeroPlainString(bo.getC2cFee()));
         outputDto.setChainTransactionUrl(bo.getChainTransactionUrl());
         outputDto.setDwType(String.valueOf(bo.getDwType()));
-
+        outputDto.setEnableFlagPc(String.valueOf(bo.getEnableFlagPc()));
+        outputDto.setEnableFlagBb(String.valueOf(bo.getEnableFlagBb()));
         return outputDto;
     }
 
@@ -237,6 +242,8 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
                 po.setC2cFee(DecimalUtil.trimZeroPlainString(bo.getC2cFee()));
                 po.setChainTransactionUrl(bo.getChainTransactionUrl());
                 po.setDwType(String.valueOf(bo.getDwType()));
+                po.setEnableFlagPc(String.valueOf(bo.getEnableFlagPc()));
+                po.setEnableFlagBb(String.valueOf(bo.getEnableFlagBb()));
                 pageList.add(po);
             }
             outputDto.setTotal(listBizBo.getTotal());

@@ -6,6 +6,7 @@ import com.hupa.exp.servermng.filter.CorsFilter;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -21,6 +22,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class,MvcConfig.class,MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
 @SpringBootConfiguration
 @EnableDubbo(scanBasePackages = {"com.hupa.exp.account.def"})
+//@EnableAutoConfiguration
 public class ServerMngMainEntrance {
 
     public static void main(String[] args) {

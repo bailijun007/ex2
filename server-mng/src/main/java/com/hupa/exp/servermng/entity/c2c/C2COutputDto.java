@@ -14,7 +14,7 @@ public class C2COutputDto {
     /**
      * 用户id
      */
-    private Long userId;
+    private String userId;
     /**
      * 创建时间
      */
@@ -76,6 +76,8 @@ public class C2COutputDto {
      */
     private Integer approvalStatus;
 
+    private String userName;
+
     public String getId() {
         return id;
     }
@@ -84,11 +86,11 @@ public class C2COutputDto {
         this.id = id;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -210,5 +212,13 @@ public class C2COutputDto {
 
     public void setApprovalStatus(Integer approvalStatus) {
         this.approvalStatus = approvalStatus;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

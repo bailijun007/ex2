@@ -22,6 +22,14 @@
                         <label class="sr-only">标的符号</label>
                         <input type="text" placeholder="请输入标的符号" id="symbol" class="form-control">
                     </div>
+                    <div class="form-group" style="width: 15%; float: left;">
+                        <label class="sr-only">类别</label>
+                        <select id="kineSelect" class="form-control">
+                            <option value="">全部</option>
+                            <option value="1">pc</option>
+                            <option value="2">币币</option>
+                        </select>
+                    </div>
                     <div class="input-group">
                        <span class="input-group-btn">
                            <button type="button" class="btn btn-primary" id="btn_query">搜索</button>
@@ -70,6 +78,13 @@
         oTable = new TableInit();
         oTable.Init();
 
+        //选择K线类别事件
+        $("#kineSelect").change(function () {
+            $('#tb_departments').bootstrapTable('destroy');
+            oTable.Init();
+        });
+
+        //搜索事件
         $("#btn_query").click(function () {
             $('#tb_departments').bootstrapTable('destroy');
             oTable.Init();
@@ -104,6 +119,28 @@
             }
         });
     }
+
+
+/*    var repairKlineEvent = function (action,id) {
+        var text = "添加交易对信息"
+        url = "/sys/klineconfig/repairKline.html?id="+id+"&action="+action+"";
+
+        parent.layer.open({
+            type: 2,
+            title: text,
+            shadeClose: true,
+            shade: 0.8,
+            area: ['800px', '65%'],
+            content: url,
+            success: function (layero, index) {
+
+            },
+            end: function () {
+                $('#tb_departments').bootstrapTable('destroy');
+                oTable.Init();
+            }
+        });
+    }*/
 
     var TableInit = function () {
         var oTableInit = new Object();
@@ -160,20 +197,32 @@
                         columns: [
                             {
                                 checkbox: true
-                            }
-                            , {
+                            },
+                            {
+                                title: 'K线类别',
+                                //field: 'klineType'
+                                formatter: function (value, row, index) {
+                                    if(row.klineType=="1"){
+                                        return "pcK线";
+                                    } else if(row.klineType=="2"){
+                                        return "币币K线";
+                                    }
+                                     return "";
+                                }
+                            },
+                            {
                                 title: '交易所用资产',
                                 field: 'asset'
-                            }
-                            , {
+                            },
+                            {
                                 title: '交易对名称',
                                 field: 'symbol'
                             }
                             , {
                                 title: '运行时间区间',
                                 field: 'klineInterval'
-                            }
-                            , {
+                            },
+                            {
                                 title: '类型',
                                 formatter: function (value, row, index) {
                                     if(row.type=="1")
@@ -181,8 +230,8 @@
                                     else
                                         return "补充K线";
                                 }
-                            }
-                            , {
+                            },
+                            {
                                 title: '是否启用',
                                 formatter: function (value, row, index) {
                                     if(row.status=="1")
@@ -203,6 +252,7 @@
                                 title: '操作', field: '#', align: 'center',
                                 formatter: function (value, row, index) {
                                     var d = "<a href=\"javascript:addCatalogEvent('Edit'," + row.id + ")\">修改</a>";
+                                    //d+="&nbsp;&nbsp;<a href=\"javascript:repairKlineEvent('Edit'," + row.id + ")\">修补列表</a>"
                                     return d;
                                 }
                             }],
@@ -219,7 +269,8 @@
         oTableInit.queryParams = function (params) {
             var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                 page_size: params.limit,   //页面大小
-                current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
+                current_page: params.offset==0?1:(params.offset/params.limit)+1,
+                kline_type:$("#kineSelect").val()
             };
             return temp;
         };

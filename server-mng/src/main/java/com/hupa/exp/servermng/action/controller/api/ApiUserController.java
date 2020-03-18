@@ -143,19 +143,19 @@ public class ApiUserController {
 
     {
         FundAccountListOutputDto outputDto=new FundAccountListOutputDto();
-        FundAccountListInputDto inputDto=new FundAccountListInputDto();
+    FundAccountListInputDto inputDto=new FundAccountListInputDto();
         inputDto.setPageSize(pageSize);
         inputDto.setCurrentPage(currentPage);
         inputDto.setUserType(userType);
         inputDto.setUserName(userName);
         inputDto.setId(id);
         try {
-            outputDto= iApiUserControllerService.queryFundAccountListByParam(inputDto);
-        } catch (BizException e) {
-            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e) ;
-        }
-        return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto) ;
+        outputDto= iApiUserControllerService.queryFundAccountListByParam(inputDto);
+    } catch (BizException e) {
+        return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e) ;
     }
+        return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto) ;
+}
 
     @ApiOperation(value = "获取账户资金详细信息")
     @GetMapping("/query_fund_account")
@@ -210,11 +210,11 @@ public class ApiUserController {
             @RequestParam(name = "type") Integer type,
             @ApiParam(name="funds",value = "funds",required = true)
             @RequestParam(name = "funds") String funds)
-    {
-        EditFundAccountOutputDto outputDto=new EditFundAccountOutputDto();
-        EditFundAccountInputDto inputDto=new EditFundAccountInputDto();
-        inputDto.setId(Long.parseLong(id));
-        inputDto.setType(type);
+        {
+            EditFundAccountOutputDto outputDto=new EditFundAccountOutputDto();
+            EditFundAccountInputDto inputDto=new EditFundAccountInputDto();
+            inputDto.setId(Long.parseLong(id));
+            inputDto.setType(type);
         inputDto.setFunds(funds);
         try {
             outputDto= iApiUserControllerService.editFundAccountOneAsset(inputDto);

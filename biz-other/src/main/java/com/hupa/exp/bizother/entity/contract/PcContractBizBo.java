@@ -42,6 +42,15 @@ public class PcContractBizBo {
     private BigDecimal settlePrice;
     private Integer sort;
     private Integer status;
+    /**
+     * 开启下单
+     */
+    private Integer enableCreate;
+
+    /**
+     * 开启撤单
+     */
+    private Integer enableCancel;
     private Integer privilege;
     private Long ctime;
     private Long mtime;
@@ -252,5 +261,21 @@ public class PcContractBizBo {
 
     public void setSettlePrice(BigDecimal settlePrice) {
         this.settlePrice = settlePrice;
+    }
+
+    public Integer getEnableCreate() {
+        return enableCreate;
+    }
+
+    public void setEnableCreate(Integer enableCreate) {
+        this.enableCreate = enableCreate;
+    }
+
+    public Integer getEnableCancel() {
+        return enableCancel;
+    }
+
+    public void setEnableCancel(Integer enableCancel) {
+        this.enableCancel = enableCancel;
     }
 }

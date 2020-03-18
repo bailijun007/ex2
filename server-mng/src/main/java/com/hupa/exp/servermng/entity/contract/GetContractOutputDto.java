@@ -58,6 +58,8 @@ public class GetContractOutputDto extends BaseOutputDto {
     private BigDecimal settlePrice;
     private String sort;
     private String status;
+    private String enableCreate;//开启下单
+    private String enableCancel;//开启撤单
     private String privilege;
     @JsonProperty("quote_currency")
     private String quoteCurrency;
@@ -272,5 +274,21 @@ public class GetContractOutputDto extends BaseOutputDto {
 
     public void setSettlePrice(BigDecimal settlePrice) {
         this.settlePrice = settlePrice;
+    }
+
+    public String getEnableCreate() {
+        return enableCreate;
+    }
+
+    public void setEnableCreate(String enableCreate) {
+        this.enableCreate = enableCreate;
+    }
+
+    public String getEnableCancel() {
+        return enableCancel;
+    }
+
+    public void setEnableCancel(String enableCancel) {
+        this.enableCancel = enableCancel;
     }
 }

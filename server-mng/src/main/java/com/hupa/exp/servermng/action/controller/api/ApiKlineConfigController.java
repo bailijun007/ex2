@@ -5,6 +5,8 @@ import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
 import com.hupa.exp.servermng.entity.base.DeleteInputDto;
 import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
+import com.hupa.exp.servermng.entity.information.InformationInputDto;
+import com.hupa.exp.servermng.entity.information.InformationOutputDto;
 import com.hupa.exp.servermng.entity.klineconfig.*;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiKlineConfigControllerService;
@@ -47,8 +49,10 @@ public class ApiKlineConfigController {
             @RequestParam(name = "stat_time",required = false) Long statTime,
             @ApiParam(name="end_time",value = "开始时间",required = true)
             @RequestParam(name = "end_time",required = false) Long endTime,
-            @ApiParam(name="type",value = "开始时间",required = true)
-            @RequestParam(name = "type",required = false) Integer type
+            @ApiParam(name="type",value = "类型",required = true)
+            @RequestParam(name = "type",required = false) Integer type,
+            @ApiParam(name="kline_type",value = "类别",required = true)
+            @RequestParam(name = "kline_type",required = false) Integer klineType
 
     ){
         //logger.info("打印日志--------------------->");
@@ -63,6 +67,7 @@ public class ApiKlineConfigController {
         inputDto.setStatTime(statTime);
         inputDto.setEndTime(endTime);
         inputDto.setType(type);
+        inputDto.setKlineType(klineType);
 
         try{
             if(id>0)
@@ -82,12 +87,15 @@ public class ApiKlineConfigController {
              @ApiParam(name="page_size",value = "条数",required = true)
              @RequestParam(name = "page_size") Integer pageSize,
              @ApiParam(name="current_page",value = "页码",required = true)
-             @RequestParam(name = "current_page") Integer currentPage
+             @RequestParam(name = "current_page") Integer currentPage,
+             @ApiParam(name="kline_type",value = "类别",required = true)
+                @RequestParam(name = "kline_type",required = false) Integer klineType
     )
     {
         KlineConfigListInputDto inputDto=new KlineConfigListInputDto();
         inputDto.setPageSize(pageSize);
         inputDto.setCurrentPage(currentPage);
+        inputDto.setKlineType(klineType);
         KlineConfigListOutputDto outputDto=new KlineConfigListOutputDto();
         try {
             outputDto=service.queryKlineConfigList(inputDto);
@@ -134,4 +142,40 @@ public class ApiKlineConfigController {
         }
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
+
+    @ApiOperation(value = "获取交易对详情")
+    @GetMapping(path = "/getRepairKline")
+    public BaseResultViaApiDto<KlineConfigInfoInputDto,RepairKlineListOutputDto> getRepairKline(
+      @ApiParam(name="id",value = "id",required = true)
+      @RequestParam(name = "id") long id
+    ) {
+        KlineConfigInfoInputDto inputDto=new KlineConfigInfoInputDto();
+        inputDto.setId(id);
+        RepairKlineListOutputDto outputDto=new RepairKlineListOutputDto();
+        try {
+            outputDto=service.getBbCandlePoList(inputDto);
+        } catch (BizException e) {
+            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
+        }
+        return  BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
+    }
+
+
+
+    @ApiOperation(value = "获取资讯详情")
+    @PostMapping("/send")
+    public BaseResultViaApiDto<KlineInfoInputDto,KlineConfigOutputDto> send(
+            @RequestBody KlineInfoInputDto inputDto
+    )  {
+        KlineConfigOutputDto outputDto=new KlineConfigOutputDto();
+        try {
+            outputDto=service.sendKlineConfig(inputDto);
+        } catch (BizException e) {
+            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
+        }
+        return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
+    }
+
+
+
 }

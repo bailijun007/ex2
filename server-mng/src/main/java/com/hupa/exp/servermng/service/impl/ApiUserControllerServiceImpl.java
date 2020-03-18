@@ -10,6 +10,7 @@ import com.hupa.exp.base.enums.OperationModule;
 import com.hupa.exp.base.enums.OperationType;
 import com.hupa.exp.base.enums.ValidateExceptionCode;
 import com.hupa.exp.base.exception.ValidateException;
+import com.hupa.exp.bizother.entity.account.BbFeeBizBo;
 import com.hupa.exp.bizother.entity.account.PcFeeBizBo;
 import com.hupa.exp.bizother.entity.dic.ExpDicBizBo;
 import com.hupa.exp.bizother.entity.fundaccount.FundAccountMngBizBo;
@@ -18,6 +19,7 @@ import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
 import com.hupa.exp.bizother.entity.user.ExpUserListBizBo;
 import com.hupa.exp.bizother.entity.user.ExpUserRoleBizBo;
 import com.hupa.exp.bizother.service.account.def.IAccountBiz;
+import com.hupa.exp.bizother.service.account.def.IBbFeeBiz;
 import com.hupa.exp.bizother.service.account.def.IPcFeeBiz;
 import com.hupa.exp.bizother.service.dic.def.IDicService;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
@@ -75,6 +77,9 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
 
     @Autowired
     private IPcFeeBiz iPcFeeBiz;
+
+    @Autowired
+    private IBbFeeBiz iBbFeeBiz;
 
     @Autowired
     private IExpUserDao iExpUserDao;
@@ -216,6 +221,7 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
             user.setFundPwd(bo.getFundPwd());
             user.setSecretKey(bo.getSecretKey());
             user.setFeeLevel(String.valueOf(bo.getFeeLevel()));
+            user.setBbFeeLevel(String.valueOf(bo.getBbFeeLevel()));
             user.setIdType(String.valueOf(bo.getIdType()));
             user.setSurname(bo.getSurname());
             user.setRealName(String.valueOf(bo.getId()));
@@ -269,6 +275,7 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         outputDto.setFundPwd(expUserBo.getFundPwd());
         outputDto.setSecretKey(expUserBo.getSecretKey());
         outputDto.setFeeLevel(String.valueOf(expUserBo.getFeeLevel()));
+        outputDto.setBbFeeLevel(String.valueOf(expUserBo.getBbFeeLevel()));
         outputDto.setIdType(String.valueOf(expUserBo.getIdType()));
         outputDto.setSurname(expUserBo.getSurname());
         outputDto.setLoginTime(String.valueOf(expUserBo.getLoginTime()));
@@ -356,6 +363,7 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
                     try {
                         accountBiz.createFundAccount(bo.getId(),assetPo.getRealName());//创建资金账户
                         accountBiz.createPcAccount(bo.getId(),assetPo.getRealName());//创建合约账户
+                        accountBiz.createBBAccount(bo.getId(),assetPo.getRealName());//创建币币账户
                     } catch (Exception e) {
                         logger.info("ApiUserControllerServiceImpl createAccount Exception:"+e.getMessage());
                     }
@@ -376,11 +384,21 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         BigDecimal redisMakerFee = new BigDecimal("0");
         BigDecimal dbTakerFee = new BigDecimal("0");
         BigDecimal dbMakerFee = new BigDecimal("0");
+
+        ExpDicBizBo dicBbBizBo = dicService.queryDicByKey("BbFeeRedisKey");
+        String redisBbKey = dicBbBizBo.getValue();
+        List<BbFeeBizBo> bbFeeBizBoList = iBbFeeBiz.getAllBbFee();
+        Map<Integer, BbFeeBizBo> bBFeeMap = bbFeeBizBoList.stream().collect(Collectors.toMap(BbFeeBizBo::getTier, a -> a, (k1, k2) -> k1));
+        BigDecimal redisTakerBbFee = new BigDecimal("0");
+        BigDecimal redisMakerBbFee = new BigDecimal("0");
+        BigDecimal dbTakerBbFee = new BigDecimal("0");
+        BigDecimal dbMakerBbFee = new BigDecimal("0");
+
         for (ExpUserBizBo userBizBo : bizBos) {
 
             if (userBizBo.getUserType() != 0) {
 
-                //默认一级
+                //默认一级pc合约
                 if (userBizBo.getFeeLevel() == null) {
                     redisTakerFee = feeMap.get(1).getTakerFee().divide(new BigDecimal("100"));
                     redisMakerFee = feeMap.get(1).getMakerFee().divide(new BigDecimal("100"));
@@ -394,6 +412,21 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
                     dbMakerFee = feeMap.get(userBizBo.getFeeLevel()).getMakerFee();
                     userBizBo.setFeeLevel(feeMap.get(userBizBo.getFeeLevel()).getTier());
                 }
+                //默认一级bb交易
+                if (userBizBo.getBbFeeLevel() == null) {
+                    redisTakerBbFee = bBFeeMap.get(1).getTakerFee().divide(new BigDecimal("100"));
+                    redisMakerBbFee = bBFeeMap.get(1).getMakerFee().divide(new BigDecimal("100"));
+                    dbTakerBbFee = bBFeeMap.get(1).getTakerFee();
+                    dbMakerBbFee = bBFeeMap.get(1).getMakerFee();
+                    userBizBo.setBbFeeLevel(bBFeeMap.get(1).getTier());
+                } else {
+                    redisTakerBbFee = bBFeeMap.get(userBizBo.getBbFeeLevel()).getTakerFee().divide(new BigDecimal("100"));
+                    redisMakerBbFee = bBFeeMap.get(userBizBo.getBbFeeLevel()).getMakerFee().divide(new BigDecimal("100"));
+                    dbTakerBbFee = bBFeeMap.get(userBizBo.getBbFeeLevel()).getTakerFee();
+                    dbMakerBbFee = bBFeeMap.get(userBizBo.getBbFeeLevel()).getMakerFee();
+                    userBizBo.setBbFeeLevel(bBFeeMap.get(userBizBo.getBbFeeLevel()).getTier());
+                }
+
                 if (!StringUtils.isEmpty(userBizBo.getReferrerId())) {
                     userBizBo.setTakerFee(dbTakerFee.multiply(new BigDecimal("0.95")));
                     userBizBo.setMakerFee(dbMakerFee.multiply(new BigDecimal("0.95")));
@@ -401,19 +434,26 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
                             redisTakerFee.multiply(new BigDecimal("0.95")));
                     redisUtilDb0.hset(redisKey, "m_" + userBizBo.getId(),
                             redisMakerFee.multiply(new BigDecimal("0.95")));
+
+                    userBizBo.setBbTakerFee(dbTakerBbFee.multiply(new BigDecimal("0.95")));
+                    userBizBo.setBbMakerFee(dbMakerBbFee.multiply(new BigDecimal("0.95")));
+                    redisUtilDb0.hset(redisBbKey, "t_" + userBizBo.getId(), redisTakerBbFee.multiply(new BigDecimal("0.95")));
+                    redisUtilDb0.hset(redisBbKey, "m_" + userBizBo.getId(), redisMakerBbFee.multiply(new BigDecimal("0.95")));
                 } else {
                     userBizBo.setTakerFee(dbTakerFee);
                     userBizBo.setMakerFee(dbMakerFee);
-                    redisUtilDb0.hset(redisKey, "t_" + userBizBo.getId(),
-                            redisTakerFee);
-                    redisUtilDb0.hset(redisKey, "m_" + userBizBo.getId(),
-                            redisMakerFee);
+                    redisUtilDb0.hset(redisKey, "t_" + userBizBo.getId(), redisTakerFee);
+                    redisUtilDb0.hset(redisKey, "m_" + userBizBo.getId(), redisMakerFee);
+
+                    userBizBo.setBbTakerFee(dbTakerBbFee);
+                    userBizBo.setBbMakerFee(dbMakerBbFee);
+                    redisUtilDb0.hset(redisBbKey, "t_" + userBizBo.getId(), redisTakerBbFee);
+                    redisUtilDb0.hset(redisBbKey, "m_" + userBizBo.getId(), redisMakerBbFee);
                 }
                 ExpUserPo userPo= ConventObjectUtil.conventObject(userBizBo,ExpUserPo.class);
                 iExpUserDao.updateById(userPo);
             }
         }
-
         return null;
     }
 
@@ -552,6 +592,7 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
             user.setFundPwd(bo.getFundPwd());
             user.setSecretKey(bo.getSecretKey());
             user.setFeeLevel(String.valueOf(bo.getFeeLevel()));
+            user.setBbFeeLevel(String.valueOf(bo.getBbFeeLevel()));
             user.setIdType(String.valueOf(bo.getIdType()));
             user.setSurname(bo.getSurname());
             user.setRealName(String.valueOf(bo.getId()));

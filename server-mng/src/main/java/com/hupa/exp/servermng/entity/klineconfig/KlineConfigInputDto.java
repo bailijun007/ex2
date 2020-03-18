@@ -11,6 +11,7 @@ public class KlineConfigInputDto extends BaseInputDto {
     private Long statTime;
     private Long endTime;
     private Integer type;
+    private Integer klineType;
 
     public Long getEndTime() {
         return endTime;
@@ -74,5 +75,13 @@ public class KlineConfigInputDto extends BaseInputDto {
 
     public void setKlineInterval(String klineInterval) {
         this.klineInterval = klineInterval;
+    }
+
+    public Integer getKlineType() {
+        return klineType;
+    }
+
+    public void setKlineType(Integer klineType) {
+        this.klineType = klineType;
     }
 }

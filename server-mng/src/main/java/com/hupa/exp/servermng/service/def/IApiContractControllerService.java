@@ -25,4 +25,16 @@ public interface IApiContractControllerService {
     DeleteOutputDto deleteContract(DeleteInputDto inputDto) throws BizException;
 
     GetContractListByAssetOutputDto GetContractListByAsset(GetContractListByAssetInputDto inputDto)throws BizException;
+
+    ContractOutputDto getContractGroupNum(GetContractInputDto inputDto) throws BizException;
+
+    /**
+     * 查询pc合约列表
+     * @param inputDto
+     * @return
+     * @throws BizException
+     */
+    GetContractListByAssetOutputDto findContractListByAll(GetContractListByAssetInputDto inputDto) throws BizException;
+
+
 }

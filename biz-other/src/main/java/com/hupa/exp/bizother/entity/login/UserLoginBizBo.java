@@ -27,6 +27,7 @@ public class UserLoginBizBo {
     private String referrerCode;
     private BigDecimal makerPcFee;
     private BigDecimal takerPcFee;
+    private Integer bbFeeLevel;
 
     public BigDecimal getMakerPcFee() {
         return makerPcFee;
@@ -218,5 +219,13 @@ public class UserLoginBizBo {
 
     public void setEnableGoogleVerify(Integer enableGoogleVerify) {
         this.enableGoogleVerify = enableGoogleVerify;
+    }
+
+    public Integer getBbFeeLevel() {
+        return bbFeeLevel;
+    }
+
+    public void setBbFeeLevel(Integer bbFeeLevel) {
+        this.bbFeeLevel = bbFeeLevel;
     }
 }

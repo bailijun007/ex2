@@ -164,6 +164,29 @@
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
+
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">永续合约生效状态：</label>
+                            <div class="col-sm-5">
+                                <div class="rule-single-checkbox">
+                                    <input type="checkbox" id="enableFlagPcDiv"  />
+                                </div>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">币币生效状态：</label>
+                            <div class="col-sm-5">
+                                <div class="rule-single-checkbox">
+                                    <input type="checkbox"  id="enableFlagBbDiv"  />
+                                </div>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-3">
                                 <input type="button" id="BtnSave" value="提交" class="btn btn-primary">
@@ -228,8 +251,15 @@
                             $("#chain_appoint_id").val(data.data.chainAppointId);
                             $("#precision").val(data.data.precision);
                             $("#privilege").val(data.data.privilege);
-                            if (data.data.status == "1")
-                                $("#ckbIsOnTop").parent().find("a").attr("class", "selected")
+                            if (data.data.status == "1"){
+                                $("#ckbIsOnTop").parent().find("a").attr("class", "selected");
+                            }
+                            if (data.data.enableFlagPc == "1"){
+                                $("#enableFlagPcDiv").parent().find("a").attr("class", "selected");
+                            }
+                            if (data.data.enableFlagBb == "1"){
+                                $("#enableFlagBbDiv").parent().find("a").attr("class", "selected");
+                            }
                             $("#sort").val(data.data.sort);
                             $("#min_deposit_volume").val(data.data.minDepositVolume);
                             $("#min_withdraw_volume").val(data.data.minWithdrawVolume);
@@ -266,6 +296,8 @@
     $("#BtnSave").click(function(){
         var checkVal=$("#ckbIsOnTop").parent().find("a").attr("class");
         var isCheck;
+        var enableFlagPcCheck;
+        var enableFlagBbCheck;
         var id = GetQueryString("id");
         var action=GetQueryString("action");
         if(action!="Edit")
@@ -275,6 +307,16 @@
         else
             isCheck=0;
 
+        if($("#enableFlagPcDiv").parent().find("a").attr("class")=="selected"){
+            enableFlagPcCheck=1;
+        }else{
+            enableFlagPcCheck=0;
+        }
+        if($("#enableFlagBbDiv").parent().find("a").attr("class")=="selected"){
+            enableFlagBbCheck=1;
+        }else{
+            enableFlagBbCheck=0;
+        }
         if($(".Validform_wrong").length>0)
         {
             layer.msg("请确认信息填写是否有误！");
@@ -300,7 +342,8 @@
         parmes+="&min_withdraw_volume="+  $("#min_withdraw_volume").val();
         parmes+="&chain_transaction_url="+  $("#chain_transaction_url").val();
         parmes+="&dw_type="+  $("#dw_type").val();
-
+        parmes+="&enable_flag_pc="+ enableFlagPcCheck;
+        parmes+="&enable_flag_bb="+  enableFlagBbCheck;
 
         $.ajax({
             type:"post",

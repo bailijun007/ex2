@@ -13,6 +13,7 @@ public class KlineConfigListOutputPage {
     @JsonProperty("end_time")
     private String endTime;
     private String type;
+    private String klineType;
 
     public String getEndTime() {
         return endTime;
@@ -76,5 +77,13 @@ public class KlineConfigListOutputPage {
 
     public void setKlineInterval(String klineInterval) {
         this.klineInterval = klineInterval;
+    }
+
+    public String getKlineType() {
+        return klineType;
+    }
+
+    public void setKlineType(String klineType) {
+        this.klineType = klineType;
     }
 }

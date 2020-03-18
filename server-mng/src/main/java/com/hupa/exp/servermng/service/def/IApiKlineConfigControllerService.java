@@ -5,6 +5,8 @@ import com.hupa.exp.servermng.entity.base.DeleteInputDto;
 import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.klineconfig.*;
 
+import java.util.List;
+
 public interface IApiKlineConfigControllerService {
     KlineConfigOutputDto createKlineConfig(KlineConfigInputDto inputDto) throws BizException;
 
@@ -15,4 +17,11 @@ public interface IApiKlineConfigControllerService {
     KlineConfigListOutputDto queryKlineConfigList(KlineConfigListInputDto inputDto) throws  BizException;
 
     DeleteOutputDto deleteKlineConfig(DeleteInputDto inputDto) throws BizException;
+
+    RepairKlineListOutputDto getBbCandlePoList(KlineConfigInfoInputDto inputDto) throws BizException;
+
+
+    KlineConfigOutputDto sendKlineConfig(KlineInfoInputDto inputDto) throws BizException;
+
+
 }

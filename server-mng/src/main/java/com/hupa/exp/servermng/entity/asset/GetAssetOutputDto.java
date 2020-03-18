@@ -25,6 +25,8 @@ public class GetAssetOutputDto extends BaseOutputDto {
     private String c2cFee;
     private String chainTransactionUrl;
     private String dwType;
+    private String enableFlagPc;
+    private String enableFlagBb;
     private String ctime;
     private String mtime;
 
@@ -178,5 +180,21 @@ public class GetAssetOutputDto extends BaseOutputDto {
 
     public void setC2cFee(String c2cFee) {
         this.c2cFee = c2cFee;
+    }
+
+    public String getEnableFlagPc() {
+        return enableFlagPc;
+    }
+
+    public void setEnableFlagPc(String enableFlagPc) {
+        this.enableFlagPc = enableFlagPc;
+    }
+
+    public String getEnableFlagBb() {
+        return enableFlagBb;
+    }
+
+    public void setEnableFlagBb(String enableFlagBb) {
+        this.enableFlagBb = enableFlagBb;
     }
 }

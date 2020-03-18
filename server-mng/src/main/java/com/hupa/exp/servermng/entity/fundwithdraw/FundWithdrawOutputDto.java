@@ -51,6 +51,16 @@ public class FundWithdrawOutputDto extends BaseOutputDto{
      * 状态：0：已创建，1：成功，2：失败，3-同步余额,4：审核中，5-审核通过,6：审核不通过
      */
     private String status;
+
+    /**
+     * 支付状态、提现状态
+     */
+    private String payStatus;
+
+    /**
+     * 支付状态描述
+     */
+    private String payStatusDesc;
     /**
      * 创建时间
      */
@@ -155,5 +165,21 @@ public class FundWithdrawOutputDto extends BaseOutputDto{
 
     public void setTransactionId(String transactionId) {
         this.transactionId = transactionId;
+    }
+
+    public String getPayStatus() {
+        return payStatus;
+    }
+
+    public void setPayStatus(String payStatus) {
+        this.payStatus = payStatus;
+    }
+
+    public String getPayStatusDesc() {
+        return payStatusDesc;
+    }
+
+    public void setPayStatusDesc(String payStatusDesc) {
+        this.payStatusDesc = payStatusDesc;
     }
 }

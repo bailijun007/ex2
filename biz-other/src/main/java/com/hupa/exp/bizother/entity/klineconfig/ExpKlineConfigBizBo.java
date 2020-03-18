@@ -11,6 +11,7 @@ public class ExpKlineConfigBizBo {
     private String klineInterval;
     private Long statTime;
     private Long endTime;
+    private Integer klineType;
 
     public String getSymbol() {
         return symbol;
@@ -75,5 +76,13 @@ public class ExpKlineConfigBizBo {
 
     public void setKlineInterval(String klineInterval) {
         this.klineInterval = klineInterval;
+    }
+
+    public Integer getKlineType() {
+        return klineType;
+    }
+
+    public void setKlineType(Integer klineType) {
+        this.klineType = klineType;
     }
 }

@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>修补K线列表</title>
+
+    <link rel="shortcut icon" href="../../../static/img/favicon.ico" />
+    <link href="../../../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet" />
+    <link href="../../../static/css/font-awesome.css?v=4.4.0" rel="stylesheet" />
+    <link href="../../../static/css/animate.css" rel="stylesheet" />
+    <!--<link href="../../../static/css/plugins/chosen/chosen.css" rel="stylesheet" />-->
+    <link href="../../../static/css/Validformstyle.css" rel="stylesheet" />
+    <link href="../../../static/js/skin/default/style.css" rel="stylesheet" />
+    <link href="../../../static/css/style.css"  rel="stylesheet" />
+    <!--<link href="../../../static/css/plugins/treeview/bootstrap-treeview.css"  rel="stylesheet" />-->
+    <!--<link href="../../../static/css/plugins/switchery/switchery.css"  rel="stylesheet" />-->
+    <script type="text/javascript">
+        function Close() {
+            //parent.layer.msg(msg);
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            parent.layer.close(index);
+        }
+    </script>
+</head>
+<body class="gray-bg">
+<div class="form-horizontal">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+
+
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <input type="hidden" id="id" value="0">
+
+
+                        <div class="form-group">
+                            <div class="col-sm-2"><span>开盘时间：</span><input class="form-control"  type="text" ><span style="color: red">填时间戳</span></div>
+                            <div class="col-sm-2"><span>开盘价：</span><input class="form-control"  type="text" ><span style="color: red">填时间戳</span></div>
+                            <div class="col-sm-2"><span>收盘价：</span><input class="form-control"  type="text" ><span style="color: red">填时间戳</span></div>
+                            <div class="col-sm-2"><span>最高价：</span><input class="form-control"  type="text" ><span style="color: red">填时间戳</span></div>
+                            <div class="col-sm-2"><span>最高价：</span><input class="form-control"  type="text" ><span style="color: red">填时间戳</span></div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-2"><span>开盘时间：</span><input class="form-control"  type="text" ><span style="color: red">填时间戳</span></div>
+                            <div class="col-sm-2"><span>开盘价：</span><input class="form-control"  type="text" ><span style="color: red">填时间戳</span></div>
+                            <div class="col-sm-2"><span>收盘价：</span><input class="form-control"  type="text" ><span style="color: red">填时间戳</span></div>
+                            <div class="col-sm-2"><span>最高价：</span><input class="form-control"  type="text" ><span style="color: red">填时间戳</span></div>
+                            <div class="col-sm-2"><span>最高价：</span><input class="form-control"  type="text" ><span style="color: red">填时间戳</span></div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-2"><span>开盘时间：</span><input class="form-control"  type="text" ><span style="color: red">填时间戳</span></div>
+                            <div class="col-sm-2"><span>开盘价：</span><input class="form-control"  type="text" ><span style="color: red">填时间戳</span></div>
+                            <div class="col-sm-2"><span>收盘价：</span><input class="form-control"  type="text" ><span style="color: red">填时间戳</span></div>
+                            <div class="col-sm-2"><span>最高价：</span><input class="form-control"  type="text" ><span style="color: red">填时间戳</span></div>
+                            <div class="col-sm-2"><span>最高价：</span><input class="form-control"  type="text" ><span style="color: red">填时间戳</span></div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+
+
+
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-3">
+                                <input type="button" id="BtnSave" value="提交" class="btn btn-primary">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 全局js -->
+<script src="../../../static/js/jquery.min.js"></script>
+<script src="../../../static/js/bootstrap.min.js"></script>
+<script src="../../../static/js/Validform_v5.3.2.js"></script>
+<!--<script src="../../../static/js/demo/form-advanced-demo.js"></script>-->
+<!-- 自定义js -->
+<script type="text/javascript">
+$(function () {
+    initData();
+    $(".form-horizontal").Validform({ tiptype: 2 });
+
+    //提交
+    $("#BtnSave").click(function(){
+        var id = GetQueryString("id");
+        var action=GetQueryString("action");
+        if(action!="Edit")
+            id=0;
+        if($(".Validform_wrong").length>0)
+        {
+            layer.msg("请确认信息填写是否有误！");
+            return false;
+        }
+        var param="?";
+        param+= "&id="+id;
+        param+= "&klineInterval="+klineInterval;
+        param+= "&stat_time="+$("#stat_time").val();
+        param+= "&end_time="+$("#end_time").val();
+        param+= "&kline_type="+$("#kline_type").val();
+        $.ajax({
+            type:"post",
+            url:"/v1/http/klineconfig/create_or_edit"+param,
+            contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+            success:function(data) {
+                //console.log(data);
+                if(data.code==0) {
+                    if(id>0)
+                        layer.msg("操作成功！");
+                    else
+                        layer.msg("操作成功！");
+                    setTimeout("Close()", 1000);
+                } else {
+                    layer.msg(data.msg);
+                }
+            }
+        });
+    })
+
+
+ });
+
+//初始化方法
+function initData() {
+    var id = GetQueryString("id");
+    var action=GetQueryString("action");
+    if (id != "0"&&action=="Edit")//id不为空则需要绑定值
+    {
+        $.ajax({
+            type: "get",
+            url: "/v1/http/klineconfig/getRepairKline?id=" + id,
+            contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+            async: false,
+            //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+            //data:JSON.stringify({id:id}),
+            success: function (data) {
+                if (data.data != null) {
+
+                    //$("#id").val(data.data.id);
+                    //$("#stat_time").val(data.data.stat_time=="null"?"":data.data.stat_time);
+                    //console.log(data);
+                    var list= data.data.rows;
+                    if (list != null) {
+                        var html="";
+                       /* for(var i=0;i<list.length;i++)
+                        {
+                            html+="<div class='form-group'>"
+                            html+="<label class='col-sm-3'>开盘时间"+list[i].openTime+"：</label>"
+                            html+="<div class='col-sm-3'>"
+                            html+="最高价：<input  class=\"form-control\" type=\"text\" value=\""+list[i].high+"\" datatype=\"*1-100\">";
+                            html+="</div>"
+                            html+="<div class='col-sm-3'>"
+                            html+="最低价：<input  class=\"form-control\" type=\"text\" value=\""+list[i].low+"\" datatype=\"*1-100\">";
+                            html+="</div>"
+                            html+="</div>"
+
+                            html+="<div class='form-group'>"
+                            html+="<label class='col-sm-3'>"+list[i].openTime+"：</label>"
+                            html+="<div class='col-sm-3'>"
+                            html+="最高价：<input  class=\"form-control\" type=\"text\" value=\""+list[i].high+"\" datatype=\"*1-100\">";
+                            html+="</div>"
+                            html+="<div class='col-sm-3'>"
+                            html+="最低价：<input  class=\"form-control\" type=\"text\" value=\""+list[i].low+"\" datatype=\"*1-100\">";
+                            html+="</div>"
+                            html+="<div class='col-sm-3'>"
+                            html+="总量：<input  class=\"form-control\" type=\"text\" value=\""+list[i].volume+"\" datatype=\"*1-100\">";
+                            html+="</div>"
+                            html+="</div>"
+                        }*/
+                        $("#conDiiv").append(html);//append
+                    }
+
+
+
+
+
+                }
+            }
+        })
+    }
+}
+</script>
+<script src="../../../static/js/content.js?v=1.0.0"></script>
+<!--<script src="../../../static/js/plugins/treeview/bootstrap-treeview.js"></script>-->
+<!--<script src="../../../static/js/plugins/switchery/switchery.js"></script>-->
+<script src="../../../static/js/plugins/layer/layer.min.js"></script>
+<script src="../../../static/js/LayerTool.js"></script>
+<script src="../../../static/js/layout.js"></script>
+</body>
+</html>
+
+
+
+

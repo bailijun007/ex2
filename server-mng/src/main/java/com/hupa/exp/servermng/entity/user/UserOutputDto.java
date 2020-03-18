@@ -36,6 +36,8 @@ public class UserOutputDto extends BaseOutputDto {
     private String loginIp;
     private List<String> roleList;
 
+    private String bbFeeLevel;
+
     public String getId() {
         return id;
     }
@@ -266,5 +268,13 @@ public class UserOutputDto extends BaseOutputDto {
 
     public void setRoleList(List<String> roleList) {
         this.roleList = roleList;
+    }
+
+    public String getBbFeeLevel() {
+        return bbFeeLevel;
+    }
+
+    public void setBbFeeLevel(String bbFeeLevel) {
+        this.bbFeeLevel = bbFeeLevel;
     }
 }

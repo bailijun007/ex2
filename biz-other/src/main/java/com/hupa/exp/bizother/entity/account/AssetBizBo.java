@@ -1,5 +1,7 @@
 package com.hupa.exp.bizother.entity.account;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+
 import java.math.BigDecimal;
 
 public class AssetBizBo {
@@ -79,6 +81,17 @@ public class AssetBizBo {
      * 冲提类型
      */
     private Integer dwType;
+
+    /**
+     *  在永续合约中启用 1.是 0否
+     */
+    private Integer enableFlagPc;
+
+    /**
+     * 在bb中启用 1.是 0否
+     */
+    private Integer enableFlagBb;
+
     /**
      * 创建时间
      */
@@ -257,5 +270,21 @@ public class AssetBizBo {
 
     public void setC2cFee(BigDecimal c2cFee) {
         this.c2cFee = c2cFee;
+    }
+
+    public Integer getEnableFlagPc() {
+        return enableFlagPc;
+    }
+
+    public void setEnableFlagPc(Integer enableFlagPc) {
+        this.enableFlagPc = enableFlagPc;
+    }
+
+    public Integer getEnableFlagBb() {
+        return enableFlagBb;
+    }
+
+    public void setEnableFlagBb(Integer enableFlagBb) {
+        this.enableFlagBb = enableFlagBb;
     }
 }

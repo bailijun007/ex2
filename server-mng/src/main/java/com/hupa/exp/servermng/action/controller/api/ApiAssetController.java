@@ -88,7 +88,11 @@ public class ApiAssetController {
             @ApiParam(name="c2c_fee",value = "c2c手续费",required = true)
             @RequestParam(name = "c2c_fee") BigDecimal c2cFee,
              @ApiParam(name="chain_transaction_url",value = "以太坊地址",required = true)
-            @RequestParam(name = "chain_transaction_url") String chainTransactionUrl
+            @RequestParam(name = "chain_transaction_url") String chainTransactionUrl,
+            @ApiParam(name="enable_flag_pc",value = "永续合约中是否启用",required = true)
+            @RequestParam(name = "enable_flag_pc") Integer enableFlagPc,
+            @ApiParam(name="enable_flag_bb",value = "BB中是否启用",required = true)
+            @RequestParam(name = "enable_flag_bb") Integer enableFlagBb
     ) {
         AssetInputDto inputDto=new AssetInputDto();
         inputDto.setId(id);
@@ -108,6 +112,8 @@ public class ApiAssetController {
         inputDto.setWithdrawFee(withdrawFee);
         inputDto.setChainTransactionUrl(chainTransactionUrl);
         inputDto.setDwType(dwType);
+        inputDto.setEnableFlagPc(enableFlagPc);
+        inputDto.setEnableFlagBb(enableFlagBb);
         inputDto.setC2cFee(c2cFee);
         AssetOutputDto outputDto=new AssetOutputDto();
         try {

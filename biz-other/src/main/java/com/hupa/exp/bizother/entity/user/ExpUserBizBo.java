@@ -1,5 +1,7 @@
 package com.hupa.exp.bizother.entity.user;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -34,7 +36,11 @@ public class ExpUserBizBo {
     private Long loginTime;
     private String loginIp;
     private BigDecimal makerFee;
-    private  BigDecimal takerFee;
+    private BigDecimal takerFee;
+
+    private Integer bbFeeLevel;
+    private BigDecimal bbMakerFee;
+    private BigDecimal bbTakerFee;
 
     public BigDecimal getMakerFee() {
         return makerFee;
@@ -282,5 +288,29 @@ public class ExpUserBizBo {
 
     public void setLoginIp(String loginIp) {
         this.loginIp = loginIp;
+    }
+
+    public BigDecimal getBbMakerFee() {
+        return bbMakerFee;
+    }
+
+    public void setBbMakerFee(BigDecimal bbMakerFee) {
+        this.bbMakerFee = bbMakerFee;
+    }
+
+    public BigDecimal getBbTakerFee() {
+        return bbTakerFee;
+    }
+
+    public void setBbTakerFee(BigDecimal bbTakerFee) {
+        this.bbTakerFee = bbTakerFee;
+    }
+
+    public Integer getBbFeeLevel() {
+        return bbFeeLevel;
+    }
+
+    public void setBbFeeLevel(Integer bbFeeLevel) {
+        this.bbFeeLevel = bbFeeLevel;
     }
 }

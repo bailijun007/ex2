@@ -48,6 +48,8 @@ public class ApiFundWithdrawController {
             @RequestParam(name = "page_status") Integer pageStatus,*/
             @ApiParam(name="approval_status",value = "审批状态",required = true)
             @RequestParam(name = "approval_status") Integer approvalStatus,
+            @ApiParam(name="pay_status",value = "提现状态",required = true)
+            @RequestParam(name = "pay_status") Integer payStatus,
             @ApiParam(name="page_size",value = "条数",required = true)
             @RequestParam(name = "page_size") Integer pageSize,
             @ApiParam(name="current_page",value = "页码",required = true)
@@ -61,6 +63,7 @@ public class ApiFundWithdrawController {
         inputDto.setAccountId(accountId);
         inputDto.setAsset(asset);
         inputDto.setApprovalStatus(approvalStatus);
+        inputDto.setPayStatus(payStatus);
         inputDto.setCurrentPage(currentPage);
         inputDto.setPageSize(pageSize);
         try{

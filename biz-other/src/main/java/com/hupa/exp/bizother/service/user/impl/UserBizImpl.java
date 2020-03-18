@@ -1,6 +1,7 @@
 package com.hupa.exp.bizother.service.user.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.hp.sh.expv3.bb.extension.vo.BbAccountVo;
 import com.hp.sh.expv3.fund.wallet.api.FundAccountCoreApi;
 import com.hp.sh.expv3.pc.api.PcAccountCoreApi;
 import com.hupa.exp.base.config.redis.Db0RedisBean;
@@ -53,6 +54,9 @@ public class UserBizImpl implements IUserBiz {
     private IPcFeeDao pcFeeDao;
 
     @Autowired
+    private IBbFeeDao bbFeeDao;
+
+    @Autowired
     private IAssetDao iAssetDao;
 
     @Autowired
@@ -103,22 +107,42 @@ public class UserBizImpl implements IUserBiz {
                 }
                 //数据库里的还是要%的
                 expUserPo.setMakerFee(mPcFee.multiply(new BigDecimal("100")));
-                expUserPo.setTakerFee(mPcFee.multiply(new BigDecimal("100")));
+                expUserPo.setTakerFee(tPcFee.multiply(new BigDecimal("100")));
             }
+
+            BbFeePo bbFeePo = bbFeeDao.selectBbFeeByLevel(1);
+            if(bbFeePo!=null){
+                BigDecimal mBbFee=bbFeePo.getMakerFee().divide(new BigDecimal("100"));
+                BigDecimal tBbFee=bbFeePo.getTakerFee().divide(new BigDecimal("100"));
+
+                ExpDicPo expDicPo= iExpDicDao.selectDicByKey("BbFeeRedisKey");
+                //给redis的不用%所以除100
+                if(expDicPo!=null) {
+                    redisUtilDb0.hset(expDicPo.getValue(),"m_"+expUserPo.getId(), DecimalUtil.trimZeroPlainString(mBbFee));
+                    redisUtilDb0.hset(expDicPo.getValue(),"t_"+expUserPo.getId(), DecimalUtil.trimZeroPlainString(tBbFee));
+                } else {
+                    redisUtilDb0.hset("bb_fee","m_"+expUserPo.getId(), DecimalUtil.trimZeroPlainString(mBbFee));
+                    redisUtilDb0.hset("bb_fee","t_"+expUserPo.getId(), DecimalUtil.trimZeroPlainString(tBbFee));
+                }
+                //数据库里的还是要%的
+                expUserPo.setBbMakerFee(mBbFee.multiply(new BigDecimal("100")));
+                expUserPo.setBbTakerFee(tBbFee.multiply(new BigDecimal("100")));
+            }
+
         }
 
         userId = iExpUserDao.insert(expUserPo);
         //通过用户id删除角色
-        if (expUserBo.getId() > 0) {
-            iExpUserRoleDao.deleteUserRoleByUserId(expUserBo.getId());
-        }
-        if (expUserBo.getRoleList().size() > 0) {
-            for (int i = 0; i < expUserBo.getRoleList().size(); i++) {
-                ExpUserRolePo expUserRolePo = new ExpUserRolePo();
-                expUserRolePo.setUserid(userId);
-                expUserRolePo.setRoleid(expUserBo.getRoleList().get(i));
-                iExpUserRoleDao.insert(expUserRolePo);
+            if (expUserBo.getId() > 0) {
+                iExpUserRoleDao.deleteUserRoleByUserId(expUserBo.getId());
             }
+            if (expUserBo.getRoleList().size() > 0) {
+                for (int i = 0; i < expUserBo.getRoleList().size(); i++) {
+                    ExpUserRolePo expUserRolePo = new ExpUserRolePo();
+                    expUserRolePo.setUserid(userId);
+                    expUserRolePo.setRoleid(expUserBo.getRoleList().get(i));
+                    iExpUserRoleDao.insert(expUserRolePo);
+                }
         }
 
 
@@ -223,6 +247,7 @@ public class UserBizImpl implements IUserBiz {
                FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(userPo.getId(), pcPo.getRealName());
                 AssetsBizBo assetsBizBo = new AssetsBizBo();
                 assetsBizBo.setAsset(pcPo.getRealName());
+                //获取资金账户
                 if (null != fundAccount) {
                     assetsBizBo.setFundAccountAvailable(fundAccount.getAvailable());
                     assetsBizBo.setFundAccountLock(fundAccount.getLock());
@@ -232,6 +257,7 @@ public class UserBizImpl implements IUserBiz {
                     assetsBizBo.setFundAccountLock(new BigDecimal("0"));
                     assetsBizBo.setFundAccountTotal(new BigDecimal("0"));
                 }
+                //获取合约账户
                 PcAccountBizBo pcBo = iAccountBiz.getPcAccount(userPo.getId(), pcPo.getRealName());
                 if (null != pcBo) {
                     assetsBizBo.setPcAccountAvailable(pcBo.getAvailable());
@@ -244,6 +270,14 @@ public class UserBizImpl implements IUserBiz {
                     assetsBizBo.setPcOrderMargin(new BigDecimal("0"));
                     assetsBizBo.setPcPosMargin(new BigDecimal("0"));
                 }
+                //获取币币账户
+                BbAccountVo bbAccountVo = iAccountBiz.getBBAccount(userPo.getId(), pcPo.getRealName());
+                if(bbAccountVo!=null){
+                    assetsBizBo.setBbBalance(bbAccountVo.getBalance());
+                }else{
+                    assetsBizBo.setBbBalance(new BigDecimal("0"));
+                }
+
                 assetsBizBos.add(assetsBizBo);
             }
             fundAccountBizBo.setAssets(assetsBizBos);
@@ -255,55 +289,52 @@ public class UserBizImpl implements IUserBiz {
 
     @Override
     public FundAccountMngListBizBo queryFundAccountListByParam(long currentPage, long pageSize, Integer userType, String userName, Long id) throws BizException {
-
         FundAccountMngListBizBo fundAccountListBizBo = new FundAccountMngListBizBo();
-        //获取所有交易对
-        List<AssetPo> assetPos = iAssetDao.selectList();
-        //按条件获取用户
-        IPage<ExpUserPo> userPos = iExpUserDao.selectUserList(currentPage, pageSize, userType, userName,id);
-
+        List<AssetPo> assetPos = iAssetDao.selectList();//获取所有交易对
+        IPage<ExpUserPo> userPos = iExpUserDao.selectUserList(currentPage, pageSize, userType, userName,id); //按条件获取用户
         List<FundAccountMngBizBo> fundAccountBizBoList = new ArrayList<>();
         for (ExpUserPo userPo : userPos.getRecords()) {
-
             FundAccountMngBizBo fundAccountBizBo = new FundAccountMngBizBo();
             fundAccountBizBo.setId(userPo.getId());
             fundAccountBizBo.setUserName(!StringUtils.isEmpty(userPo.getPhone()) ? userPo.getPhone() : userPo.getEmail());
             fundAccountBizBo.setRealName(userPo.getRealName());
-
             List<AssetsBizBo> assetsBizBos = new ArrayList<>();
             for (AssetPo pcPo : assetPos) {
-                //创建资金账户
-                iAccountBiz.createFundAccount(userPo.getId(), pcPo.getRealName());
-                // 获取资金账户
-                FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(userPo.getId(), pcPo.getRealName());
-
                 AssetsBizBo assetsBizBo = new AssetsBizBo();
                 assetsBizBo.setAsset(pcPo.getRealName());
-
+                // 获取资金账户
+                FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(userPo.getId(), pcPo.getRealName());
                 if (fundAccount != null) {
-                    assetsBizBo.setFundAccountAvailable(fundAccount.getAvailable());
-                    assetsBizBo.setFundAccountLock(fundAccount.getLock());
-                    assetsBizBo.setFundAccountTotal(fundAccount.getTotal());
+                    assetsBizBo.setFundAccountAvailable(fundAccount.getAvailable());//可用余额
+                    assetsBizBo.setFundAccountLock(fundAccount.getLock());//锁定额度
+                    assetsBizBo.setFundAccountTotal(fundAccount.getTotal());//总金额
                 } else {
+                    iAccountBiz.createFundAccount(userPo.getId(), pcPo.getRealName());//创建资金账户
                     assetsBizBo.setFundAccountAvailable(new BigDecimal("0"));
                     assetsBizBo.setFundAccountLock(new BigDecimal("0"));
                     assetsBizBo.setFundAccountTotal(new BigDecimal("0"));
                 }
-
-                //创建合约账户
-                iAccountBiz.createPcAccount(userPo.getId(), pcPo.getRealName());
                 //获取合约账户
                 PcAccountBizBo pcBo = iAccountBiz.getPcAccount(userPo.getId(), pcPo.getRealName());
                 if (pcBo != null ) {
-                    assetsBizBo.setPcAccountAvailable(pcBo.getAvailable());
-                    assetsBizBo.setPcAccountTotal(pcBo.getTotal());
-                    assetsBizBo.setPcOrderMargin(pcBo.getOrderMargin());
-                    assetsBizBo.setPcPosMargin(pcBo.getPosMargin());
+                    assetsBizBo.setPcAccountAvailable(pcBo.getAvailable());//可用余额
+                    assetsBizBo.setPcAccountTotal(pcBo.getTotal());//总金额
+                    assetsBizBo.setPcOrderMargin(pcBo.getOrderMargin());//委托保证金
+                    assetsBizBo.setPcPosMargin(pcBo.getPosMargin());//仓位保证金
                 } else {
+                    iAccountBiz.createPcAccount(userPo.getId(), pcPo.getRealName());//创建合约账户
                     assetsBizBo.setPcAccountAvailable(new BigDecimal("0"));
                     assetsBizBo.setPcAccountTotal(new BigDecimal("0"));
                     assetsBizBo.setPcOrderMargin(new BigDecimal("0"));
                     assetsBizBo.setPcPosMargin(new BigDecimal("0"));
+                }
+                //获取币币账户
+                BbAccountVo bbAccountVo = iAccountBiz.getBBAccount(userPo.getId(), pcPo.getRealName());
+                if(bbAccountVo!=null){
+                    assetsBizBo.setBbBalance(bbAccountVo.getBalance());
+                }else{
+                    iAccountBiz.createBBAccount(userPo.getId(), pcPo.getRealName()); //创建币币账户
+                    assetsBizBo.setBbBalance(new BigDecimal("0"));
                 }
                 assetsBizBos.add(assetsBizBo);
             }
@@ -329,6 +360,7 @@ public class UserBizImpl implements IUserBiz {
         fundAccountBizBo.setRealName(userPo.getRealName());
         List<AssetsBizBo> assetsBizBos = new ArrayList<>();
         for (AssetPo pcPo : assetPos) {
+            //获取资金账户
             FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(userPo.getId(), pcPo.getRealName());
             AssetsBizBo assetsBizBo = new AssetsBizBo();
             assetsBizBo.setAsset(pcPo.getRealName());
@@ -341,6 +373,7 @@ public class UserBizImpl implements IUserBiz {
                 assetsBizBo.setFundAccountLock(new BigDecimal("0"));
                 assetsBizBo.setFundAccountTotal(new BigDecimal("0"));
             }
+            //获取合约账户
             PcAccountBizBo pcBo = iAccountBiz.getPcAccount(userPo.getId(), pcPo.getRealName());
             if (null != pcBo) {
                 assetsBizBo.setPcAccountAvailable(pcBo.getAvailable());
@@ -353,6 +386,14 @@ public class UserBizImpl implements IUserBiz {
                 assetsBizBo.setPcOrderMargin(new BigDecimal("0"));
                 assetsBizBo.setPcPosMargin(new BigDecimal("0"));
             }
+            //获取币币账户
+            BbAccountVo bbAccountVo = iAccountBiz.getBBAccount(userPo.getId(), pcPo.getRealName());
+            if(bbAccountVo!=null){
+                assetsBizBo.setBbBalance(bbAccountVo.getBalance());
+            }else{
+                assetsBizBo.setBbBalance(new BigDecimal("0"));
+            }
+
             assetsBizBos.add(assetsBizBo);
         }
         fundAccountBizBo.setAssets(assetsBizBos);

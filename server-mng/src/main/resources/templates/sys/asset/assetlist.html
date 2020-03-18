@@ -184,6 +184,24 @@
                                     else
                                         return "不生效";
                                 }
+                            } ,
+                            {
+                                title: '永续合约生效状态',//1.是 0否
+                                formatter: function (value, row, index) {
+                                    if (row.enableFlagPc == 1)
+                                        return "生效";
+                                    else
+                                        return "不生效";
+                                }
+                            } ,
+                            {
+                                title: '币币生效状态',//1.是 0否
+                                formatter: function (value, row, index) {
+                                    if (row.enableFlagBb == 1)
+                                        return "生效";
+                                    else
+                                        return "不生效";
+                                }
                             }
                             , {
                                 title: '冲提类型',

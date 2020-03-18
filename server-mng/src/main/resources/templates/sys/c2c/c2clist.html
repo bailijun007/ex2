@@ -28,6 +28,7 @@
                         <label class="sr-only">审核状态</label>
                         <select id="approvalStatus" class="form-control">
                             <option value="">全部</option>
+                            <option value="4">审批中</option>
                             <option value="5">通过</option>
                             <option value="6">拒绝</option>
                         </select>
@@ -116,10 +117,12 @@
                 url: "/v1/http/c2c/c2c_approval" + param,
                 contentType: "application/json;charset=UTF-8",
                 success:function (data) {
-                    if(data.data.approvalStatus==true)
+                    if(data.data.approvalStatus==true){
                         layer.msg("操作成功！");
-                    else
+                    } else{
                         layer.msg("操作失败！");
+                    }
+
                     $('#tb_departments').bootstrapTable('destroy');
                     oTable.Init();
                 }
@@ -148,16 +151,40 @@
                 url: "/v1/http/c2c/c2c_approval" + param,
                 contentType: "application/json;charset=UTF-8",
                 success:function (data) {
-                    if(data.data.approvalStatus==true)
+                    if(data.data.approvalStatus==true){
                         layer.msg("操作成功！");
-                    else
+                    } else {
                         layer.msg("操作失败！");
+                    }
                     $('#tb_departments').bootstrapTable('destroy');
                     oTable.Init();
+/*                    $("#upbtn").attr("disabled", "disabled");
+                    $("#upbtn").unbind("click",auditFailC2c);*/
                 }
             });
         }, function(){
 
+        });
+    }
+
+
+    var auditBankCard = function (action,id) {
+        var text = "银行卡详情"
+        url = "/sys/c2c/c2cBankCardDetails.html?userId="+id+"&action="+action+"";
+        parent.layer.open({
+            type: 2,
+            title: text,
+            shadeClose: true,
+            shade: 0.8,
+            area: ['500px', '50%'],
+            content: url,
+            success: function (layero, index) {
+
+            },
+            end: function () {
+                //$('#tb_departments').bootstrapTable('destroy');
+                //oTable.Init();
+            }
         });
     }
 
@@ -197,39 +224,43 @@
                             {
                                 checkbox: true
                             },
-                            {
+                           /* {
                                 title: 'id',
                                 field: 'id'
-                            },
+                            },*/
                             {
                                 title: '账户Id',
                                 field: 'userId'
                             } ,
                             {
+                                title: '用户名',
+                                field: 'userName'
+                            } ,
+                            {
                                 title: '订单号',
                                 field: 'sn'
                             },
-                            {
+/*                            {
                                 title: '支付币种',
                                 field: 'payCurrency'
-                            },
-                            {
+                            },*/
+/*                            {
                                 title: '兑换币种',
                                 field: 'exchangeCurrency'
-                            },
+                            },*/
                             {
-                                title: '价格',
+                                title: '汇率',
                                 field: 'price'
                             },
                             {
-                                title: '数量',
+                                title: '数量USD',
                                 field: 'volume'
                             },
                             {
-                                title: '总额',
+                                title: '总额CNY',
                                 field: 'amount'
                             },
-                            {
+                           /* {
                                 title: '类型',
                                 //field: 'type' // 1 买入，-1 卖出
                                 formatter: function (value, row, index) {
@@ -240,16 +271,18 @@
                                     }
                                     return "";
                                 }
-                            } ,
+                            } ,*/
                             {
                                 title: '审批状态',
-                                //5-审核通过,6：审核不通过
+                                //审批状态(4:审批中 5:审批通过:6:拒绝)
                                 // field: 'approvalStatus'
                                 formatter: function (value, row, index) {
-                                    if(row.approvalStatus==5) {
+                                    if(row.approvalStatus==4) {
+                                        return "审批中";
+                                    }else if(row.approvalStatus==5) {
                                         return "审核通过";
                                     }else if(row.approvalStatus==6){
-                                        return "审核不通过";
+                                        return "拒绝";
                                     }
                                     return "";
                                 }
@@ -275,8 +308,20 @@
                                 formatter: function (value, row, index) {
                                     if(row.type == -1)
                                     {
-                                        var d = "<a href=\"javascript:auditPassC2c('5','"+row.id+"')\">通过</a>";
-                                        d+="&nbsp;<a href=\"javascript:auditFailC2c('6','"+row.id+"')\">不通过</a>";
+                                        var d = " ";//审批状态(4:审批中 5:审批通过:6:拒绝)
+                                        if(row.approvalStatus==4) {//4:审批中
+                                            d+="&nbsp;<input type=\"button\" value=\"通过\"  onclick=\"auditPassC2c('5','"+row.id+"')\"> ";
+                                            d+="&nbsp;<input type=\"button\" value=\"拒绝\" onclick=\"auditFailC2c('6','"+row.id+"')\">";
+                                            /*}else if(row.approvalStatus==6){//审核通过
+                                            d+="&nbsp;<input type=\"button\" value=\"通过\"  onclick=\"auditPassC2c('5','"+row.id+"')\"> ";
+                                        }else if(row.approvalStatus==5){*/
+                                            //d+="&nbsp;<input type=\"button\" value=\"通过\"  disabled=\"disabled\" onclick=\"auditPassC2c('5','"+row.id+"')\"> ";
+                                            //d+="&nbsp;<input type=\"button\" value=\"拒绝\" disabled=\"disabled\"  onclick=\"auditFailC2c('6','"+row.id+"')\">";
+                                        }
+                                        d+="&nbsp;&nbsp;<a href=\"javascript:auditBankCard('Edit','"+row.userId+"')\">查看详细</a>";
+         /*                               d+="<a href=\"javascript:auditPassC2c('5','"+row.id+"')\">通过</a>";
+                                        d+="&nbsp;<input type=\"button\" value=\"不通过\" onclick=\"auditFailC2c('6','"+row.id+"')\" id=\"upbtn\"> ";//<a id=\"updiv\" href=\"javascript:auditFailC2c('6','"+row.id+"')\">不通过</a>
+                                        d+="&nbsp;&nbsp;<a href=\"javascript:auditBankCard('Edit','"+row.userId+"')\">查看详细</a>";*/
                                         return d;
                                     }
                                     return "";

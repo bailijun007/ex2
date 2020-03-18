@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2020/1/14.
  */
@@ -58,6 +60,24 @@ public class ApiC2cController {
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
 
+    @ApiOperation(value = "获取银行卡列表")
+    @GetMapping("/query_userCardList")
+    public BaseResultViaApiDto<BankCardInputDto,BankCardListOutputDto> getUserCardList(
+            @ApiParam(name="user_Id",value = "用户id",required = true)
+            @RequestParam(name = "user_Id") Long userId
+    ){
+        BankCardListOutputDto outputDto = new BankCardListOutputDto();
+        BankCardInputDto inputDto=new BankCardInputDto();
+        inputDto.setUserId(userId);
+        try{
+            outputDto = apiC2cControllerService.getBankCard(inputDto);
+        }catch(BizException e){
+            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
+        }
+        return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
+    }
+
+
     /**
      * C2C审核
      * @param id
@@ -83,6 +103,12 @@ public class ApiC2cController {
         }
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
+
+
+
+
+
+
 
 
 }

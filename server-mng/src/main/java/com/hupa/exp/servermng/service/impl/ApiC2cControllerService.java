@@ -4,6 +4,10 @@ import com.gitee.hupadev.base.api.PageResult;
 import com.hp.sh.expv3.fund.extension.api.C2cOrderExtApi;
 import com.hp.sh.expv3.fund.extension.vo.C2cOrderVo;
 import com.hupa.exp.common.exception.BizException;
+import com.hupa.exp.daomysql.dao.expv2.def.IBankCardDao;
+import com.hupa.exp.daomysql.dao.expv2.def.IExpUserDao;
+import com.hupa.exp.daomysql.entity.po.expv2.BankCardPo;
+import com.hupa.exp.daomysql.entity.po.expv2.ExpUserPo;
 import com.hupa.exp.servermng.entity.c2c.*;
 import com.hupa.exp.servermng.service.def.IApiC2cControllerService;
 import org.apache.commons.collections.CollectionUtils;
@@ -13,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -25,6 +30,12 @@ public class ApiC2cControllerService implements IApiC2cControllerService {
 
     @Autowired
     private C2cOrderExtApi c2cOrderExtApi;
+
+    @Autowired
+    private IBankCardDao iBankCardDao;
+
+    @Autowired
+    private IExpUserDao iExpUserDao;
 
     @Override
     public C2CListOutputDto findAllC2cList(C2CListInputDto inputDto) throws BizException {
@@ -41,7 +52,13 @@ public class ApiC2cControllerService implements IApiC2cControllerService {
                     for (C2cOrderVo c2cOrderVo : pageResult.getList()) {
                         C2COutputDto c2COutputDto = new C2COutputDto();
                         c2COutputDto.setId(String.valueOf(c2cOrderVo.getId()));
-                        c2COutputDto.setUserId(c2cOrderVo.getUserId());
+                        c2COutputDto.setUserId(String.valueOf(c2cOrderVo.getUserId()));
+                        if(c2cOrderVo.getUserId()!=null){
+                            ExpUserPo expUserPo = iExpUserDao.selectPoById(c2cOrderVo.getUserId());
+                            if(expUserPo!=null){
+                                c2COutputDto.setUserName(expUserPo.getPhone()==null? expUserPo.getEmail():expUserPo.getPhone());
+                            }
+                        }
                         c2COutputDto.setCreated(c2cOrderVo.getCreated());
                         c2COutputDto.setModified(c2cOrderVo.getModified());
                         c2COutputDto.setSn(c2cOrderVo.getSn());
@@ -59,6 +76,7 @@ public class ApiC2cControllerService implements IApiC2cControllerService {
                         c2COutputDto.setApprovalStatus(c2cOrderVo.getApprovalStatus());
                         list.add(c2COutputDto);
                     }
+                    list.sort(Comparator.comparing(C2COutputDto::getCreated).reversed());
                 }
                 outputDto.setTotal(pageResult.getRowTotal());
                 outputDto.setTotalCount(pageResult.getRowTotal());
@@ -95,6 +113,34 @@ public class ApiC2cControllerService implements IApiC2cControllerService {
         outputDto.setApprovalStatus(approvalStatus);
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
+    }
+
+    @Override
+    public BankCardListOutputDto getBankCard(BankCardInputDto inputDto) throws BizException{
+        BankCardListOutputDto bankCardListOutputDto =  new BankCardListOutputDto();
+        try {
+            List<BankCardPo> bindBankCardPos = iBankCardDao.selectPos(inputDto.getUserId(),null, 1);
+            List<BankCardOutputDto> list = new ArrayList<>();
+            for(BankCardPo bankCardPo : bindBankCardPos){
+                BankCardOutputDto outputDto = new BankCardOutputDto();
+                outputDto.setId(String.valueOf(bankCardPo.getId()));
+                outputDto.setUserId(String.valueOf(bankCardPo.getUserId()));
+                outputDto.setAsset(bankCardPo.getAsset());
+                outputDto.setCardNo(bankCardPo.getCardNo());
+                outputDto.setCardUserName(bankCardPo.getCardUserName());
+                outputDto.setOpenBank(bankCardPo.getOpenBank());
+                outputDto.setOpenBranch(bankCardPo.getOpenBranch());
+                outputDto.setEnableFlag(bankCardPo.getEnableFlag());
+                outputDto.setCtime(bankCardPo.getCtime());
+                outputDto.setMtime(bankCardPo.getMtime());
+                list.add(outputDto);
+            }
+            bankCardListOutputDto.setRows(list);
+            bankCardListOutputDto.setTime(String.valueOf(System.currentTimeMillis()));
+        } catch (Exception e) {
+            logger.info("ApiC2cControllerService getBankCard Exception:"+e.getMessage());
+        }
+        return bankCardListOutputDto;
     }
 
 

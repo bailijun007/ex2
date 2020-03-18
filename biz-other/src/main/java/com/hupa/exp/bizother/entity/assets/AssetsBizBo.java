@@ -12,6 +12,10 @@ public class AssetsBizBo {
     private BigDecimal pcAccountLock;
     private BigDecimal pcOrderMargin;
     private BigDecimal pcPosMargin;
+    /**
+     * 币币账户余额
+     */
+    private BigDecimal bbBalance;
 
     public String getAsset() {
         return asset;
@@ -83,5 +87,13 @@ public class AssetsBizBo {
 
     public void setPcPosMargin(BigDecimal pcPosMargin) {
         this.pcPosMargin = pcPosMargin;
+    }
+
+    public BigDecimal getBbBalance() {
+        return bbBalance;
+    }
+
+    public void setBbBalance(BigDecimal bbBalance) {
+        this.bbBalance = bbBalance;
     }
 }

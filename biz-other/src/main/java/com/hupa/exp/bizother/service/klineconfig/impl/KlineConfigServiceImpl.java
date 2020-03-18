@@ -38,10 +38,10 @@ public class KlineConfigServiceImpl implements IKlineConfigService {
     }
 
     @Override
-    public ExpKlineConfigListBizBo queryKlineConfigList(long currentPage, long pageSize) throws BizException {
+    public ExpKlineConfigListBizBo queryKlineConfigList(Integer klineType,long currentPage, long pageSize) throws BizException {
         ExpKlineConfigListBizBo listBizBo=new ExpKlineConfigListBizBo();
         List<ExpKlineConfigBizBo> boList=new ArrayList();
-        IPage<ExpKlineRequestConfigPo> list=configDao.selectConfigList(currentPage,pageSize);
+        IPage<ExpKlineRequestConfigPo> list=configDao.selectConfigList(klineType,currentPage,pageSize);
         for(ExpKlineRequestConfigPo po:list.getRecords())
         {
             ExpKlineConfigBizBo bo=ConventObjectUtil.conventObject(po,ExpKlineConfigBizBo.class);
