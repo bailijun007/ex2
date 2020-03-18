@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head runat="server">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link rel="shortcut icon" href="../../../static/img/favicon.ico">
+    <link href="../../../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../../static/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../../static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="../../../static/css/style.css?v=4.1.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <div class="row row-lg">
+                <div class="col-sm-11">
+                    <div class="form-group" style="width: 15%; float: left;">
+                        <label class="sr-only">资产</label>
+                        <select id="asset" class="form-control">
+                        </select>
+                    </div>
+                    <div class="form-group" style="width: 15%; float: left;">
+                        <label class="sr-only">交易对</label>
+                        <select id="symbol" class="form-control">
+                        </select>
+                    </div>
+                    <div class="form-group" style="width: 15%; float: left;">
+                        <label class="sr-only">账号</label>
+                        <input type="text" placeholder="请输入账号" id="account" class="form-control">
+                    </div>
+                    <div class="form-group" style="width: 15%; float: left;">
+                        <label class="sr-only">用户Id</label>
+                        <input type="text" placeholder="请输入用户Id" id="accountId" class="form-control">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-btn"><button type="button" class="btn btn-primary" id="btn_query">搜索</button></span>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+
+                    <div class="example-wrap">
+                        <div class="example">
+                            <div class="bootstrap-table">
+                                <div class="fixed-table-toolbar">
+                                    <div class="bars pull-left">
+                                        <div class="btn-group hidden-xs" id="toolbar" role="group">
+
+                                            <!-- <a class="btn btn-outline btn-default" href="javascript:addCatalogEvent('Add','0')"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>新增</a>
+                                             <a class="btn btn-outline btn-default" href="javascript:del_ck_confirm('tb_departments','/v1/http/dictype/delete')"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>删除</a>-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <table id="tb_departments"></table>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    <!-- End Example Events -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Panel Other -->
+</div>
+<script src="../../../static/js/jquery.min.js?v=2.1.4"></script>
+<script src="../../../static/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../../../static/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="../../../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+<script src="../../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="../../../static/js/plugins/layer/layer.min.js"></script>
+<script src="../../../static/js/LayerTool.js"></script>
+</body>
+</html>
+<script type="text/javascript">
+    var oTable;
+    $(function () {
+        //1.初始化Table
+        oTable = new TableInit();
+        oTable.Init();
+
+        //2、初始化分页按钮
+        var oButtonInit = new ButtonInit();
+        oButtonInit.Init();
+
+        //3、获取币种
+        bindAsset("asset",false);
+
+        //4、获取交易对
+        bindAssetSymbol("symbol", $("#asset").val(), false);
+
+        //搜索事件
+        $("#btn_query").click(function () {
+            $('#tb_departments').bootstrapTable('destroy');
+            oTable.Init();
+        });
+
+        $("#symbol").change(function () {
+            $('#tb_departments').bootstrapTable('destroy');
+            oTable.Init();
+        })
+
+        //选择币种事件
+        $("#asset").change(function () {
+            $("#symbol").empty();
+            bindAssetSymbol("symbol", $("#asset").val(), true);
+        })
+
+    });
+
+    var TableInit = function () {
+        var oTableInit = new Object();
+        //初始化Table
+        oTableInit.Init = function () {
+            $('#tb_departments').bootstrapTable({
+                url: '/v1/http/bbOrder/query_list',//+param,         //请求后台的URL（*）  永续合约 订单查询
+                method: 'get',                      //请求方式（*）
+                //toolbar: '#toolbar',                //工具按钮用哪个容器
+                //striped: true,                      //是否显示行间隔色
+                //cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true,                   //是否显示分页（*）
+                //sortable: true,                     //是否启用排序
+                //sortOrder: "asc",                   //排序方式
+                queryParams: oTableInit.queryParams,//传递参数（*）
+                sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 20, 50, 100],        //可供选择的每页的行数（*）
+                //search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                //strictSearch: true,
+                //showColumns: true,                  //是否显示所有的列
+                showRefresh: true,                  //是否显示刷新按钮
+                //minimumCountColumns: 2,             //最少允许的列数
+                //clickToSelect: false,               //是否启用点击选中行
+                //singleSelect:false,
+                //height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                uniqueId: "id",                     //每一行的唯一标识，一般为主键列
+                //showToggle: true,                    //是否显示详细视图和列表视图的切换按钮
+                //cardView: false,                    //是否显示详细视图
+                //detailView: false,                   //是否显示父子表
+                columns: [
+                    {
+                        checkbox: true
+                    },
+                    {
+                        title: 'id',
+                        field: 'id'
+                    },
+                    {
+                        title: '账户Id',
+                        field: 'userId'
+                    },
+                    {
+                        title: '币种',
+                        field: 'asset'
+                    },
+                    {
+                        title: '交易对',
+                        field: 'symol'
+                    },
+                    {
+                        title: '买卖类型', //买卖:1-买,0-卖
+                        //field: 'bidFlag'
+                        formatter: function (value, row, index) {
+                            if(row.bidFlag==0) {
+                                return "卖";
+                            }else if(row.bidFlag==1){
+                                return "买";
+                            }
+                            return "";
+                        }
+                    },
+                    {
+                        title: '委托价格',
+                        field: 'price'
+                    },
+                    {
+                        title: '委托类型', //委托类型
+                        field: 'orderType'
+                        /*formatter: function (value, row, index) {
+                            if(row.orderType==0) {
+                                return "开";
+                            }else if(row.orderType==1){
+                                return "平仓";
+                            }
+                            return "";
+                        }*/
+                    },
+                    {
+                        title: '委托数量',
+                        field: 'volume'
+                    },
+                    {
+                        title: '委托状态',
+                        field: 'status'
+                    },
+                    {
+                        title: '手续费费率',
+                        field: 'feeRatio'
+                    },
+                    {
+                        title: '实收手续费',
+                        field: 'feeCost'
+                    },
+                    {
+                        title: '委托押金',
+                        field: 'orderMargin'
+                    },
+                    {
+                        title: '实收手续费',
+                        field: 'feeCost'
+                    },
+                    {
+                        title: '开仓手续费',
+                        field: 'fee'
+                    },
+                    {
+                        title: '已成交量',
+                        field: 'filledVolume'
+                    },
+                    {
+                        title: '取消量',
+                        field: 'cancelVolume'
+                    },
+                    {
+                        title: '是否活动委托',
+                        field: 'activeFlag'
+                    },
+                    {
+                        title: '委托保证金资产',
+                        field: 'orderMarginCurrency'
+                    },
+                    {
+                        title: '杠杆',
+                        field: 'leverage'
+                    },
+                    {
+                        title: '创建时间',
+                        formatter: function (value, row, index) {
+                            if(row.created!=null)
+                                return time(parseInt(row.created));
+                            return"";
+                        }
+                    }
+                ],
+                responseHandler:function(res) {
+                    var data=JSON.parse(res.data.page_data);
+                    return data;
+                }
+            });
+        };
+        oTableInit.queryParams = function (params) {
+            var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                page_size: params.limit,   //页面大小
+                current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
+                asset:$("#asset").val(),
+                symbol:$("#symbol").val(),
+                //order_id:$("#orderId").val(),
+                account_id:$("#accountId").val(),
+                account:$("#account").val()
+                //status:$("#status").val(),
+                //close_flag:$("#closeFlag").val(),
+                //price:null
+                //price:$("#price").val()
+            };
+            //console.log(temp);
+            return temp;
+        };
+        return oTableInit;
+    };
+
+    //分页按钮
+    var ButtonInit = function () {
+        var oInit = new Object();
+        var postdata = {};
+        oInit.Init = function () {
+            //初始化页面上面的按钮事件
+        };
+        return oInit;
+    };
+</script>
+
+
+
+

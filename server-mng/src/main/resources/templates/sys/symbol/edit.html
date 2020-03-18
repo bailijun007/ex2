@@ -1,0 +1,512 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>编辑信息</title>
+
+    <link rel="shortcut icon" href="../../../static/img/favicon.ico" />
+    <link href="../../../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet" />
+    <link href="../../../static/css/font-awesome.css?v=4.4.0" rel="stylesheet" />
+    <link href="../../../static/css/animate.css" rel="stylesheet" />
+    <link href="../../../static/css/Validformstyle.css" rel="stylesheet" />
+    <link href="../../../static/js/skin/default/style.css" rel="stylesheet" />
+    <link href="../../../static/css/style.css"  rel="stylesheet" />
+    <script type="text/javascript">
+        function Close() {
+            //parent.layer.msg(msg);
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            parent.layer.close(index);
+        }
+    </script>
+</head>
+<body class="gray-bg">
+<div class="form-horizontal">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+
+
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <input type="hidden" id="id" value="0">
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">币种：</label>
+                            <div class="col-sm-6">
+                                <select id="asset" class="form-control">
+                                </select><span style="color:red">添加后无法修改，慎重填写</span>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">货币对：</label>
+                            <div class="col-sm-6">
+                                <input  class="form-control" type="text" id="symbol"><span style="color:red">添加后无法修改，慎重填写</span>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                       <!-- <div class="form-group">
+                            <label class="col-sm-3 control-label">标的类型：</label>
+                                <div class="col-sm-6">
+                                    <select id="symbol_type" class="form-control">
+                                        &lt;!&ndash;<option value="1">现货交易对</option>&ndash;&gt;
+                                        &lt;!&ndash;<option value="2">指数</option>&ndash;&gt;
+                                    </select>
+                                </div>
+                        </div>
+                       <div class="form-group">
+                            <label class="col-sm-3 control-label">币币类型：</label>
+                            <div class="col-sm-6">
+                                <select id="bbsymbol_type" class="form-control"></select>
+                            </div>
+                        </div>-->
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">币币分组：</label>
+                            <div class="col-sm-6">
+                                <select id="bb_group_id" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">币币名称：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="bbSymbol_name" type="text" datatype="*1-100" errormsg="菜单名称最多不能超过100位数">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">币币名称分隔符：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="bbSymbol_name_split" type="text" datatype="*1-100" errormsg="">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">展示名：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="display_name" type="text" datatype="*1-100" errormsg="币币展示名最多100位">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">展示名分隔符：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="display_name_split" type="text" datatype="*1-100" errormsg="">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">步进：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="step" type="text" datatype="*1-100" errormsg="币币步进最多10位">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">价格精度：</label>
+                            <div class="col-sm-6">
+                                <input  class="form-control" type="text" value="1" id="precision">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">数量精度：</label>
+                            <div class="col-sm-6">
+                                <input  class="form-control" type="text" value="1" id="number_precision">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <!--  <div class="form-group">
+                             <label class="col-sm-3 control-label">初始化成交价：</label>
+                             <div class="col-sm-6">
+                                 <input class="form-control" id="default_price" type="text" datatype="*1-100" errormsg="">
+                             </div>
+                             <div class="Validform_checktip"></div>
+                         </div>
+                        <div class="form-group">
+                             <label class="col-sm-3 control-label">最新成交价：</label>
+                             <div class="col-sm-6">
+                                 <input class="form-control" id="last_price" type="text" datatype="*1-100" errormsg="">
+                             </div>
+                             <div class="Validform_checktip"></div>
+                         </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">币币面值：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="face_value" type="text" datatype="*1-100" errormsg="币币面值最多100位">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">币币面值计价货币：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="quote_currency" type="text" datatype="*1-100" errormsg="最多10位">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">币币面值货币：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="face_currency" type="text" datatype="*1-100" errormsg="最多10位">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">基础货币：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="base_currency" type="text" datatype="*1-100" errormsg="最多10位">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">结算货币：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="settle_currency" type="text" datatype="*1-100" errormsg="最多10位">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">结算金额：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="settle_price" type="text" datatype="*1-100" errormsg="">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>-->
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">顺序：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="sort" value="99" type="text" datatype="*1-100" errormsg="排序最大为10位数">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">是否生效：</label>
+                            <div class="col-sm-5">
+                                <div class="rule-single-checkbox">
+                                    <input type="checkbox" id="ckbIsOnTop" checked="checked" />
+                                </div>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">开启下单：</label>
+                            <div class="col-sm-5">
+                                <div class="rule-single-checkbox">
+                                    <input type="checkbox" id="enable_create"  />
+                                </div>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">开启撤单：</label>
+                            <div class="col-sm-5">
+                                <div class="rule-single-checkbox">
+                                    <input type="checkbox"  id="enable_cancel"  />
+                                </div>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+
+
+                       <!-- <div class="form-group">
+                            <label class="col-sm-3 control-label">权限：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="privilege" type="text" datatype="*1-100" errormsg="链接地址最多10位">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>-->
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-3">
+                                <input type="button" id="BtnSave" value="提交" class="btn btn-primary">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 全局js -->
+<script src="../../../static/js/jquery.min.js"></script>
+<script src="../../../static/js/bootstrap.min.js"></script>
+<script src="../../../static/js/Validform_v5.3.2.js"></script>
+<!-- 自定义js -->
+<script src="../../../static/js/layout.js"></script>
+<script src="../../../static/js/content.js?v=1.0.0"></script>
+<script src="../../../static/js/plugins/layer/layer.min.js"></script>
+<script src="../../../static/js/LayerTool.js"></script>
+<script type="text/javascript">
+    $(function () {
+        // $(".form-horizontal").Validform({ tiptype: 2 });
+        $(".form-horizontal").Validform({ tiptype: 2 });
+    });
+</script>
+
+<!--下拉框检索-->
+<link href="../../../static/js/plugins/jquery.searchableSelect/jquery.searchableSelect.css" rel="stylesheet" />
+<script src="../../../static/js/plugins/jquery.searchableSelect/jquery.searchableSelect.js"></script>
+
+<script type="text/javascript">
+$(function () {
+
+    //获取币种列表
+   bindAsset("asset",false);
+
+   //获取币币分组
+   bindDrop("BbSymbolGroup","bb_group_id",false);
+
+   //初始化
+   initData();
+
+   $(".form-horizontal").Validform({ tiptype: 2 });
+
+    //bindDrop("SymbolType","symbol_type",false);
+
+    //获取合约类型
+    //bindDrop("ContractType","bbsymbol_type",false);
+    $("#symbol").blur(function(){
+
+    })
+
+ });
+
+function initData() {
+
+    var id = GetQueryString("id");
+    var action=GetQueryString("action");
+    if (id != "0"&&action=="Edit")//id不为空则需要绑定值
+    {
+        $("#symbol").attr("readonly","readonly");
+        $("#asset").attr('disabled',"disabled");
+        $.ajax({
+            type: "get",
+            url: "/v1/http/bbSymbol/query?id=" + id,
+            contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+            async: false,
+            //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+            //data:JSON.stringify({id:id}),
+            success: function (data) {
+                //console.log(data);
+                if (data.data != null) {
+                    $("#id").val(data.data.id);
+                    $("#asset").val(data.data.asset);
+                    $("#symbol").val(data.data.symbol);
+                    $("#bb_group_id").val(data.data.bb_group_id);
+                    $("#bbSymbol_name").val(data.data.bbSymbol_name);
+                    $("#bbSymbol_name_split").val(data.data.bbSymbol_name_split);
+                    $("#display_name").val(data.data.display_name);
+                    $("#display_name_split").val(data.data.display_name_split);
+                    $("#precision").val(data.data.precision);
+                    $("#step").val(data.data.step);
+                    $("#number_precision").val(data.data.numberPrecision);
+                    $("#sort").val(data.data.sort);
+                    /*$("#symbol_type").val(data.data.symbol_type);
+                     $("#bbsymbol_type").val(data.data.bbSymbol_type);
+                     $("#default_price").val(data.data.default_price);
+                     $("#last_price").val(data.data.last_price);
+                     $("#face_value").val(data.data.face_value);
+                     $("#quote_currency").val(data.data.quote_currency);
+                     $("#face_currency").val(data.data.face_currency);
+                     $("#settle_currency").val(data.data.settle_currency);
+                     $("#settle_price").val(data.data.settle_price);
+                     $("#base_currency").val(data.data.base_currency);
+                     $("#privilege").val(data.data.privilege);*/
+                    if (data.data.status == "1")
+                        $("#ckbIsOnTop").parent().find("a").attr("class", "selected")
+
+                    if (data.data.enableCreate == "1"){
+                        $("#enable_create").parent().find("a").attr("class", "selected");
+                    }
+                    if (data.data.enableCancel == "1"){
+                        $("#enable_cancel").parent().find("a").attr("class", "selected");
+                    }
+
+                }
+            }
+        })
+    }
+}
+
+
+    function checkHasBbsymbol() {
+        var bol=true;
+        var parmes="?";
+        var id = $("#id").val();
+        parmes+= "id="+id;
+        parmes+="&symbol="+$("#symbol").val();
+        parmes+="&asset="+$("#asset").val();
+        parmes+="&display_name="+$("#display_name").val();
+        $.ajax({
+            type:"post",
+            url:"/v1/http/bbSymbol/check_has_bbSymbol"+parmes,
+            contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+            async:false,
+            success:function(data) {
+                if(data.code!=0)
+                {
+                    bol=false;
+                    layer.msg("已存在该交易对！");
+                    $("#symbol").val("");
+                    $("#symbol").parent().next().children().remove();
+                }
+            }
+        });
+        return bol;
+    }
+
+
+function getGroupNum() {
+    var bolNumber=true;
+    $.ajax({
+        type:"get",
+        url:"/v1/http/bbSymbol/getBbSymbolGroupNum?bb_group_id="+$("#bb_group_id").val(),
+        contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+        async:false,
+        success:function(data) {
+            if(data.data.number>10) {
+                bolNumber=false;
+            }
+        }
+    });
+    return bolNumber;
+}
+
+   /*function checkHasLastPrice(){
+        var bol =true;
+        $.ajax({
+            type:"post",
+            url:"/v1/http/bbSymbol/check_last_price?symbol="+$("#symbol").val(),
+            contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+            async:false,
+            success:function(data) {
+                if(data.data.has_last_price==true)
+                {
+                    layer.msg("已存在最新成交价！");
+                    bol=false;
+                    $("#last_price").val("");
+                    $("#last_price").parent().next().children().remove();
+                }
+            }
+        });
+        return bol;
+    }*/
+
+    $("#BtnSave").click(function(){
+        if(!getGroupNum())
+            return false;
+        if(!checkHasBbsymbol())
+            return false;
+/*        if(!checkHasLastPrice())
+            return false;*/
+
+        var enableCreateCheck;
+        var enableCancelCheck;
+
+        if($("#enable_create").parent().find("a").attr("class")=="selected"){
+            enableCreateCheck=1;
+        }else{
+            enableCreateCheck=0;
+        }
+        if($("#enable_cancel").parent().find("a").attr("class")=="selected"){
+            enableCancelCheck=1;
+        }else{
+            enableCancelCheck=0;
+        }
+
+        var checkVal=$("#ckbIsOnTop").parent().find("a").attr("class");
+        var isCheck;
+        var id = GetQueryString("id");
+        var action=GetQueryString("action");
+        if(action!="Edit")
+            id=0;
+        if(checkVal=="selected")
+            isCheck=1;
+        else
+            isCheck=0;
+
+        if($(".Validform_wrong").length>0)
+        {
+            layer.msg("请确认信息填写是否有误！");
+            return false;
+        }
+        if($("#symbol").val()=="")
+        {
+            layer.msg("请填写交易对！");
+            return false;
+        }
+        if($("#asset").val()=="")
+        {
+            layer.msg("请填写币种！");
+            return false;
+        }
+
+        var parmes="?";
+        parmes+= "id="+id;
+        parmes+="&symbol="+$("#symbol").val();
+        parmes+="&asset="+$("#asset").val();
+        parmes+="&bb_group_id="+$("#bb_group_id").val();
+        parmes+="&bbSymbol_name="+$("#bbSymbol_name").val();
+        parmes+="&bbSymbol_name_split="+$("#bbSymbol_name_split").val();
+        parmes+="&display_name="+$("#display_name").val();
+        parmes+="&display_name_split="+$("#display_name_split").val();
+        parmes+="&step="+$("#step").val();
+        parmes+="&number_precision="+$("#number_precision").val();
+        parmes+="&precision="+$("#precision").val();
+        parmes+="&status="+isCheck;
+        parmes+="&sort="+$("#sort").val();
+        parmes+="&enable_create="+ enableCreateCheck;
+        parmes+="&enable_cancel="+  enableCancelCheck;
+       /* parmes+="&symbol_type="+$("#symbol_type").val();
+        parmes+="&bbSymbol_type="+$("#bbsymbol_type").val();
+        parmes+="&face_value="+$("#face_value").val();
+        parmes+="&default_price="+$("#default_price").val();
+        parmes+="&last_price="+$("#last_price").val();
+        parmes+="&quote_currency="+$("#quote_currency").val();
+        parmes+="&base_currency="+$("#base_currency").val();
+        parmes+="&settle_currency="+$("#settle_currency").val();
+        parmes+="&settle_price="+$("#settle_price").val();
+        parmes+="&face_currency="+$("#face_currency").val();
+        parmes+="&privilege="+$("#privilege").val();*/
+        $.ajax({
+            type:"post",
+            url:"/v1/http/bbSymbol/create_or_edit"+parmes,
+            contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+            success:function(data) {
+                debugger
+                //console.log(data);
+                if(data.code==0)
+                {
+                    if(id>0&&action=="Edit")
+                        layer.msg("修改成功！");
+                    else
+                        layer.msg("添加成功！");
+                    setTimeout("Close()", 1000);
+                }
+                else
+                {
+                    layer.msg(data.msg)
+                }
+
+            }
+        })
+    })
+</script>
+
+</body>
+</html>
+
+
+
+
