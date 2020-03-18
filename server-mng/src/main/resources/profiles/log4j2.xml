@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="info" name="XMLConfigTest" packages="org.apache.logging.log4j.test" monitorInterval="30">
     <SpringProperties>
-        <Property name="logDir1">/log/ex2/server_mng/</Property>
+        <Property name="logDir">/log/ex2/server_mng/</Property>
         <Property name="fileName">mng_server.log</Property>
     </SpringProperties>
     <ThresholdFilter level="info"/>
@@ -14,8 +14,8 @@
         <Routing name="Routing">
             <Routes pattern="$${sd:orderType}">
                 <Route>
-                    <RollingFile name="log" fileName="${logDir1}/${fileName}"
-                                 filePattern="${logDir1}/log/${fileName}.%i.gz">
+                    <RollingFile name="log" fileName="${logDir}/${fileName}"
+                                 filePattern="${logDir}/log/${fileName}.%i.gz">
                         <PatternLayout>
                             <pattern>%d %p %c{1.} [%t] %m%n</pattern>
                         </PatternLayout>
