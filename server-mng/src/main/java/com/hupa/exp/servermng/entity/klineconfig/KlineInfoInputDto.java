@@ -13,6 +13,7 @@ public class KlineInfoInputDto extends BaseInputDto {
     private String asset;
     private String symbol;
     private String interval;
+    private Integer klineType;
     private List<RepairKlineOutputDto> rows;
 
     public Long getId() {
@@ -53,5 +54,13 @@ public class KlineInfoInputDto extends BaseInputDto {
 
     public void setRows(List<RepairKlineOutputDto> rows) {
         this.rows = rows;
+    }
+
+    public Integer getKlineType() {
+        return klineType;
+    }
+
+    public void setKlineType(Integer klineType) {
+        this.klineType = klineType;
     }
 }

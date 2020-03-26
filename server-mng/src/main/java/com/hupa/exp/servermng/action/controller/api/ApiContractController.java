@@ -86,7 +86,9 @@ public class ApiContractController {
             @ApiParam(name="enable_cancel",value = "开启撤单",required = true)
             @RequestParam(name = "enable_cancel") Integer enableCancel,
             @ApiParam(name="privilege",value = "永续合约权限")
-            @RequestParam(name = "privilege",required = false) Integer privilege
+            @RequestParam(name = "privilege",required = false) Integer privilege,
+            @ApiParam(name="contract_chinese_name",value = "合约中文名",required = true)
+            @RequestParam(name = "contract_chinese_name") String contractChineseName
     )
     {
         ContractInputDto inputDto=new ContractInputDto();
@@ -116,6 +118,7 @@ public class ApiContractController {
         inputDto.setBaseCurrency(baseCurrency);
         inputDto.setSettleCurrency(settleCurrency);
         inputDto.setFaceCurrency(faceCurrency);
+        inputDto.setContractChineseName(contractChineseName);
         ContractOutputDto outputDto=new ContractOutputDto();
         try {
             outputDto= iApiContractControllerService.createOrEditContract(inputDto);
@@ -308,7 +311,7 @@ public class ApiContractController {
     @ApiOperation(value = "获取所有的合约交易对")
     @GetMapping(path = "/get_contract_list_by_all")
     public BaseResultViaApiDto<GetContractListByAssetInputDto,GetContractListByAssetOutputDto> findContractListByAll(
-            @ApiParam(name="asset",value = "标的符号",required = false)
+            @ApiParam(name="asset",value = "标的符号",required = true)
             @RequestParam(name = "asset",required = false) String asset) {
         GetContractListByAssetInputDto inputDto=new GetContractListByAssetInputDto();
         inputDto.setAsset(asset);

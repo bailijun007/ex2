@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2020/2/20.
@@ -28,10 +31,26 @@ public class BbCandleHelper {
     //@Autowired
     //private BbCandleConfig bbCandleConfig;
 
+    public void writeToRedisEvent(String redisKey, Map<String, Double> member2score) {
+        if (null == member2score || member2score.isEmpty()) {
+            return;
+        }
+        ArrayList<Double> doubles = new ArrayList<>(member2score.values());
+        doubles.sort(Comparator.naturalOrder());
+        double startTimeInMs = doubles.get(0);
+        double endTimeInMs = doubles.get(doubles.size() - 1);
+        try {
+            RedisUtil.redisClientFactory(candleRedisConfig).zRemRangeByScore(redisKey, String.valueOf(startTimeInMs), String.valueOf(endTimeInMs));
+            RedisUtil.redisClientFactory(candleRedisConfig).zAdd(redisKey, member2score);
+        } catch (Exception e) {
+            logger.error("K线数据插入Redis错误:" + startTimeInMs + " -> " + endTimeInMs, e);
+        }
+    }
+
     public void writeToRedisEvent(String redisKey, String time, String endTime) {
         BigDecimal[] bigDecimals = new BigDecimal[2];
         try {
-            if(time==null){
+            if (time == null) {
                 return;
             }
             bigDecimals[0] = new BigDecimal(time);
@@ -42,6 +61,23 @@ public class BbCandleHelper {
             logger.error("K线数据插入Redis错误:" + JsonUtil.toJsonString(bigDecimals) + " Exception:" + e);
         }
     }
+
+    public void writeToRedisRevoke(String redisKey, String time, String endTime) {
+        BigDecimal[] bigDecimals = new BigDecimal[3];
+        try {
+            if (time == null) {
+                return;
+            }
+            bigDecimals[0] = new BigDecimal("0");
+            bigDecimals[1] = new BigDecimal(time);
+            bigDecimals[2] = new BigDecimal(endTime);
+            RedisUtil.redisClientFactory(candleRedisConfig).zRemRangeByScore(redisKey, String.valueOf(time), String.valueOf(time));
+            RedisUtil.redisClientFactory(candleRedisConfig).zAdd(redisKey, Double.parseDouble(time), JsonUtil.toJsonString(bigDecimals));
+        } catch (Exception e) {
+            logger.error("K线数据插入Redis错误:" + JsonUtil.toJsonString(bigDecimals) + " Exception:" + e);
+        }
+    }
+
 
    /* public void writeBbCandlePoToRedis(String asset, String symbol, String interval, String time, BbCandlePo candlePo) {
         BigDecimal[] bigDecimals = new BigDecimal[6];
@@ -77,6 +113,10 @@ public class BbCandleHelper {
     public long getIntervalPointTime(long currentTime, long firstTradeTime, String interval) throws Exception {
         long intervalTime = getIntervalMills(interval, currentTime);
         String strKlineStartTime = StringUtils.EMPTY;
+
+//        Long freq = Long.valueOf(intervalTime);
+//        long l = TimeUnit.MINUTES.toMillis(freq * (TimeUnit.MILLISECONDS.toMinutes(currentTime) / freq));
+
         if (interval.equals(PcCandleIntervalDic.interval_min_1)) {
             strKlineStartTime = new DateTime(currentTime).toString("yyyy-MM-dd") + " 00:00:00";
         } else if (interval.equals(PcCandleIntervalDic.interval_min_3)) {

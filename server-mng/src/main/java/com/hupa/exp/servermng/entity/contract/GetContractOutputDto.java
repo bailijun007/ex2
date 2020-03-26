@@ -29,6 +29,12 @@ public class GetContractOutputDto extends BaseOutputDto {
      */
     @JsonProperty("contract_name")
     private String contractName;
+
+    /**
+     *  合约中文名
+     */
+    @JsonProperty("contract_chinese_name")
+    private String contractChineseName;
     /**
      * 合约名称分隔符
      */
@@ -290,5 +296,13 @@ public class GetContractOutputDto extends BaseOutputDto {
 
     public void setEnableCancel(String enableCancel) {
         this.enableCancel = enableCancel;
+    }
+
+    public String getContractChineseName() {
+        return contractChineseName;
+    }
+
+    public void setContractChineseName(String contractChineseName) {
+        this.contractChineseName = contractChineseName;
     }
 }

@@ -2,16 +2,19 @@ package com.hupa.exp.servermng.entity.klineconfig;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 
+import java.util.List;
+
 public class KlineConfigInputDto extends BaseInputDto {
     private long id;
     private String asset;
     private String symbol;
-    private boolean status;
+    private Integer klineType;
     private String klineInterval;
     private Long statTime;
     private Long endTime;
+    private boolean status;
     private Integer type;
-    private Integer klineType;
+    private List<RepairKlineOutputDto> rows;
 
     public Long getEndTime() {
         return endTime;
@@ -83,5 +86,13 @@ public class KlineConfigInputDto extends BaseInputDto {
 
     public void setKlineType(Integer klineType) {
         this.klineType = klineType;
+    }
+
+    public List<RepairKlineOutputDto> getRows() {
+        return rows;
+    }
+
+    public void setRows(List<RepairKlineOutputDto> rows) {
+        this.rows = rows;
     }
 }

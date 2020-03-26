@@ -22,6 +22,7 @@ public class PcContractBizBo {
      * 合约名称
      */
     private String contractName;
+
     /**
      * 合约名称分隔符
      */
@@ -54,6 +55,11 @@ public class PcContractBizBo {
     private Integer privilege;
     private Long ctime;
     private Long mtime;
+
+    /**
+     *  合约中文名
+     */
+    private String contractChineseName;
 
     public String getFaceCurrency() {
         return faceCurrency;
@@ -277,5 +283,13 @@ public class PcContractBizBo {
 
     public void setEnableCancel(Integer enableCancel) {
         this.enableCancel = enableCancel;
+    }
+
+    public String getContractChineseName() {
+        return contractChineseName;
+    }
+
+    public void setContractChineseName(String contractChineseName) {
+        this.contractChineseName = contractChineseName;
     }
 }

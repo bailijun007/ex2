@@ -167,10 +167,10 @@
 
 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">永续合约生效状态：</label>
+                            <label class="col-sm-3 control-label">永续合约账户是否开启：</label>
                             <div class="col-sm-5">
                                 <div class="rule-single-checkbox">
-                                    <input type="checkbox" id="enableFlagPcDiv"  />
+                                    <input type="checkbox" id="enable_flag_pc_account"  />
                                 </div>
                             </div>
                             <div class="Validform_checktip"></div>
@@ -178,14 +178,41 @@
 
 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">币币生效状态：</label>
+                            <label class="col-sm-3 control-label">bb交易账户否开启：</label>
                             <div class="col-sm-5">
                                 <div class="rule-single-checkbox">
-                                    <input type="checkbox"  id="enableFlagBbDiv"  />
+                                    <input type="checkbox"  id="enable_flag_bb_account"  />
                                 </div>
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">永续合约市场是否开启：</label>
+                            <div class="col-sm-5">
+                                <div class="rule-single-checkbox">
+                                    <input type="checkbox" id="enable_flag_pc_market"  />
+                                </div>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">币币市场是否开启：</label>
+                            <div class="col-sm-5">
+                                <div class="rule-single-checkbox">
+                                    <input type="checkbox"  id="enable_flag_bb_market"  />
+                                </div>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+
+
+
+
+
 
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-3">
@@ -228,7 +255,7 @@
             if (id != ""&&action=="Edit")//id不为空则需要绑定值
             {
                 $("#real_name").attr("readonly","readonly");
-                $("#chain_appoint_id").attr("readonly","readonly");
+                //$("#chain_appoint_id").attr("readonly","readonly");
                 //$("#icon").attr("readonly","readonly");
                 $.ajax({
                     type: "get",
@@ -251,15 +278,23 @@
                             $("#chain_appoint_id").val(data.data.chainAppointId);
                             $("#precision").val(data.data.precision);
                             $("#privilege").val(data.data.privilege);
+
                             if (data.data.status == "1"){
                                 $("#ckbIsOnTop").parent().find("a").attr("class", "selected");
                             }
-                            if (data.data.enableFlagPc == "1"){
-                                $("#enableFlagPcDiv").parent().find("a").attr("class", "selected");
+                            if (data.data.enableFlagPcAccount == "1"){
+                                $("#enable_flag_pc_account").parent().find("a").attr("class", "selected");
                             }
-                            if (data.data.enableFlagBb == "1"){
-                                $("#enableFlagBbDiv").parent().find("a").attr("class", "selected");
+                            if (data.data.enableFlagBbAccount == "1"){
+                                $("#enable_flag_bb_account").parent().find("a").attr("class", "selected");
                             }
+                            if (data.data.enableFlagPcMarket == "1"){
+                                $("#enable_flag_pc_market").parent().find("a").attr("class", "selected");
+                            }
+                            if (data.data.enableFlagBbMarket == "1"){
+                                $("#enable_flag_bb_market").parent().find("a").attr("class", "selected");
+                            }
+
                             $("#sort").val(data.data.sort);
                             $("#min_deposit_volume").val(data.data.minDepositVolume);
                             $("#min_withdraw_volume").val(data.data.minWithdrawVolume);
@@ -296,8 +331,10 @@
     $("#BtnSave").click(function(){
         var checkVal=$("#ckbIsOnTop").parent().find("a").attr("class");
         var isCheck;
-        var enableFlagPcCheck;
-        var enableFlagBbCheck;
+        var enableFlagPcAccountCheck;
+        var enableFlagBbAccountCheck;
+        var enableFlagPcMarketCheck;
+        var enableFlagBbMarketCheck;
         var id = GetQueryString("id");
         var action=GetQueryString("action");
         if(action!="Edit")
@@ -307,15 +344,26 @@
         else
             isCheck=0;
 
-        if($("#enableFlagPcDiv").parent().find("a").attr("class")=="selected"){
-            enableFlagPcCheck=1;
+        if($("#enable_flag_pc_account").parent().find("a").attr("class")=="selected"){
+            enableFlagPcAccountCheck=1;
         }else{
-            enableFlagPcCheck=0;
+            enableFlagPcAccountCheck=0;
         }
-        if($("#enableFlagBbDiv").parent().find("a").attr("class")=="selected"){
-            enableFlagBbCheck=1;
+        if($("#enable_flag_bb_account").parent().find("a").attr("class")=="selected"){
+            enableFlagBbAccountCheck=1;
         }else{
-            enableFlagBbCheck=0;
+            enableFlagBbAccountCheck=0;
+        }
+
+        if($("#enable_flag_pc_market").parent().find("a").attr("class")=="selected"){
+            enableFlagPcMarketCheck=1;
+        }else{
+            enableFlagPcMarketCheck=0;
+        }
+        if($("#enable_flag_bb_market").parent().find("a").attr("class")=="selected"){
+            enableFlagBbMarketCheck=1;
+        }else{
+            enableFlagBbMarketCheck=0;
         }
         if($(".Validform_wrong").length>0)
         {
@@ -342,9 +390,10 @@
         parmes+="&min_withdraw_volume="+  $("#min_withdraw_volume").val();
         parmes+="&chain_transaction_url="+  $("#chain_transaction_url").val();
         parmes+="&dw_type="+  $("#dw_type").val();
-        parmes+="&enable_flag_pc="+ enableFlagPcCheck;
-        parmes+="&enable_flag_bb="+  enableFlagBbCheck;
-
+        parmes+="&enable_flag_pc_account="+ enableFlagPcAccountCheck;
+        parmes+="&enable_flag_bb_account="+  enableFlagBbAccountCheck;
+        parmes+="&enable_flag_pc_market="+ enableFlagPcMarketCheck;
+        parmes+="&enable_flag_bb_market="+  enableFlagBbMarketCheck;
         $.ajax({
             type:"post",
             url:"/v1/http/asset/create_or_edit"+parmes,

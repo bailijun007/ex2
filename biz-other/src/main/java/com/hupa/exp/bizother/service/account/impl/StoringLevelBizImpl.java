@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -71,7 +72,7 @@ public class StoringLevelBizImpl implements IPosLevelBiz {
         if(iPcPosLevelDao.updateById(po)>0)
         {
             ExpDicPo dicPo= dicDao.selectDicByKey("PosLevel");
-            List<PcPosLevelPo> pos= iPcPosLevelDao.selectAllPosLevelList(bo.getAsset(),bo.getSymbol());
+            List<PcPosLevelPo> pos= iPcPosLevelDao.selectAllPosLevelList(bo.getAsset(),bo.getSymbol());//Long.MAX_VALUE
             List<PcPosLevelBizBo> boList=new ArrayList<>();
             pos.forEach(pcPosLevelPo->{
                 PcPosLevelBizBo posLevelBizBo=new PcPosLevelBizBo();
@@ -88,6 +89,12 @@ public class StoringLevelBizImpl implements IPosLevelBiz {
                 posLevelBizBo.setMtime(pcPosLevelPo.getMtime());
                 boList.add(posLevelBizBo);
             });
+            //每一个货币对，集合中最大张数，它的最大值必须是Long.MAX_VALUE
+            boList.sort(Comparator.comparing(PcPosLevelBizBo::getMaxAmt).reversed());
+            PcPosLevelBizBo posLevelBizBo=boList.get(0);
+            posLevelBizBo.setMaxAmt(Long.MAX_VALUE);
+            boList.remove(boList.get(0));
+            boList.add(posLevelBizBo);
             if(dicPo!=null)
             {
                 redisUtilDb0.hset(dicPo.getValue(),bo.getAsset()+"__"+bo.getSymbol(), JsonUtil.toJsonString(boList));

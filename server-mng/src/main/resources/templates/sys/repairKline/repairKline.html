@@ -10,226 +10,528 @@
     <link href="../../../static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
     <link href="../../../static/css/style.css?v=4.1.0" rel="stylesheet">
 </head>
-
 <body class="gray-bg">
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="ibox float-e-margins">
         <div class="ibox-content">
+            <div class="row row-lg">
+                <div class="col-sm-11">
+                    <div class="form-group" style="width: 15%; float: left;">
+                        <label class="sr-only">类型</label>
+                        <select id="kline_type" class="form-control">
+                            <option value="0" selected="selected">币币</option>
+                            <option value="1">合约</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="width: 15%; float: left;">
+                        <label class="sr-only">资产</label>
+                        <select id="asset" class="form-control">
+                        </select>
+                    </div>
+                    <div class="form-group" style="width: 15%; float: left;">
+                        <label class="sr-only">交易对</label>
+                        <select id="symbol" class="form-control">
+                        </select>
+                    </div>
+                    <div class="form-group" style="width: 15%; float: left;">
+                        <label class="sr-only">开始时间</label>
+                        <input type="text" placeholder="请输入开始时间" id="stat_time" class="form-control layer-date">
+                    </div>
+                    <div class="form-group" style="width: 15%; float: left;">
+                        <label class="sr-only">结束时间</label>
+                        <input type="text" placeholder="请输入结束时间" id="end_time" class="form-control layer-date">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-btn"><button type="button" class="btn btn-primary" id="btn_query">查询K线</button></span>
+                    </div>
+                </div>
+                <div class="col-sm-12">
 
-
-                    <div class="row">
-                        <div class="col-sm-12">
-
-
-                            <div class="ibox float-e-margins">
-                                <div class="ibox-content">
-
-                                    <div class="form-group">
-                                        <div class="col-sm-4" class="sr-only"><span>币种：</span><input class="form-control"  type="text" id="asset"></div>
-                                        <div class="col-sm-8" class="sr-only"><span>货币对：</span><input class="form-control"  type="text" id="symbol"></div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-sm-2"><span>开盘时间：</span><input class="form-control"  type="text" id="openTime"></div>
-                                        <div class="col-sm-2"><span>开盘价：</span><input class="form-control"  type="text" id="open"></div>
-                                        <div class="col-sm-2"><span>最高价：</span><input class="form-control"  type="text" id="high"></div>
-                                        <div class="col-sm-2"><span>最低价：</span><input class="form-control"  type="text" id="low"></div>
-                                        <div class="col-sm-2"><span>收盘价：</span><input class="form-control"  type="text" id="close"></div>
-                                        <div class="col-sm-2"><span>成交量：</span><input class="form-control"  type="text" id="volume"></div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-sm-2"><span>开盘时间：</span><input class="form-control"  type="text" id="openTime1"></div>
-                                        <div class="col-sm-2"><span>开盘价：</span><input class="form-control"  type="text" id="open1"></div>
-                                        <div class="col-sm-2"><span>最高价：</span><input class="form-control"  type="text" id="high1"></div>
-                                        <div class="col-sm-2"><span>最低价：</span><input class="form-control"  type="text" id="low1"></div>
-                                        <div class="col-sm-2"><span>收盘价：</span><input class="form-control"  type="text" id="close1"></div>
-                                        <div class="col-sm-2"><span>成交量：</span><input class="form-control"  type="text" id="volume1"></div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-sm-2"><span>开盘时间：</span><input class="form-control"  type="text" id="openTime2"></div>
-                                        <div class="col-sm-2"><span>开盘价：</span><input class="form-control"  type="text" id="open2"></div>
-                                        <div class="col-sm-2"><span>最高价：</span><input class="form-control"  type="text" id="high2"></div>
-                                        <div class="col-sm-2"><span>最低价：</span><input class="form-control"  type="text" id="low2"></div>
-                                        <div class="col-sm-2"><span>收盘价：</span><input class="form-control"  type="text" id="close2"></div>
-                                        <div class="col-sm-2"><span>成交量：</span><input class="form-control"  type="text" id="volume2"></div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-sm-2"><span>开盘时间：</span><input class="form-control"  type="text" id="openTime3"></div>
-                                        <div class="col-sm-2"><span>开盘价：</span><input class="form-control"  type="text" id="open3"></div>
-                                        <div class="col-sm-2"><span>最高价：</span><input class="form-control"  type="text" id="high3"></div>
-                                        <div class="col-sm-2"><span>最低价：</span><input class="form-control"  type="text" id="low3"></div>
-                                        <div class="col-sm-2"><span>收盘价：</span><input class="form-control"  type="text" id="close3"></div>
-                                        <div class="col-sm-2"><span>成交量：</span><input class="form-control"  type="text" id="volume3"></div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-sm-2"><span>开盘时间：</span><input class="form-control"  type="text" id="openTime4"></div>
-                                        <div class="col-sm-2"><span>开盘价：</span><input class="form-control"  type="text" id="open4"></div>
-                                        <div class="col-sm-2"><span>最高价：</span><input class="form-control"  type="text" id="high4"></div>
-                                        <div class="col-sm-2"><span>最低价：</span><input class="form-control"  type="text" id="low4"></div>
-                                        <div class="col-sm-2"><span>收盘价：</span><input class="form-control"  type="text" id="close4"></div>
-                                        <div class="col-sm-2"><span>成交量：</span><input class="form-control"  type="text" id="volume4"></div>
-                                    </div>
-
-
-                                    <div class="form-group">
-                                        <div class="col-sm-4 col-sm-offset-3">
-                                            <input type="button" id="BtnSave" value="提交" class="btn btn-primary">
+                    <div class="example-wrap">
+                        <div class="example">
+                            <div class="bootstrap-table">
+                                <div class="fixed-table-toolbar">
+                                    <div class="bars pull-left">
+                                        <div class="btn-group hidden-xs" id="toolbar" role="group">
+                                            <input type="hidden" id="arrayDiv" >
+                                              <a class="btn btn-outline btn-default" href="javascript:submitEvent()"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>提交手动修正K线</a>&nbsp;&nbsp;
+                                              <a class="btn btn-outline btn-default" href="javascript:revokeEvent()"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>撤销手动修正K线</a>&nbsp;&nbsp;
+                                              <a class="btn btn-outline btn-default" href="javascript:historyEvent()"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>历史手动修正K线</a>&nbsp;&nbsp;
+                                            <!--<a class="btn btn-outline btn-default" href="javascript:thirdDataEvent()"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>用第三方数据覆盖K线</a>&nbsp;&nbsp;-->
+                                              <!--<a class="btn btn-outline btn-default" href="javascript:thirdDataIntervalEvent()"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>按分钟修补第三方历史K线</a>-->
+                                              <a class="btn btn-outline btn-default" href="javascript:repairEvent()"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>通过本平台成交记录计算K线</a>
                                         </div>
                                     </div>
-
                                 </div>
+                                <div id="appendDiv"></div>
                             </div>
+                            <div class="clearfix"></div>
                         </div>
                     </div>
-
-
-
-
-
+                    <!-- End Example Events -->
+                </div>
+            </div>
         </div>
     </div>
+    <!-- End Panel Other -->
 </div>
 <script src="../../../static/js/jquery.min.js?v=2.1.4"></script>
 <script src="../../../static/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../../../static/js/Validform_v5.3.2.js"></script>
 <script src="../../../static/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
 <script src="../../../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
 <script src="../../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<!-- 自定义js -->
+<script src="../../../static/js/layout.js"></script>
+<script src="../../../static/js/content.js?v=1.0.0"></script>
 <script src="../../../static/js/plugins/layer/layer.min.js"></script>
 <script src="../../../static/js/LayerTool.js"></script>
+<script src="../../../static/js/plugins/layer/laydate/laydate.js"></script>
 </body>
 </html>
 <script type="text/javascript">
 
 $(function () {
+    $(".form-horizontal").Validform({ tiptype: 2 });
 
-    //提交
-    $("#BtnSave").click(function(){
-        var objArray=new Array()
+    //1、加载币种
+    bindAssetPage("asset");
 
-        var obj=new Object();
-        obj.openTime=$("#openTime").val();
-        obj.open=$("#open").val();
-        obj.high=$("#high").val();
-        obj.low =$("#low").val();
-        obj.close=$("#close").val();
-        obj.volume=$("#volume").val();
-        objArray.push(obj)
+    //时间选择器
+    laydate.render({
+        elem: '#stat_time',
+        type: 'date',
+        fullPanel: true,
+        format: 'yyyy-MM-dd HH:mm',//yyyy-MM-dd HH:mm:ss
+        value:new Date()
+    });
 
-       var obj1=new Object();
-        obj1.openTime=$("#openTime1").val();
-        obj1.open=$("#open1").val();
-        obj1.high=$("#high1").val();
-        obj1.low =$("#low1").val();
-        obj1.close=$("#close1").val();
-        obj1.volume=$("#volume1").val();
-        objArray.push(obj1)
+    //时间选择器
+    laydate.render({
+        elem: '#end_time',
+        type: 'date',
+        fullPanel: true,
+        format: 'yyyy-MM-dd HH:mm',
+        value:new Date()
+    });
 
-        var obj2=new Object();
-        obj2.openTime=$("#openTime2").val();
-        obj2.open=$("#open2").val();
-        obj2.high=$("#high2").val();
-        obj2.low =$("#low2").val();
-        obj2.close=$("#close2").val();
-        obj2.volume=$("#volume2").val();
-        objArray.push(obj2)
+    $("#kline_type").change(function () {
+        bindAssetPage("asset");
+    });
 
-        var obj3=new Object();
-        obj3.openTime=$("#openTime3").val();
-        obj3.open=$("#open3").val();
-        obj3.high=$("#high3").val();
-        obj3.low =$("#low3").val();
-        obj3.close=$("#close3").val();
-        obj3.volume=$("#volume3").val();
-        objArray.push(obj3)
+    $("#asset").change(function () {
+        $("#arrayDiv").val();
+        $("#appendDiv").html("");
+        if($("#kline_type").val()==0){
+            bindBbSymbol("symbol",$("#asset").val());
+        }else if($("#kline_type").val()==1){
+            bindContractSymbol("symbol",$("#asset").val())
+        }
+    });
 
+    $("#symbol").change(function () {
+        $("#arrayDiv").val();
+        $("#appendDiv").html("");
+        /*$('#tb_departments').bootstrapTable('destroy');
+         oTable.Init();*/
+    });
 
-        var obj4=new Object();
-        obj4.openTime=$("#openTime4").val();
-        obj4.open=$("#open4").val();
-        obj4.high=$("#high4").val();
-        obj4.low =$("#low4").val();
-        obj4.close=$("#close4").val();
-        obj4.volume=$("#volume4").val();
-        objArray.push(obj4)
-
-
-        //遍历
-    /*    for(var i=0;i<objArray.length;i++){
-            console.log(i+": "+arr[i]);
-        }*/
-
-        var vo = new Object();
-        vo.asset = $("#asset").val();
-        vo.symbol = $("#symbol").val();
-        vo.rows=objArray;
-        var jsonStr=JSON.stringify(vo);
+    //3、按时间段查询数据
+    $("#btn_query").click(function () {
+        //alert($("#stat_time").val()+"-------"+$("#end_time").val());
+        if($(".Validform_wrong").length>0) {
+            layer.msg("请确认信息填写是否有误！");
+            return false;
+        }
+        $("#arrayDiv").val();
+        $("#appendDiv").html("");
+        if($("#stat_time").val()==null || $("#end_time").val()==null){
+            layer.msg("没有设置时间，不能查询");
+            return;
+        }
+        var param="?";
+        param+= "&asset="+$("#asset").val();
+        param+= "&symbol="+$("#symbol").val();
+        param+= "&stat_time="+$("#stat_time").val();
+        param+= "&end_time="+$("#end_time").val();
+        param+= "&kline_type="+$("#kline_type").val();
+        //param+= "&klineInterval="+klineInterval;
         $.ajax({
-            type:"post",
-            url:"/v1/http/klineconfig/send",
-            data:jsonStr,
-            contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
-            success:function(data) {
-                alert(data.data.bn+"------------------");
-                if(data.bn) {
-                    layer.msg("操作成功！");
-                }else{
-                    layer.msg("操作成功！");
+            type: "post",
+            url: "/v1/http/klineconfig/getIntervalKline" + param,
+            contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+            async: false,
+            success: function (data) {
+                var objHtml = "";
+                $("#arrayDiv").val();
+                if (data.data != null) {
+                    var list = data.data.rows;
+                    if (list != null) {
+                        for (var i = 0; i < list.length; i++) {
+                            objHtml += " <div class=\"clearfix\"></div><div class='form-group'>"
+                            objHtml +="<div class='col-sm-2'>开盘时间:"+time(parseInt(list[i].openTime))+"<input  class=\"form-control\" type=\"text\" id=\"openTime"+i+"\" value=\"" + list[i].openTime + "\" readonly=\"true\"></div>";
+                            if(list[i].open==null){
+                                objHtml += "<div class='col-sm-2'>开盘价：<input  class=\"form-control\" type=\"text\" id=\"open"+i+"\" value=\"\" datatype=\"*1-1000000\"></div>";
+                            }else{
+                                objHtml += "<div class='col-sm-2'>开盘价：<input  class=\"form-control\" type=\"text\" id=\"open"+i+"\" value=\"" + list[i].open + "\" datatype=\"*1-1000000\"></div>";
+                            }
+                            objHtml += "<div class=\"Validform_checktip\"></div>";
+
+                            if(list[i].close==null){
+                                objHtml += "<div class='col-sm-2'>收盘价：<input  class=\"form-control\" type=\"text\" id=\"close"+i+"\" value=\"\" datatype=\"*1-1000000\"></div>";
+                            }else{
+                                objHtml += "<div class='col-sm-2'>收盘价：<input  class=\"form-control\" type=\"text\" id=\"close"+i+"\" value=\"" + list[i].close + "\" datatype=\"*1-1000000\"></div>";
+                            }
+                            objHtml += "<div class=\"Validform_checktip\"></div>";
+                            if(list[i].high==null){
+                                objHtml += "<div class='col-sm-2'>最高价：<input  class=\"form-control\" type=\"text\" id=\"high"+i+"\" value=\"\" datatype=\"*1-1000000\"></div>";
+                            }else{
+                                objHtml += "<div class='col-sm-2'>最高价：<input  class=\"form-control\" type=\"text\" id=\"high"+i+"\" value=\"" + list[i].high + "\" datatype=\"*1-1000000\"></div>";
+                            }
+                            objHtml += "<div class=\"Validform_checktip\"></div>";
+                            if(list[i].low==null){
+                                objHtml += "<div class='col-sm-2'>最低价：<input  class=\"form-control\" type=\"text\" id=\"low"+i+"\" value=\"\" datatype=\"*1-1000000\"></div>";
+                            }else{
+                                objHtml += "<div class='col-sm-2'>最低价：<input  class=\"form-control\" type=\"text\" id=\"low"+i+"\" value=\"" + list[i].low + "\" datatype=\"*1-1000000\"></div>";
+                            }
+                            objHtml += "<div class=\"Validform_checktip\"></div>";
+                            if(list[i].volume==null){
+                                objHtml += "<div class='col-sm-2'>总量：<input  class=\"form-control\" type=\"text\" id=\"volume"+i+"\" value=\"\" datatype=\"*1-1000000\"></div>";
+                            }else{
+                                objHtml += "<div class='col-sm-2'>总量：<input  class=\"form-control\" type=\"text\" id=\"volume"+i+"\" value=\"" + list[i].volume + "\" datatype=\"*1-1000000\"></div>";
+                            }
+                            objHtml += "<div class=\"Validform_checktip\"></div>";
+                            objHtml += "</div>"
+                        }
+                        $("#arrayDiv").val(list.length);
+                    }
                 }
-                setTimeout("Close()", 1000);
+                $("#appendDiv").append(objHtml);
             }
         });
-    })
-
+    });
 });
 
+//手动修补某个时间段的K线数据，提交
+var submitEvent = function () {
+    var objSize = $("#arrayDiv").val();
+    if(objSize==null || objSize<=0 || objSize=="" || objSize==NaN){
+        layer.msg("没有K线数据，不能提交");
+        return;
+    }
+    var objNumber = parseInt(objSize);
+    if(objNumber==null || objNumber=="" || objNumber==NaN || objNumber=="NaN"){
+        layer.msg("没有K线数据，不能提交");
+        return;
+    }
+    var objArray=new Array()
+    for(var i=0;i<objNumber;i++){
+        //console.log(i+": "+arr[i]);
+        var obj=new Object();
+        obj.openTime=$("#openTime"+i).val();
+        var objOpen = $("#open"+i).val();
+        if(objOpen==null || objOpen==""){
+            layer.msg("没填完数据，不能提交");
+            return;
+        }
+        obj.open=objOpen;
+        var objHigh=$("#high"+i).val();
+        if(objHigh==null || objHigh==""){
+            layer.msg("没填完数据，不能提交");
+            return;
+        }
+        obj.high=objHigh;
+        var objLow =$("#low"+i).val();
+        if(objLow==null || objLow==""){
+            layer.msg("没填完数据，不能提交");
+            return;
+        }
+        obj.low =objLow;
+        var objClose = $("#close"+i).val();
+        if(objClose==null || objClose==""){
+            layer.msg("没填完数据，不能提交");
+            return;
+        }
+        obj.close=objClose;
+        obj.volume=$("#volume"+i).val();
+        objArray.push(obj)
+    }
+    if(objArray.length < 0){
+        layer.msg("没有K线数据，不能提交");
+        return;
+    }
+    var vo = new Object();
+    vo.asset = $("#asset").val();
+    vo.symbol = $("#symbol").val();
+    vo.klineType = $("#kline_type").val();
+    vo.rows=objArray;
+    var jsonStr=JSON.stringify(vo);
+    $.ajax({
+        type:"post",
+        url:"/v1/http/klineconfig/getManualKline",
+        data:jsonStr,
+        contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+        success:function(data) {
+            if(data.data.bn) {
+                layer.msg("操作成功！");
+            }else{
+                layer.msg("操作失败！");
+            }
+            setTimeout("Close()", 1000);
+        }
+    });
+}
 
-
-//初始化方法
-function initData() {
-    var id = GetQueryString("id");
+//撤销某一段时间的K线数据
+var revokeEvent = function () {
+    if($("#stat_time").val()==null || $("#end_time").val()==null){
+        layer.msg("没有设置时间，不能查询");
+        return;
+    }
+    var param="?";
+    param+= "&asset="+$("#asset").val();
+    param+= "&symbol="+$("#symbol").val();
+    param+= "&stat_time="+$("#stat_time").val();
+    param+= "&end_time="+$("#end_time").val();
+    param+= "&kline_type="+$("#kline_type").val();
     $.ajax({
         type: "get",
-        url: "/v1/http/klineconfig/getRepairKline?id=" + id,
+        url: "/v1/http/klineconfig/getRevokeKline" + param,
+        contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+        async: false,
+        success: function (data) {
+            if(data.data.bn) {
+                layer.msg("操作成功！");
+            }else{
+                layer.msg("操作失败！");
+            }
+            setTimeout("Close()", 1000);
+        }
+    });
+}
+
+//历史
+var historyEvent = function () {
+        var text = "查看历史信息"
+        url = "/sys/repairKline/repairHistoryKline.html?asset="+$("#asset").val()+"&symbol="+$("#symbol").val()+"&klineType="+$("#kline_type").val()+"";
+        parent.layer.open({
+            type: 2,
+            title: text,
+            shadeClose: true,
+            shade: 0.8,
+            area: ['800px', '65%'],
+            content: url,
+            success: function (layero, index) {
+
+            },
+            end: function () {
+                //$('#tb_departments').bootstrapTable('destroy');
+                //oTable.Init();
+            }
+        });
+}
+
+//修补第三方历史K线数据
+var thirdDataEvent = function () {
+    if($("#stat_time").val()==null || $("#end_time").val()==null){
+        layer.msg("没有设置时间,不能修补");
+        return;
+    }
+    var param="?";
+    param+= "&asset="+$("#asset").val();
+    param+= "&symbol="+$("#symbol").val();
+    param+= "&stat_time="+$("#stat_time").val();
+    param+= "&end_time="+$("#end_time").val();
+    param+= "&kline_type="+$("#kline_type").val();
+    $.ajax({
+        type: "get",
+        url: "/v1/http/klineconfig/getThirdDataKline" + param,
+        contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+        async: false,
+        success: function (data) {
+            if(data.data.bn) {
+                layer.msg("操作成功！");
+            }else{
+                layer.msg("操作失败！");
+            }
+            setTimeout("Close()", 1000);
+        }
+    });
+}
+
+
+//按分钟级别的修补，第三方历史K线数据
+var thirdDataIntervalEvent = function () {
+    /*if($("#stat_time").val()==null || $("#end_time").val()==null){
+        layer.msg("没有设置时间,不能修补");
+        return;
+    }
+    var param="?";
+    param+= "&asset="+$("#asset").val();
+    param+= "&symbol="+$("#symbol").val();
+    param+= "&stat_time="+$("#stat_time").val();
+    param+= "&end_time="+$("#end_time").val();
+    param+= "&kline_type="+$("#kline_type").val();
+    $.ajax({
+        type: "get",
+        url: "/v1/http/klineconfig/getThirdDataIntervalKline" + param,
+        contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+        async: false,
+        success: function (data) {
+            if(data.data.bn) {
+                layer.msg("操作成功！");
+            }else{
+                layer.msg("操作失败！");
+            }
+            setTimeout("Close()", 1000);
+        }
+    });*/
+}
+
+
+
+/**
+ * 修复某个时间段实时交易数据k线
+ * @param id
+ */
+var repairEvent = function () {
+    if($("#stat_time").val()==null || $("#end_time").val()==null){
+        layer.msg("没有设置时间,不能修补");
+        return;
+    }
+    var param="?";
+    param+= "&asset="+$("#asset").val();
+    param+= "&symbol="+$("#symbol").val();
+    param+= "&stat_time="+$("#stat_time").val();
+    param+= "&end_time="+$("#end_time").val();
+    param+= "&kline_type="+$("#kline_type").val();
+    $.ajax({
+        type: "get",
+        url: "/v1/http/klineconfig/getRepairKline" + param,
+        contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+        async: false,
+        success: function (data) {
+            if(data.data.bn) {
+                layer.msg("操作成功！");
+            }else{
+                layer.msg("操作失败！");
+            }
+            setTimeout("Close()", 1000);
+        }
+    });
+}
+
+
+
+
+
+function bindAssetPage(id) {
+    $.ajax({
+        type: "get",
+        url: "/v1/http/asset/query_asset_list",
         contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
         async: false,
         //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
         //data:JSON.stringify({id:id}),
         success: function (data) {
-            if (data.data != null) {
-                var list= data.data.rows;
-                if (list != null) {
-                    var html="";
-                    /* for(var i=0;i<list.length;i++)
-                     {
-                     html+="<div class='form-group'>"
-                     html+="<label class='col-sm-3'>开盘时间"+list[i].openTime+"：</label>"
-                     html+="<div class='col-sm-3'>"
-                     html+="最高价：<input  class=\"form-control\" type=\"text\" value=\""+list[i].high+"\" datatype=\"*1-100\">";
-                     html+="</div>"
-                     html+="<div class='col-sm-3'>"
-                     html+="最低价：<input  class=\"form-control\" type=\"text\" value=\""+list[i].low+"\" datatype=\"*1-100\">";
-                     html+="</div>"
-                     html+="</div>"
-
-                     html+="<div class='form-group'>"
-                     html+="<label class='col-sm-3'>"+list[i].openTime+"：</label>"
-                     html+="<div class='col-sm-3'>"
-                     html+="最高价：<input  class=\"form-control\" type=\"text\" value=\""+list[i].high+"\" datatype=\"*1-100\">";
-                     html+="</div>"
-                     html+="<div class='col-sm-3'>"
-                     html+="最低价：<input  class=\"form-control\" type=\"text\" value=\""+list[i].low+"\" datatype=\"*1-100\">";
-                     html+="</div>"
-                     html+="<div class='col-sm-3'>"
-                     html+="总量：<input  class=\"form-control\" type=\"text\" value=\""+list[i].volume+"\" datatype=\"*1-100\">";
-                     html+="</div>"
-                     html+="</div>"
-                     }*/
-                    $("#append").append(html);
+            //console.log(data);
+            var list= data.data.asset_list;
+            if (list != null) {
+                var html="";
+                for(var i=0;i<list.assetList.length;i++) {
+                    if(list.assetList[i]=="USDT"){
+                        html+="<option value='"+list.assetList[i]+"' selected=\"selected\">"+list.assetList[i]+"</option>";
+                    }else{
+                        html+="<option value='"+list.assetList[i]+"'>"+list.assetList[i]+"</option>";
+                    }
                 }
+                $("#"+id+"").html(html);
+                if($("#kline_type").val()==0){
+                    bindBbSymbol("symbol",$("#asset").val());
+                }else if($("#kline_type").val()==1){
+                    bindContractSymbol("symbol",$("#asset").val())
+                }
+            }
+        }
+    })
+}
+
+//货币对合约方法
+function bindContractSymbol(id,asset) {
+    var html="";
+    $.ajax({
+        type: "get",
+        url: "/v1/http/contract/get_contract_list_by_all?asset="+asset,
+        contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+        async: false,
+        success: function (data) {
+            var assetSymbolList= data.data.asset_symbol_list;
+            if (assetSymbolList != null) {
+                for(var i=0;i<assetSymbolList.length;i++) {
+                    html+="<option value='"+assetSymbolList[i].symbol+"'>"+assetSymbolList[i].symbol+"</option>"
+                }
+                $("#"+id+"").html(html);
+            }
+        }
+    })
+}
+//货币对BB
+function bindBbSymbol(id,asset) {
+   /*
+    $.ajax({
+        type: "get",
+        url: "/v1/http/bbSymbol/get_all_bbSymbol",
+        contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+        async: false,
+        //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+        //data:JSON.stringify({id:id}),
+        success: function (data) {
+            //console.log(data);
+            var assetSymbolList= data.data.asset_symbol_list;
+            if (assetSymbolList != null) {
+                for(var i=0;i<assetSymbolList.length;i++)
+                {
+                    html+="<option value='"+assetSymbolList[i].symbol+"'>"+assetSymbolList[i].symbol+"</option>"
+                }
+                $("#"+id+"").html(html);
+            }
+        }
+    })*/
+
+/*    $.ajax({
+        type: "get",
+        url: "/v1/http/bbSymbol/get_all_bbSymbol",
+        contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+        async: false,
+        success: function (data) {
+            var objHtml = "";
+            var assetSymbolList= data.data.active_bbSymbol;
+            if (assetSymbolList != null) {
+                for(var i=0;i<assetSymbolList.length;i++) {
+                    objHtml+="<option value='"+assetSymbolList[i].symbol+"'>"+assetSymbolList[i].symbol+"</option>"
+                }
+                $("#symbol").html(objHtml);
+            }
+        }
+    })*/
+
+
+    $.ajax({
+        type: "get",
+        url: "/v1/http/bbSymbol/get_bbSymbol_list_by_asset?asset="+asset,
+        contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+        async: false,
+        //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+        //data:JSON.stringify({id:id}),
+        success: function (data) {
+            //console.log(data);
+            var html="";
+            var assetSymbolList= data.data.asset_symbol_list;
+            if (assetSymbolList != null) {
+                for(var i=0;i<assetSymbolList.length;i++) {
+                    html+="<option value='"+assetSymbolList[i].symbol+"'>"+assetSymbolList[i].symbol+"</option>"
+                }
+                $("#"+id+"").html(html);
             }
         }
     })
@@ -238,10 +540,4 @@ function initData() {
 
 
 
-
-
 </script>
-
-
-
-

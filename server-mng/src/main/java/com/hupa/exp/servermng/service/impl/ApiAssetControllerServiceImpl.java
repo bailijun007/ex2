@@ -53,9 +53,6 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
     @Autowired
     private IExpDicDao iExpDicDao;
 
-    //@Autowired
-    //private IMongoTableDao iMongoTableDao;
-
     /**
      * 创建币种
      * @param inputDto
@@ -70,7 +67,6 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
 
         AssetBizBo bo= ConventObjectUtil.conventObject(inputDto,AssetBizBo.class);
         bo.setId(inputDto.getId());
-        //bo.setSymbol(inputDto.getSymbol());
         bo.setChainAppointId(inputDto.getChainAppointId());
         bo.setChainName(inputDto.getChainNname());
         bo.setRealName(inputDto.getRealName());
@@ -88,20 +84,11 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
         bo.setMtime(System.currentTimeMillis());
         bo.setDwType(inputDto.getDwType());
         bo.setChainTransactionUrl(inputDto.getChainTransactionUrl());
-        bo.setEnableFlagPc(inputDto.getEnableFlagPc());
-        bo.setEnableFlagBb(inputDto.getEnableFlagBb());
+        bo.setEnableFlagPcAccount(inputDto.getEnableFlagPcAccount());
+        bo.setEnableFlagBbAccount(inputDto.getEnableFlagBbAccount());
+        bo.setEnableFlagPcMarket(inputDto.getEnableFlagPcMarket());
+        bo.setEnableFlagBbMarket(inputDto.getEnableFlagBbMarket());
         iAssetBiz.createAsset(bo);
-
-        //存储到Mongo中，具体不是很清楚，后续修改
-       /*
-        yan 注释
-        ExpDicPo dicPo= iExpDicDao.selectDicByKey(DbKeyDic.MongoDbAssetTableKey);
-        if(dicPo!=null) {
-           List<ExpDicPo> dicPoList=iExpDicDao.selectDicListByParentId(Integer.parseInt(String.valueOf(dicPo.getId())));
-           List<String> tableNames= dicPoList.stream().map(p -> p.getKey().replace("{asset}",bo.getRealName())).collect(Collectors.toList());
-           iMongoTableDao.createMongoTable(tableNames);
-        }*/
-
         //添加操作日志
         ExpUserBizBo user= sessionHelper.getUserInfoBySession();
         logService.createOperationLog(user.getId(),user.getUserName(), OperationModule.Asset.toString(),
@@ -128,14 +115,11 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
                     throw new MngException(MngExceptionCode.ASSET_EXIST_ERROR);
             }
         }
-
         AssetBizBo afterBo=new AssetBizBo();
         afterBo.setId(inputDto.getId());
-        //afterBo.setSymbol(inputDto.getSymbol());
-        //链上ID和真实名不让修改 用之前的
         afterBo.setIcon(inputDto.getIcon());
         afterBo.setIconImg(inputDto.getIconImg());
-        afterBo.setChainAppointId(beforeBo.getChainAppointId());
+        afterBo.setChainAppointId(inputDto.getChainAppointId());//beforeBo.getChainAppointId()
         afterBo.setRealName(beforeBo.getRealName());
         afterBo.setChainName(inputDto.getChainNname());
         afterBo.setDisplayName(inputDto.getDisplaynName());
@@ -149,26 +133,17 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
         afterBo.setWithdrawFee(inputDto.getWithdrawFee());
         afterBo.setC2cFee(inputDto.getC2cFee());
         afterBo.setChainTransactionUrl(inputDto.getChainTransactionUrl());
-        afterBo.setEnableFlagPc(inputDto.getEnableFlagPc());
-        afterBo.setEnableFlagBb(inputDto.getEnableFlagBb());
+        afterBo.setEnableFlagPcAccount(inputDto.getEnableFlagPcAccount());
+        afterBo.setEnableFlagBbAccount(inputDto.getEnableFlagBbAccount());
+        afterBo.setEnableFlagPcMarket(inputDto.getEnableFlagPcMarket());
+        afterBo.setEnableFlagBbMarket(inputDto.getEnableFlagBbMarket());
         afterBo.setMtime(System.currentTimeMillis());
         afterBo.setCtime(beforeBo.getCtime());
         iAssetBiz.editAsset(afterBo);
-
-       /* //存储到Mongo中，具体不是很清楚，后续修改
-       yan 注释
-        ExpDicPo dicPo= iExpDicDao.selectDicByKey(DbKeyDic.MongoDbAssetTableKey);
-        if(dicPo!=null) {
-            List<ExpDicPo> dicPoList=iExpDicDao.selectDicListByParentId(Integer.parseInt(String.valueOf(dicPo.getId())));
-            List<String> tableNames= dicPoList.stream().map(p -> p.getKey().replace("{asset}",beforeBo.getRealName())).collect(Collectors.toList());
-            iMongoTableDao.createMongoTable(tableNames);
-        }*/
-
         //添加操作日志
         ExpUserBizBo user= sessionHelper.getUserInfoBySession();
         logService.createOperationLog(user.getId(),user.getUserName(), OperationModule.Asset.toString(),
                 OperationType.Update.toString(), JsonUtil.toJsonString(beforeBo),JsonUtil.toJsonString(afterBo));
-
         AssetOutputDto outputDto=new AssetOutputDto();
         return outputDto;
     }
@@ -180,31 +155,34 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
      * @throws BizException
      */
     @Override
-    public GetAssetOutputDto getAssetById(GetAssetInputDto inputDto) throws BizException {
-        AssetBizBo bo=  iAssetBiz.queryAssetById(inputDto.getId());
+    public GetAssetOutputDto getAssetById(AssetInputDto inputDto) throws BizException {
         GetAssetOutputDto outputDto=new GetAssetOutputDto();
-        outputDto.setId(String.valueOf(bo.getId()));
-        //outputDto.setSymbol(bo.getSymbol());
-        outputDto.setChainAppointId(String.valueOf(bo.getChainAppointId()==null?"":bo.getChainAppointId()));
-        outputDto.setIcon(bo.getIcon());
-        outputDto.setIconImg(bo.getIconImg());
-        outputDto.setChainName(bo.getChainName());
-        outputDto.setRealName(bo.getRealName());
-        outputDto.setDisplayName(bo.getDisplayName());
-        outputDto.setPrecision(String.valueOf(bo.getPrecision()));
-        outputDto.setPrivilege(String.valueOf(bo.getPrivilege()));
-        outputDto.setStatus(String.valueOf(bo.getStatus()));
-        outputDto.setSort(String.valueOf(bo.getSort()));
-        outputDto.setMtime(String.valueOf(System.currentTimeMillis()));
-        outputDto.setTime(String.valueOf(System.currentTimeMillis()));
-        outputDto.setMinDepositVolume(String.valueOf(bo.getMinDepositVolume()));
-        outputDto.setMinWithdrawVolume(DecimalUtil.trimZeroPlainString(bo.getMinWithdrawVolume()));
-        outputDto.setWithdrawFee(DecimalUtil.trimZeroPlainString(bo.getWithdrawFee()));
-        outputDto.setC2cFee(DecimalUtil.trimZeroPlainString(bo.getC2cFee()));
-        outputDto.setChainTransactionUrl(bo.getChainTransactionUrl());
-        outputDto.setDwType(String.valueOf(bo.getDwType()));
-        outputDto.setEnableFlagPc(String.valueOf(bo.getEnableFlagPc()));
-        outputDto.setEnableFlagBb(String.valueOf(bo.getEnableFlagBb()));
+        AssetBizBo bo=  iAssetBiz.queryAssetById(inputDto.getId());
+        if(bo!=null){
+            outputDto.setId(String.valueOf(bo.getId()));
+            outputDto.setChainAppointId(String.valueOf(bo.getChainAppointId()==null?"":bo.getChainAppointId()));
+            outputDto.setIcon(bo.getIcon());
+            outputDto.setIconImg(bo.getIconImg());
+            outputDto.setChainName(bo.getChainName());
+            outputDto.setRealName(bo.getRealName());
+            outputDto.setDisplayName(bo.getDisplayName());
+            outputDto.setPrecision(String.valueOf(bo.getPrecision()));
+            outputDto.setPrivilege(String.valueOf(bo.getPrivilege()));
+            outputDto.setStatus(String.valueOf(bo.getStatus()));
+            outputDto.setSort(String.valueOf(bo.getSort()));
+            outputDto.setMtime(String.valueOf(System.currentTimeMillis()));
+            outputDto.setTime(String.valueOf(System.currentTimeMillis()));
+            outputDto.setMinDepositVolume(String.valueOf(bo.getMinDepositVolume()));
+            outputDto.setMinWithdrawVolume(DecimalUtil.trimZeroPlainString(bo.getMinWithdrawVolume()));
+            outputDto.setWithdrawFee(DecimalUtil.trimZeroPlainString(bo.getWithdrawFee()));
+            outputDto.setC2cFee(DecimalUtil.trimZeroPlainString(bo.getC2cFee()));
+            outputDto.setChainTransactionUrl(bo.getChainTransactionUrl());
+            outputDto.setDwType(String.valueOf(bo.getDwType()));
+            outputDto.setEnableFlagPcAccount(String.valueOf(bo.getEnableFlagPcAccount()));
+            outputDto.setEnableFlagBbAccount(String.valueOf(bo.getEnableFlagBbAccount()));
+            outputDto.setEnableFlagPcMarket(String.valueOf(bo.getEnableFlagPcMarket()));
+            outputDto.setEnableFlagBbMarket(String.valueOf(bo.getEnableFlagBbMarket()));
+        }
         return outputDto;
     }
 
@@ -223,7 +201,6 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
             for(AssetBizBo bo:listBizBo.getRows()) {
                 AssetListOutputPage po=new AssetListOutputPage();
                 po.setId(String.valueOf(bo.getId()));
-                //po.setSymbol(bo.getSymbol());
                 po.setIcon(bo.getIcon());
                 po.setIconImg(bo.getIconImg());
                 po.setChainAppointId(String.valueOf(bo.getChainAppointId()==null ? "" : bo.getChainAppointId()));
@@ -242,8 +219,10 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
                 po.setC2cFee(DecimalUtil.trimZeroPlainString(bo.getC2cFee()));
                 po.setChainTransactionUrl(bo.getChainTransactionUrl());
                 po.setDwType(String.valueOf(bo.getDwType()));
-                po.setEnableFlagPc(String.valueOf(bo.getEnableFlagPc()));
-                po.setEnableFlagBb(String.valueOf(bo.getEnableFlagBb()));
+                po.setEnableFlagPcAccount(String.valueOf(bo.getEnableFlagPcAccount()));
+                po.setEnableFlagBbAccount(String.valueOf(bo.getEnableFlagBbAccount()));
+                po.setEnableFlagPcMarket(String.valueOf(bo.getEnableFlagPcMarket()));
+                po.setEnableFlagBbMarket(String.valueOf(bo.getEnableFlagBbMarket()));
                 pageList.add(po);
             }
             outputDto.setTotal(listBizBo.getTotal());
@@ -259,7 +238,7 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
      * @throws BizException
      */
     @Override
-    public RealNameListOutPutDto getRealNameList(RealNameListInputDto inputDto) throws BizException {
+    public RealNameListOutPutDto getRealNameList(AssetInputDto inputDto) throws BizException {
         AssetListBizBo bizBo= iAssetBiz.queryRealNameList();
         RealNameListOutPutDto outPutDto=new RealNameListOutPutDto();
         outPutDto.setAssetList(bizBo);

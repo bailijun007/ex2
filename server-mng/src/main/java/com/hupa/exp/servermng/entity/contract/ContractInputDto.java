@@ -19,6 +19,11 @@ public class ContractInputDto extends BaseInputDto {
      *  合约名称
      */
     private String contractName;
+
+    /**
+     *  合约中文名
+     */
+    private String contractChineseName;
     /**
      * 合约名称分隔符
      */
@@ -309,5 +314,13 @@ public class ContractInputDto extends BaseInputDto {
 
     public void setEnableCancel(Integer enableCancel) {
         this.enableCancel = enableCancel;
+    }
+
+    public String getContractChineseName() {
+        return contractChineseName;
+    }
+
+    public void setContractChineseName(String contractChineseName) {
+        this.contractChineseName = contractChineseName;
     }
 }

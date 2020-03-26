@@ -660,15 +660,15 @@ function bindAssetSymbol(id,asset,needAll)
 function bindAssetBbSymbol(id,asset,needAll)
 {
     var html="";
-    if(asset=="")
+/*    if(asset=="")
     {
         html +="<option value=''>全部</option>";
         $("#"+id+"").html(html);
     }else
-    {
+    {*/
         $.ajax({
             type: "get",
-            url: "/v1/http/contract/get_bbSymbol_list_by_asset?asset="+asset,
+            url: "/v1/http/bbSymbol/get_bbSymbol_list_by_asset?asset="+asset,
             contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
             async: false,
             //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
@@ -688,7 +688,7 @@ function bindAssetBbSymbol(id,asset,needAll)
                 }
             }
         })
-    }
+    //}
 }
 
 function time(time) {

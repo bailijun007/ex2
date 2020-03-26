@@ -1,11 +1,6 @@
 package com.hupa.exp.servermng.entity.asset;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.hupa.exp.common.entity.dto.output.BaseOutputDto;
-
-import java.math.BigDecimal;
 
 public class GetAssetOutputDto extends BaseOutputDto {
     private String id;
@@ -25,8 +20,14 @@ public class GetAssetOutputDto extends BaseOutputDto {
     private String c2cFee;
     private String chainTransactionUrl;
     private String dwType;
-    private String enableFlagPc;
-    private String enableFlagBb;
+    //永续合约账户启用 1是 0否
+    private String enableFlagPcAccount;
+    //bb交易账户启用 1是 0否
+    private String enableFlagBbAccount;
+    //永续合约市场启用
+    private String enableFlagPcMarket;
+    //币币交易启用
+    private String enableFlagBbMarket;
     private String ctime;
     private String mtime;
 
@@ -182,19 +183,35 @@ public class GetAssetOutputDto extends BaseOutputDto {
         this.c2cFee = c2cFee;
     }
 
-    public String getEnableFlagPc() {
-        return enableFlagPc;
+    public String getEnableFlagPcAccount() {
+        return enableFlagPcAccount;
     }
 
-    public void setEnableFlagPc(String enableFlagPc) {
-        this.enableFlagPc = enableFlagPc;
+    public void setEnableFlagPcAccount(String enableFlagPcAccount) {
+        this.enableFlagPcAccount = enableFlagPcAccount;
     }
 
-    public String getEnableFlagBb() {
-        return enableFlagBb;
+    public String getEnableFlagBbAccount() {
+        return enableFlagBbAccount;
     }
 
-    public void setEnableFlagBb(String enableFlagBb) {
-        this.enableFlagBb = enableFlagBb;
+    public void setEnableFlagBbAccount(String enableFlagBbAccount) {
+        this.enableFlagBbAccount = enableFlagBbAccount;
+    }
+
+    public String getEnableFlagPcMarket() {
+        return enableFlagPcMarket;
+    }
+
+    public void setEnableFlagPcMarket(String enableFlagPcMarket) {
+        this.enableFlagPcMarket = enableFlagPcMarket;
+    }
+
+    public String getEnableFlagBbMarket() {
+        return enableFlagBbMarket;
+    }
+
+    public void setEnableFlagBbMarket(String enableFlagBbMarket) {
+        this.enableFlagBbMarket = enableFlagBbMarket;
     }
 }

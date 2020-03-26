@@ -186,18 +186,36 @@
                                 }
                             } ,
                             {
-                                title: '永续合约生效状态',//1.是 0否
+                                title: '永续合约账户状态',//1.是 0否
                                 formatter: function (value, row, index) {
-                                    if (row.enableFlagPc == 1)
+                                    if (row.enableFlagPcAccount == 1)
                                         return "生效";
                                     else
                                         return "不生效";
                                 }
                             } ,
                             {
-                                title: '币币生效状态',//1.是 0否
+                                title: '币币交易账户状态',//1.是 0否
                                 formatter: function (value, row, index) {
-                                    if (row.enableFlagBb == 1)
+                                    if (row.enableFlagBbAccount == 1)
+                                        return "生效";
+                                    else
+                                        return "不生效";
+                                }
+                            },
+                            {
+                                title: '永续合约市场状态',//1.是 0否
+                                formatter: function (value, row, index) {
+                                    if (row.enableFlagPcMarket == 1)
+                                        return "生效";
+                                    else
+                                        return "不生效";
+                                }
+                            } ,
+                            {
+                                title: '币币市场状态',//1.是 0否
+                                formatter: function (value, row, index) {
+                                    if (row.enableFlagBbMarket == 1)
                                         return "生效";
                                     else
                                         return "不生效";

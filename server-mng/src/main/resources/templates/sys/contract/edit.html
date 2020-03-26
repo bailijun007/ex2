@@ -107,6 +107,13 @@
                             <div class="Validform_checktip"></div>
                         </div>
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">合约中文名：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="contract_chinese_name" type="text" datatype="*1-100" errormsg="合约中文名最多100位">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-sm-3 control-label">初始化成交价：</label>
                             <div class="col-sm-6">
                                 <input class="form-control" id="default_price" type="text" datatype="*1-100" errormsg="">
@@ -296,6 +303,7 @@ $(function () {
                             $("#settle_currency").val(data.data.settle_currency);
                             $("#settle_price").val(data.data.settle_price);
                             $("#base_currency").val(data.data.base_currency);
+                            $("#contract_chinese_name").val(data.data.contract_chinese_name);
 
                             if (data.data.status == "1")
                                 $("#ckbIsOnTop").parent().find("a").attr("class", "selected")
@@ -461,6 +469,7 @@ function getContractGroupNum(){
         parmes+="&face_currency="+$("#face_currency").val();
         parmes+="&enable_create="+ enableCreateCheck;
         parmes+="&enable_cancel="+  enableCancelCheck;
+        parmes+="&contract_chinese_name="+  $("#contract_chinese_name").val();
         $.ajax({
             type:"post",
             url:"/v1/http/contract/create_or_edit"+parmes,

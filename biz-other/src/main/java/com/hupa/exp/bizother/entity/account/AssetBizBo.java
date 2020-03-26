@@ -82,15 +82,14 @@ public class AssetBizBo {
      */
     private Integer dwType;
 
-    /**
-     *  在永续合约中启用 1.是 0否
-     */
-    private Integer enableFlagPc;
-
-    /**
-     * 在bb中启用 1.是 0否
-     */
-    private Integer enableFlagBb;
+    //永续合约账户启用 1是 0否
+    private Integer enableFlagPcAccount;
+    //bb交易账户启用 1是 0否
+    private Integer enableFlagBbAccount;
+    //永续合约市场启用
+    private Integer enableFlagPcMarket;
+    //币币交易启用
+    private Integer enableFlagBbMarket;
 
     /**
      * 创建时间
@@ -272,19 +271,35 @@ public class AssetBizBo {
         this.c2cFee = c2cFee;
     }
 
-    public Integer getEnableFlagPc() {
-        return enableFlagPc;
+    public Integer getEnableFlagPcAccount() {
+        return enableFlagPcAccount;
     }
 
-    public void setEnableFlagPc(Integer enableFlagPc) {
-        this.enableFlagPc = enableFlagPc;
+    public void setEnableFlagPcAccount(Integer enableFlagPcAccount) {
+        this.enableFlagPcAccount = enableFlagPcAccount;
     }
 
-    public Integer getEnableFlagBb() {
-        return enableFlagBb;
+    public Integer getEnableFlagBbAccount() {
+        return enableFlagBbAccount;
     }
 
-    public void setEnableFlagBb(Integer enableFlagBb) {
-        this.enableFlagBb = enableFlagBb;
+    public void setEnableFlagBbAccount(Integer enableFlagBbAccount) {
+        this.enableFlagBbAccount = enableFlagBbAccount;
+    }
+
+    public Integer getEnableFlagPcMarket() {
+        return enableFlagPcMarket;
+    }
+
+    public void setEnableFlagPcMarket(Integer enableFlagPcMarket) {
+        this.enableFlagPcMarket = enableFlagPcMarket;
+    }
+
+    public Integer getEnableFlagBbMarket() {
+        return enableFlagBbMarket;
+    }
+
+    public void setEnableFlagBbMarket(Integer enableFlagBbMarket) {
+        this.enableFlagBbMarket = enableFlagBbMarket;
     }
 }

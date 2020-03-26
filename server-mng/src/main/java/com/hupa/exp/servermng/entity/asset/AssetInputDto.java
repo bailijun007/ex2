@@ -1,17 +1,20 @@
 package com.hupa.exp.servermng.entity.asset;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
-
 import java.math.BigDecimal;
 
+/**
+ * yan
+ */
 public class AssetInputDto extends BaseInputDto {
+
     private Long id;
     /**
      * 图标
      */
     private String icon;
     /**
-     * 图标图片
+     * 图标图片路径
      */
     private String iconImg;
     /**
@@ -30,17 +33,14 @@ public class AssetInputDto extends BaseInputDto {
      * 币所属的链
      */
     private String chainName;
+    /**
+     * 精度
+     */
     private BigDecimal precision;
     /**
      * 权限
      */
     private Integer privilege;
-    private Integer status;
-    private Integer sort;
-    private BigDecimal minDepositVolume;
-    private BigDecimal minWithdrawVolume;
-
-
     /**
      * 手续费费率
      */
@@ -49,15 +49,44 @@ public class AssetInputDto extends BaseInputDto {
      * c2c手续费费率
      */
     private BigDecimal c2cFee;
-
+    private BigDecimal minDepositVolume;
+    private BigDecimal minWithdrawVolume;
     private String chainTransactionUrl;
+    /**
+     * 充提类型
+     */
     private Integer dwType;
-
-    private Integer enableFlagPc;
-
-    private Integer enableFlagBb;
-
+    /**
+     * 永续合约账户是否启用 1是 0否
+     */
+    private Integer enableFlagPcAccount;
+    /**
+     * bb交易账户是否启用 1是 0否
+     */
+    private Integer enableFlagBbAccount;
+    /**
+     * 永续合约市场是否启用
+     */
+    private Integer enableFlagPcMarket;
+    /**
+     * 币币市场是否启用
+     */
+    private Integer enableFlagBbMarket;
+    /**
+     * 是否作废状态
+     */
+    private Integer status;
+    /**
+     * 排序
+     */
+    private Integer sort;
+    /**
+     * 创建时间
+     */
     private Long ctime;
+    /**
+     * 修改时间
+     */
     private Long mtime;
 
     public String getIconImg() {
@@ -156,15 +185,6 @@ public class AssetInputDto extends BaseInputDto {
         this.id = id;
     }
 
-//    public String getSymbol() {
-//        return symbol;
-//    }
-//
-//    public void setSymbol(String symbol) {
-//        this.symbol = symbol;
-//    }
-
-
     public String getRealName() {
         return realName;
     }
@@ -237,19 +257,35 @@ public class AssetInputDto extends BaseInputDto {
         this.c2cFee = c2cFee;
     }
 
-    public Integer getEnableFlagPc() {
-        return enableFlagPc;
+    public Integer getEnableFlagPcAccount() {
+        return enableFlagPcAccount;
     }
 
-    public void setEnableFlagPc(Integer enableFlagPc) {
-        this.enableFlagPc = enableFlagPc;
+    public void setEnableFlagPcAccount(Integer enableFlagPcAccount) {
+        this.enableFlagPcAccount = enableFlagPcAccount;
     }
 
-    public Integer getEnableFlagBb() {
-        return enableFlagBb;
+    public Integer getEnableFlagBbAccount() {
+        return enableFlagBbAccount;
     }
 
-    public void setEnableFlagBb(Integer enableFlagBb) {
-        this.enableFlagBb = enableFlagBb;
+    public void setEnableFlagBbAccount(Integer enableFlagBbAccount) {
+        this.enableFlagBbAccount = enableFlagBbAccount;
+    }
+
+    public Integer getEnableFlagPcMarket() {
+        return enableFlagPcMarket;
+    }
+
+    public void setEnableFlagPcMarket(Integer enableFlagPcMarket) {
+        this.enableFlagPcMarket = enableFlagPcMarket;
+    }
+
+    public Integer getEnableFlagBbMarket() {
+        return enableFlagBbMarket;
+    }
+
+    public void setEnableFlagBbMarket(Integer enableFlagBbMarket) {
+        this.enableFlagBbMarket = enableFlagBbMarket;
     }
 }

@@ -251,7 +251,7 @@ public class ApiBbSymbolController {
     @GetMapping(path = "/get_bbSymbol_list_by_asset")
     public BaseResultViaApiDto<GetBbSymbolListByAssetInputDto,GetBbSymbolListByAssetOutputDto> GetBbSymbolListByAsset(
             @ApiParam(name="asset",value = "标的符号",required = true)
-            @RequestParam(name = "asset",required = false) String asset
+            @RequestParam(name = "asset") String asset
     )
     {
         GetBbSymbolListByAssetInputDto inputDto=new GetBbSymbolListByAssetInputDto();

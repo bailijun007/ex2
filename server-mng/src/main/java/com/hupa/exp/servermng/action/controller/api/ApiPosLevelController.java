@@ -63,7 +63,7 @@ public class ApiPosLevelController {
         inputDto.setAsset(asset);
         inputDto.setSymbol(symbol);
         inputDto.setGear(gear);
-        inputDto.setMaxAmt(maxAmt);
+        inputDto.setMaxAmt(maxAmt);//Long.MAX_VALUE
         inputDto.setMinAmt(minAmt);
         inputDto.setMaxLeverage(maxLeverage);
         if(maxLeverage!=null){

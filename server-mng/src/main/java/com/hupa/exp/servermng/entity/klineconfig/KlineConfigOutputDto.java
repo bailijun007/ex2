@@ -7,6 +7,8 @@ public class KlineConfigOutputDto extends BaseOutputDto {
 
     private boolean bn;
 
+    private String msg;
+
     public long getId() {
         return id;
     }
@@ -21,5 +23,13 @@ public class KlineConfigOutputDto extends BaseOutputDto {
 
     public void setBn(boolean bn) {
         this.bn = bn;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 }
