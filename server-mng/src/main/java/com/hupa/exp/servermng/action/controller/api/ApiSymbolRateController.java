@@ -40,7 +40,7 @@ public class ApiSymbolRateController {
             @RequestParam(name = "base_rate") BigDecimal baseRate,
             @ApiParam(name="valuation_rate",value = "计价利率",required = true)
             @RequestParam(name = "valuation_rate") BigDecimal valuationRate,
-                   @ApiParam(name="rate_time",value = "利率时间",required = true)
+            @ApiParam(name="rate_time",value = "利率时间",required = true)
             @RequestParam(name = "rate_time") String rateTime
 
     ){

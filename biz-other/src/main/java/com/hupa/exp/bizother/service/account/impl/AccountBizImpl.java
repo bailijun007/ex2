@@ -165,7 +165,7 @@ public class AccountBizImpl implements IAccountBiz {
                 }
             }
         }catch(Exception e){
-            logger.info("admin AccountBizImpl cutFundAccount userId:"+ userId + ",asset:"+ asset + ",exception: " + e.getMessage());
+            logger.info("admin AccountBizImpl cutFundAccount userId:"+ userId + ",asset:"+ asset + ",exception: " + e.getMessage(), e);
         }
     }
 

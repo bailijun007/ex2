@@ -72,6 +72,9 @@ public class BbSymbolInputDto extends BaseInputDto {
     private Long mtime;
 
 
+    private String symbolChinese;
+
+
 /*    private Integer bbSymbolType;//类型：正向、反向
     private Integer symbolType;
     private BigDecimal settlePrice;// 结算金额
@@ -218,5 +221,13 @@ public class BbSymbolInputDto extends BaseInputDto {
 
     public void setEnableCancel(Integer enableCancel) {
         this.enableCancel = enableCancel;
+    }
+
+    public String getSymbolChinese() {
+        return symbolChinese;
+    }
+
+    public void setSymbolChinese(String symbolChinese) {
+        this.symbolChinese = symbolChinese;
     }
 }

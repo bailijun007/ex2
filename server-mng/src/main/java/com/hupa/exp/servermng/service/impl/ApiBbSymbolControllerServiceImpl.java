@@ -90,6 +90,7 @@ public class ApiBbSymbolControllerServiceImpl implements IApiBbSymbolControllerS
             beforeBo.setBbSymbolNameSplit(bo.getBbSymbolNameSplit());
             beforeBo.setDisplayName(bo.getDisplayName());
             beforeBo.setDisplayNameSplit(bo.getDisplayNameSplit());
+            beforeBo.setSymbolChinese(bo.getSymbolChinese());
             beforeBo.setStep(bo.getStep());
             beforeBo.setSort(bo.getSort());
             beforeBo.setStatus(bo.getStatus());
@@ -149,6 +150,7 @@ public class ApiBbSymbolControllerServiceImpl implements IApiBbSymbolControllerS
         outputDto.setBbSymbolNameSplit(bo.getBbSymbolNameSplit());
         outputDto.setDisplayName(bo.getDisplayName());
         outputDto.setDisplayNameSplit(bo.getDisplayNameSplit());
+        outputDto.setSymbolChinese(bo.getSymbolChinese());
         outputDto.setStep(DecimalUtil.toTrimLiteral(bo.getStep()));
         outputDto.setSort(String.valueOf(bo.getSort()));
         outputDto.setStatus(String.valueOf(bo.getStatus()));
@@ -199,6 +201,7 @@ public class ApiBbSymbolControllerServiceImpl implements IApiBbSymbolControllerS
             po.setBbSymbolNameSplit(bo.getBbSymbolNameSplit());
             po.setDisplayNameSplit(bo.getDisplayNameSplit());
             po.setDisplayName(bo.getDisplayName());
+            po.setSymbolChinese(bo.getSymbolChinese());
             po.setStep(DecimalUtil.toTrimLiteral(bo.getStep()));
             po.setSort(String.valueOf(bo.getSort()));
             po.setStatus(String.valueOf(bo.getStatus()));
@@ -243,6 +246,7 @@ public class ApiBbSymbolControllerServiceImpl implements IApiBbSymbolControllerS
             info.setBbSymbolNameSplit(bo.getBbSymbolNameSplit());
             info.setDisplayName(bo.getDisplayName());
             info.setDisplayNameSplit(bo.getDisplayNameSplit());
+            info.setSymbolChinese(bo.getSymbolChinese());
             info.setStep(DecimalUtil.toTrimLiteral(bo.getStep()));
             info.setSort(String.valueOf(bo.getSort()));
             info.setStatus(String.valueOf(bo.getStatus()));
@@ -314,6 +318,7 @@ public class ApiBbSymbolControllerServiceImpl implements IApiBbSymbolControllerS
             info.setPrecision(String.valueOf(bo.getPrecision()));
             info.setBbSymbolName(bo.getBbSymbolName());
             info.setBbSymbolNameSplit(bo.getBbSymbolNameSplit());
+            info.setSymbolChinese(bo.getSymbolChinese());
             info.setBbGroupId(bo.getBbGroupId());
             info.setDisplayName(bo.getDisplayName());
             info.setDisplayNameSplit(bo.getDisplayNameSplit());

@@ -50,6 +50,10 @@ public class GetBbSymbolOutputDto extends BaseOutputDto {
      */
     private String enableCancel;
 
+
+    @JsonProperty("symbol_chinese")
+    private String symbolChinese;
+
     /*@JsonProperty("default_price")
     private String defaultPrice;
     @JsonProperty("last_price")
@@ -207,5 +211,13 @@ public class GetBbSymbolOutputDto extends BaseOutputDto {
 
     public void setEnableCancel(String enableCancel) {
         this.enableCancel = enableCancel;
+    }
+
+    public String getSymbolChinese() {
+        return symbolChinese;
+    }
+
+    public void setSymbolChinese(String symbolChinese) {
+        this.symbolChinese = symbolChinese;
     }
 }

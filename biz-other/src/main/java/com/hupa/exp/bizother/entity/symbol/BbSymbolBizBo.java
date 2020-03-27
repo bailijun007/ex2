@@ -30,6 +30,8 @@ public class BbSymbolBizBo {
     private Integer sort;
     private Integer status;
 
+    private String symbolChinese;
+
     /**
      * 开启下单
      */
@@ -190,5 +192,13 @@ public class BbSymbolBizBo {
 
     public void setEnableCancel(Integer enableCancel) {
         this.enableCancel = enableCancel;
+    }
+
+    public String getSymbolChinese() {
+        return symbolChinese;
+    }
+
+    public void setSymbolChinese(String symbolChinese) {
+        this.symbolChinese = symbolChinese;
     }
 }

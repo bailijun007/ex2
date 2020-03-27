@@ -92,6 +92,14 @@
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">币币中文名：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="symbol_chinese" type="text" datatype="*1-100" errormsg="币币中文名最多100位">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">展示名分隔符：</label>
                             <div class="col-sm-6">
@@ -308,6 +316,7 @@ function initData() {
                     $("#bbSymbol_name_split").val(data.data.bbSymbol_name_split);
                     $("#display_name").val(data.data.display_name);
                     $("#display_name_split").val(data.data.display_name_split);
+                    $("#symbol_chinese").val(data.data.symbol_chinese);
                     $("#precision").val(data.data.precision);
                     $("#step").val(data.data.step);
                     $("#number_precision").val(data.data.numberPrecision);
@@ -461,6 +470,7 @@ function getGroupNum() {
         parmes+="&bbSymbol_name_split="+$("#bbSymbol_name_split").val();
         parmes+="&display_name="+$("#display_name").val();
         parmes+="&display_name_split="+$("#display_name_split").val();
+        parmes+="&symbol_chinese="+$("#symbol_chinese").val();
         parmes+="&step="+$("#step").val();
         parmes+="&number_precision="+$("#number_precision").val();
         parmes+="&precision="+$("#precision").val();

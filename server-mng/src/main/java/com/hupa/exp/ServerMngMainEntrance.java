@@ -39,6 +39,8 @@ public class ServerMngMainEntrance {
     //添加一个基本过滤器，用于设置编码，调试观察请求数据
     @Bean
     public FilterRegistrationBean registerBaseFilter() {
+
+        //hhhhhh
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.setFilter(new CorsFilter());
         registration.addUrlPatterns("/v1/http/*");

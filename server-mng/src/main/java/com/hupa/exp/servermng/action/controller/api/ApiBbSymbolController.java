@@ -86,7 +86,9 @@ public class ApiBbSymbolController {
             @ApiParam(name="enable_create",value = "开启下单",required = true)
             @RequestParam(name = "enable_create") Integer enableCreate,
              @ApiParam(name="enable_cancel",value = "开启撤单",required = true)
-            @RequestParam(name = "enable_cancel") Integer enableCancel
+            @RequestParam(name = "enable_cancel") Integer enableCancel,
+            @ApiParam(name="symbol_chinese",value = "币币中文名",required = true)
+            @RequestParam(name = "symbol_chinese") String symbolChinese
             //@ApiParam(name="privilege",value = "权限")
             //@RequestParam(name = "privilege",required = false) Integer privilege
     )
@@ -107,6 +109,7 @@ public class ApiBbSymbolController {
         inputDto.setNumberPrecision(numberPrecision);
         inputDto.setEnableCreate(enableCreate);//开始下单
         inputDto.setEnableCancel(enableCancel);//开启撤单
+        inputDto.setSymbolChinese(symbolChinese);
        /* inputDto.setFaceValue(faceValue);
         inputDto.setSymbolType(symbolType);
         inputDto.setSymbolType(bbSymbolType);//类型（新加）
