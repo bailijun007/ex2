@@ -204,7 +204,8 @@
                                     if(row.assets[i].asset==item)
                                     {
                                         content ="资金账户</br> 总额 "+row.assets[i].fundAccountTotal+"</br>可用余额 "+row.assets[i].fundAccountAvailable+"</br>锁定 "+row.assets[i].fundAccountLock+"</br>";
-                                        content+="合约账户</br> 总额 "+row.assets[i].pcAccountTotal+"</br>可用余额 "+row.assets[i].pcAccountAvailable+"</br>委托保证金 "+row.assets[i].pcOrderMargin+"</br>仓位保证金 "+row.assets[i].pcPosMargin
+                                        content+="合约账户</br> 总额 "+row.assets[i].pcAccountTotal+"</br>可用余额 "+row.assets[i].pcAccountAvailable+"</br>委托保证金 "+row.assets[i].pcOrderMargin+"</br>仓位保证金 "+row.assets[i].pcPosMargin+"</br>";
+                                        content+="币币账户金额 "+row.assets[i].bbBalance
                                         content +="</br><a href=\"javascript:addFundAccountOne('Edit','" + row.id + "','"+item+"')\">编辑</a>";
                                         //console.log(content);
                                         break;

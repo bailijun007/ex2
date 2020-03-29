@@ -95,7 +95,7 @@
                                         <input id="240" type="checkbox" name="" value="240">
                                         <label for="240">4hour</label>
                                         <input id="360" type="checkbox" name="" value="360">
-                                        <label for="360">8hour</label>
+                                        <label for="360">6hour</label>
                                         <input id="720" type="checkbox" name="" value="720">
                                         <label for="720">12hour</label>
                                         <input id="1440" type="checkbox" name="" value="1440">
@@ -130,6 +130,17 @@
                             <!--</div>-->
                             <!--<div class="Validform_checktip"></div>-->
                         <!--</div>-->
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">K线类别：</label>
+                            <div class="col-sm-6">
+                                <select id="kline_type" class="form-control">
+                                    <option value="1">pcK线</option>
+                                    <option value="2">币币K线</option>
+                                </select>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
 
 
                         <div class="form-group">
@@ -169,6 +180,7 @@
                         if (data.data != null) {
                             $("#asset").val(data.data.asset);
                             $("#symbol").val(data.data.symbol);
+                            $("#kline_type").val(data.data.klineType);
                             $("#stat_time").val(data.data.stat_time=="null"?"":data.data.stat_time);
                             $("#end_time").val(data.data.end_time=="null"?"":data.data.end_time);
                             $("#id").val(data.data.id);
@@ -222,6 +234,7 @@
         param+= "&klineInterval="+klineInterval;
         param+= "&stat_time="+$("#stat_time").val();
         param+= "&end_time="+$("#end_time").val();
+        param+= "&kline_type="+$("#kline_type").val();
         param+= "&type="+$("#type .selected").attr("data-value");
 
         $.ajax({

@@ -33,9 +33,22 @@
                         <label class="sr-only">审批状态</label>
                         <select id="approvalStatus" class="form-control">
                             <option value="">全部</option>
+                            <option value="1">审批中</option>
+                            <option value="2">审批通过</option>
+                            <option value="3">拒绝</option>
+                           <!--
                             <option value="4">审批中 </option>
                             <option value="5">审批通过</option>
-                            <option value="6">拒绝</option>
+                            <option value="6">拒绝</option>-->
+                        </select>
+                    </div>
+                    <div class="form-group" style="width: 15%; float: left;">
+                        <label class="sr-only">提现状态</label>
+                        <select id="payStatusDiv" class="form-control">
+                            <option value="">全部</option>
+                            <option value="0">提现中</option>
+                            <option value="1">提现成功</option>
+                            <option value="2">提现失败</option>
                         </select>
                     </div>
                     <div class="input-group">
@@ -152,7 +165,7 @@
             param +="accountid="+accountId;
             param +="&asset="+asset;
             param +="&withdrawid="+withdrawId;
-            param +="&reason="+reason;
+            param +="&reason="+reason.trim();
             $.ajax({
                 type: "post",
                 url: "/v1/http/fundwithdraw/audit_fail" + param,
@@ -226,66 +239,75 @@
                             {
                                 title: '金额',
                                 field: 'volume'
-                            }
+                            },
                             /*                    , {
                              title: 'fee',
                              field: 'fee'
                              }*/
-                            , {
+                            {
                                 title: '提现时间',
                                 formatter: function (value, row, index) {
                                     if(row.withdrawTime!=null)
                                         return time(parseInt(row.withdrawTime));
                                     return"";
                                 }
-                            }
-                            , {
-                                title: '状态',
+                            },
+                            {
+                                title: '提现状态',//执行状态:0-提现中，1-提现成功，2-提现失败"
                                 //0：已创建，1：成功，2：失败，3-同步余额,4：审核中，5-审核通过,6：审核不通过
                                 // field: 'status'
-                                formatter: function (value, row, index) {
-                                    if(row.status==0) {
-                                        return "已创建";
-                                    }else if(row.status==1){
-                                        return "成功";
-                                    }else if(row.status==2){
-                                        return "失败";
-                                    }else if(row.status==3){
-                                        return "同步余额";
-                                    }else if(row.status==4){
-                                        return "审核中";
-                                    }else if(row.status==5){
-                                        return "审核通过";
-                                    }else if(row.status==6){
-                                        return "审核不通过";
+                                formatter: function (value, row, index) { //1:审批中 2:审批通过:3:拒绝
+
+                                    if(row.payStatus==0) {
+                                        return "提现中";
+                                    }else if(row.payStatus==1){
+                                        return "提现成功";
+                                    }else if(row.payStatus==2){
+                                        return "提现失败";
                                     }
                                     return "";
 
                                 }
-                            }
-                            , {
+                            },
+                            {
+                                title: '提现状态描述',
+                                field: 'payStatusDesc'
+                            },
+                             {
+                                title: '审批状态',
+                                //0：已创建，1：成功，2：失败，3-同步余额,4：审核中，5-审核通过,6：审核不通过
+                                // field: 'status'
+                                formatter: function (value, row, index) { //1:审批中 2:审批通过:3:拒绝
+                                    if(row.status==1) {
+                                        return "审批中";
+                                    }else if(row.status==2){
+                                        return "审批通过";
+                                    }else if(row.status==3){
+                                        return "失败";
+                                    }
+                                    return "";
+
+                                }
+                            },
+                            {
+                                title: '提币量',
+                                field: 'volume'
+                            },
+                             {
                                 title: '创建时间',
                                 formatter: function (value, row, index) {
                                     if(row.ctime!=null)
                                         return time(parseInt(row.ctime));
                                     return"";
                                 }
-                            }
-                            , {
-                                title: '修改时间',
-                                formatter: function (value, row, index) {
-                                    if(row.mtime!=null)
-                                        return time(parseInt(row.mtime));
-                                    return"";
-                                }
                             },
                             {
                                 title: '操作', field: '#', align: 'center',
                                 formatter: function (value, row, index) { //0：已创建，1：成功，2：失败，3-同步余额,4：审核中，5-审核通过,6：审核不通过
-                                    if(row.status==1)
-                                    {
-                                        var d = "<a href=\"javascript:auditPassFundWithdraw('" + row.accountId + "','"+row.asset+"','"+row.id+"')\">通过</a>";
-                                        d+="&nbsp;<a href=\"javascript:auditFailFundWithdraw('" + row.accountId + "','"+row.asset+"','"+row.id+"')\">不通过</a>";
+                                    var d = " ";//1:审批中 2:审批通过:3:拒绝
+                                    if(row.status==1) {
+                                        d+="&nbsp;<input type=\"button\" value=\"审批通过\"  onclick=\"auditPassFundWithdraw('" + row.accountId + "','"+row.asset+"','"+row.id+"')\">";
+                                        d+="&nbsp;<input type=\"button\" value=\"拒绝\" onclick=\"auditFailFundWithdraw('" + row.accountId + "','"+row.asset+"','"+row.id+"')\">";
                                         return d;
                                     }
                                     return "";
@@ -306,7 +328,8 @@
                 //id: $("#lastId").val(),
                 account_id:$("#accountId").val(), //账户Id
                 asset:$("#assetSelect").val(), //币种
-                approval_status:$("#approvalStatus").val(), //币种
+                approval_status:$("#approvalStatus").val(), //提现审核状态
+                pay_status:$("#payStatusDiv").val(), //提现状态
                 page_size: params.limit,   //页面大小 每页显示多少条记录
                 current_page: params.offset==0?1:(params.offset/params.limit)+1  //页码 当前第几页
             };
