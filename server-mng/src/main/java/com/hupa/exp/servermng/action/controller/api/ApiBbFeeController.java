@@ -74,13 +74,11 @@ public class ApiBbFeeController {
 
     @ApiOperation(value = "查询单个")
     @GetMapping("/query")
-    public BaseResultDto<BbFeeInfoInputDto,BbFeeInfoOutputDto> getBbFeeById(
+    public BaseResultDto<BbFeeInputDto,BbFeeInfoOutputDto> getBbFeeById(
             @ApiParam(name="id",value ="id" ,required = true)
             @RequestParam(name = "id") long id
-
-    )
-    {
-        BbFeeInfoInputDto inputDto=new BbFeeInfoInputDto();
+    ) {
+        BbFeeInputDto inputDto=new BbFeeInputDto();
         inputDto.setId(id);
         BbFeeInfoOutputDto outputDto=new BbFeeInfoOutputDto();
         try {

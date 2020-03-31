@@ -110,15 +110,18 @@
 <script type="text/javascript">
     var oTable;
     $(function () {
-        //1.初始化Table
-        oTable = new TableInit();
-        oTable.Init();
 
         //获取币种
         bindAsset("asset",false);
 
         //获取交易对
         bindAssetSymbol("symbol", $("#asset").val(), false);
+
+        //1.初始化Table
+        oTable = new TableInit();
+        oTable.Init();
+
+
 
         $("#btn_query").click(function () {
             $('#tb_departments').bootstrapTable('destroy');

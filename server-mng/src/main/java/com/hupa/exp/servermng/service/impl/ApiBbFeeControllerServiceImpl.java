@@ -66,7 +66,7 @@ public class ApiBbFeeControllerServiceImpl implements IApiBbFeeControllerService
     }
 
     @Override
-    public BbFeeInfoOutputDto getBbFeeInfo(BbFeeInfoInputDto inputDto) throws BizException {
+    public BbFeeInfoOutputDto getBbFeeInfo(BbFeeInputDto inputDto) throws BizException {
         BbFeeBizBo bizBo=iBbFeeBiz.getBbFeeById(inputDto.getId());
         BbFeeInfoOutputDto outputDto=new BbFeeInfoOutputDto();
         outputDto.setId(String.valueOf(bizBo.getId()));

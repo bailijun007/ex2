@@ -1,42 +1,34 @@
 package com.hupa.exp.servermng.action.controller.api;
 
-import com.alibaba.fastjson.JSON;
-import com.hupa.exp.base.enums.OperationModule;
-import com.hupa.exp.base.enums.OperationType;
 import com.hupa.exp.common.entity.dto.BaseResultViaApiDto;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
 import com.hupa.exp.servermng.entity.area.*;
 import com.hupa.exp.servermng.entity.base.DeleteInputDto;
 import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
-import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiAreaControllerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import javassist.bytecode.stackmap.BasicBlock;
-import org.apache.zookeeper.Login;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @Api(tags="apiAreaController")
 @RestController
 @RequestMapping(path = "/v1/http/area",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ApiAreaController {
 
-    private Logger logger = LoggerFactory.getLogger(ApiAreaController.class);
+    //private Logger logger = LoggerFactory.getLogger(ApiAreaController.class);
+
+    //@Autowired
+    //private SessionHelper sessionHelper;
 
     @Autowired
     private IApiAreaControllerService service;
 
-
-    @Autowired
-    private SessionHelper sessionHelper;
     /**
      * 插入区号信息
      */

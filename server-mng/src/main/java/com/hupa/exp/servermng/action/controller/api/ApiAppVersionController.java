@@ -4,7 +4,6 @@ import com.hupa.exp.common.entity.dto.BaseResultViaApiDto;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
 import com.hupa.exp.servermng.entity.appversion.*;
-import com.hupa.exp.servermng.entity.area.*;
 import com.hupa.exp.servermng.entity.base.DeleteInputDto;
 import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.service.def.IApiAppVersionControllerService;
@@ -14,8 +13,6 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import javax.print.DocFlavor;
 
 @Api(tags="apiAppVersionController")
 @RestController
@@ -122,7 +119,6 @@ public class ApiAppVersionController {
         DeleteInputDto inputDto=new DeleteInputDto();
         DeleteOutputDto outputDto=new DeleteOutputDto();
         inputDto.setIds(ids);
-
         try{
             outputDto = service.deleteAppVersion(inputDto);
 

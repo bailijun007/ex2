@@ -4,8 +4,6 @@ package com.hupa.exp.servermng.action.controller.api;
 import com.hupa.exp.common.entity.dto.BaseResultViaApiDto;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
-import com.hupa.exp.servermng.entity.fundwithdraw.FundWithdrawAccountListInputDto;
-import com.hupa.exp.servermng.entity.fundwithdraw.FundWithdrawAccountListOutputDto;
 import com.hupa.exp.servermng.entity.transfer.TransferListInputDto;
 import com.hupa.exp.servermng.entity.transfer.TransferListOutputDto;
 import com.hupa.exp.servermng.service.def.IApiAccountTransferControllerService;
@@ -31,9 +29,6 @@ public class ApiAccountTransferController {
      * 查询用户划转历史记录
      * @param accountId
      * @param asset
-     * @param transferTime
-     * @param transferId
-     * @param pageStatus
      * @param pageSize
      * @param currentPage
      * @return
@@ -45,6 +40,8 @@ public class ApiAccountTransferController {
             @RequestParam(name = "account_id") Long accountId,
             @ApiParam(name="asset",value = "币种",required = true)
             @RequestParam(name = "asset") String asset,
+            @ApiParam(name="status",value = "成功失败状态",required = true)
+            @RequestParam(name = "status") Integer status,
         /*    @ApiParam(name="transfer_time",value = "transfer_time",required = true)
             @RequestParam(name = "transfer_time") Long transferTime,
             @ApiParam(name="transfer_id",value = "transfer_id",required = true)
@@ -59,9 +56,8 @@ public class ApiAccountTransferController {
         TransferListOutputDto outputDto=new TransferListOutputDto();
         TransferListInputDto inputDto=new TransferListInputDto();
         inputDto.setAsset(asset);
-/*        inputDto.setTransferTime(transferTime);
-        inputDto.setTransferId(transferId);
-        inputDto.setPageStatus(pageStatus);*/
+        inputDto.setStatus(status);
+        //inputDto.setPageStatus(pageStatus);
         inputDto.setAccountId(accountId);
         inputDto.setCurrentPage(currentPage);
         inputDto.setPageSize(pageSize);

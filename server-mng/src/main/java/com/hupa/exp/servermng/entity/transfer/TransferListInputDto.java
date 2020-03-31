@@ -8,6 +8,7 @@ public class TransferListInputDto extends BaseInputDto {
     private Long accountId;
     private Long transferTime;
     private Long transferId;
+    private Integer status;
     private long currentPage;
     private int pageSize;
     private Integer pageStatus;
@@ -66,5 +67,13 @@ public class TransferListInputDto extends BaseInputDto {
 
     public void setPageStatus(Integer pageStatus) {
         this.pageStatus = pageStatus;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

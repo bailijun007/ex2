@@ -40,7 +40,6 @@ public class ServerMngMainEntrance {
     @Bean
     public FilterRegistrationBean registerBaseFilter() {
 
-        //hhhhhh
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.setFilter(new CorsFilter());
         registration.addUrlPatterns("/v1/http/*");

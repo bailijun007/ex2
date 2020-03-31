@@ -1,10 +1,9 @@
+/*
 package com.hupa.exp.servermng.entity.bbfee;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 
-/**
- * Created by Administrator on 2020/2/6.
- */
+
 public class BbFeeInfoInputDto extends BaseInputDto {
 
     private long id;
@@ -17,3 +16,4 @@ public class BbFeeInfoInputDto extends BaseInputDto {
         this.id = id;
     }
 }
+*/

@@ -4,15 +4,17 @@ import com.gitee.hupadev.base.api.PageResult;
 import com.hp.sh.expv3.fund.extension.api.FundTransferExtApi;
 import com.hp.sh.expv3.fund.extension.vo.FundTransferExtVo;
 import com.hupa.exp.common.exception.BizException;
+import com.hupa.exp.servermng.entity.transfer.TransferInfoOutputDto;
+import com.hupa.exp.servermng.entity.transfer.TransferListInputDto;
+import com.hupa.exp.servermng.entity.transfer.TransferListOutputDto;
 import com.hupa.exp.servermng.service.def.IApiAccountTransferControllerService;
-import com.hupa.exp.servermng.entity.transfer.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,10 +40,8 @@ public class ApiAccountTransferControllerServiceImpl implements IApiAccountTrans
             // 调用第三方接口：查询划转历史记录
             PageResult<FundTransferExtVo> pageResult = fundTransferExtApi.queryAllUserHistory(
                     inputDto.getAccountId()==null || inputDto.getAccountId()==0?null:inputDto.getAccountId(),
-                    StringUtils.isNotBlank(inputDto.getAsset())?inputDto.getAsset():null,
-                    inputDto.getCurrentPage()!=0?(int)inputDto.getCurrentPage():1,
-                    inputDto.getPageSize());
-
+                    StringUtils.isNotBlank(inputDto.getAsset())?inputDto.getAsset():null,inputDto.getStatus(),
+                    inputDto.getPageSize(), inputDto.getCurrentPage()!=0?(int)inputDto.getCurrentPage():1);
             if(pageResult!=null){
                 //遍历赋值
                 List<TransferInfoOutputDto> list = new ArrayList<TransferInfoOutputDto>();
@@ -49,14 +49,15 @@ public class ApiAccountTransferControllerServiceImpl implements IApiAccountTrans
                     for (FundTransferExtVo fundTransferExtVo : pageResult.getList()) {
                         TransferInfoOutputDto transferInfoOutputDto = new TransferInfoOutputDto();
                         transferInfoOutputDto.setId(String.valueOf(fundTransferExtVo.getTransferId()));
-                        transferInfoOutputDto.setAsset(transferInfoOutputDto.getAsset());
+                        transferInfoOutputDto.setAsset(fundTransferExtVo.getAsset());
                         transferInfoOutputDto.setAmount(String.valueOf(fundTransferExtVo.getQty()));
                         transferInfoOutputDto.setFromAccount(fundTransferExtVo.getFromAccount());
                         transferInfoOutputDto.setToAccount(fundTransferExtVo.getToAccount());
                         transferInfoOutputDto.setStatus(String.valueOf(fundTransferExtVo.getStatus()));
                         transferInfoOutputDto.setCtime(fundTransferExtVo.getCtime()==null ? null : String.valueOf(fundTransferExtVo.getCtime()));
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        transferInfoOutputDto.setCreated(fundTransferExtVo.getCreated()==null ? null : sdf.format(fundTransferExtVo.getCreated()));
+                        transferInfoOutputDto.setCreated(fundTransferExtVo.getCreated()==null ? null : String.valueOf(fundTransferExtVo.getCreated()));
+                        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        //transferInfoOutputDto.setCreated(fundTransferExtVo.getCreated()==null ? null : sdf.format(fundTransferExtVo.getCreated()));
                         list.add(transferInfoOutputDto);
                     }
                 }
