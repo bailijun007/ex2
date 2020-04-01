@@ -1,11 +1,8 @@
-package com.hupa.exp.servermng.entity.symbol;
+/*package com.hupa.exp.servermng.entity.symbol;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hupa.exp.common.entity.dto.output.BaseOutputDto;
 
-/**
- * Created by Administrator on 2020/2/10.
- */
 public class CheckHasBbSymbolOutputDto extends BaseOutputDto {
 
 
@@ -19,4 +16,4 @@ public class CheckHasBbSymbolOutputDto extends BaseOutputDto {
     public void setHasBbSymbol(boolean hasBbSymbol) {
         this.hasBbSymbol = hasBbSymbol;
     }
-}
+}*/

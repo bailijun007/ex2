@@ -15,7 +15,15 @@ public class AssetsBizBo {
     /**
      * 币币账户余额
      */
-    private BigDecimal bbBalance;
+    private BigDecimal bbAccountBalance;
+    /**
+     * 币币冻结余额
+     */
+    private BigDecimal bbAccountFrozen;
+    /**
+     * 币币账户余额
+     */
+    private BigDecimal bbAccountTotal;
 
     public String getAsset() {
         return asset;
@@ -89,11 +97,27 @@ public class AssetsBizBo {
         this.pcPosMargin = pcPosMargin;
     }
 
-    public BigDecimal getBbBalance() {
-        return bbBalance;
+    public BigDecimal getBbAccountBalance() {
+        return bbAccountBalance;
     }
 
-    public void setBbBalance(BigDecimal bbBalance) {
-        this.bbBalance = bbBalance;
+    public void setBbAccountBalance(BigDecimal bbAccountBalance) {
+        this.bbAccountBalance = bbAccountBalance;
+    }
+
+    public BigDecimal getBbAccountFrozen() {
+        return bbAccountFrozen;
+    }
+
+    public void setBbAccountFrozen(BigDecimal bbAccountFrozen) {
+        this.bbAccountFrozen = bbAccountFrozen;
+    }
+
+    public BigDecimal getBbAccountTotal() {
+        return bbAccountTotal;
+    }
+
+    public void setBbAccountTotal(BigDecimal bbAccountTotal) {
+        this.bbAccountTotal = bbAccountTotal;
     }
 }

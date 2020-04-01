@@ -95,7 +95,7 @@ public class ApiFundWithdrawControllerServiceImpl implements IApiFundWithdrawCon
             outputDto.setSizePerPage(inputDto.getPageSize());
             outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         }catch(Exception e){
-            logger.info("ApiFundWithdrawControllerServiceImpl getAccountAllFundWith Exception:"+e.getMessage());
+            logger.info("ApiFundWithdrawControllerServiceImpl getAccountAllFundWith Exception:"+e.getMessage(),e);
         }
         return outputDto;
     }

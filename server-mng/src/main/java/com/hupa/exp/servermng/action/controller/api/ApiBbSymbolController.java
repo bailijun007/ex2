@@ -132,12 +132,12 @@ public class ApiBbSymbolController {
 
     @ApiOperation(value = "获取交易对详情")
     @GetMapping(path = "/query")
-    public BaseResultViaApiDto<GetBbSymbolInputDto,GetBbSymbolOutputDto> getBbSymbol(
+    public BaseResultViaApiDto<BbSymbolInputDto,GetBbSymbolOutputDto> getBbSymbol(
             @ApiParam(name="id",value = "币币货币对Id",required = true)
             @RequestParam(name = "id") long id
     )
     {
-        GetBbSymbolInputDto inputDto=new GetBbSymbolInputDto();
+        BbSymbolInputDto inputDto=new BbSymbolInputDto();
         inputDto.setId(id);
         GetBbSymbolOutputDto outputDto = new GetBbSymbolOutputDto();
         try {
@@ -177,7 +177,7 @@ public class ApiBbSymbolController {
 
     @ApiOperation(value = "检查是否已存在")
     @PostMapping(path = "/check_has_bbSymbol")
-    public BaseResultViaApiDto<CheckHasBbSymbolInputDto,CheckHasBbSymbolOutputDto> checkHasBbSymbol(
+    public BaseResultViaApiDto<BbSymbolInputDto,BbSymbolOutputDto> checkHasBbSymbol(//CheckHasBbSymbolOutputDto
         @ApiParam(name="id",value = "id",required = true)
         @RequestParam(name = "id") Long id,
         @ApiParam(name="asset",value = "币种",required = true)
@@ -188,12 +188,12 @@ public class ApiBbSymbolController {
         @RequestParam(name = "display_name") String displayName
     )
     {
-        CheckHasBbSymbolInputDto inputDto=new CheckHasBbSymbolInputDto();
+        BbSymbolInputDto inputDto=new BbSymbolInputDto();
         inputDto.setId(id);
         inputDto.setAsset(asset);
         inputDto.setSymbol(symbol);
         inputDto.setDisplayName(displayName);
-        CheckHasBbSymbolOutputDto outputDto=new CheckHasBbSymbolOutputDto();
+        BbSymbolOutputDto outputDto = new BbSymbolOutputDto();
         try {
             outputDto=iApiBbSymbolControllerService.checkHasBbSymbol(inputDto);
         } catch (MngException e) {
@@ -237,11 +237,10 @@ public class ApiBbSymbolController {
 
     @ApiOperation(value = "获取有效交易对")
     @GetMapping(path = "/get_all_bbSymbol")
-    public BaseResultViaApiDto<GetAllActiveBbSymbolInputDto,GetAllActiveBbSymbolOutputDto> getActiveBbSymbol()
+    public BaseResultViaApiDto<BbSymbolInputDto,BbSymbolOutputDto> getActiveBbSymbol()
     {
-        GetAllActiveBbSymbolInputDto inputDto=new GetAllActiveBbSymbolInputDto();
-
-        GetAllActiveBbSymbolOutputDto outputDto=new GetAllActiveBbSymbolOutputDto();
+        BbSymbolInputDto inputDto=new BbSymbolInputDto();
+        BbSymbolOutputDto outputDto=new BbSymbolOutputDto();
         try {
             outputDto=iApiBbSymbolControllerService.getAllActiveBbSymbol(inputDto);
         } catch (BizException e) {
@@ -252,14 +251,14 @@ public class ApiBbSymbolController {
 
     @ApiOperation(value = "获取asset对应的symbol")
     @GetMapping(path = "/get_bbSymbol_list_by_asset")
-    public BaseResultViaApiDto<GetBbSymbolListByAssetInputDto,GetBbSymbolListByAssetOutputDto> GetBbSymbolListByAsset(
+    public BaseResultViaApiDto<BbSymbolInputDto,BbSymbolOutputDto> GetBbSymbolListByAsset(
             @ApiParam(name="asset",value = "标的符号",required = true)
             @RequestParam(name = "asset") String asset
     )
     {
-        GetBbSymbolListByAssetInputDto inputDto=new GetBbSymbolListByAssetInputDto();
+        BbSymbolInputDto inputDto=new BbSymbolInputDto();
         inputDto.setAsset(asset);
-        GetBbSymbolListByAssetOutputDto outputDto=new GetBbSymbolListByAssetOutputDto();
+        BbSymbolOutputDto outputDto=new BbSymbolOutputDto();
         try {
             outputDto=iApiBbSymbolControllerService.GetBbSymbolListByAsset(inputDto);
         } catch (BizException e) {
@@ -298,12 +297,12 @@ public class ApiBbSymbolController {
      */
     @ApiOperation(value = "获取组的数量")
     @GetMapping(path = "/getBbSymbolGroupNum")
-    public BaseResultViaApiDto<GetBbSymbolInputDto,BbSymbolOutputDto> getBbSymbolGroupNum(
+    public BaseResultViaApiDto<BbSymbolInputDto,BbSymbolOutputDto> getBbSymbolGroupNum(
             @ApiParam(name="bb_group_id",value = "币币组id",required = true)
             @RequestParam(name = "bb_group_id") Integer bbGroupId
     ) {
-        GetBbSymbolInputDto inputDto=new GetBbSymbolInputDto();
-        inputDto.setGroupId(bbGroupId);
+        BbSymbolInputDto inputDto=new BbSymbolInputDto();
+        inputDto.setBbGroupId(bbGroupId);
         BbSymbolOutputDto outputDto=new BbSymbolOutputDto();
         try {
             outputDto=iApiBbSymbolControllerService.getBbSymbolGroupNum(inputDto);

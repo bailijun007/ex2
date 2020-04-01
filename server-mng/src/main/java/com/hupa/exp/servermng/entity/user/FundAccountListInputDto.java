@@ -8,6 +8,7 @@ public class FundAccountListInputDto extends BaseInputDto {
     private Integer userType;
     private String userName;
     private Long id;
+    private String asset;
 
     public Long getId() {
         return id;
@@ -33,7 +34,13 @@ public class FundAccountListInputDto extends BaseInputDto {
         this.userName = userName;
     }
 
+    public String getAsset() {
+        return asset;
+    }
 
+    public void setAsset(String asset) {
+        this.asset = asset;
+    }
 
     public Integer getPageSize() {
         return pageSize;

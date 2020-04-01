@@ -75,11 +75,12 @@
 </body>
 </html>
 <script type="text/javascript">
-
-
     var oTable; //定义DataTables
 
     $(function () {
+
+        //3、加载币种下拉选项列表
+        bindAsset("assetSelect",true);
 
         //1.初始化DataTables
         oTable = new TableInit();
@@ -88,9 +89,6 @@
         //2、初始化分页按钮
         var oButtonInit = new ButtonInit();
         oButtonInit.Init();
-
-        //3、加载币种下拉选项列表
-        bindAsset("assetSelect",true);
 
         //搜索事件
         $("#btn_query").click(function () {

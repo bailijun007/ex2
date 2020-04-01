@@ -3,12 +3,9 @@ package com.hupa.exp.servermng.action.controller.api;
 import com.hupa.exp.common.entity.dto.BaseResultViaApiDto;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
-import com.hupa.exp.servermng.entity.area.*;
 import com.hupa.exp.servermng.entity.base.DeleteInputDto;
 import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.constant.*;
-import com.hupa.exp.servermng.entity.dic.DicAllListInputDto;
-import com.hupa.exp.servermng.entity.dic.DicAllListOutputDto;
 import com.hupa.exp.servermng.service.def.IConstantService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path = "/v1/http/constant",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ApiConstantController {
+
     @Autowired
     private IConstantService service;
 

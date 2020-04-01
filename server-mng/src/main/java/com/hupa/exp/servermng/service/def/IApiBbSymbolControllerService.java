@@ -19,15 +19,15 @@ public interface IApiBbSymbolControllerService {
 
     BbSymbolListOutputDto getPosPageByParam(BbSymbolListInputDto inputDto) throws BbSymbolException;
 
-    GetBbSymbolOutputDto getBbSymbol(GetBbSymbolInputDto inputDto) throws BbSymbolException;
+    GetBbSymbolOutputDto getBbSymbol(BbSymbolInputDto inputDto) throws BbSymbolException;
 
     GetAllSymbolOutputDto getAllBbSymbolList(GetAllSymbolInputDto inputDto) throws BbSymbolException;
 
-    GetAllActiveBbSymbolOutputDto getAllActiveBbSymbol(GetAllActiveBbSymbolInputDto inputDto) throws BizException;
+    BbSymbolOutputDto getAllActiveBbSymbol(BbSymbolInputDto inputDto) throws BizException;
 
-    CheckHasBbSymbolOutputDto checkHasBbSymbol(CheckHasBbSymbolInputDto inputDto) throws MngException;
+    BbSymbolOutputDto checkHasBbSymbol(BbSymbolInputDto inputDto) throws MngException;
 
-    GetBbSymbolListByAssetOutputDto GetBbSymbolListByAsset(GetBbSymbolListByAssetInputDto inputDto)throws BizException;
+    BbSymbolOutputDto GetBbSymbolListByAsset(BbSymbolInputDto inputDto) throws BizException;
 
    /*
     CheckHasLastPriceOutputDto checkHasLastPrice(CheckHasLastPriceInputDto inputDto)throws BbSymbolException;
@@ -35,6 +35,6 @@ public interface IApiBbSymbolControllerService {
 
     DeleteOutputDto deleteBbSymbol(DeleteInputDto inputDto) throws BizException;
 
-    BbSymbolOutputDto getBbSymbolGroupNum(GetBbSymbolInputDto inputDto) throws BizException;
+    BbSymbolOutputDto getBbSymbolGroupNum(BbSymbolInputDto inputDto) throws BizException;
 
 }

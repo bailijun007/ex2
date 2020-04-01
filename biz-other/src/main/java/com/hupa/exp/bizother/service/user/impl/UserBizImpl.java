@@ -128,7 +128,6 @@ public class UserBizImpl implements IUserBiz {
                 expUserPo.setBbMakerFee(mBbFee.multiply(new BigDecimal("100")));
                 expUserPo.setBbTakerFee(tBbFee.multiply(new BigDecimal("100")));
             }
-
         }
 
         userId = iExpUserDao.insert(expUserPo);
@@ -144,9 +143,6 @@ public class UserBizImpl implements IUserBiz {
                     iExpUserRoleDao.insert(expUserRolePo);
                 }
         }
-
-
-
         return userId;
     }
 
@@ -228,9 +224,9 @@ public class UserBizImpl implements IUserBiz {
         return expUserBo;
     }
 
-    @Override
+   /* @Override
     public FundAccountMngListBizBo queryFundAccountList(long currentPage, long pageSize, Integer userType, String userName, Long id) throws BizException {
-        List<AssetPo> assetPos = iAssetDao.selectList();//所有交易对
+        List<AssetPo> assetPos = iAssetDao.selectList();
         IPage<ExpUserPo> userPos = iExpUserDao.selectUserList(currentPage, pageSize, userType, userName,id);
         FundAccountMngListBizBo fundAccountListBizBo = new FundAccountMngListBizBo();
         fundAccountListBizBo.setTotal(userPos.getTotal());
@@ -273,9 +269,13 @@ public class UserBizImpl implements IUserBiz {
                 //获取币币账户
                 BbAccountVo bbAccountVo = iAccountBiz.getBBAccount(userPo.getId(), pcPo.getRealName());
                 if(bbAccountVo!=null){
-                    assetsBizBo.setBbBalance(bbAccountVo.getBalance());
+                    //assetsBizBo.setBbAccountTotal();
+                    assetsBizBo.setBbAccountBalance(bbAccountVo.getBalance());
+                    //assetsBizBo.setBbAccountFrozen();
                 }else{
-                    assetsBizBo.setBbBalance(new BigDecimal("0"));
+                    assetsBizBo.setBbAccountTotal(new BigDecimal("0"));
+                    assetsBizBo.setBbAccountBalance(new BigDecimal("0"));
+                    assetsBizBo.setBbAccountFrozen(new BigDecimal("0"));
                 }
 
                 assetsBizBos.add(assetsBizBo);
@@ -285,12 +285,12 @@ public class UserBizImpl implements IUserBiz {
         }
         fundAccountListBizBo.setRows(fundAccountBizBoList);
         return fundAccountListBizBo;
-    }
+    }*/
 
     @Override
-    public FundAccountMngListBizBo queryFundAccountListByParam(long currentPage, long pageSize, Integer userType, String userName, Long id) throws BizException {
+    public FundAccountMngListBizBo queryFundAccountListByParam(long currentPage, long pageSize, Integer userType, String userName, String asset, Long id) throws BizException {
         FundAccountMngListBizBo fundAccountListBizBo = new FundAccountMngListBizBo();
-        List<AssetPo> assetPos = iAssetDao.selectList();//获取所有交易对
+        //List<AssetPo> assetPos = iAssetDao.selectList();//获取所有交易对
         IPage<ExpUserPo> userPos = iExpUserDao.selectUserList(currentPage, pageSize, userType, userName,id); //按条件获取用户
         List<FundAccountMngBizBo> fundAccountBizBoList = new ArrayList<>();
         for (ExpUserPo userPo : userPos.getRecords()) {
@@ -299,45 +299,49 @@ public class UserBizImpl implements IUserBiz {
             fundAccountBizBo.setUserName(!StringUtils.isEmpty(userPo.getPhone()) ? userPo.getPhone() : userPo.getEmail());
             fundAccountBizBo.setRealName(userPo.getRealName());
             List<AssetsBizBo> assetsBizBos = new ArrayList<>();
-            for (AssetPo pcPo : assetPos) {
+            //for (AssetPo pcPo : assetPos) {
                 AssetsBizBo assetsBizBo = new AssetsBizBo();
-                assetsBizBo.setAsset(pcPo.getRealName());
+                assetsBizBo.setAsset(asset);//pcPo.getRealName()
                 // 获取资金账户
-                FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(userPo.getId(), pcPo.getRealName());
+                FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(userPo.getId(), asset);//pcPo.getRealName()
                 if (fundAccount != null) {
-                    assetsBizBo.setFundAccountAvailable(fundAccount.getAvailable());//可用余额
-                    assetsBizBo.setFundAccountLock(fundAccount.getLock());//锁定额度
-                    assetsBizBo.setFundAccountTotal(fundAccount.getTotal());//总金额
+                    assetsBizBo.setFundAccountAvailable(fundAccount.getAvailable()==null?BigDecimal.ZERO:fundAccount.getAvailable());//可用余额
+                    assetsBizBo.setFundAccountLock(fundAccount.getLock()==null?BigDecimal.ZERO:fundAccount.getAvailable());//锁定额度
+                    assetsBizBo.setFundAccountTotal(fundAccount.getTotal()==null?BigDecimal.ZERO:fundAccount.getTotal());//总金额
                 } else {
-                    iAccountBiz.createFundAccount(userPo.getId(), pcPo.getRealName());//创建资金账户
-                    assetsBizBo.setFundAccountAvailable(new BigDecimal("0"));
-                    assetsBizBo.setFundAccountLock(new BigDecimal("0"));
-                    assetsBizBo.setFundAccountTotal(new BigDecimal("0"));
+                    iAccountBiz.createFundAccount(userPo.getId(), asset);//创建资金账户pcPo.getRealName()
+                    assetsBizBo.setFundAccountAvailable(BigDecimal.ZERO);
+                    assetsBizBo.setFundAccountLock(BigDecimal.ZERO);
+                    assetsBizBo.setFundAccountTotal(BigDecimal.ZERO);
                 }
                 //获取合约账户
-                PcAccountBizBo pcBo = iAccountBiz.getPcAccount(userPo.getId(), pcPo.getRealName());
+                PcAccountBizBo pcBo = iAccountBiz.getPcAccount(userPo.getId(), asset);//pcPo.getRealName()
                 if (pcBo != null ) {
-                    assetsBizBo.setPcAccountAvailable(pcBo.getAvailable());//可用余额
-                    assetsBizBo.setPcAccountTotal(pcBo.getTotal());//总金额
-                    assetsBizBo.setPcOrderMargin(pcBo.getOrderMargin());//委托保证金
-                    assetsBizBo.setPcPosMargin(pcBo.getPosMargin());//仓位保证金
+                    assetsBizBo.setPcAccountAvailable(pcBo.getAvailable()==null?BigDecimal.ZERO:pcBo.getAvailable());//可用余额
+                    assetsBizBo.setPcAccountTotal(pcBo.getTotal()==null?BigDecimal.ZERO:pcBo.getTotal());//总金额
+                    assetsBizBo.setPcOrderMargin(pcBo.getOrderMargin()==null?BigDecimal.ZERO:pcBo.getOrderMargin());//委托保证金
+                    assetsBizBo.setPcPosMargin(pcBo.getPosMargin()==null?BigDecimal.ZERO:pcBo.getPosMargin());//仓位保证金
                 } else {
-                    iAccountBiz.createPcAccount(userPo.getId(), pcPo.getRealName());//创建合约账户
-                    assetsBizBo.setPcAccountAvailable(new BigDecimal("0"));
-                    assetsBizBo.setPcAccountTotal(new BigDecimal("0"));
-                    assetsBizBo.setPcOrderMargin(new BigDecimal("0"));
-                    assetsBizBo.setPcPosMargin(new BigDecimal("0"));
+                    iAccountBiz.createPcAccount(userPo.getId(), asset);//创建合约账户pcPo.getRealName()
+                    assetsBizBo.setPcAccountAvailable(BigDecimal.ZERO);
+                    assetsBizBo.setPcAccountTotal(BigDecimal.ZERO);
+                    assetsBizBo.setPcOrderMargin(BigDecimal.ZERO);
+                    assetsBizBo.setPcPosMargin(BigDecimal.ZERO);
                 }
                 //获取币币账户
-                BbAccountVo bbAccountVo = iAccountBiz.getBBAccount(userPo.getId(), pcPo.getRealName());
+                BbAccountVo bbAccountVo = iAccountBiz.getBBAccount(userPo.getId(), asset);//pcPo.getRealName()
                 if(bbAccountVo!=null){
-                    assetsBizBo.setBbBalance(bbAccountVo.getBalance());
+                    assetsBizBo.setBbAccountTotal(BigDecimal.ZERO);
+                    assetsBizBo.setBbAccountBalance(bbAccountVo.getBalance());
+                    assetsBizBo.setBbAccountFrozen(BigDecimal.ZERO);
                 }else{
-                    iAccountBiz.createBBAccount(userPo.getId(), pcPo.getRealName()); //创建币币账户
-                    assetsBizBo.setBbBalance(new BigDecimal("0"));
+                    iAccountBiz.createBBAccount(userPo.getId(), asset); //创建币币账户pcPo.getRealName()
+                    assetsBizBo.setBbAccountTotal(BigDecimal.ZERO);
+                    assetsBizBo.setBbAccountBalance(BigDecimal.ZERO);
+                    assetsBizBo.setBbAccountFrozen(BigDecimal.ZERO);//new BigDecimal("0")
                 }
                 assetsBizBos.add(assetsBizBo);
-            }
+            //}
             fundAccountBizBo.setAssets(assetsBizBos);
             fundAccountBizBoList.add(fundAccountBizBo);
         }
@@ -389,9 +393,13 @@ public class UserBizImpl implements IUserBiz {
             //获取币币账户
             BbAccountVo bbAccountVo = iAccountBiz.getBBAccount(userPo.getId(), pcPo.getRealName());
             if(bbAccountVo!=null){
-                assetsBizBo.setBbBalance(bbAccountVo.getBalance());
+                assetsBizBo.setBbAccountTotal(BigDecimal.ZERO);
+                assetsBizBo.setBbAccountBalance(bbAccountVo.getBalance());
+                assetsBizBo.setBbAccountFrozen(BigDecimal.ZERO);
             }else{
-                assetsBizBo.setBbBalance(new BigDecimal("0"));
+                assetsBizBo.setBbAccountTotal(new BigDecimal("0"));
+                assetsBizBo.setBbAccountBalance(new BigDecimal("0"));
+                assetsBizBo.setBbAccountFrozen(new BigDecimal("0"));
             }
 
             assetsBizBos.add(assetsBizBo);

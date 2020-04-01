@@ -13,7 +13,7 @@ public interface IApiUserControllerService {
 
     UserOutputDto queryUserInfoById(UserInputDto inputDto) throws BizException;
 
-    FundAccountListOutputDto queryFundAccountList(FundAccountListInputDto inputDto) throws BizException;
+    //FundAccountListOutputDto queryFundAccountList(FundAccountListInputDto inputDto) throws BizException;
 
     FundAccountInfoOutputDto queryFundAccountById(FundAccountInfoInputDto inputDto) throws BizException;
 

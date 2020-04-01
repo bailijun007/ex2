@@ -1,7 +1,6 @@
 package com.hupa.exp.servermng.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.hupa.exp.base.enums.OperationModule;
 import com.hupa.exp.base.enums.OperationType;
 import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
@@ -20,7 +19,6 @@ import com.hupa.exp.servermng.service.def.IApiC2cConfigControllerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,7 +83,6 @@ public class ApiC2cConfigControllerService  implements IApiC2cConfigControllerSe
             c2cConfigPo.setCtime(System.currentTimeMillis());
             c2cConfigPo.setMtime(System.currentTimeMillis());
             c2cConfigDao.insert(c2cConfigPo);
-
             //添加操作日志
             ExpUserBizBo user= sessionHelper.getUserInfoBySession();
             logService.createOperationLog(user.getId(),user.getUserName(), "C2CConfig",
@@ -145,8 +142,12 @@ public class ApiC2cConfigControllerService  implements IApiC2cConfigControllerSe
     @Override
     public DeleteOutputDto deletesConfigList(DeleteInputDto inputDto) throws BizException {
         String[] ids=inputDto.getIds().split(",");
+        ExpUserBizBo user= sessionHelper.getUserInfoBySession();
         for(String id:ids) {
+            C2cConfigPo beforeBo = c2cConfigDao.selectPoById(Long.parseLong(id));
             c2cConfigDao.deleteById(Long.parseLong(id));
+            logService.createOperationLog(user.getId(),user.getUserName(), "C2CConfig",
+                    OperationType.Delete.toString(), JsonUtil.toJsonString(beforeBo),"");
         }
         DeleteOutputDto outputDto=new DeleteOutputDto();
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));

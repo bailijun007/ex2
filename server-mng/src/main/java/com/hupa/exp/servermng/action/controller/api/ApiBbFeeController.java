@@ -7,13 +7,10 @@ import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
 import com.hupa.exp.servermng.entity.base.DeleteInputDto;
 import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.bbfee.*;
-import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiBbFeeControllerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -31,10 +28,10 @@ public class ApiBbFeeController {
     @Autowired
     private IApiBbFeeControllerService service;
 
-    @Autowired
-    private SessionHelper sessionHelper;
+    //@Autowired
+    //private SessionHelper sessionHelper;
 
-    private Logger logger = LoggerFactory.getLogger(ApiBbFeeController.class);
+    //private Logger logger = LoggerFactory.getLogger(ApiBbFeeController.class);
 
     @ApiOperation(value = "创建或修改手续费规则")
     @PostMapping("/create_or_edit")
@@ -122,7 +119,6 @@ public class ApiBbFeeController {
         DeleteInputDto inputDto=new DeleteInputDto();
         DeleteOutputDto outputDto=new DeleteOutputDto();
         inputDto.setIds(ids);
-
         try{
             outputDto = service.deleteBbFee(inputDto);
 

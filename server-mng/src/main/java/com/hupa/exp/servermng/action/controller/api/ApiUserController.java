@@ -134,6 +134,8 @@ public class ApiUserController {
             @RequestParam(name = "id") Long id ,
             @ApiParam(name="user_name",value = "账号",required = true)
             @RequestParam(name = "user_name") String userName ,
+            @ApiParam(name="asset",value = "币种",required = true)
+            @RequestParam(name = "asset") String asset ,
             @ApiParam(name="user_type",value = "用户类型",required = true)
             @RequestParam(name = "user_type") Integer userType,
             @ApiParam(name="page_size",value = "条数",required = true)
@@ -143,11 +145,12 @@ public class ApiUserController {
 
     {
         FundAccountListOutputDto outputDto=new FundAccountListOutputDto();
-    FundAccountListInputDto inputDto=new FundAccountListInputDto();
+        FundAccountListInputDto inputDto=new FundAccountListInputDto();
         inputDto.setPageSize(pageSize);
         inputDto.setCurrentPage(currentPage);
         inputDto.setUserType(userType);
         inputDto.setUserName(userName);
+        inputDto.setAsset(asset);
         inputDto.setId(id);
         try {
         outputDto= iApiUserControllerService.queryFundAccountListByParam(inputDto);

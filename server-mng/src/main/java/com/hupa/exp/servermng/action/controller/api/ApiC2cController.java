@@ -1,7 +1,6 @@
 package com.hupa.exp.servermng.action.controller.api;
 
 import com.hupa.exp.common.entity.dto.BaseResultViaApiDto;
-import com.hupa.exp.common.entity.dto.output.BaseOutputDto;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
 import com.hupa.exp.servermng.entity.c2c.*;
@@ -13,11 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-/**
- * Created by Administrator on 2020/1/14.
- */
 
 @Api(tags = "apiC2cController")
 @RestController
@@ -80,7 +74,7 @@ public class ApiC2cController {
 
     /**
      * C2C审核
-     * @param id
+     * @param approvalId
      * @param approvalStatus
      * @return
      */

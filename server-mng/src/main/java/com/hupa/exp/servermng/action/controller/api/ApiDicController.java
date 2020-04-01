@@ -6,13 +6,10 @@ import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
 import com.hupa.exp.servermng.entity.base.DeleteInputDto;
 import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.dic.*;
-import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiDicControllerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -22,12 +19,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "/v1/http/dic",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ApiDicController {
 
-    private Logger logger = LoggerFactory.getLogger(ApiDicController.class);
+    //private Logger logger = LoggerFactory.getLogger(ApiDicController.class);
+    //@Autowired
+    //private SessionHelper sessionHelper;
 
     @Autowired
     private IApiDicControllerService service;
-    @Autowired
-    private SessionHelper sessionHelper;
+
 
     @ApiOperation(value = "通过字典类型获取字典信息")
     @GetMapping("/query_type_list")

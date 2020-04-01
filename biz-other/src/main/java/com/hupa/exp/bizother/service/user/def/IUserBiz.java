@@ -22,10 +22,9 @@ public interface IUserBiz {
 
     ExpUserBizBo queryById(long id);
 
-    FundAccountMngListBizBo queryFundAccountList(long currentPage, long pageSize, Integer userType, String userName, Long id)throws BizException;
+    //FundAccountMngListBizBo queryFundAccountList(long currentPage, long pageSize, Integer userType, String userName, Long id)throws BizException;
 
-    FundAccountMngListBizBo queryFundAccountListByParam(long currentPage, long pageSize, Integer userType, String userName, Long id)throws BizException;
-
+    FundAccountMngListBizBo queryFundAccountListByParam(long currentPage, long pageSize, Integer userType, String userName, String asset, Long id)throws BizException;
 
     FundAccountMngBizBo queryFundAccountById(long id) throws BizException;
 

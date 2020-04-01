@@ -119,7 +119,7 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
             beforeBo.setContractChineseName(bo.getContractChineseName());
             iPcContractBiz.editContract(beforeBo);
             logService.createOperationLog(user.getId(),user.getUserName(),
-                    OperationModule.Asset.toString(),
+                    OperationModule.Contract.toString(),
                     OperationType.Update.toString(),
                     beforeStr,JsonUtil.toJsonString(beforeBo));
         }

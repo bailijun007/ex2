@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path="/v1/http/fundwithdraw",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ApiFundWithdrawController {
 
-    private Logger logger = LoggerFactory.getLogger(ApiFundWithdrawController.class);
+    //private Logger logger = LoggerFactory.getLogger(ApiFundWithdrawController.class);
 
     @Autowired
     private IApiFundWithdrawControllerService service;

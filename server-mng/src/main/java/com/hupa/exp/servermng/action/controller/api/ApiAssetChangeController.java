@@ -25,10 +25,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApiAssetChangeController {
     @Autowired
     private IApiAssetChangeControllerService service;
-    @Autowired
-    private SessionHelper sessionHelper;
+    //@Autowired
+    //private SessionHelper sessionHelper;
 
-    private Logger logger = LoggerFactory.getLogger(ApiAssetChangeController.class);
+    //private Logger logger = LoggerFactory.getLogger(ApiAssetChangeController.class);
     @ApiOperation(value = "获取资金账户")
     @GetMapping("/query_fund_asset")
     public BaseResultViaApiDto<FundAssetChangeInputDto,FundAssetChangeOutputDto> getFundAssetChange(

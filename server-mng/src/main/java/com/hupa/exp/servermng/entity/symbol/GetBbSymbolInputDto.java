@@ -1,10 +1,13 @@
+/*
 package com.hupa.exp.servermng.entity.symbol;
 
 import com.hupa.exp.common.entity.dto.input.BaseInputDto;
 
+*/
 /**
  * Created by Administrator on 2020/2/9.
- */
+ *//*
+
 public class GetBbSymbolInputDto  extends BaseInputDto {
 
     private long id;
@@ -27,3 +30,4 @@ public class GetBbSymbolInputDto  extends BaseInputDto {
         this.groupId = groupId;
     }
 }
+*/

@@ -126,7 +126,7 @@ public class ApiBbSymbolControllerServiceImpl implements IApiBbSymbolControllerS
             id= iBbSymbolBiz.createBbSymbol(bo);
            logService.createOperationLog(user.getId(),user.getUserName(),
                    "BbSymbol",
-                    OperationType.Update.toString(),
+                    OperationType.Insert.toString(),
                     JsonUtil.toJsonString(bo),"");
         }
         BbSymbolOutputDto outputDto=new BbSymbolOutputDto();
@@ -137,7 +137,7 @@ public class ApiBbSymbolControllerServiceImpl implements IApiBbSymbolControllerS
 
 
     @Override
-    public GetBbSymbolOutputDto getBbSymbol(GetBbSymbolInputDto inputDto) throws BbSymbolException {
+    public GetBbSymbolOutputDto getBbSymbol(BbSymbolInputDto inputDto) throws BbSymbolException {
 
         BbSymbolBizBo bo=iBbSymbolBiz.getBbSymbolById(inputDto.getId());
         GetBbSymbolOutputDto outputDto=new GetBbSymbolOutputDto();
@@ -231,10 +231,10 @@ public class ApiBbSymbolControllerServiceImpl implements IApiBbSymbolControllerS
     }
 
     @Override
-    public GetAllActiveBbSymbolOutputDto getAllActiveBbSymbol(GetAllActiveBbSymbolInputDto inputDto) throws BizException {
+    public BbSymbolOutputDto getAllActiveBbSymbol(BbSymbolInputDto inputDto) throws BizException {
+        BbSymbolOutputDto outputDto =new BbSymbolOutputDto();
         List<BbSymbolPo> bbSymbolPos= iBbSymbolDao.selectPosByStatus(1);
         List<GetBbSymbolOutputDto> activeBbSymbol=new ArrayList<>();
-        GetAllActiveBbSymbolOutputDto outputDto =new GetAllActiveBbSymbolOutputDto();
         bbSymbolPos.forEach(bo->{
             GetBbSymbolOutputDto info=new GetBbSymbolOutputDto();
             info.setId(String.valueOf(bo.getId()));
@@ -269,31 +269,28 @@ public class ApiBbSymbolControllerServiceImpl implements IApiBbSymbolControllerS
             info.setPrivilege(String.valueOf(bo.getPrivilege()));*/
             activeBbSymbol.add(info);
         });
-        outputDto.setActiveBbSymbol(activeBbSymbol);
+        outputDto.setAssetSymbolList(activeBbSymbol);
         return outputDto;
     }
 
 
-        @Override
-        public CheckHasBbSymbolOutputDto checkHasBbSymbol(CheckHasBbSymbolInputDto inputDto) throws  MngException {
-
-            if(inputDto.getId()>0)
-            {
-                BbSymbolBizBo beforeBo=iBbSymbolBiz.getBbSymbolById(inputDto.getId());
-                BbSymbolBizBo input= iBbSymbolBiz.checkHasBbSymbol(inputDto.getAsset(),inputDto.getSymbol(),inputDto.getDisplayName());
-                //修改 传进来的参数能查询到数据 且查出来的数据不相等
-                if(input!=null&&beforeBo.getId()!=input.getId())
-                    throw new MngException(MngExceptionCode.CONTRACT_EXIST_ERROR);
-            } else {
-                //true已存在  报错
-                if(iBbSymbolBiz.checkHasBbSymbol(inputDto.getAsset(),inputDto.getSymbol(),inputDto.getDisplayName())!=null)
-                    throw new MngException(MngExceptionCode.CONTRACT_EXIST_ERROR);
-
-            }
-            CheckHasBbSymbolOutputDto outputDto=new CheckHasBbSymbolOutputDto();
-            outputDto.setTime(String.valueOf(System.currentTimeMillis()));
-            return outputDto;
+    @Override
+    public BbSymbolOutputDto checkHasBbSymbol(BbSymbolInputDto inputDto) throws  MngException {
+        if(inputDto.getId()>0) {
+            BbSymbolBizBo beforeBo=iBbSymbolBiz.getBbSymbolById(inputDto.getId());
+            BbSymbolBizBo input= iBbSymbolBiz.checkHasBbSymbol(inputDto.getAsset(),inputDto.getSymbol(),inputDto.getDisplayName());
+            //修改 传进来的参数能查询到数据 且查出来的数据不相等
+            if(input!=null&&beforeBo.getId()!=input.getId())
+                throw new MngException(MngExceptionCode.CONTRACT_EXIST_ERROR);
+        } else {
+            //true已存在  报错
+            if(iBbSymbolBiz.checkHasBbSymbol(inputDto.getAsset(),inputDto.getSymbol(),inputDto.getDisplayName())!=null)
+                throw new MngException(MngExceptionCode.CONTRACT_EXIST_ERROR);
         }
+        BbSymbolOutputDto outputDto=new BbSymbolOutputDto();
+        outputDto.setTime(String.valueOf(System.currentTimeMillis()));
+        return outputDto;
+    }
 /*
         @Override
         public CheckHasLastPriceOutputDto checkHasLastPrice(CheckHasLastPriceInputDto inputDto) throws BbSymbolException {
@@ -307,7 +304,8 @@ public class ApiBbSymbolControllerServiceImpl implements IApiBbSymbolControllerS
 */
 
     @Override
-    public GetBbSymbolListByAssetOutputDto GetBbSymbolListByAsset(GetBbSymbolListByAssetInputDto inputDto) throws BizException {
+    public BbSymbolOutputDto GetBbSymbolListByAsset(BbSymbolInputDto inputDto) throws BizException {
+        BbSymbolOutputDto outputDto=new BbSymbolOutputDto();
         List<BbSymbolPo> poList=iBbSymbolDao.selectPosByAsset(inputDto.getAsset());
         List<GetBbSymbolOutputDto> assetSymbolList=new ArrayList<>();
         poList.forEach(bo->{
@@ -344,22 +342,18 @@ public class ApiBbSymbolControllerServiceImpl implements IApiBbSymbolControllerS
             info.setPrivilege(String.valueOf(bo.getPrivilege()));*/
             assetSymbolList.add(info);
         });
-        GetBbSymbolListByAssetOutputDto outputDto=new GetBbSymbolListByAssetOutputDto();
         outputDto.setAssetSymbolList(assetSymbolList);
         return outputDto;
     }
 
     @Override
     public DeleteOutputDto deleteBbSymbol(DeleteInputDto inputDto) throws BizException {
-
+        ExpUserBizBo user= sessionHelper.getUserInfoBySession();
         String[] ids=inputDto.getIds().split(",");
-        for(String id:ids)
-        {
-            BbSymbolPo po= iBbSymbolDao.selectPoById(Long.parseLong(id));
-            if(po!=null)
-            {
-                if(iBbSymbolDao.deleteById(po.getId())>0)
-                {
+        for(String id:ids) {
+            BbSymbolPo po = iBbSymbolDao.selectPoById(Long.parseLong(id));
+            if(po!=null) {
+                if(iBbSymbolDao.deleteById(po.getId())>0) {
                     //删除交易对的时候顺便删除redis中的值
                     ExpDicPo dicPo= iExpDicDao.selectDicByKey("BbSymbolRedisKey");
                     if(dicPo!=null)
@@ -371,14 +365,11 @@ public class ApiBbSymbolControllerServiceImpl implements IApiBbSymbolControllerS
                     {
                         redisUtilDb0.hdel(dicPoDisplay.getValue(),po.getDisplayName());
                     }
+                    logService.createOperationLog(user.getId(), user.getUserName(),
+                            "BbSymbol", OperationType.Delete.toString(), JsonUtil.toJsonString(po),"");
                 }
             }
-            iBbSymbolDao.deleteById(Long.parseLong(id));
         }
-        //ExpUserBizBo user=sessionHelper.getUserInfoBySession();
-      /*  logService.createOperationLog(user.getId(),user.getUserName(),
-                "BbSymbol", OperationType.Delete.toString(),
-                inputDto.getIds(),"");*/
         DeleteOutputDto outputDto=new DeleteOutputDto();
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
@@ -392,9 +383,9 @@ public class ApiBbSymbolControllerServiceImpl implements IApiBbSymbolControllerS
      * @return
      * @throws BizException
      */
-    public BbSymbolOutputDto getBbSymbolGroupNum(GetBbSymbolInputDto inputDto) throws BizException{
+    public BbSymbolOutputDto getBbSymbolGroupNum(BbSymbolInputDto inputDto) throws BizException{
         BbSymbolOutputDto outputDto=new BbSymbolOutputDto();
-        List<BbSymbolPo> lists = iBbSymbolDao.selectPoGroupId(inputDto.getGroupId());
+        List<BbSymbolPo> lists = iBbSymbolDao.selectPoGroupId(inputDto.getBbGroupId());
         if(lists!=null && lists.size()>0){
             outputDto.setNumber(lists.size());
         }

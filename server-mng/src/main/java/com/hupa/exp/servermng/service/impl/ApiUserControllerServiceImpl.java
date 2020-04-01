@@ -288,7 +288,7 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         return outputDto;
     }
 
-    @Override
+/*    @Override
     public FundAccountListOutputDto queryFundAccountList(FundAccountListInputDto inputDto) throws BizException {
         if (inputDto.getPageSize() > 100)
             inputDto.setPageSize(100);
@@ -308,7 +308,7 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         outputDto.setSizePerPage(inputDto.getCurrentPage());
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
-    }
+    }*/
 
     /**
      * 获取账户资金列表
@@ -321,7 +321,7 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         if (inputDto.getPageSize() > 100)
             inputDto.setPageSize(100);
         FundAccountListOutputDto outputDto = new FundAccountListOutputDto();
-        FundAccountMngListBizBo listBizBo = iUserBiz.queryFundAccountListByParam(inputDto.getCurrentPage(), inputDto.getPageSize(), inputDto.getUserType(), inputDto.getUserName(), inputDto.getId());
+        FundAccountMngListBizBo listBizBo = iUserBiz.queryFundAccountListByParam(inputDto.getCurrentPage(), inputDto.getPageSize(), inputDto.getUserType(), inputDto.getUserName(),inputDto.getAsset(),inputDto.getId());
         List<FundAccountListOutputPage> pageList = new ArrayList<>();
         for (FundAccountMngBizBo bo : listBizBo.getRows()) {
             FundAccountListOutputPage account = new FundAccountListOutputPage();
