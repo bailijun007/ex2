@@ -31,6 +31,10 @@
                                     <div class="pull-left search">
                                         <input type="text" placeholder="请输入用户ID" id="id" class="form-control input-outline">
                                     </div>
+                                    <div class="pull-left search">
+                                        <label class="sr-only">币种</label>
+                                        <select id="assetSelect" class="form-control"></select>
+                                    </div>
                                     <div class="pull-left search" >
                                         <label class="sr-only">用户名</label>
                                         <select id="user_type" class="form-control">
@@ -65,6 +69,11 @@
 <script type="text/javascript">
     var oTable;
     $(function () {
+
+
+        //加载币种下拉选项列表
+        bindAsset("assetSelect",false);
+
         //1.初始化Table
         oTable = new TableInit();
         oTable.Init();
@@ -75,6 +84,12 @@
         });
 
         $("#user_type").change(function () {
+            $('#tb_departments').bootstrapTable('destroy');
+            oTable.Init();
+        });
+
+        //选择币种事件
+        $("#assetSelect").change(function () {
             $('#tb_departments').bootstrapTable('destroy');
             oTable.Init();
         });
@@ -182,6 +197,59 @@
                         title: '真实姓名',
                         field: 'realName'
                     })
+                    myColumns.push({
+                         title: '资金账户',
+                         formatter: function (value, row, index) {
+                             if(row.assets!=null && row.assets.length>0){
+                                 return "总额:" + row.assets[0].fundAccountTotal+ "</br>可用余额:"+row.assets[0].fundAccountAvailable+"</br>锁定:"+row.assets[0].fundAccountLock;
+                             }else{
+                                 return "";
+                             }
+                         }
+                    })
+                    myColumns.push({
+                        title: '合约账户',
+                        formatter: function (value, row, index) {
+                            if(row.assets!=null && row.assets.length>0) {
+                                return "总额:" + row.assets[0].pcAccountTotal + "</br>可用余额:" + row.assets[0].pcAccountAvailable + "</br>委托保证金:" + row.assets[0].pcOrderMargin + "</br>仓位保证金:" + row.assets[0].pcPosMargin;
+                            }else{
+                                return "";
+                            }
+                        }
+                    })
+                    myColumns.push({
+                        title: '币币账户',
+                        formatter: function (value, row, index) {
+                            if(row.assets!=null && row.assets.length>0) {
+                                return "总额:" + row.assets[0].bbAccountTotal+ "</br>可用余额:"+row.assets[0].bbAccountBalance+"</br>锁定:"+row.assets[0].bbAccountFrozen;
+                            }else{
+                                return "";
+                            }
+                        }
+                    })
+                    myColumns.push({
+                        title: '币种',
+                        formatter: function (value, row, index) {
+                            if(row.assets!=null && row.assets.length>0) {
+                                return row.assets[0].asset;
+                            }else{
+                                return "";
+                            }
+                        }
+                    })
+                    myColumns.push({
+                        title: '操作', field: '#', align: 'center',
+                        formatter: function (value, row, index) {
+                            //return row.assets[0].asset;
+                            if(row.assets!=null && row.assets.length>0) {
+                                return "<a href=\"javascript:addFundAccountOne('Edit','" + row.id + "','"+row.assets[0].asset+"')\">编辑资金账户</a>";
+                            }else{
+                                return "";
+                            }
+                        }
+                    })
+
+
                     // myColumns.push(
                     //     {
                     //         title: '操作', field: '#', align: 'center',
@@ -191,7 +259,7 @@
                     //         }
                     //     }
                     // )
-                    var arr = returnValue.data.asset_list.assetList;
+                  /*  var arr = returnValue.data.asset_list.assetList;
                     console.log(arr);
                     $.each(arr, function(i, item) {
                         myColumns.push({
@@ -217,7 +285,7 @@
                             // "align" : 'center',
                             // "valign" : 'middle'
                         });
-                    });
+                    });*/
                 }
             });
             // debugger
@@ -266,6 +334,7 @@
                 current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
                 user_name:$("#user_name").val(),
                 id:$("#id").val(),
+                asset:$("#assetSelect").val(), //币种
                 user_type:$("#user_type").val()
 
             };
