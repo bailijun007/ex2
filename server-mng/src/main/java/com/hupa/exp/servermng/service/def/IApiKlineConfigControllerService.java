@@ -68,4 +68,7 @@ public interface IApiKlineConfigControllerService {
     KlineConfigOutputDto getThirdDataIntervalKline(KlineConfigInputDto inputDto) throws BizException;
 
 
+    KlineConfigOutputDto getResetKline(KlineConfigInputDto inputDto) throws BizException;
+
+
 }
