@@ -501,6 +501,63 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
     }
 
 
+
+
+    /**
+     * 重置某个时间段K线数据
+     *
+     * @param inputDto
+     * @return
+     * @throws BizException
+     */
+    @Override
+    public KlineConfigOutputDto getResetKline(KlineConfigInputDto inputDto) throws BizException {
+        KlineConfigOutputDto outputDto = new KlineConfigOutputDto();
+        outputDto.setBn(false);
+        try {
+            String asset = inputDto.getAsset();//资产
+            String symbol = inputDto.getSymbol();//交易对
+            String interval = inputDto.getKlineInterval();
+            long statTime = inputDto.getStatTime();
+            long endTime = inputDto.getEndTime() == null ? System.currentTimeMillis() : inputDto.getEndTime();//结束时间
+            if (asset != null && symbol != null && interval!=null) {
+                String dataRedisKey = null;
+                if (inputDto.getKlineType() == 0) {
+                    dataRedisKey = "bb:kline:updateEvent:" + inputDto.getAsset() + ":" + inputDto.getSymbol() + ":" + interval;
+                } else if (inputDto.getKlineType() == 1) {
+                    dataRedisKey = "pc:kline:updateEvent:" + inputDto.getAsset() + ":" + inputDto.getSymbol() + ":" + interval;
+                }
+                if (dataRedisKey != null) {
+                    Map<String, Double> dataEventMap = new HashMap<>();
+                    while (statTime <= endTime) {
+                        statTime = bbCandleHelper.getIntervalPointTime(statTime, statTime, interval);   // 1575951360000 2019/12/10 12:16:0
+                        dataEventMap.put("" + statTime, Long.valueOf(statTime).doubleValue());
+                        long nextTime = statTime + bbCandleHelper.getIntervalMills(interval, statTime);// 1575951420000 2019/12/10 12:17:0
+                        statTime = nextTime;
+                        if (dataEventMap.size() == 1440) {
+                            bbCandleHelper.writeToRedisEvent(dataRedisKey, dataEventMap);
+                            dataEventMap.clear();
+                        }
+                    }
+                    if (dataEventMap.size() > 0) {
+                        bbCandleHelper.writeToRedisEvent(dataRedisKey, dataEventMap);
+                        dataEventMap.clear();
+                    }
+                    outputDto.setBn(true);
+                    outputDto.setMsg("操作成功");
+                }
+            } else {
+                outputDto.setBn(false);
+                outputDto.setMsg("重置参数有错");
+            }
+        } catch (Exception e) {
+            logger.error("getResetKline Exception" + e.getMessage(), e);
+        }
+        outputDto.setTime(String.valueOf(System.currentTimeMillis()));
+        return outputDto;
+    }
+
+
     /**
      * 修补第三方历史K线数据
      *

@@ -241,6 +241,41 @@ public class ApiKlineConfigController {
     }
 
 
+
+    @ApiOperation(value = "重置某个时间段K线数据")
+    @GetMapping(path = "/getResetKline")
+    public BaseResultViaApiDto<KlineConfigInputDto,KlineConfigOutputDto> getResetKline(
+            @ApiParam(name="asset",value = "资产",required = true)
+            @RequestParam(name = "asset") String asset,
+            @ApiParam(name="symbol",value = "交易对名称",required = true)
+            @RequestParam(name = "symbol") String symbol,
+            @ApiParam(name="stat_time",value = "开始时间",required = true)
+            @RequestParam(name = "stat_time") String statTime,
+            @ApiParam(name="end_time",value = "开始时间",required = true)
+            @RequestParam(name = "end_time") String endTime,
+            @ApiParam(name="kline_interval",value = "时间段",required = true)
+            @RequestParam(name = "kline_interval") String klineInterval,
+            @ApiParam(name="kline_type",value = "类别",required = true)
+            @RequestParam(name = "kline_type") Integer klineType
+    ) {
+        KlineConfigInputDto inputDto=new KlineConfigInputDto();
+        inputDto.setAsset(asset);
+        inputDto.setSymbol(symbol);
+        inputDto.setKlineType(klineType);
+        inputDto.setKlineInterval(klineInterval);
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm");
+        inputDto.setStatTime(DateTime.parse(statTime, formatter).getMillis());
+        inputDto.setEndTime(DateTime.parse(endTime, formatter).getMillis());
+        KlineConfigOutputDto outputDto=new KlineConfigOutputDto();
+        try {
+            outputDto=service.getResetKline(inputDto);
+        } catch (BizException e) {
+            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
+        }
+        return  BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
+    }
+
+
     @ApiOperation(value = "手动修补K线")
     @PostMapping("/getManualKline")
     public BaseResultViaApiDto<KlineConfigInputDto,KlineConfigOutputDto> getManualKline( //KlineConfigOutputDto
