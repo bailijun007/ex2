@@ -33,6 +33,8 @@ public class BbSymbolListOutputPage {
     @JsonProperty("symbol_chinese")
     private String symbolChinese;
 
+    private String minTradeNumber;
+
     private String enableCreate;//开启下单
 
     private String enableCancel;//开启撤单
@@ -213,5 +215,13 @@ public class BbSymbolListOutputPage {
 
     public void setSymbolChinese(String symbolChinese) {
         this.symbolChinese = symbolChinese;
+    }
+
+    public String getMinTradeNumber() {
+        return minTradeNumber;
+    }
+
+    public void setMinTradeNumber(String minTradeNumber) {
+        this.minTradeNumber = minTradeNumber;
     }
 }

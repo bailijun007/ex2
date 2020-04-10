@@ -20,6 +20,9 @@ public class BbSymbolOutputDto  extends BaseOutputDto {
     @JsonProperty("asset_symbol_list")
     private List<GetBbSymbolOutputDto> assetSymbolList;
 
+    @JsonProperty("symbol_list")
+    private List<String> symbolList;
+
     public long getId() {
         return id;
     }
@@ -50,5 +53,13 @@ public class BbSymbolOutputDto  extends BaseOutputDto {
 
     public void setAssetSymbolList(List<GetBbSymbolOutputDto> assetSymbolList) {
         this.assetSymbolList = assetSymbolList;
+    }
+
+    public List<String> getSymbolList() {
+        return symbolList;
+    }
+
+    public void setSymbolList(List<String> symbolList) {
+        this.symbolList = symbolList;
     }
 }

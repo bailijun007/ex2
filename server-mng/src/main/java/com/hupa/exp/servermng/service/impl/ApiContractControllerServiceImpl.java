@@ -1,16 +1,13 @@
 package com.hupa.exp.servermng.service.impl;
 
 import com.hupa.exp.base.config.redis.Db0RedisBean;
-import com.hupa.exp.base.config.redis.LastPriceRedisConfig;
 import com.hupa.exp.base.enums.OperationModule;
 import com.hupa.exp.base.enums.OperationType;
-import com.hupa.exp.bizother.config.BizPriceSettingConfig;
 import com.hupa.exp.bizother.entity.contract.PcContractBizBo;
 import com.hupa.exp.bizother.entity.contract.PcContractListBizBo;
 import com.hupa.exp.bizother.entity.user.ExpUserBizBo;
 import com.hupa.exp.bizother.service.contract.def.IPcContractBiz;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
-import com.hupa.exp.bizother.service.price.def.ILastPriceBiz;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.DecimalUtil;
 import com.hupa.exp.common.tool.format.JsonUtil;
@@ -28,6 +25,7 @@ import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiContractControllerService;
 import com.hupa.exp.servermng.validate.ContractValidateImpl;
 import com.hupa.exp.util.convent.ConventObjectUtil;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -47,12 +45,6 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
     private IExpOperationLogService logService;
     @Autowired
     private SessionHelper sessionHelper;
-    @Autowired
-    private ILastPriceBiz iLastPriceBiz;
-    @Autowired
-    private LastPriceRedisConfig redisConfig;
-    @Autowired
-    private BizPriceSettingConfig bizPriceSettingConfig;
 
     @Autowired
     private IPcContractDao iPcContractDao;
@@ -63,9 +55,6 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
 
     @Autowired
     private IExpDicDao iExpDicDao;
-
-    //@Autowired
-    //private IMongoTableDao iMongoTableDao;
 
     /**
      * 新增或修改交易对
@@ -136,60 +125,46 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
                     OperationType.Update.toString(),
                     JsonUtil.toJsonString(bo),"");
         }
-       /*
-         yan 注释
-        ExpDicPo dicPo= iExpDicDao.selectDicByKey(DbKeyDic.MongoDbAssetSymbolTableKey);
-        if(dicPo!=null) {
-            List<ExpDicPo> dicPoList=iExpDicDao.selectDicListByParentId(Integer.parseInt(String.valueOf(dicPo.getId())));
-            List<String> tableNames= dicPoList.stream().map(p -> p.getKey().replace("{asset}",bo.getAsset()).replace("{symbol}",bo.getSymbol())).collect(Collectors.toList());
-            //创建mongodb的表
-            iMongoTableDao.createMongoTable(tableNames);
-        }*/
-//        //查一下有没有最新成交价
-//        if(iLastPriceBiz.get(inputDto.getSymbol())==null)
-//        {
-//            String redisKey= MessageFormat.format(bizPriceSettingConfig.getPcLastPriceRedisKey(),bo.getSymbol());
-//            RedisUtil.redisClientFactory(redisConfig).set(redisKey,DecimalUtil.toTrimLiteral(bo.getLastPrice()));
-//        }
         ContractOutputDto outputDto=new ContractOutputDto();
         outputDto.setId(id);
         return outputDto;
     }
 
     @Override
-    public GetContractOutputDto getContract(GetContractInputDto inputDto) throws ContractException {
-
+    public GetContractOutputDto getContract(ContractInputDto inputDto) throws ContractException {
         PcContractBizBo bo=iPcContractBiz.getContractById(inputDto.getId());
         GetContractOutputDto outputDto=new GetContractOutputDto();
-        outputDto.setId(String.valueOf(bo.getId()));
-        outputDto.setSymbol(bo.getSymbol());
-        outputDto.setSymbolType(String.valueOf(bo.getSymbolType()));
-        outputDto.setAsset(bo.getAsset());
-        //outputDto.setCurrency(bo.getCurrency());
-        outputDto.setPrecision(String.valueOf(bo.getPrecision()));
-        outputDto.setContractName(bo.getContractName());
-        outputDto.setContractNameSplit(bo.getContractNameSplit());
-        outputDto.setContractGroup(bo.getContractGroup());
-        outputDto.setContractType(bo.getContractType());
-        outputDto.setSettlePrice(bo.getSettlePrice());
-        outputDto.setDisplayName(bo.getDisplayName());
-        outputDto.setDisplayNameSplit(bo.getDisplayNameSplit());
-        outputDto.setDefaultPrice(DecimalUtil.toTrimLiteral(bo.getDefaultPrice()));
-        outputDto.setLastPrice(DecimalUtil.toTrimLiteral(bo.getLastPrice()));
-        outputDto.setStep(DecimalUtil.toTrimLiteral(bo.getStep()));
-        outputDto.setFaceValue(String.valueOf(bo.getFaceValue()));
-        outputDto.setSort(String.valueOf(bo.getSort()));
-        outputDto.setStatus(String.valueOf(bo.getStatus()));
-        outputDto.setEnableCreate(String.valueOf(bo.getEnableCreate()));
-        outputDto.setEnableCancel(String.valueOf(bo.getEnableCancel()));
-        outputDto.setPrivilege(String.valueOf(bo.getPrivilege()));
-        outputDto.setCtime(String.valueOf(bo.getCtime()));
-        outputDto.setMtime(String.valueOf(bo.getMtime()));
-        outputDto.setBaseCurrency(bo.getBaseCurrency());
-        outputDto.setSettleCurrency(bo.getSettleCurrency());
-        outputDto.setFaceCurrency(bo.getFaceCurrency());
-        outputDto.setQuoteCurrency(bo.getQuoteCurrency());
-        outputDto.setContractChineseName(bo.getContractChineseName());
+        if(bo!=null){
+            outputDto.setId(String.valueOf(bo.getId()));
+            outputDto.setSymbol(bo.getSymbol());
+            outputDto.setSymbolType(String.valueOf(bo.getSymbolType()));
+            outputDto.setAsset(bo.getAsset());
+            //outputDto.setCurrency(bo.getCurrency());
+            outputDto.setPrecision(String.valueOf(bo.getPrecision()));
+            outputDto.setContractName(bo.getContractName());
+            outputDto.setContractNameSplit(bo.getContractNameSplit());
+            outputDto.setContractGroup(bo.getContractGroup());
+            outputDto.setContractType(bo.getContractType());
+            outputDto.setSettlePrice(bo.getSettlePrice());
+            outputDto.setDisplayName(bo.getDisplayName());
+            outputDto.setDisplayNameSplit(bo.getDisplayNameSplit());
+            outputDto.setDefaultPrice(DecimalUtil.toTrimLiteral(bo.getDefaultPrice()));
+            outputDto.setLastPrice(DecimalUtil.toTrimLiteral(bo.getLastPrice()));
+            outputDto.setStep(DecimalUtil.toTrimLiteral(bo.getStep()));
+            outputDto.setFaceValue(String.valueOf(bo.getFaceValue()));
+            outputDto.setSort(String.valueOf(bo.getSort()));
+            outputDto.setStatus(String.valueOf(bo.getStatus()));
+            outputDto.setEnableCreate(String.valueOf(bo.getEnableCreate()));
+            outputDto.setEnableCancel(String.valueOf(bo.getEnableCancel()));
+            outputDto.setPrivilege(String.valueOf(bo.getPrivilege()));
+            outputDto.setCtime(String.valueOf(bo.getCtime()));
+            outputDto.setMtime(String.valueOf(bo.getMtime()));
+            outputDto.setBaseCurrency(bo.getBaseCurrency());
+            outputDto.setSettleCurrency(bo.getSettleCurrency());
+            outputDto.setFaceCurrency(bo.getFaceCurrency());
+            outputDto.setQuoteCurrency(bo.getQuoteCurrency());
+            outputDto.setContractChineseName(bo.getContractChineseName());
+        }
         return outputDto;
     }
 
@@ -198,39 +173,41 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
         PcContractListBizBo listBizBo= iPcContractBiz.selectPosPageByParam(inputDto.getAsset(),inputDto.getSymbol(),inputDto.getCurrentPage(),inputDto.getPageSize());
         ContractListOutputDto outputDto=new ContractListOutputDto();
         List<ContractListOutputPage> pageList=new ArrayList<>();
-        for(PcContractBizBo bo:listBizBo.getRows())
-        {
-            ContractListOutputPage po=new ContractListOutputPage();
-            po.setId(String.valueOf(bo.getId()));
-            po.setSymbol(bo.getSymbol());
-            po.setSymbolType(String.valueOf(bo.getSymbolType()));
-            po.setAsset(bo.getAsset());
-            //po.setCurrency(bo.getCurrency());
-            po.setPrecision(String.valueOf(bo.getPrecision()));
-            po.setContractName(bo.getContractName());
-            po.setContractNameSplit(bo.getContractNameSplit());
-            po.setContractGroup(bo.getContractGroup());
-            po.setContractType(bo.getContractType());
-            po.setSettlePrice(bo.getSettlePrice());
-            po.setDisplayName(bo.getDisplayName());
-            po.setDisplayNameSplit(bo.getDisplayNameSplit());
-            po.setDefaultPrice(DecimalUtil.toTrimLiteral(bo.getDefaultPrice()));
-            po.setLastPrice(DecimalUtil.toTrimLiteral(bo.getLastPrice()));
-            po.setStep(DecimalUtil.toTrimLiteral(bo.getStep()));
-            po.setFaceValue(String.valueOf(bo.getFaceValue()));
-            po.setSort(String.valueOf(bo.getSort()));
-            po.setStatus(String.valueOf(bo.getStatus()));
-            po.setEnableCreate(String.valueOf(bo.getEnableCreate()));
-            po.setEnableCancel(String.valueOf(bo.getEnableCancel()));
-            po.setPrivilege(String.valueOf(bo.getPrivilege()));
-            po.setCtime(String.valueOf(bo.getCtime()));
-            po.setMtime(String.valueOf(bo.getMtime()));
-            po.setQuoteCurrency(bo.getQuoteCurrency());
-            po.setBaseCurrency(bo.getBaseCurrency());
-            po.setSettleCurrency(bo.getSettleCurrency());
-            po.setFaceCurrency(bo.getFaceCurrency());
-            po.setContractChineseName(bo.getContractChineseName());
-            pageList.add(po);
+        if(CollectionUtils.isNotEmpty(listBizBo.getRows())){
+            ContractListOutputPage po = null;
+            for(PcContractBizBo bo:listBizBo.getRows()) {
+                po = new ContractListOutputPage();
+                po.setId(String.valueOf(bo.getId()));
+                po.setSymbol(bo.getSymbol());
+                po.setSymbolType(String.valueOf(bo.getSymbolType()));
+                po.setAsset(bo.getAsset());
+                //po.setCurrency(bo.getCurrency());
+                po.setPrecision(String.valueOf(bo.getPrecision()));
+                po.setContractName(bo.getContractName());
+                po.setContractNameSplit(bo.getContractNameSplit());
+                po.setContractGroup(bo.getContractGroup());
+                po.setContractType(bo.getContractType());
+                po.setSettlePrice(bo.getSettlePrice());
+                po.setDisplayName(bo.getDisplayName());
+                po.setDisplayNameSplit(bo.getDisplayNameSplit());
+                po.setDefaultPrice(DecimalUtil.toTrimLiteral(bo.getDefaultPrice()));
+                po.setLastPrice(DecimalUtil.toTrimLiteral(bo.getLastPrice()));
+                po.setStep(DecimalUtil.toTrimLiteral(bo.getStep()));
+                po.setFaceValue(String.valueOf(bo.getFaceValue()));
+                po.setSort(String.valueOf(bo.getSort()));
+                po.setStatus(String.valueOf(bo.getStatus()));
+                po.setEnableCreate(String.valueOf(bo.getEnableCreate()));
+                po.setEnableCancel(String.valueOf(bo.getEnableCancel()));
+                po.setPrivilege(String.valueOf(bo.getPrivilege()));
+                po.setCtime(String.valueOf(bo.getCtime()));
+                po.setMtime(String.valueOf(bo.getMtime()));
+                po.setQuoteCurrency(bo.getQuoteCurrency());
+                po.setBaseCurrency(bo.getBaseCurrency());
+                po.setSettleCurrency(bo.getSettleCurrency());
+                po.setFaceCurrency(bo.getFaceCurrency());
+                po.setContractChineseName(bo.getContractChineseName());
+                pageList.add(po);
+            }
         }
         outputDto.setRows(pageList);
         outputDto.setTotal(listBizBo.getTotal());
@@ -239,51 +216,53 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
     }
 
     @Override
-    public GetAllActiveContractOutputDto getAllActiveContract(GetAllActiveContractInputDto inputDto) throws BizException {
+    public ContractOutputDto getAllActiveContract(ContractInputDto inputDto) throws BizException {
+        ContractOutputDto outputDto =new ContractOutputDto();
         List<PcContractPo> pcContractPos= iPcContractDao.selectPosByStatus(1);
-        List<GetContractOutputDto> activeContract=new ArrayList<>();
-        GetAllActiveContractOutputDto outputDto =new GetAllActiveContractOutputDto();
-        pcContractPos.forEach(bo->{
-            GetContractOutputDto info=new GetContractOutputDto();
-            info.setId(String.valueOf(bo.getId()));
-            info.setSymbol(bo.getSymbol());
-            info.setSymbolType(String.valueOf(bo.getSymbolType()));
-            info.setAsset(bo.getAsset());
-            //info.setCurrency(bo.getCurrency());
-            info.setPrecision(String.valueOf(bo.getPrecision()));
-            info.setContractName(bo.getContractName());
-            info.setContractNameSplit(bo.getContractNameSplit());
-            info.setContractGroup(bo.getContractGroup());
-            info.setContractType(bo.getContractType());
-            info.setSettlePrice(bo.getSettlePrice());
-            info.setDisplayName(bo.getDisplayName());
-            info.setDisplayNameSplit(bo.getDisplayNameSplit());
-            info.setDefaultPrice(DecimalUtil.toTrimLiteral(bo.getDefaultPrice()));
-            info.setLastPrice(DecimalUtil.toTrimLiteral(bo.getLastPrice()));
-            info.setStep(DecimalUtil.toTrimLiteral(bo.getStep()));
-            info.setFaceValue(String.valueOf(bo.getFaceValue()));
-            info.setSort(String.valueOf(bo.getSort()));
-            info.setStatus(String.valueOf(bo.getStatus()));
-            info.setEnableCreate(String.valueOf(bo.getEnableCreate()));
-            info.setEnableCancel(String.valueOf(bo.getEnableCancel()));
-            info.setPrivilege(String.valueOf(bo.getPrivilege()));
-            info.setCtime(String.valueOf(bo.getCtime()));
-            info.setMtime(String.valueOf(bo.getMtime()));
-            info.setQuoteCurrency(bo.getQuoteCurrency());
-            info.setBaseCurrency(bo.getBaseCurrency());
-            info.setSettleCurrency(bo.getSettleCurrency());
-            info.setFaceCurrency(bo.getFaceCurrency());
-            info.setContractChineseName(bo.getContractChineseName());
-            activeContract.add(info);
-        });
+        List<GetContractOutputDto> activeContract = new ArrayList<>();
+        if(CollectionUtils.isNotEmpty(pcContractPos)){
+            pcContractPos.forEach(bo->{
+                GetContractOutputDto info=new GetContractOutputDto();
+                info.setId(String.valueOf(bo.getId()));
+                info.setSymbol(bo.getSymbol());
+                info.setSymbolType(String.valueOf(bo.getSymbolType()));
+                info.setAsset(bo.getAsset());
+                //info.setCurrency(bo.getCurrency());
+                info.setPrecision(String.valueOf(bo.getPrecision()));
+                info.setContractName(bo.getContractName());
+                info.setContractNameSplit(bo.getContractNameSplit());
+                info.setContractGroup(bo.getContractGroup());
+                info.setContractType(bo.getContractType());
+                info.setSettlePrice(bo.getSettlePrice());
+                info.setDisplayName(bo.getDisplayName());
+                info.setDisplayNameSplit(bo.getDisplayNameSplit());
+                info.setDefaultPrice(DecimalUtil.toTrimLiteral(bo.getDefaultPrice()));
+                info.setLastPrice(DecimalUtil.toTrimLiteral(bo.getLastPrice()));
+                info.setStep(DecimalUtil.toTrimLiteral(bo.getStep()));
+                info.setFaceValue(String.valueOf(bo.getFaceValue()));
+                info.setSort(String.valueOf(bo.getSort()));
+                info.setStatus(String.valueOf(bo.getStatus()));
+                info.setEnableCreate(String.valueOf(bo.getEnableCreate()));
+                info.setEnableCancel(String.valueOf(bo.getEnableCancel()));
+                info.setPrivilege(String.valueOf(bo.getPrivilege()));
+                info.setCtime(String.valueOf(bo.getCtime()));
+                info.setMtime(String.valueOf(bo.getMtime()));
+                info.setQuoteCurrency(bo.getQuoteCurrency());
+                info.setBaseCurrency(bo.getBaseCurrency());
+                info.setSettleCurrency(bo.getSettleCurrency());
+                info.setFaceCurrency(bo.getFaceCurrency());
+                info.setContractChineseName(bo.getContractChineseName());
+                activeContract.add(info);
+            });
+        }
         outputDto.setActiveContract(activeContract);
         return outputDto;
     }
 
     @Override
-    public GetAllSymbolOutputDto getAllSymbolList(GetAllSymbolInputDto inputDto) throws ContractException {
+    public ContractOutputDto getAllSymbolList(ContractInputDto inputDto) throws ContractException {
         List<String> symbolList= iPcContractBiz.selectAllSymbol();
-        GetAllSymbolOutputDto outputDto=new GetAllSymbolOutputDto();
+        ContractOutputDto outputDto=new ContractOutputDto();
         Set<String> set = new HashSet<>(symbolList);
         List<String> list= new ArrayList<>(set);
         outputDto.setSymbolList(list);
@@ -291,7 +270,7 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
     }
 
     @Override
-    public CheckHasContractOutputDto checkHasContract(CheckHasContractInputDto inputDto) throws  MngException {
+    public ContractOutputDto checkHasContract(ContractInputDto inputDto) throws  MngException {
 
         if(inputDto.getId()>0)
         {
@@ -308,7 +287,7 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
                 throw new MngException(MngExceptionCode.CONTRACT_EXIST_ERROR);
 
         }
-        CheckHasContractOutputDto outputDto=new CheckHasContractOutputDto();
+        ContractOutputDto outputDto = new ContractOutputDto();
         //outputDto.setHasContract(hasContract);
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outputDto;
@@ -360,7 +339,7 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
     }
 
     @Override
-    public GetContractListByAssetOutputDto GetContractListByAsset(GetContractListByAssetInputDto inputDto) throws BizException {
+    public ContractOutputDto GetContractListByAsset(ContractInputDto inputDto) throws BizException {
         List<PcContractPo> poList=iPcContractDao.selectPosByAsset(inputDto.getAsset());
         List<GetContractOutputDto> assetSymbolList=new ArrayList<>();
         poList.forEach(bo->{
@@ -396,7 +375,7 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
             info.setContractChineseName(bo.getContractChineseName());
             assetSymbolList.add(info);
         });
-        GetContractListByAssetOutputDto outputDto=new GetContractListByAssetOutputDto();
+        ContractOutputDto outputDto=new ContractOutputDto();
         outputDto.setAssetSymbolList(assetSymbolList);
         return outputDto;
     }
@@ -409,7 +388,7 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
      * @return
      * @throws BizException
      */
-    public ContractOutputDto getContractGroupNum(GetContractInputDto inputDto) throws BizException{
+    public ContractOutputDto getContractGroupNum(ContractInputDto inputDto) throws BizException{
         ContractOutputDto outputDto=new ContractOutputDto();
         List<PcContractPo> lists = iPcContractDao.selectPoGroup(inputDto.getContractGroup());
         if(lists!=null && lists.size()>0){
@@ -426,42 +405,44 @@ public class ApiContractControllerServiceImpl implements IApiContractControllerS
      * @throws BizException
      */
     @Override
-    public GetContractListByAssetOutputDto findContractListByAll(GetContractListByAssetInputDto inputDto) throws BizException {
-        List<PcContractPo> poList=iPcContractDao.selectPosByAsset(inputDto.getAsset());
+    public ContractOutputDto findContractListByAll(ContractInputDto inputDto) throws BizException {
+        List<PcContractPo> poList= iPcContractDao.selectPosByAsset(inputDto.getAsset());
         List<GetContractOutputDto> assetSymbolList = new ArrayList<>();
-        poList.forEach(bo->{
-            GetContractOutputDto info = new GetContractOutputDto();
-            info.setId(String.valueOf(bo.getId()));
-            info.setSymbol(bo.getSymbol());
-            info.setSymbolType(String.valueOf(bo.getSymbolType()));
-            info.setAsset(bo.getAsset());
-            info.setPrecision(String.valueOf(bo.getPrecision()));
-            info.setContractName(bo.getContractName());
-            info.setContractNameSplit(bo.getContractNameSplit());
-            info.setContractGroup(bo.getContractGroup());
-            info.setContractType(bo.getContractType());
-            info.setSettlePrice(bo.getSettlePrice());
-            info.setDisplayName(bo.getDisplayName());
-            info.setDisplayNameSplit(bo.getDisplayNameSplit());
-            info.setDefaultPrice(DecimalUtil.toTrimLiteral(bo.getDefaultPrice()));
-            info.setLastPrice(DecimalUtil.toTrimLiteral(bo.getLastPrice()));
-            info.setStep(DecimalUtil.toTrimLiteral(bo.getStep()));
-            info.setFaceValue(String.valueOf(bo.getFaceValue()));
-            info.setSort(String.valueOf(bo.getSort()));
-            info.setStatus(String.valueOf(bo.getStatus()));
-            info.setEnableCreate(String.valueOf(bo.getEnableCreate()));
-            info.setEnableCancel(String.valueOf(bo.getEnableCancel()));
-            info.setPrivilege(String.valueOf(bo.getPrivilege()));
-            info.setCtime(String.valueOf(bo.getCtime()));
-            info.setMtime(String.valueOf(bo.getMtime()));
-            info.setQuoteCurrency(bo.getQuoteCurrency());
-            info.setBaseCurrency(bo.getBaseCurrency());
-            info.setSettleCurrency(bo.getSettleCurrency());
-            info.setFaceCurrency(bo.getFaceCurrency());
-            info.setContractChineseName(bo.getContractChineseName());
-            assetSymbolList.add(info);
-        });
-        GetContractListByAssetOutputDto outputDto = new GetContractListByAssetOutputDto();
+        if(CollectionUtils.isNotEmpty(poList)){
+            poList.forEach(bo->{
+                GetContractOutputDto info = new GetContractOutputDto();
+                info.setId(String.valueOf(bo.getId()));
+                info.setSymbol(bo.getSymbol());
+                info.setSymbolType(String.valueOf(bo.getSymbolType()));
+                info.setAsset(bo.getAsset());
+                info.setPrecision(String.valueOf(bo.getPrecision()));
+                info.setContractName(bo.getContractName());
+                info.setContractNameSplit(bo.getContractNameSplit());
+                info.setContractGroup(bo.getContractGroup());
+                info.setContractType(bo.getContractType());
+                info.setSettlePrice(bo.getSettlePrice());
+                info.setDisplayName(bo.getDisplayName());
+                info.setDisplayNameSplit(bo.getDisplayNameSplit());
+                info.setDefaultPrice(DecimalUtil.toTrimLiteral(bo.getDefaultPrice()));
+                info.setLastPrice(DecimalUtil.toTrimLiteral(bo.getLastPrice()));
+                info.setStep(DecimalUtil.toTrimLiteral(bo.getStep()));
+                info.setFaceValue(String.valueOf(bo.getFaceValue()));
+                info.setSort(String.valueOf(bo.getSort()));
+                info.setStatus(String.valueOf(bo.getStatus()));
+                info.setEnableCreate(String.valueOf(bo.getEnableCreate()));
+                info.setEnableCancel(String.valueOf(bo.getEnableCancel()));
+                info.setPrivilege(String.valueOf(bo.getPrivilege()));
+                info.setCtime(String.valueOf(bo.getCtime()));
+                info.setMtime(String.valueOf(bo.getMtime()));
+                info.setQuoteCurrency(bo.getQuoteCurrency());
+                info.setBaseCurrency(bo.getBaseCurrency());
+                info.setSettleCurrency(bo.getSettleCurrency());
+                info.setFaceCurrency(bo.getFaceCurrency());
+                info.setContractChineseName(bo.getContractChineseName());
+                assetSymbolList.add(info);
+            });
+        }
+        ContractOutputDto outputDto = new ContractOutputDto();
         outputDto.setAssetSymbolList(assetSymbolList);
         return outputDto;
     }

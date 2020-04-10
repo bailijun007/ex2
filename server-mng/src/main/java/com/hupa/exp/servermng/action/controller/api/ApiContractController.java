@@ -8,13 +8,10 @@ import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.contract.*;
 import com.hupa.exp.servermng.exception.ContractException;
 import com.hupa.exp.servermng.exception.MngException;
-import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiContractControllerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -25,12 +22,12 @@ import java.math.BigDecimal;
 @RestController
 @RequestMapping(path = "/v1/http/contract",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ApiContractController {
-    @Autowired
-    private SessionHelper sessionHelper;
+    //@Autowired
+    //private SessionHelper sessionHelper;
     @Autowired
     private IApiContractControllerService iApiContractControllerService;
 
-    private Logger logger = LoggerFactory.getLogger(ApiContractController.class);
+    //private Logger logger = LoggerFactory.getLogger(ApiContractController.class);
 
     @ApiOperation(value = "新增或修改交易对")
     @PostMapping("/create_or_edit")
@@ -129,15 +126,15 @@ public class ApiContractController {
     }
     @ApiOperation(value = "获取交易对详情")
     @GetMapping(path = "/query")
-    public BaseResultViaApiDto<GetContractInputDto,GetContractOutputDto> getContract(
+    public BaseResultViaApiDto<ContractInputDto,GetContractOutputDto> getContract(
             @ApiParam(name="id",value = "永续合约Id",required = true)
             @RequestParam(name = "id") long id
     )
     {
-        GetContractInputDto inputDto=new GetContractInputDto();
-        inputDto.setId(id);
+        ContractInputDto inputDto=new ContractInputDto();
         GetContractOutputDto outputDto=new GetContractOutputDto();
         try {
+            inputDto.setId(id);
             outputDto=iApiContractControllerService.getContract(inputDto);
         } catch (ContractException e) {
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
@@ -174,7 +171,7 @@ public class ApiContractController {
 
     @ApiOperation(value = "检查是否已存在")
     @PostMapping(path = "/check_has_contract")
-    public BaseResultViaApiDto<CheckHasContractInputDto,CheckHasContractOutputDto> checkHasContract(//
+    public BaseResultViaApiDto<ContractInputDto,ContractOutputDto> checkHasContract(
         @ApiParam(name="id",value = "id",required = true)
         @RequestParam(name = "id") Long id,
         @ApiParam(name="asset",value = "币种",required = true)
@@ -185,12 +182,12 @@ public class ApiContractController {
         @RequestParam(name = "display_name") String displayName
     )
     {
-        CheckHasContractInputDto inputDto=new CheckHasContractInputDto();
+        ContractInputDto inputDto=new ContractInputDto();
         inputDto.setId(id);
         inputDto.setAsset(asset);
         inputDto.setSymbol(symbol);
         inputDto.setDisplayName(displayName);
-        CheckHasContractOutputDto outputDto=new CheckHasContractOutputDto();
+        ContractOutputDto outputDto = null;
         try {
             outputDto=iApiContractControllerService.checkHasContract(inputDto);
         } catch (MngException e) {
@@ -201,7 +198,7 @@ public class ApiContractController {
 
     @ApiOperation(value = "检查是否有最新成交价")
     @PostMapping(path = "/check_last_price")
-    public BaseResultViaApiDto<CheckHasLastPriceInputDto,CheckHasLastPriceOutputDto> checkHasLastPrice(//
+    public BaseResultViaApiDto<CheckHasLastPriceInputDto,CheckHasLastPriceOutputDto> checkHasLastPrice(
        @ApiParam(name="symbol",value = "标的符号",required = true)
        @RequestParam(name = "symbol",required = false) String symbol
     )
@@ -219,11 +216,9 @@ public class ApiContractController {
 
     @ApiOperation(value = "检查是否已存在")
     @GetMapping(path = "/get_all_symbol")
-    public BaseResultViaApiDto<GetAllSymbolInputDto,GetAllSymbolOutputDto> getActiveSymbol()
-    {
-        GetAllSymbolInputDto inputDto=new GetAllSymbolInputDto();
-
-        GetAllSymbolOutputDto outputDto=new GetAllSymbolOutputDto();
+    public BaseResultViaApiDto<ContractInputDto,ContractOutputDto> getActiveSymbol() {
+        ContractInputDto inputDto = new ContractInputDto();
+        ContractOutputDto outputDto = null;
         try {
             outputDto=iApiContractControllerService.getAllSymbolList(inputDto);
         } catch (ContractException e) {
@@ -231,13 +226,13 @@ public class ApiContractController {
         }
         return  BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
+
     @ApiOperation(value = "获取有效交易对")
     @GetMapping(path = "/get_all_contract")
-    public BaseResultViaApiDto<GetAllActiveContractInputDto,GetAllActiveContractOutputDto> getActiveContract()
+    public BaseResultViaApiDto<ContractInputDto,ContractOutputDto> getActiveContract()
     {
-        GetAllActiveContractInputDto inputDto=new GetAllActiveContractInputDto();
-
-        GetAllActiveContractOutputDto outputDto=new GetAllActiveContractOutputDto();
+        ContractInputDto inputDto=new ContractInputDto();
+        ContractOutputDto outputDto = null;
         try {
             outputDto=iApiContractControllerService.getAllActiveContract(inputDto);
         } catch (BizException e) {
@@ -248,14 +243,14 @@ public class ApiContractController {
 
     @ApiOperation(value = "获取asset对应的symbol")
     @GetMapping(path = "/get_contract_list_by_asset")
-    public BaseResultViaApiDto<GetContractListByAssetInputDto,GetContractListByAssetOutputDto> GetContractListByAsset(
+    public BaseResultViaApiDto<ContractInputDto,ContractOutputDto> GetContractListByAsset(
             @ApiParam(name="asset",value = "标的符号",required = true)
             @RequestParam(name = "asset",required = false) String asset
     )
     {
-        GetContractListByAssetInputDto inputDto=new GetContractListByAssetInputDto();
+        ContractInputDto inputDto=new ContractInputDto();
         inputDto.setAsset(asset);
-        GetContractListByAssetOutputDto outputDto=new GetContractListByAssetOutputDto();
+        ContractOutputDto outputDto = null;
         try {
             outputDto=iApiContractControllerService.GetContractListByAsset(inputDto);
         } catch (BizException e) {
@@ -274,7 +269,6 @@ public class ApiContractController {
         DeleteInputDto inputDto=new DeleteInputDto();
         DeleteOutputDto outputDto=new DeleteOutputDto();
         inputDto.setIds(ids);
-
         try{
             outputDto = iApiContractControllerService.deleteContract(inputDto);
 
@@ -293,14 +287,14 @@ public class ApiContractController {
      */
     @ApiOperation(value = "获取组的数量")
     @GetMapping(path = "/getContractGroupNum")
-    public BaseResultViaApiDto<GetContractInputDto,ContractOutputDto> getContractGroupNum(
+    public BaseResultViaApiDto<ContractInputDto,ContractOutputDto> getContractGroupNum(
             @ApiParam(name="contract_group",value = "合约组id",required = true)
             @RequestParam(name = "contract_group") Integer groupContract
     ) {
-        GetContractInputDto inputDto=new GetContractInputDto();
-        inputDto.setContractGroup(groupContract);
-        ContractOutputDto outputDto=new ContractOutputDto();
+        ContractInputDto inputDto = new ContractInputDto();
+        ContractOutputDto outputDto = null;
         try {
+            inputDto.setContractGroup(groupContract);
             outputDto=iApiContractControllerService.getContractGroupNum(inputDto);
         } catch (BizException e) {
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
@@ -310,14 +304,14 @@ public class ApiContractController {
 
     @ApiOperation(value = "获取所有的合约交易对")
     @GetMapping(path = "/get_contract_list_by_all")
-    public BaseResultViaApiDto<GetContractListByAssetInputDto,GetContractListByAssetOutputDto> findContractListByAll(
+    public BaseResultViaApiDto<ContractInputDto,ContractOutputDto> findContractListByAll(
             @ApiParam(name="asset",value = "标的符号",required = true)
             @RequestParam(name = "asset",required = false) String asset) {
-        GetContractListByAssetInputDto inputDto=new GetContractListByAssetInputDto();
-        inputDto.setAsset(asset);
-        GetContractListByAssetOutputDto outputDto=new GetContractListByAssetOutputDto();
+        ContractInputDto inputDto = new ContractInputDto();
+        ContractOutputDto outputDto = null;
         try {
-            outputDto=iApiContractControllerService.GetContractListByAsset(inputDto);
+            inputDto.setAsset(asset);
+            outputDto=iApiContractControllerService.findContractListByAll(inputDto);
         } catch (BizException e) {
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
         }

@@ -49,8 +49,9 @@ public class ApiPcPositionControllerServiceImpl implements IApiPcPositionControl
                 //遍历赋值
                 List<PcPositionInfo> list = new ArrayList();
                 if(CollectionUtils.isNotEmpty(pageResult.getList())){
+                    PcPositionInfo pcPositionInfo = null;
                     for (CurrentPositionVo currentPositionVo : pageResult.getList()) {
-                        PcPositionInfo pcPositionInfo = new PcPositionInfo();;
+                        pcPositionInfo = new PcPositionInfo();;
                         pcPositionInfo.setId(currentPositionVo.getId());
                         pcPositionInfo.setUserId(currentPositionVo.getUserId());
                         pcPositionInfo.setAsset(currentPositionVo.getAsset());

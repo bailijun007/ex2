@@ -50,8 +50,9 @@ public class ApiBbAccountTransferControllerServiceImpl implements IApiBbAccountT
                 //遍历赋值
                 List<BbTransferInfo> list = new ArrayList<BbTransferInfo>();
                 if(CollectionUtils.isNotEmpty(pageResult.getList())){
+                    BbTransferInfo bbTransferInfo = null;
                     for (BbAccountRecordVo bbAccountRecordVo : pageResult.getList()) {
-                        BbTransferInfo bbTransferInfo = new BbTransferInfo();
+                        bbTransferInfo = new BbTransferInfo();
                         bbTransferInfo.setId(bbAccountRecordVo.getId());
                         bbTransferInfo.setUserId(bbAccountRecordVo.getUserId());
                         bbTransferInfo.setAsset(bbAccountRecordVo.getAsset());

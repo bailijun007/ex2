@@ -56,7 +56,7 @@ public class BbSymbolInputDto extends BaseInputDto {
      */
     private Integer enableCancel;
 
-
+    private BigDecimal minTradeNumber;
     /**
      * 排序
      */
@@ -229,5 +229,13 @@ public class BbSymbolInputDto extends BaseInputDto {
 
     public void setSymbolChinese(String symbolChinese) {
         this.symbolChinese = symbolChinese;
+    }
+
+    public BigDecimal getMinTradeNumber() {
+        return minTradeNumber;
+    }
+
+    public void setMinTradeNumber(BigDecimal minTradeNumber) {
+        this.minTradeNumber = minTradeNumber;
     }
 }

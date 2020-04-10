@@ -2,7 +2,7 @@ package com.hupa.exp.servermng.entity.area;
 
 import com.hupa.exp.common.entity.dto.output.BasePageOutputDto;
 
-public class AreaListOutputDto extends BasePageOutputDto<AreaListOutputPage> {
+public class AreaListOutputDto extends BasePageOutputDto<AreaOutputDto> {
 //    @JsonProperty("page_data")
 //    private ExpAreaListBizBo pageData;
 //

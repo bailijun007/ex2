@@ -1,4 +1,4 @@
-package com.hupa.exp.servermng.entity.area;
+/*package com.hupa.exp.servermng.entity.area;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -42,4 +42,4 @@ public class AreaListOutputPage {
     public void setEnable(String enable) {
         this.enable = enable;
     }
-}
+}*/

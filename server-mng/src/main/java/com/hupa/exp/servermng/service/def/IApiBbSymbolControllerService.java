@@ -3,15 +3,11 @@ package com.hupa.exp.servermng.service.def;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.servermng.entity.base.DeleteInputDto;
 import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
-import com.hupa.exp.servermng.entity.contract.GetAllSymbolInputDto;
-import com.hupa.exp.servermng.entity.contract.GetAllSymbolOutputDto;
 import com.hupa.exp.servermng.entity.symbol.*;
 import com.hupa.exp.servermng.exception.BbSymbolException;
 import com.hupa.exp.servermng.exception.MngException;
 
-/**
- * Created by Administrator on 2020/2/9.
- */
+
 public interface IApiBbSymbolControllerService {
 
 
@@ -21,7 +17,7 @@ public interface IApiBbSymbolControllerService {
 
     GetBbSymbolOutputDto getBbSymbol(BbSymbolInputDto inputDto) throws BbSymbolException;
 
-    GetAllSymbolOutputDto getAllBbSymbolList(GetAllSymbolInputDto inputDto) throws BbSymbolException;
+    BbSymbolOutputDto getAllBbSymbolList(BbSymbolInputDto inputDto) throws BbSymbolException;
 
     BbSymbolOutputDto getAllActiveBbSymbol(BbSymbolInputDto inputDto) throws BizException;
 

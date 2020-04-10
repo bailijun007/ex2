@@ -71,8 +71,9 @@ public class ApiFundWithdrawControllerServiceImpl implements IApiFundWithdrawCon
             if(pageResult!=null){
                 List<FundWithdrawOutputDto> list =  new ArrayList();
                 if(CollectionUtils.isNotEmpty(pageResult.getList())){
+                    FundWithdrawOutputDto fundWithdrawOutputDto = null;
                     for (WithdrawalRecordByAdmin withdrawalRecordVo : pageResult.getList()) {
-                        FundWithdrawOutputDto fundWithdrawOutputDto = new FundWithdrawOutputDto();
+                        fundWithdrawOutputDto = new FundWithdrawOutputDto();
                         fundWithdrawOutputDto.setId(String.valueOf(withdrawalRecordVo.getId()));
                         fundWithdrawOutputDto.setAccountId(String.valueOf(withdrawalRecordVo.getUserId()));
                         fundWithdrawOutputDto.setAsset(String.valueOf(withdrawalRecordVo.getAsset()));

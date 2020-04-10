@@ -1,3 +1,4 @@
+/*
 package com.hupa.exp.servermng.entity.asset;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,3 +16,4 @@ public class CheckHasAssetOutputDto extends BaseOutputDto {
         this.hasAsset = hasAsset;
     }
 }
+*/

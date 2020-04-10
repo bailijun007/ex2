@@ -128,6 +128,13 @@
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">最小交易量：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="minTradeNumber" type="text" datatype="*1-100" errormsg="币币步进最多10位">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
                         <!--  <div class="form-group">
                              <label class="col-sm-3 control-label">初始化成交价：</label>
                              <div class="col-sm-6">
@@ -320,6 +327,7 @@ function initData() {
                     $("#precision").val(data.data.precision);
                     $("#step").val(data.data.step);
                     $("#number_precision").val(data.data.numberPrecision);
+                    $("#minTradeNumber").val(data.data.minTradeNumber);
                     $("#sort").val(data.data.sort);
                     /*$("#symbol_type").val(data.data.symbol_type);
                      $("#bbsymbol_type").val(data.data.bbSymbol_type);
@@ -460,7 +468,24 @@ function getGroupNum() {
             layer.msg("请填写币种！");
             return false;
         }
-
+        var numpre = $("#number_precision").val();
+        if(numpre==null || numpre<0){
+            layer.msg("填写精度不能为空！");
+            return false;
+        }
+        var minTra = $("#minTradeNumber").val();
+        if(minTra==null || minTra<=0){
+            layer.msg("填写最小交易量不能为空或小于0！");
+            return false;
+        }
+        var result = (minTra.toString()).indexOf(".");
+        if(result != -1) {
+            var num = minTra.toString().split(".")[1].length;
+            if(numpre<num){
+                layer.msg("填写最小交易量不合法！");
+                return false;
+            }
+        }
         var parmes="?";
         parmes+= "id="+id;
         parmes+="&symbol="+$("#symbol").val();
@@ -474,6 +499,7 @@ function getGroupNum() {
         parmes+="&step="+$("#step").val();
         parmes+="&number_precision="+$("#number_precision").val();
         parmes+="&precision="+$("#precision").val();
+        parmes+="&minTradeNumber="+$("#minTradeNumber").val();
         parmes+="&status="+isCheck;
         parmes+="&sort="+$("#sort").val();
         parmes+="&enable_create="+ enableCreateCheck;

@@ -43,6 +43,7 @@ import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiUserControllerService;
 import com.hupa.exp.servermng.validate.UserValidateImpl;
 import com.hupa.exp.util.convent.ConventObjectUtil;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -192,46 +193,48 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         if (new SessionHelper().getToken() == null)
             throw new LoginException(LoginExceptionCode.TOKEN_NULL_ERROR);
         UserListOutputDto outputDto = new UserListOutputDto();
-
         ExpUserListBizBo listBizBo = iUserBiz.queryListByUserType(inputDto.getCurrentPage(), inputDto.getPageSize(),
                 0, inputDto.getUserName(), inputDto.getId());
         List<UserListOutputPage> pageList = new ArrayList<>();
-        for (ExpUserBizBo bo : listBizBo.getRows()) {
-            UserListOutputPage user = new UserListOutputPage();
-            user.setId(String.valueOf(bo.getId()));
-            user.setUserName(bo.getUserName());
-            user.setUserpwd(bo.getUserpwd());
-            user.setUserType(String.valueOf(bo.getUserType()));
-            user.setUserLevel(String.valueOf(bo.getUserLevel()));
-            user.setPwdLevel(String.valueOf(bo.getPwdLevel()));
-            user.setSmsVerify(String.valueOf(bo.getSmsVerify()));
-            user.setEmailVerify(String.valueOf(bo.getEmailVerify()));
-            user.setGoogleVerify(String.valueOf(bo.getGoogleVerify()));
-            user.setAreaCode(bo.getAreaCode());
-            user.setStatus(String.valueOf(bo.getStatus()));
-            user.setCtime(String.valueOf(bo.getCtime()));
-            user.setMtime(String.valueOf(bo.getMtime()));
-            user.setEmail(bo.getEmail());
-            user.setPhone(bo.getPhone());
-            user.setReferrerId(bo.getReferrerId());
-            user.setReferrerCode(bo.getReferrerCode());
-            user.setNationality(bo.getNationality());
-            user.setRealName(bo.getRealName());
-            user.setIdNum(bo.getIdNum());
-            user.setFundPwd(bo.getFundPwd());
-            user.setSecretKey(bo.getSecretKey());
-            user.setFeeLevel(String.valueOf(bo.getFeeLevel()));
-            user.setBbFeeLevel(String.valueOf(bo.getBbFeeLevel()));
-            user.setIdType(String.valueOf(bo.getIdType()));
-            user.setSurname(bo.getSurname());
-            user.setRealName(String.valueOf(bo.getId()));
-            user.setLoginTime(String.valueOf(bo.getLoginTime()));
-            user.setLoginIp(bo.getLoginIp());
-            List<String> roleList = new ArrayList<>();
-            for (Integer roleId : bo.getRoleList()) {
-                roleList.add(String.valueOf(roleId));
+        if(listBizBo!=null && listBizBo.getRows()!=null && listBizBo.getRows().size()>0){
+            UserListOutputPage user = null;
+            for (ExpUserBizBo bo : listBizBo.getRows()) {
+                user = new UserListOutputPage();
+                user.setId(String.valueOf(bo.getId()));
+                user.setUserName(bo.getUserName());
+                user.setUserpwd(bo.getUserpwd());
+                user.setUserType(String.valueOf(bo.getUserType()));
+                user.setUserLevel(String.valueOf(bo.getUserLevel()));
+                user.setPwdLevel(String.valueOf(bo.getPwdLevel()));
+                user.setSmsVerify(String.valueOf(bo.getSmsVerify()));
+                user.setEmailVerify(String.valueOf(bo.getEmailVerify()));
+                user.setGoogleVerify(String.valueOf(bo.getGoogleVerify()));
+                user.setAreaCode(bo.getAreaCode());
+                user.setStatus(String.valueOf(bo.getStatus()));
+                user.setCtime(String.valueOf(bo.getCtime()));
+                user.setMtime(String.valueOf(bo.getMtime()));
+                user.setEmail(bo.getEmail());
+                user.setPhone(bo.getPhone());
+                user.setReferrerId(bo.getReferrerId());
+                user.setReferrerCode(bo.getReferrerCode());
+                user.setNationality(bo.getNationality());
+                user.setRealName(bo.getRealName());
+                user.setIdNum(bo.getIdNum());
+                user.setFundPwd(bo.getFundPwd());
+                user.setSecretKey(bo.getSecretKey());
+                user.setFeeLevel(String.valueOf(bo.getFeeLevel()));
+                user.setBbFeeLevel(String.valueOf(bo.getBbFeeLevel()));
+                user.setIdType(String.valueOf(bo.getIdType()));
+                user.setSurname(bo.getSurname());
+                user.setRealName(String.valueOf(bo.getId()));
+                user.setLoginTime(String.valueOf(bo.getLoginTime()));
+                user.setLoginIp(bo.getLoginIp());
+                List<String> roleList = new ArrayList<>();
+                for (Integer roleId : bo.getRoleList()) {
+                    roleList.add(String.valueOf(roleId));
+                }
+                user.setRoleList(roleList);
             }
-            user.setRoleList(roleList);
         }
         outputDto.setRows(pageList);
         outputDto.setTotal(listBizBo.getTotal());
@@ -248,41 +251,44 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
      */
     @Override
     public UserOutputDto queryUserInfoById(UserInputDto inputDto) throws BizException {
-
         ExpUserBizBo expUserBo = iUserBiz.queryById(inputDto.getId());
-        List<ExpUserRoleBizBo> expUserRoleList = iUserRoleService.queryPosByUserId(inputDto.getId());
         UserOutputDto outputDto = new UserOutputDto();
-        outputDto.setId(String.valueOf(expUserBo.getId()));
-        outputDto.setUserName(expUserBo.getUserName());
-        outputDto.setUserPwd(expUserBo.getUserpwd());
-        outputDto.setUserType(String.valueOf(expUserBo.getUserType()));
-        outputDto.setUserLevel(String.valueOf(expUserBo.getUserLevel()));
-        outputDto.setPwdLevel(String.valueOf(expUserBo.getPwdLevel()));
-        outputDto.setSmsVerify(String.valueOf(expUserBo.getSmsVerify()));
-        outputDto.setEmailVerify(String.valueOf(expUserBo.getEmailVerify()));
-        outputDto.setGoogleVerify(String.valueOf(expUserBo.getGoogleVerify()));
-        outputDto.setAreaCode(expUserBo.getAreaCode());
-        outputDto.setStatus(String.valueOf(expUserBo.getStatus()));
-        outputDto.setCtime(String.valueOf(expUserBo.getCtime()));
-        outputDto.setMtime(String.valueOf(expUserBo.getMtime()));
-        outputDto.setEmail(expUserBo.getEmail());
-        outputDto.setPhone(expUserBo.getPhone());
-        outputDto.setReferrerId(expUserBo.getReferrerId());
-        outputDto.setReferrerCode(expUserBo.getReferrerCode());
-        outputDto.setNationality(expUserBo.getNationality());
-        outputDto.setRealName(expUserBo.getRealName());
-        outputDto.setIdNum(expUserBo.getIdNum());
-        outputDto.setFundPwd(expUserBo.getFundPwd());
-        outputDto.setSecretKey(expUserBo.getSecretKey());
-        outputDto.setFeeLevel(String.valueOf(expUserBo.getFeeLevel()));
-        outputDto.setBbFeeLevel(String.valueOf(expUserBo.getBbFeeLevel()));
-        outputDto.setIdType(String.valueOf(expUserBo.getIdType()));
-        outputDto.setSurname(expUserBo.getSurname());
-        outputDto.setLoginTime(String.valueOf(expUserBo.getLoginTime()));
-        outputDto.setLoginIp(expUserBo.getLoginIp());
+        if(expUserBo!=null){
+            outputDto.setId(String.valueOf(expUserBo.getId()));
+            outputDto.setUserName(expUserBo.getUserName());
+            outputDto.setUserPwd(expUserBo.getUserpwd());
+            outputDto.setUserType(String.valueOf(expUserBo.getUserType()));
+            outputDto.setUserLevel(String.valueOf(expUserBo.getUserLevel()));
+            outputDto.setPwdLevel(String.valueOf(expUserBo.getPwdLevel()));
+            outputDto.setSmsVerify(String.valueOf(expUserBo.getSmsVerify()));
+            outputDto.setEmailVerify(String.valueOf(expUserBo.getEmailVerify()));
+            outputDto.setGoogleVerify(String.valueOf(expUserBo.getGoogleVerify()));
+            outputDto.setAreaCode(expUserBo.getAreaCode());
+            outputDto.setStatus(String.valueOf(expUserBo.getStatus()));
+            outputDto.setCtime(String.valueOf(expUserBo.getCtime()));
+            outputDto.setMtime(String.valueOf(expUserBo.getMtime()));
+            outputDto.setEmail(expUserBo.getEmail());
+            outputDto.setPhone(expUserBo.getPhone());
+            outputDto.setReferrerId(expUserBo.getReferrerId());
+            outputDto.setReferrerCode(expUserBo.getReferrerCode());
+            outputDto.setNationality(expUserBo.getNationality());
+            outputDto.setRealName(expUserBo.getRealName());
+            outputDto.setIdNum(expUserBo.getIdNum());
+            outputDto.setFundPwd(expUserBo.getFundPwd());
+            outputDto.setSecretKey(expUserBo.getSecretKey());
+            outputDto.setFeeLevel(String.valueOf(expUserBo.getFeeLevel()));
+            outputDto.setBbFeeLevel(String.valueOf(expUserBo.getBbFeeLevel()));
+            outputDto.setIdType(String.valueOf(expUserBo.getIdType()));
+            outputDto.setSurname(expUserBo.getSurname());
+            outputDto.setLoginTime(String.valueOf(expUserBo.getLoginTime()));
+            outputDto.setLoginIp(expUserBo.getLoginIp());
+        }
         List<String> roleList = new ArrayList<>();
-        for (int i = 0; i < expUserRoleList.size(); i++) {
-            roleList.add(String.valueOf(expUserRoleList.get(i).getRoleid()));
+        List<ExpUserRoleBizBo> expUserRoleList = iUserRoleService.queryPosByUserId(inputDto.getId());
+        if(expUserRoleList!=null && expUserRoleList.size()>0){
+            for (int i = 0; i < expUserRoleList.size(); i++) {
+                roleList.add(String.valueOf(expUserRoleList.get(i).getRoleid()));
+            }
         }
         outputDto.setRoleList(roleList);
         return outputDto;
@@ -323,13 +329,16 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         FundAccountListOutputDto outputDto = new FundAccountListOutputDto();
         FundAccountMngListBizBo listBizBo = iUserBiz.queryFundAccountListByParam(inputDto.getCurrentPage(), inputDto.getPageSize(), inputDto.getUserType(), inputDto.getUserName(),inputDto.getAsset(),inputDto.getId());
         List<FundAccountListOutputPage> pageList = new ArrayList<>();
-        for (FundAccountMngBizBo bo : listBizBo.getRows()) {
-            FundAccountListOutputPage account = new FundAccountListOutputPage();
-            account.setAssets(bo.getAssets());
-            account.setId(String.valueOf(bo.getId()));
-            account.setRealName(bo.getRealName());
-            account.setUserName(bo.getUserName());
-            pageList.add(account);
+        if(CollectionUtils.isNotEmpty(listBizBo.getRows())){
+            FundAccountListOutputPage account = null;
+            for (FundAccountMngBizBo bo : listBizBo.getRows()) {
+                account = new FundAccountListOutputPage();
+                account.setAssets(bo.getAssets());
+                account.setId(String.valueOf(bo.getId()));
+                account.setRealName(bo.getRealName());
+                account.setUserName(bo.getUserName());
+                pageList.add(account);
+            }
         }
         outputDto.setRows(pageList);
         outputDto.setTotal(listBizBo.getTotal());
@@ -342,8 +351,9 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
     public EnableUserOutputDto enableUser(EnableUserInputDto inputDto) throws BizException {
         String[] idsArr = inputDto.getIds().split(",");
         long[] ids = Arrays.asList(idsArr).stream().mapToLong(Long::parseLong).toArray();
+        ExpUserBizBo bizBo = null;
         for (long id : ids) {
-            ExpUserBizBo bizBo = iUserBiz.queryById(id);
+            bizBo = iUserBiz.queryById(id);
             bizBo.setStatus(inputDto.getStatus());
             iUserBiz.enableById(bizBo);
         }
@@ -567,38 +577,41 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         ExpUserListBizBo listBizBo = iUserBiz.queryListByUserType(inputDto.getCurrentPage(), inputDto.getPageSize(),
                 inputDto.getUserType(), inputDto.getUserName(), inputDto.getId());
         List<UserListOutputPage> pageList = new ArrayList<>();
-        for (ExpUserBizBo bo : listBizBo.getRows()) {
-            UserListOutputPage user = new UserListOutputPage();
-            user.setId(String.valueOf(bo.getId()));
-            user.setUserName(bo.getUserName());
-            user.setUserpwd(bo.getUserpwd());
-            user.setUserType(String.valueOf(bo.getUserType()));
-            user.setUserLevel(String.valueOf(bo.getUserLevel()));
-            user.setPwdLevel(String.valueOf(bo.getPwdLevel()));
-            user.setSmsVerify(String.valueOf(bo.getSmsVerify()));
-            user.setEmailVerify(String.valueOf(bo.getEmailVerify()));
-            user.setGoogleVerify(String.valueOf(bo.getGoogleVerify()));
-            user.setAreaCode(bo.getAreaCode());
-            user.setStatus(String.valueOf(bo.getStatus()));
-            user.setCtime(String.valueOf(bo.getCtime()));
-            user.setMtime(String.valueOf(bo.getMtime()));
-            user.setEmail(bo.getEmail());
-            user.setPhone(bo.getPhone());
-            user.setReferrerId(bo.getReferrerId());
-            user.setReferrerCode(bo.getReferrerCode());
-            user.setNationality(bo.getNationality());
-            user.setRealName(bo.getRealName());
-            user.setIdNum(bo.getIdNum());
-            user.setFundPwd(bo.getFundPwd());
-            user.setSecretKey(bo.getSecretKey());
-            user.setFeeLevel(String.valueOf(bo.getFeeLevel()));
-            user.setBbFeeLevel(String.valueOf(bo.getBbFeeLevel()));
-            user.setIdType(String.valueOf(bo.getIdType()));
-            user.setSurname(bo.getSurname());
-            user.setRealName(String.valueOf(bo.getId()));
-            user.setLoginTime(String.valueOf(bo.getLoginTime()));
-            user.setLoginIp(bo.getLoginIp());
-            pageList.add(user);
+        if(CollectionUtils.isNotEmpty(listBizBo.getRows())){
+            UserListOutputPage user = null;
+            for (ExpUserBizBo bo : listBizBo.getRows()) {
+                user = new UserListOutputPage();
+                user.setId(String.valueOf(bo.getId()));
+                user.setUserName(bo.getUserName());
+                user.setUserpwd(bo.getUserpwd());
+                user.setUserType(String.valueOf(bo.getUserType()));
+                user.setUserLevel(String.valueOf(bo.getUserLevel()));
+                user.setPwdLevel(String.valueOf(bo.getPwdLevel()));
+                user.setSmsVerify(String.valueOf(bo.getSmsVerify()));
+                user.setEmailVerify(String.valueOf(bo.getEmailVerify()));
+                user.setGoogleVerify(String.valueOf(bo.getGoogleVerify()));
+                user.setAreaCode(bo.getAreaCode());
+                user.setStatus(String.valueOf(bo.getStatus()));
+                user.setCtime(String.valueOf(bo.getCtime()));
+                user.setMtime(String.valueOf(bo.getMtime()));
+                user.setEmail(bo.getEmail());
+                user.setPhone(bo.getPhone());
+                user.setReferrerId(bo.getReferrerId());
+                user.setReferrerCode(bo.getReferrerCode());
+                user.setNationality(bo.getNationality());
+                user.setRealName(bo.getRealName());
+                user.setIdNum(bo.getIdNum());
+                user.setFundPwd(bo.getFundPwd());
+                user.setSecretKey(bo.getSecretKey());
+                user.setFeeLevel(String.valueOf(bo.getFeeLevel()));
+                user.setBbFeeLevel(String.valueOf(bo.getBbFeeLevel()));
+                user.setIdType(String.valueOf(bo.getIdType()));
+                user.setSurname(bo.getSurname());
+                user.setRealName(String.valueOf(bo.getId()));
+                user.setLoginTime(String.valueOf(bo.getLoginTime()));
+                user.setLoginIp(bo.getLoginIp());
+                pageList.add(user);
+            }
         }
         UserListOutputDto outputDto = new UserListOutputDto();
         outputDto.setRows(pageList);

@@ -1,3 +1,4 @@
+/*
 package com.hupa.exp.servermng.entity.asset;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -6,7 +7,7 @@ import com.hupa.exp.common.entity.dto.output.BaseOutputDto;
 
 public class RealNameListOutPutDto extends BaseOutputDto {
     @JsonProperty("asset_list")
-    private AssetListBizBo assetList;
+    private AssetListBizBo assetList;//query_asset_list
 
     public AssetListBizBo getAssetList() {
         return assetList;
@@ -16,3 +17,4 @@ public class RealNameListOutPutDto extends BaseOutputDto {
         this.assetList = assetList;
     }
 }
+*/

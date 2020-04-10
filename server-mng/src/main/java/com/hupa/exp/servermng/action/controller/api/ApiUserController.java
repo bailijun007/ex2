@@ -1,4 +1,4 @@
-package com.hupa.exp.servermng.action.controller.api;//package com.hupa.exp.action.controller.api;
+package com.hupa.exp.servermng.action.controller.api;
 
 import com.hupa.exp.common.entity.dto.BaseResultViaApiDto;
 import com.hupa.exp.common.exception.BizException;
@@ -10,8 +10,6 @@ import com.hupa.exp.servermng.service.def.IApiUserControllerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +21,7 @@ import java.util.Date;
 @RequestMapping(path = "/v1/http/user",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ApiUserController {
 
-    private Logger logger = LoggerFactory.getLogger(ApiUserController.class);
+    //private Logger logger = LoggerFactory.getLogger(ApiUserController.class);
 
     @Autowired
     private IApiUserControllerService iApiUserControllerService;
@@ -216,10 +214,10 @@ public class ApiUserController {
         {
             EditFundAccountOutputDto outputDto=new EditFundAccountOutputDto();
             EditFundAccountInputDto inputDto=new EditFundAccountInputDto();
+        try {
             inputDto.setId(Long.parseLong(id));
             inputDto.setType(type);
-        inputDto.setFunds(funds);
-        try {
+            inputDto.setFunds(funds);
             outputDto= iApiUserControllerService.editFundAccountOneAsset(inputDto);
         } catch (BizException e) {
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e) ;

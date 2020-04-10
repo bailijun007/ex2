@@ -53,8 +53,9 @@ public class ApiBbOrderControllerServiceImpl  implements IApiBbOrderControllerSe
             if(pageResult!=null) {
                 List<BbOrderInfo> list = new ArrayList();
                 if (CollectionUtils.isNotEmpty(pageResult.getList())) {
+                    BbOrderInfo bbOrderInfo = null;
                     for (BbOrderVo bbOrderVo : pageResult.getList()) {
-                        BbOrderInfo bbOrderInfo = new BbOrderInfo();
+                        bbOrderInfo = new BbOrderInfo();
                         bbOrderInfo.setId(bbOrderVo.getId());
                         bbOrderInfo.setUserId(bbOrderVo.getUserId());
                         bbOrderInfo.setAsset(bbOrderVo.getAsset());

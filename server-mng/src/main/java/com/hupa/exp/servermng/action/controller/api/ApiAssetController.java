@@ -3,7 +3,10 @@ package com.hupa.exp.servermng.action.controller.api;
 import com.hupa.exp.common.entity.dto.BaseResultViaApiDto;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
-import com.hupa.exp.servermng.entity.asset.*;
+import com.hupa.exp.servermng.entity.asset.AssetInputDto;
+import com.hupa.exp.servermng.entity.asset.AssetListInputDto;
+import com.hupa.exp.servermng.entity.asset.AssetListOutputDto;
+import com.hupa.exp.servermng.entity.asset.AssetOutputDto;
 import com.hupa.exp.servermng.entity.base.DeleteInputDto;
 import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.service.def.IApiAssetControllerService;
@@ -127,12 +130,12 @@ public class ApiAssetController {
 
     @ApiOperation(value = "根据ID获取币种")
     @GetMapping(path = "/query")
-    public BaseResultViaApiDto<AssetInputDto,GetAssetOutputDto> getAsset(
+    public BaseResultViaApiDto<AssetInputDto,AssetOutputDto> getAsset(
             @ApiParam(name="id",value = "币种id",required = true)
             @RequestParam(name = "id") long id) {
         AssetInputDto inputDto=new AssetInputDto();
         inputDto.setId(id);
-        GetAssetOutputDto outputDto=new GetAssetOutputDto();
+        AssetOutputDto outputDto=new AssetOutputDto();
         try {
             outputDto= iApiAssetControllerService.getAssetById(inputDto);
         } catch (BizException e) {
@@ -143,12 +146,12 @@ public class ApiAssetController {
 
     @ApiOperation(value = "验证币种是否已经存在了")
     @PostMapping(path = "/check_has_asset")
-    public BaseResultViaApiDto<CheckHasAssetInputDto,CheckHasAssetOutputDto> checkHasAsset(
+    public BaseResultViaApiDto<AssetInputDto,AssetOutputDto> checkHasAsset(
             @ApiParam(name="real_name",value = "币id",required = true)
             @RequestParam(name = "real_name") String realName) {
-        CheckHasAssetInputDto inputDto=new CheckHasAssetInputDto();
+        AssetInputDto inputDto=new AssetInputDto();
         inputDto.setRealName(realName);
-        CheckHasAssetOutputDto outputDto=new CheckHasAssetOutputDto();
+        AssetOutputDto outputDto=new AssetOutputDto();
         try {
             outputDto= iApiAssetControllerService.checkHasAsset(inputDto);
         } catch (BizException e) {
@@ -181,9 +184,9 @@ public class ApiAssetController {
 
     @ApiOperation(value = "获取币种列表")
     @GetMapping(path = "/query_asset_list")
-    public BaseResultViaApiDto<AssetInputDto,RealNameListOutPutDto> getSymbolList(){//RealNameListInputDto
+    public BaseResultViaApiDto<AssetInputDto,AssetOutputDto> getSymbolList(){
         AssetInputDto inputDto = new AssetInputDto();
-        RealNameListOutPutDto outputDto=new RealNameListOutPutDto();
+        AssetOutputDto outputDto=new AssetOutputDto();
         try {
             outputDto= iApiAssetControllerService.getRealNameList(inputDto);
         } catch (BizException e) {

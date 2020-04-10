@@ -1,6 +1,5 @@
+/*
 package com.hupa.exp.servermng.entity.asset;
-
-import java.math.BigDecimal;
 
 public class AssetListOutputPage {
     private String id;
@@ -215,3 +214,4 @@ public class AssetListOutputPage {
         this.enableFlagBbMarket = enableFlagBbMarket;
     }
 }
+*/

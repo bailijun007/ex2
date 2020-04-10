@@ -155,8 +155,8 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
      * @throws BizException
      */
     @Override
-    public GetAssetOutputDto getAssetById(AssetInputDto inputDto) throws BizException {
-        GetAssetOutputDto outputDto=new GetAssetOutputDto();
+    public AssetOutputDto getAssetById(AssetInputDto inputDto) throws BizException {
+        AssetOutputDto outputDto=new AssetOutputDto();
         AssetBizBo bo=  iAssetBiz.queryAssetById(inputDto.getId());
         if(bo!=null){
             outputDto.setId(String.valueOf(bo.getId()));
@@ -195,11 +195,11 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
     @Override
     public AssetListOutputDto getAssetList(AssetListInputDto inputDto) throws BizException {
         AssetListOutputDto outputDto=new AssetListOutputDto();
-        List<AssetListOutputPage> pageList=new ArrayList<>();
+        List<AssetOutputDto> pageList=new ArrayList<>();
         AssetPageListBizBo listBizBo= iAssetBiz.queryAssetList(inputDto.getRealName(),inputDto.getCurrentPage(),inputDto.getPageSize());
         if(listBizBo!=null){
             for(AssetBizBo bo:listBizBo.getRows()) {
-                AssetListOutputPage po=new AssetListOutputPage();
+                AssetOutputDto po=new AssetOutputDto();
                 po.setId(String.valueOf(bo.getId()));
                 po.setIcon(bo.getIcon());
                 po.setIconImg(bo.getIconImg());
@@ -238,9 +238,9 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
      * @throws BizException
      */
     @Override
-    public RealNameListOutPutDto getRealNameList(AssetInputDto inputDto) throws BizException {
+    public AssetOutputDto getRealNameList(AssetInputDto inputDto) throws BizException {
         AssetListBizBo bizBo= iAssetBiz.queryRealNameList();
-        RealNameListOutPutDto outPutDto=new RealNameListOutPutDto();
+        AssetOutputDto outPutDto=new AssetOutputDto();
         outPutDto.setAssetList(bizBo);
         outPutDto.setTime(String.valueOf(System.currentTimeMillis()));
         return outPutDto;
@@ -253,8 +253,8 @@ public class ApiAssetControllerServiceImpl implements IApiAssetControllerService
      * @throws BizException
      */
     @Override
-    public CheckHasAssetOutputDto checkHasAsset(CheckHasAssetInputDto inputDto) throws BizException {
-        CheckHasAssetOutputDto outputDto=new CheckHasAssetOutputDto();
+    public AssetOutputDto checkHasAsset(AssetInputDto inputDto) throws BizException {
+        AssetOutputDto outputDto=new AssetOutputDto();
         boolean hasAsset = iAssetBiz.checkHasAsset(inputDto.getRealName());
         outputDto.setHasAsset(hasAsset);
         outputDto.setTime(String.valueOf(System.currentTimeMillis()));
