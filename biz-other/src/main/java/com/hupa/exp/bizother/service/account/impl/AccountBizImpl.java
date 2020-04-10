@@ -2,7 +2,7 @@ package com.hupa.exp.bizother.service.account.impl;
 
 import com.hp.sh.expv3.bb.api.BBAccountCoreApi;
 import com.hp.sh.expv3.bb.extension.api.BbAccountExtendApi;
-import com.hp.sh.expv3.bb.extension.vo.BbAccountVo;
+import com.hp.sh.expv3.bb.extension.vo.BbAccountExtVo;
 import com.hp.sh.expv3.fund.extension.api.FundAccountExtApi;
 import com.hp.sh.expv3.fund.extension.vo.CapitalAccountVo;
 import com.hp.sh.expv3.fund.wallet.api.FundAccountCoreApi;
@@ -55,9 +55,6 @@ public class AccountBizImpl implements IAccountBiz {
     private BBAccountCoreApi bbAccountCoreApi;
 
 
-
-
-
      /**
       *  创建BB账户
       * @param userId
@@ -88,9 +85,8 @@ public class AccountBizImpl implements IAccountBiz {
      * @return
      */
     @Override
-    public BbAccountVo getBBAccount(long userId, String asset) {
-        BbAccountVo bbAccount = bbAccountExtendApi.getBBAccount(userId, asset);
-        return bbAccount;
+    public BbAccountExtVo getBBAccount(long userId, String asset) {
+        return bbAccountExtendApi.getBBAccount(userId, asset);
     }
 
     /**
@@ -139,7 +135,7 @@ public class AccountBizImpl implements IAccountBiz {
      * 给资金账户加钱
      */
     @Override
-    public void addFundAccount(FundAddRequest fundAddRequest, long userId, String asset) {
+    public void addFundAccount(FundAddRequest fundAddRequest, long userId, String asset) throws BizException{
         try {
             //判断账户是否存在
             Boolean bn = fundAccountCoreApi.accountExist(userId, asset);
@@ -154,7 +150,7 @@ public class AccountBizImpl implements IAccountBiz {
      * 给资金账户扣钱
      */
     @Override
-    public void cutFundAccount(FundCutRequest fundCutRequest, long userId, String asset) {
+    public void cutFundAccount(FundCutRequest fundCutRequest, long userId, String asset) throws BizException {
         try {
             //判断账户是否存在
             Boolean bn = fundAccountCoreApi.accountExist(userId, asset);
@@ -209,8 +205,8 @@ public class AccountBizImpl implements IAccountBiz {
                     pcAccountBizBo.setAsset(pcAccountExtVo.getAsset());
                     pcAccountBizBo.setAvailable(pcAccountExtVo.getAvailable());
                     pcAccountBizBo.setOrderMargin(pcAccountExtVo.getOrderMargin());//委托保证金
-                    pcAccountBizBo.setPosMargin(pcAccountBizBo.getPosMargin());//仓位保证金
-                    pcAccountBizBo.setTotal(pcAccountBizBo.getTotal());
+                    pcAccountBizBo.setPosMargin(pcAccountExtVo.getPoserMargin());//仓位保证金
+                    pcAccountBizBo.setTotal(pcAccountExtVo.getTotal());
                 }
             }
         }catch(Exception e){

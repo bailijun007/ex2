@@ -1,4 +1,4 @@
-package com.hupa.exp.servermng.entity.area;
+/*package com.hupa.exp.servermng.entity.area;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hupa.exp.common.entity.dto.output.BaseOutputDto;
@@ -42,4 +42,4 @@ public class GetAreaOutputDto extends BaseOutputDto {
     public void setEnable(String enable) {
         this.enable = enable;
     }
-}
+}*/

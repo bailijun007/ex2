@@ -11,13 +11,13 @@ public interface IApiAssetControllerService {
 
     AssetOutputDto editAsset(AssetInputDto inputDto) throws BizException;
 
-    GetAssetOutputDto getAssetById(AssetInputDto inputDto) throws BizException;
+    AssetOutputDto getAssetById(AssetInputDto inputDto) throws BizException;
 
     AssetListOutputDto getAssetList(AssetListInputDto inputDto) throws BizException;
 
-    RealNameListOutPutDto getRealNameList(AssetInputDto inputDto) throws BizException;//RealNameListInputDto
+    AssetOutputDto getRealNameList(AssetInputDto inputDto) throws BizException;
 
-    CheckHasAssetOutputDto checkHasAsset(CheckHasAssetInputDto inputDto) throws BizException;
+    AssetOutputDto checkHasAsset(AssetInputDto inputDto) throws BizException;
 
     DeleteOutputDto deleteAsset(DeleteInputDto inputDto) throws BizException;
 

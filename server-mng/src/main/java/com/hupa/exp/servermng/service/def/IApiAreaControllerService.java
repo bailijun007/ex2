@@ -10,7 +10,7 @@ public interface IApiAreaControllerService {
 
     AreaOutputDto editArea(AreaInputDto inputDto) throws BizException;
 
-    GetAreaOutputDto getAreaById(GetAreaInputDto inputDto) throws BizException;
+    AreaOutputDto getAreaById(AreaInputDto inputDto) throws BizException;
 
     AreaListOutputDto getAreaList(AreaListInputDto inputDto) throws BizException;
 

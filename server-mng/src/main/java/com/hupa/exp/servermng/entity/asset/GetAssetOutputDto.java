@@ -1,3 +1,4 @@
+/*
 package com.hupa.exp.servermng.entity.asset;
 
 import com.hupa.exp.common.entity.dto.output.BaseOutputDto;
@@ -215,3 +216,4 @@ public class GetAssetOutputDto extends BaseOutputDto {
         this.enableFlagBbMarket = enableFlagBbMarket;
     }
 }
+*/

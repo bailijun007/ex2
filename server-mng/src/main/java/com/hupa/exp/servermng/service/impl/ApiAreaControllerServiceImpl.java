@@ -11,7 +11,10 @@ import com.hupa.exp.bizother.service.area.def.IAreaService;
 import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.daomysql.dao.expv2.def.IExpAreaDao;
-import com.hupa.exp.servermng.entity.area.*;
+import com.hupa.exp.servermng.entity.area.AreaInputDto;
+import com.hupa.exp.servermng.entity.area.AreaListInputDto;
+import com.hupa.exp.servermng.entity.area.AreaListOutputDto;
+import com.hupa.exp.servermng.entity.area.AreaOutputDto;
 import com.hupa.exp.servermng.entity.base.DeleteInputDto;
 import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.help.SessionHelper;
@@ -31,7 +34,6 @@ public class ApiAreaControllerServiceImpl implements IApiAreaControllerService {
     private IValidateService validateService;
     @Autowired
     private IExpAreaDao iExpAreaDao;
-
 
     @Autowired
     private IExpOperationLogService logService;
@@ -72,10 +74,10 @@ public class ApiAreaControllerServiceImpl implements IApiAreaControllerService {
     }
 
     @Override
-    public GetAreaOutputDto getAreaById(GetAreaInputDto inputDto) throws BizException {
+    public AreaOutputDto getAreaById(AreaInputDto inputDto) throws BizException {
         validateService.validate(inputDto,true,true,true);
         ExpAreaBizBo bo= iAreaService.queryAreaById(inputDto.getId());
-        GetAreaOutputDto outputDto= new GetAreaOutputDto();
+        AreaOutputDto outputDto= new AreaOutputDto();
         outputDto.setAreaCode(bo.getAreaCode());
         outputDto.setAreaName(bo.getAreaName());
         outputDto.setEnable(bo.isEnable()?"1":"0");
@@ -88,10 +90,9 @@ public class ApiAreaControllerServiceImpl implements IApiAreaControllerService {
         validateService.validate(inputDto,true,true,true);
         ExpAreaListBizBo listBizBo=iAreaService.queryAreaList(inputDto.getCurrentPage(),inputDto.getPageSize());
         AreaListOutputDto outputDto=new AreaListOutputDto();
-        List<AreaListOutputPage> areaList=new ArrayList<>();
-        for(ExpAreaBizBo bo:listBizBo.getRows())
-        {
-            AreaListOutputPage area=new AreaListOutputPage();
+        List<AreaOutputDto> areaList=new ArrayList<>();
+        for(ExpAreaBizBo bo:listBizBo.getRows()) {
+            AreaOutputDto area=new AreaOutputDto();
             area.setAreaCode(bo.getAreaCode());
             area.setAreaName(bo.getAreaName());
             area.setEnable(bo.isEnable()?"1":"0");

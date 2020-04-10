@@ -43,4 +43,41 @@ public class ApiPcCandleController {
         }
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
+
+
+
+    @ApiOperation(value = "获取模块限制信息")
+    @GetMapping("/query_interval_BbKline")
+    public BaseResultViaApiDto<PcCandleStatisticsInputDto,PcCandleStatisticsOutputDto> getBbKline(
+            @ApiParam(name="asset",value = "页码",required = true)
+            @RequestParam(name = "asset") String asset,
+            @ApiParam(name="symbol",value = "条数",required = true)
+            @RequestParam(name = "symbol") String symbol,
+            @ApiParam(name="interval",value = "时间段",required = true)
+            @RequestParam(name = "interval") String interval,
+            @ApiParam(name="year",value = "年份",required = true)
+            @RequestParam(name = "year") String year,
+            @ApiParam(name="month",value = "月份",required = true)
+            @RequestParam(name = "month") String month,
+            @ApiParam(name="day",value = "天",required = true)
+            @RequestParam(name = "day") String day,
+            @ApiParam(name="klineType",value = "类型",required = true)
+            @RequestParam(name = "klineType") String klineType
+    ){
+        PcCandleStatisticsOutputDto outputDto = null;
+        PcCandleStatisticsInputDto inputDto = new PcCandleStatisticsInputDto();
+        try{
+            inputDto.setAsset(asset);
+            inputDto.setSymbol(symbol);
+            inputDto.setInterval(interval);
+            inputDto.setYear(year);
+            inputDto.setMonth(month);
+            inputDto.setDay(day);
+            inputDto.setKlineType(klineType);
+            outputDto = service.getBbCandleStatisticsData(inputDto);
+        }catch(BizException e){
+            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
+        }
+        return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
+    }
 }

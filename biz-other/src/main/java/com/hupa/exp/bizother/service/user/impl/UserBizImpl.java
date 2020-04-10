@@ -1,11 +1,9 @@
 package com.hupa.exp.bizother.service.user.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.hp.sh.expv3.bb.extension.vo.BbAccountExtVo;
 import com.hp.sh.expv3.bb.extension.vo.BbAccountVo;
-import com.hp.sh.expv3.fund.wallet.api.FundAccountCoreApi;
-import com.hp.sh.expv3.pc.api.PcAccountCoreApi;
 import com.hupa.exp.base.config.redis.Db0RedisBean;
-import com.hupa.exp.base.dic.expv2.AccountTypeDic;
 import com.hupa.exp.base.enums.ValidateExceptionCode;
 import com.hupa.exp.base.exception.ValidateException;
 import com.hupa.exp.base.helper.security.SecurityPwdHelper;
@@ -329,11 +327,11 @@ public class UserBizImpl implements IUserBiz {
                     assetsBizBo.setPcPosMargin(BigDecimal.ZERO);
                 }
                 //获取币币账户
-                BbAccountVo bbAccountVo = iAccountBiz.getBBAccount(userPo.getId(), asset);//pcPo.getRealName()
+                 BbAccountExtVo bbAccountVo = iAccountBiz.getBBAccount(userPo.getId(), asset);//pcPo.getRealName()
                 if(bbAccountVo!=null){
-                    assetsBizBo.setBbAccountTotal(BigDecimal.ZERO);
-                    assetsBizBo.setBbAccountBalance(bbAccountVo.getBalance());
-                    assetsBizBo.setBbAccountFrozen(BigDecimal.ZERO);
+                    assetsBizBo.setBbAccountTotal(bbAccountVo.getTotal()==null? BigDecimal.ZERO:bbAccountVo.getTotal());
+                    assetsBizBo.setBbAccountBalance(bbAccountVo.getAvailable()==null? BigDecimal.ZERO:bbAccountVo.getAvailable());
+                    assetsBizBo.setBbAccountFrozen(bbAccountVo.getLock()==null? BigDecimal.ZERO:bbAccountVo.getLock());
                 }else{
                     iAccountBiz.createBBAccount(userPo.getId(), asset); //创建币币账户pcPo.getRealName()
                     assetsBizBo.setBbAccountTotal(BigDecimal.ZERO);

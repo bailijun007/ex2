@@ -46,8 +46,9 @@ public class ApiAccountTransferControllerServiceImpl implements IApiAccountTrans
                 //遍历赋值
                 List<TransferInfoOutputDto> list = new ArrayList<TransferInfoOutputDto>();
                 if(CollectionUtils.isNotEmpty(pageResult.getList())){
+                    TransferInfoOutputDto transferInfoOutputDto = null;
                     for (FundTransferExtVo fundTransferExtVo : pageResult.getList()) {
-                        TransferInfoOutputDto transferInfoOutputDto = new TransferInfoOutputDto();
+                        transferInfoOutputDto = new TransferInfoOutputDto();
                         transferInfoOutputDto.setId(String.valueOf(fundTransferExtVo.getTransferId()));
                         transferInfoOutputDto.setAsset(fundTransferExtVo.getAsset());
                         transferInfoOutputDto.setAmount(String.valueOf(fundTransferExtVo.getQty()));

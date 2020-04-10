@@ -54,28 +54,7 @@ public class GetBbSymbolOutputDto extends BaseOutputDto {
     @JsonProperty("symbol_chinese")
     private String symbolChinese;
 
-    /*@JsonProperty("default_price")
-    private String defaultPrice;
-    @JsonProperty("last_price")
-    private String lastPrice;
-    //结算金额
-    @JsonProperty("settle_price")
-    private BigDecimal settlePrice;
-    @JsonProperty("face_value")
-    private String faceValue;
-    @JsonProperty("face_currency")
-    private String faceCurrency;
-    @JsonProperty("base_currency")
-    private String baseCurrency;
-    @JsonProperty("settle_currency")
-    private String settleCurrency;
-    @JsonProperty("symbol_type")
-    private String symbolType;
-    @JsonProperty("bbSymbol_type")
-    private Integer bbSymbolType;
-    private String privilege;
-    @JsonProperty("quote_currency")
-    private String quoteCurrency;*/
+    private String minTradeNumber;
 
     public String getId() {
         return id;
@@ -219,5 +198,13 @@ public class GetBbSymbolOutputDto extends BaseOutputDto {
 
     public void setSymbolChinese(String symbolChinese) {
         this.symbolChinese = symbolChinese;
+    }
+
+    public String getMinTradeNumber() {
+        return minTradeNumber;
+    }
+
+    public void setMinTradeNumber(String minTradeNumber) {
+        this.minTradeNumber = minTradeNumber;
     }
 }

@@ -1,3 +1,4 @@
+/*
 package com.hupa.exp.servermng.entity.contract;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,3 +18,4 @@ public class CheckHasContractOutputDto extends BaseOutputDto {
         this.hasContract = hasContract;
     }
 }
+*/

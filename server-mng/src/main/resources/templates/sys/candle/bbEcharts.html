@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<!-- saved from url=(0065)http://yanshi.sucaihuo.com/modals/40/4078/demo/graph_echarts.html -->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K线统计图</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <link rel="shortcut icon" href="http://yanshi.sucaihuo.com/modals/40/4078/demo/favicon.ico">
+    <link href="../../../static/echarts/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../static/echarts/font-awesome.css" rel="stylesheet">
+
+    <link href="../../../static/echarts/animate.css" rel="stylesheet">
+    <link href="../../../static/echarts/style.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="row  border-bottom white-bg dashboard-header">
+    <div class="col-sm-12">
+        <div class="pull-left search">
+            <label class="sr-only">平台</label>
+            <select id="kline_type" class="form-control" style="width: 150px">
+                <option value="0" selected="selected">交易平台</option>
+                <!--<option value="1">第三方平台</option>-->
+            </select>
+        </div>
+        <div class="pull-left search">
+            <label class="sr-only">币种</label>
+            <select class="form-control" id="asset"  style="width: 200px"></select>
+        </div>
+        <div class="pull-left search">
+            <label class="sr-only">交易对</label>
+            <select class="form-control" id="symbol" style="width: 200px"></select>
+        </div>
+        <div class="pull-left search">
+            <label class="sr-only">时间段</label>
+            <select class="form-control" id="interval" style="width: 120px">
+                <option value="1" selected="selected">1分钟</option>
+                <option value="5">5分钟</option>
+                <option value="15">15分钟</option>
+                <option value="30">30分钟</option>
+                <option value="60">1小时</option>
+                <option value="360">6小时</option>
+                <option value="1440">1天</option>
+            </select>
+        </div>
+       <div class="pull-left search">
+            <label class="sr-only">年份</label>
+            <select class="form-control" id="year" style="width: 120px">
+                <option value="2020" selected="selected">2020年</option>
+                <option value="2019">2019年</option>
+                <option value="2018">2018年</option>
+            </select>
+        </div>
+        <div class="pull-left search">
+            <label class="sr-only">月份</label>
+            <select class="form-control" id="month" style="width: 100px"></select>
+        </div>
+        <div class="pull-left search">
+            <label class="sr-only">天数</label>
+            <select class="form-control" id="day" style="width: 100px"></select>
+        </div>
+        <div class="input-group">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-primary" id="btn_query">搜索</button>
+            </span>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12" id="chartsDiv"></div>
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content" id="ibox_charts">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 全局js -->
+<script src="../../../static/echarts/hm.js"></script>
+<script src="../../../static/echarts/jquery.min.js"></script>
+<script src="../../../static/echarts/bootstrap.min.js"></script>
+
+
+<!-- ECharts -->
+<script src="../../../static/echarts/echarts.min.js"></script>
+
+<!-- 自定义js -->
+<script src="../../../static/echarts/content.js"></script>
+<!--<div class="gohome"><a class="animated bounceInUp"-->
+<!--href="http://yanshi.sucaihuo.com/modals/40/4078/demo/index.html?v=4.0" title="返回首页"><i-->
+<!--class="fa fa-home"></i></a></div>-->
+
+
+<!-- ECharts demo data -->
+<!--<script src="../../../static/echarts/echarts-demo.js"></script>-->
+<script src="../../../static/js/LayerTool.js"></script>
+<script src="../../../static/js/ChartsTool.js"></script>
+<script src="../../../static/js/ChartsKlineTool.js"></script>
+<!--<script type="text/javascript" src="../../static/echarts/stats" charset="UTF-8"></script>-->
+<!--&lt;!&ndash;统计代码，可删除&ndash;&gt;-->
+<script type="text/javascript">
+
+var candleData;
+$(function () {
+
+    //1、加载币种
+    bindAssetPage("asset");
+    mouth();
+
+    //币种事件
+    $("#asset").change(function () {
+        $("#symbol").empty();
+        bindBbSymbol("symbol",$("#asset").val());
+    });
+
+    //货币对事件
+    $("#symbol").change(function () {
+        //RefreshChart();
+    });
+
+    //货币对事件
+    $("#interval").change(function () {
+        //RefreshChart();
+    });
+
+    $("#kline_type").change(function () {
+        bindAssetPage("asset");
+    });
+
+    //货币对事件
+    $("#year").change(function () {
+        mouth();
+    })
+
+    //货币对事件
+    $("#month").change(function () {
+        day();
+    })
+
+    $("#btn_query").click(function () {
+        RefreshChart();
+    })
+
+});
+
+
+function mouth() {
+    var year = $("#year").val();
+    var today = new Date();
+    var month = 12;
+    if(today.getFullYear()==year){
+        month = today.getMonth() + 1;
+    }
+    $("#month").html("");
+    var html="";
+    for(var i=1;i<=month;i++) {
+      if(i==month){
+          html+="<option selected='selected' value='"+i+"'>"+i+"月</option>";
+      }else{
+          html+="<option value='"+i+"'>"+i+"月</option>";
+      }
+    }
+    $("#month").html(html);
+    day();
+}
+
+function day() {
+    var year = $("#year").val();
+    var month = $("#month").val();
+    var dateDay = new Date(year, month, 0);
+    var daysCount = dateDay.getDate();
+    var today = new Date();
+    if(today.getFullYear()==year &&  (today.getMonth()+1)==month){
+        daysCount = today.getDate();
+    }
+    $("#day").html("");
+    var html="";
+    for(var i=1;i<=daysCount;i++) {
+        if(i==daysCount){
+            html+="<option  selected='selected' value='"+i+"'>"+i+"天</option>";
+        }else{
+            html+="<option value='"+i+"'>"+i+"天</option>";
+        }
+    }
+    html+="<option value=''>全部</option>";
+    $("#day").html(html);
+}
+
+
+function RefreshChart() {
+    getCandleData();
+    buildBarChartHtml();
+    buildChart();
+    chartKline();
+}
+
+function getCandleData() {
+    var asset = $("#asset").val();
+    var symbol = $("#symbol").val();
+    var param = "?";
+    param += "asset=" + asset;
+    param += "&symbol=" + symbol;
+    param += "&interval="+$("#interval").val();
+    param += "&year=" + $("#year").val();
+    param += "&month=" + $("#month").val();
+    param += "&day=" + $("#day").val();
+    param += "&klineType=" + $("#kline_type").val();
+    $.ajax({
+        type: "get",
+        url: "/v1/http/candle/query_interval_BbKline" + param,
+        contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+        async: false,
+        //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+        //data:JSON.stringify({id:id}),
+        success: function (data) {
+            //console.log(data);
+            if (data.data != null) {
+                candleData = data.data.candleStatisticsData;
+            }
+        }
+    });
+}
+
+function buildBarChartHtml() {
+    $("#chartsDiv").html("");
+    var html = "";
+    var asset = $("#asset").val();
+    var symbol = $("#symbol").val();
+    var interval = $("#interval").val();
+    var title = asset + "_" + symbol + "_"+ interval;
+    //html += '<div class="row">';
+    //html += '<div class="col-sm-12">';
+    html += '<div class="ibox float-e-margins">';
+    html += '<div class="ibox-content">';
+    html += '<div class="echarts" id="'+title+'_chart_echarts"  style="-webkit-tap-highlight-color: transparent; user-select: none; cursor: default;">';
+    html += '<div style="position: relative; overflow: hidden;  height: 240px;">';
+    html += '<div data-zr-dom-id="bg" class="zr-element" style="position: absolute; left: 0px; top: 0px;  height: 240px; user-select: none;">';
+    html += '<canvas  height="240" data-zr-dom-id="0" class="zr-element" style="position: absolute; left: 0px; top: 0px;  height: 240px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">';
+    html += '</canvas>';
+    html += '<canvas  height="240" data-zr-dom-id="1" class="zr-element" style="position: absolute; left: 0px; top: 0px;  height: 240px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">';
+    html += '</canvas>';
+    html += '<canvas  height="240" data-zr-dom-id="_zrender_hover_" class="zr-element" style="position: absolute; left: 0px; top: 0px; height: 240px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">';
+    html += '</canvas>';
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+    //html += '</div>';
+    //html += '</div>';
+    $("#chartsDiv").html(html);
+}
+
+function buildChart() {
+    if (candleData != null) {
+        var asset = $("#asset").val();
+        var symbol = $("#symbol").val();
+        var interval = $("#interval").val();
+        var chartId = asset + "_" + symbol + "_" + interval + "_chart_echarts";
+        var title = candleData[interval].assetSymbol;
+        var timeList = candleData[interval].timeList;
+        var countList = candleData[interval].countList;
+        var colorList = candleData[interval].colorList;
+        buildLineChart(chartId, title, timeList, countList, colorList);
+    }
+}
+
+function bindAssetPage(id) {
+    $.ajax({
+        type: "get",
+        url: "/v1/http/asset/query_asset_list",
+        contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+        async: false,
+        //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+        //data:JSON.stringify({id:id}),
+        success: function (data) {
+            var list= data.data.asset_list;
+            if (list != null) {
+                var html="";
+                for(var i=0;i<list.assetList.length;i++) {
+                    if(list.assetList[i]=="USDT"){
+                        html+="<option value='"+list.assetList[i]+"' selected=\"selected\">"+list.assetList[i]+"</option>";
+                    }else{
+                        html+="<option value='"+list.assetList[i]+"'>"+list.assetList[i]+"</option>";
+                    }
+                }
+                $("#"+id+"").html(html);
+                bindBbSymbol("symbol",$("#asset").val());
+            }
+        }
+    })
+}
+
+//货币对BB
+function bindBbSymbol(id,asset) {
+    $.ajax({
+        type: "get",
+        url: "/v1/http/bbSymbol/get_bbSymbol_list_by_asset?asset="+asset,
+        contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+        async: false,
+        //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+        //data:JSON.stringify({id:id}),
+        success: function (data) {
+            //console.log(data);
+            var html="";
+            var assetSymbolList= data.data.asset_symbol_list;
+            if (assetSymbolList != null) {
+                for(var i=0;i<assetSymbolList.length;i++) {
+                    html+="<option value='"+assetSymbolList[i].symbol+"'>"+assetSymbolList[i].symbol+"</option>"
+                }
+                $("#"+id+"").html(html);
+            }
+        }
+    })
+}
+
+
+function chartKline() {
+    $("#ibox_charts").html("");
+    var html = "";
+    var asset = $("#asset").val();
+    var symbol = $("#symbol").val();
+    var interval = $("#interval").val();
+    var title = asset + "_" + symbol + "_"+ interval;
+    html += '<div class="echarts" id="'+title+'_kline_echarts" style="-webkit-tap-highlight-color: transparent; user-select: none; cursor: default;position: relative; overflow: hidden; height: 380px;">';
+    html += '<div data-zr-dom-id="bg" class="zr-element" style="position: absolute; left: 0px; top: 0px;  height: 380px; user-select: none;">';
+    html += '<canvas  height="380" data-zr-dom-id="0" class="zr-element" style="position: absolute; left: 0px; top: 0px;  height: 380px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">';
+    html += '</canvas>';
+    html += '<canvas  height="380" data-zr-dom-id="1" class="zr-element" style="position: absolute; left: 0px; top: 0px;  height: 380px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">';
+    html += '</canvas>';
+    html += '<canvas  height="380" data-zr-dom-id="_zrender_hover_" class="zr-element" style="position: absolute; left: 0px; top: 0px; height: 380px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">';
+    html += '</canvas>';
+    html += '</div>';
+    html += '</div>';
+    $("#ibox_charts").html(html);
+    var chartId = asset + "_" + symbol + "_" + interval + "_kline_echarts";
+    var title = candleData[interval].assetSymbol;
+    var timeList = candleData[interval].timeLists;
+    var dataList = objToArr(candleData[interval].dataLists);
+    var volList = candleData[interval].volumeLists;
+    var colorList = ['#ef232a','#14b143'];
+    //var timeList = ["2016-03-29", "2016-03-30", "2016-03-31", "2016-04-01", "2016-04-04", "2016-04-05", "2016-04-06", "2016-04-07", "2016-04-08", "2016-04-11", "2016-04-12", "2016-04-13", "2016-04-14", "2016-04-15", "2016-04-18", "2016-04-19", "2016-04-20", "2016-04-21", "2016-04-22", "2016-04-25", "2016-04-26", "2016-04-27", "2016-04-28", "2016-04-29", "2016-05-02", "2016-05-03", "2016-05-04", "2016-05-05", "2016-05-06", "2016-05-09", "2016-05-10", "2016-05-11", "2016-05-12", "2016-05-13", "2016-05-16", "2016-05-17", "2016-05-18", "2016-05-19", "2016-05-20", "2016-05-23", "2016-05-24", "2016-05-25", "2016-05-26", "2016-05-27", "2016-05-31", "2016-06-01", "2016-06-02", "2016-06-03", "2016-06-06", "2016-06-07", "2016-06-08", "2016-06-09", "2016-06-10", "2016-06-13", "2016-06-14", "2016-06-15", "2016-06-16", "2016-06-17", "2016-06-20", "2016-06-21", "2016-06-22"];
+    //var dataList = [[17512.58,17633.11,17434.27,17642.81,86160000],[17652.36,17716.66,17652.36,17790.11,79330000],[17716.05,17685.09,17669.72,17755.7,102600000],[17661.74,17792.75,17568.02,17811.48,104890000],[17799.39,17737,17710.67,17806.38,85230000],[17718.03,17603.32,17579.56,17718.03,115230000],[17605.45,17716.05,17542.54,17723.55,99410000],[17687.28,17541.96,17484.23,17687.28,90120000],[17555.39,17576.96,17528.16,17694.51,79990000],[17586.48,17556.41,17555.9,17731.63,107100000],[17571.34,17721.25,17553.57,17744.43,81020000],[17741.66,17908.28,17741.66,17918.35,91710000],[17912.25,17926.43,17885.44,17962.14,84510000],[17925.95,17897.46,17867.41,17937.65,118160000],[17890.2,18004.16,17848.22,18009.53,89390000],[18012.1,18053.6,17984.43,18103.46,89820000],[18059.49,18096.27,18031.21,18167.63,100210000],[18092.84,17982.52,17963.89,18107.29,102720000],[17985.05,18003.75,17909.89,18026.85,134120000],[17990.94,17977.24,17855.55,17990.94,83770000],[17987.38,17990.32,17934.17,18043.77,92570000],[17996.14,18041.55,17920.26,18084.66,109090000],[18023.88,17830.76,17796.55,18035.73,100920000],[17813.09,17773.64,17651.98,17814.83,136670000],[17783.78,17891.16,17773.71,17912.35,80100000],[17870.75,17750.91,17670.88,17870.75,97060000],[17735.02,17651.26,17609.01,17738.06,95020000],[17664.48,17660.71,17615.82,17736.11,81530000],[17650.3,17740.63,17580.38,17744.54,80020000],[17743.85,17705.91,17668.38,17783.16,85590000],[17726.66,17928.35,17726.66,17934.61,75790000],[17919.03,17711.12,17711.05,17919.03,87390000],[17711.12,17720.5,17625.38,17798.19,88560000],[17711.12,17535.32,17512.48,17734.74,86640000],[17531.76,17710.71,17531.76,17755.8,88440000],[17701.46,17529.98,17469.92,17701.46,103260000],[17501.28,17526.62,17418.21,17636.22,79120000],[17514.16,17435.4,17331.07,17514.16,95530000],[17437.32,17500.94,17437.32,17571.75,111990000],[17507.04,17492.93,17480.05,17550.7,87790000],[17525.19,17706.05,17525.19,17742.59,86480000],[17735.09,17851.51,17735.09,17891.71,79180000],[17859.52,17828.29,17803.82,17888.66,68940000],[17826.85,17873.22,17824.73,17873.22,73190000],[17891.5,17787.2,17724.03,17899.24,147390000],[17754.55,17789.67,17664.79,17809.18,78530000],[17789.05,17838.56,17703.55,17838.56,75560000],[17799.8,17807.06,17689.68,17833.17,82270000],[17825.69,17920.33,17822.81,17949.68,71870000],[17936.22,17938.28,17936.22,18003.23,78750000],[17931.91,18005.05,17931.91,18016,71260000],[17969.98,17985.19,17915.88,18005.22,69690000],[17938.82,17865.34,17812.34,17938.82,90540000],[17830.5,17732.48,17731.35,17893.28,101690000],[17710.77,17674.82,17595.79,17733.92,93740000],[17703.65,17640.17,17629.01,17762.96,94130000],[17602.23,17733.1,17471.29,17754.91,91950000],[17733.44,17675.16,17602.78,17733.44,248680000],[17736.87,17804.87,17736.87,17946.36,99380000],[17827.33,17829.73,17799.8,17877.84,85130000],[17832.67,17780.83,17770.36,17920.16,89440000]];var volList = [86160000,79330000,102600000,104890000,85230000,115230000,99410000,90120000,79990000,107100000,81020000,91710000,84510000,118160000,89390000,89820000,100210000,102720000,134120000,83770000,92570000,109090000,100920000,136670000,80100000,97060000,95020000,81530000,80020000,85590000,75790000,87390000,88560000,86640000,88440000,103260000,79120000,95530000,111990000,87790000,86480000,79180000,68940000,73190000,147390000,78530000,75560000,82270000,71870000,78750000,71260000,69690000,90540000,101690000,93740000,94130000,91950000,248680000,99380000,85130000,89440000];
+    buildKlineChart(chartId, title, timeList, dataList, volList,colorList);
+
+/*    var dates = rawData.map(function (item) {
+        return item[5];
+    });
+    var volumes = rawData.map(function (item) {
+        return item[5];
+    });
+    var data = rawData.map(function (item) {
+        return [+item[1], +item[2], +item[3], +item[4]];
+    });*/
+}
+// 转换后的二维数组
+function objToArr(obj) {
+    for(var i=0;i<obj.length;i++) {
+        obj[i] = objToArray(obj[i]);
+    }
+    return obj;
+ }
+function objToArray(array) {
+    var arr = [];
+    arr.push(array.open);
+    arr.push(array.high);
+    arr.push(array.low);
+    arr.push(array.close);
+    arr.push(array.volume);
+    //arr.push(array.tradeTime);
+    /*for (var i in array) {
+        arr.push(array[i]);
+    }*/
+    //console.log(arr);
+    return arr;
+}
+
+
+function objToArr2(obj) {
+    var arr = [];
+    for (var i in obj) {
+        var newObj = {};
+        newObj[i] = obj[i];
+        arr.push(newObj)
+    }
+    return arr;
+}
+</script>
+</body>
+</html>

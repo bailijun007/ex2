@@ -49,8 +49,9 @@ public class ApiFundDepositControllerServiceImpl implements IApiFundDepositContr
                //遍历赋值
                List<FundDepositInfoOutputDto> list = new ArrayList();
                if(CollectionUtils.isNotEmpty(pageResult.getList())){
+                   FundDepositInfoOutputDto fundDepositInfoOutputDto = null;
                    for (DepositRecordHistoryVo depositRecordHistoryVo : pageResult.getList()) {
-                       FundDepositInfoOutputDto fundDepositInfoOutputDto = new FundDepositInfoOutputDto();
+                       fundDepositInfoOutputDto = new FundDepositInfoOutputDto();
                        fundDepositInfoOutputDto.setId(String.valueOf(depositRecordHistoryVo.getId()));
                        fundDepositInfoOutputDto.setAccountId(String.valueOf(depositRecordHistoryVo.getUserId()));
                        fundDepositInfoOutputDto.setAddress(depositRecordHistoryVo.getAddress());

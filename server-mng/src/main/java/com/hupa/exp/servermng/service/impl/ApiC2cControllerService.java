@@ -49,8 +49,9 @@ public class ApiC2cControllerService implements IApiC2cControllerService {
                 //遍历赋值
                 List<C2COutputDto> list = new ArrayList<C2COutputDto>();
                 if (CollectionUtils.isNotEmpty(pageResult.getList())) {
+                    C2COutputDto c2COutputDto = null;
                     for (C2cOrderVo c2cOrderVo : pageResult.getList()) {
-                        C2COutputDto c2COutputDto = new C2COutputDto();
+                        c2COutputDto = new C2COutputDto();
                         c2COutputDto.setId(String.valueOf(c2cOrderVo.getId()));
                         c2COutputDto.setUserId(String.valueOf(c2cOrderVo.getUserId()));
                         if(c2cOrderVo.getUserId()!=null){

@@ -29,7 +29,7 @@ public class BbSymbolBizBo {
     private BigDecimal step;
     private Integer sort;
     private Integer status;
-
+    private BigDecimal minTradeNumber;
     private String symbolChinese;
 
     /**
@@ -45,18 +45,6 @@ public class BbSymbolBizBo {
     private Long ctime;
     private Long mtime;
 
-
-/*    private Integer symbolType;
-    private BigDecimal defaultPrice;
-    private BigDecimal lastPrice;
-    private Integer faceValue;
-    private String quoteCurrency;
-    private String faceCurrency;
-    private String baseCurrency;
-    private String settleCurrency;
-    private Integer privilege;
-    private BigDecimal settlePrice;//结算金额
-    private Integer bbSymbolType;//类型*/
 
     public Long getId() {
         return id;
@@ -200,5 +188,13 @@ public class BbSymbolBizBo {
 
     public void setSymbolChinese(String symbolChinese) {
         this.symbolChinese = symbolChinese;
+    }
+
+    public BigDecimal getMinTradeNumber() {
+        return minTradeNumber;
+    }
+
+    public void setMinTradeNumber(BigDecimal minTradeNumber) {
+        this.minTradeNumber = minTradeNumber;
     }
 }

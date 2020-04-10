@@ -10,31 +10,25 @@ import com.hupa.exp.servermng.exception.MngException;
 public interface IApiContractControllerService {
     ContractOutputDto createOrEditContract(ContractInputDto inputDto) throws BizException;
 
-    GetContractOutputDto getContract(GetContractInputDto inputDto) throws ContractException;
+    GetContractOutputDto getContract(ContractInputDto inputDto) throws ContractException;
 
     ContractListOutputDto getPosPageByParam(ContractListInputDto inputDto) throws ContractException;
 
-    GetAllActiveContractOutputDto getAllActiveContract(GetAllActiveContractInputDto inputDto) throws BizException;
+    ContractOutputDto getAllActiveContract(ContractInputDto inputDto) throws BizException;
 
-    GetAllSymbolOutputDto getAllSymbolList(GetAllSymbolInputDto inputDto) throws ContractException;
+    ContractOutputDto getAllSymbolList(ContractInputDto inputDto) throws ContractException;
 
-    CheckHasContractOutputDto checkHasContract(CheckHasContractInputDto inputDto) throws  MngException;
+    ContractOutputDto checkHasContract(ContractInputDto inputDto) throws  MngException;
 
     CheckHasLastPriceOutputDto checkHasLastPrice(CheckHasLastPriceInputDto inputDto)throws ContractException;
 
     DeleteOutputDto deleteContract(DeleteInputDto inputDto) throws BizException;
 
-    GetContractListByAssetOutputDto GetContractListByAsset(GetContractListByAssetInputDto inputDto)throws BizException;
+    ContractOutputDto GetContractListByAsset(ContractInputDto inputDto)throws BizException;
 
-    ContractOutputDto getContractGroupNum(GetContractInputDto inputDto) throws BizException;
-
-    /**
-     * 查询pc合约列表
-     * @param inputDto
-     * @return
-     * @throws BizException
-     */
-    GetContractListByAssetOutputDto findContractListByAll(GetContractListByAssetInputDto inputDto) throws BizException;
+    ContractOutputDto getContractGroupNum(ContractInputDto inputDto) throws BizException;
+    //查询pc合约列表
+    ContractOutputDto findContractListByAll(ContractInputDto inputDto) throws BizException;
 
 
 }

@@ -453,8 +453,8 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
                 Set<String> lists = RedisUtil.redisClientFactory(candleRedisConfig).zRevRangeByScore(redisKey, String.valueOf(statTime), String.valueOf(endTime));
                 if (lists != null && lists.size() > 0) {
                     List<RepairKlineOutputDto> rowLists = new ArrayList<>();
-                    List<String> listRedis = new ArrayList<>(lists);
-                    for (String str : listRedis) {
+                        List<String> listRedis = new ArrayList<>(lists);
+                        for (String str : listRedis) {
                         String[] array = str.split(",");//[1577774220000,null,null,null,null,0] time,open,high,low,close.volume
                         RepairKlineOutputDto bbCandlePo = new RepairKlineOutputDto();
                         bbCandlePo.setOpenTime(Long.parseLong(array[0].substring(1)));

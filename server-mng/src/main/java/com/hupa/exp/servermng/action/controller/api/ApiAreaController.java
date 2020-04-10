@@ -3,15 +3,16 @@ package com.hupa.exp.servermng.action.controller.api;
 import com.hupa.exp.common.entity.dto.BaseResultViaApiDto;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
-import com.hupa.exp.servermng.entity.area.*;
+import com.hupa.exp.servermng.entity.area.AreaInputDto;
+import com.hupa.exp.servermng.entity.area.AreaListInputDto;
+import com.hupa.exp.servermng.entity.area.AreaListOutputDto;
+import com.hupa.exp.servermng.entity.area.AreaOutputDto;
 import com.hupa.exp.servermng.entity.base.DeleteInputDto;
 import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.service.def.IApiAreaControllerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -65,13 +66,13 @@ public class ApiAreaController {
 
     @ApiOperation(value = "获取区号信息")
     @GetMapping("/query")
-    public BaseResultViaApiDto<GetAreaInputDto,GetAreaOutputDto> getArea(
+    public BaseResultViaApiDto<AreaInputDto,AreaOutputDto> getArea(
             @ApiParam(name="id",value = "id",required = true)
             @RequestParam(name = "id") long id
     ){
         //logger.info("打印日志--------------------->");
-        GetAreaOutputDto outputDto=new GetAreaOutputDto();
-        GetAreaInputDto inputDto=new GetAreaInputDto();
+        AreaOutputDto outputDto=new AreaOutputDto();
+        AreaInputDto inputDto=new AreaInputDto();
         inputDto.setId(id);
         try{
             outputDto = service.getAreaById(inputDto);
@@ -115,7 +116,6 @@ public class ApiAreaController {
         DeleteInputDto inputDto=new DeleteInputDto();
         DeleteOutputDto outputDto=new DeleteOutputDto();
         inputDto.setIds(ids);
-
         try{
             outputDto = service.deleteArea(inputDto);
 

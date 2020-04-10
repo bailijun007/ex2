@@ -12,6 +12,7 @@ import com.hupa.exp.servermng.entity.pcorder.PcOrderInfo;
 import com.hupa.exp.servermng.entity.pcorder.PcOrderPageInputDto;
 import com.hupa.exp.servermng.entity.pcorder.PcOrderPageOutputDto;
 import com.hupa.exp.servermng.service.def.IApiPcOrderControllerService;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,9 +48,10 @@ public class ApiPcOrderControllerServiceImpl implements IApiPcOrderControllerSer
                     inputDto.getCurrentPage()!=0?(int)inputDto.getCurrentPage():1, inputDto.getPageSize());
             //遍历赋值
             List<PcOrderInfo> list = new ArrayList();
-            if(pageResult.getList()!=null && pageResult.getList().size()>0){
+            if(CollectionUtils.isNotEmpty(pageResult.getList())){
+                PcOrderInfo pcOrderInfo = null;
                 for (UserOrderVo userOrderVo : pageResult.getList()) {
-                    PcOrderInfo pcOrderInfo = new PcOrderInfo();
+                    pcOrderInfo = new PcOrderInfo();
                     pcOrderInfo.setId(userOrderVo.getId());
                     pcOrderInfo.setUserId(userOrderVo.getUserId());
                     pcOrderInfo.setStatus(userOrderVo.getStatus());

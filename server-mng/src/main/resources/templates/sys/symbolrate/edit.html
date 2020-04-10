@@ -116,7 +116,7 @@
             $("#symbol").empty();
             bindAssetSymbol("symbol", $("#asset").val(), true);
         })*/
-        bindSymbol("symbol", null);
+        bindPageSymbol("symbol", null);
 
         function initData() {
 
@@ -151,7 +151,7 @@
 
 
 
-function bindSymbol(id,asset) {
+function bindPageSymbol(id,asset) {
     var html="";
     $.ajax({
         type: "get",
