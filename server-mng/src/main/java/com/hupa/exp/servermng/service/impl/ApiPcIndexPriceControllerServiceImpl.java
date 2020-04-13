@@ -13,6 +13,7 @@ import com.hupa.exp.servermng.entity.pcindexprice.PcIndexPriceListOutputDto;
 import com.hupa.exp.servermng.enums.MngExceptionCode;
 import com.hupa.exp.servermng.exception.MngException;
 import com.hupa.exp.servermng.service.def.IApiPcIndexPriceControllerService;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,17 +44,19 @@ public class ApiPcIndexPriceControllerServiceImpl implements IApiPcIndexPriceCon
         PcIndexPriceListOutputDto outputDto=new PcIndexPriceListOutputDto();
         outputDto.setTotal(pageData.getTotal());
         List<PcIndexPriceInfoOutputDto> rows=new ArrayList<>();
-        for(PcIndexPriceHistoryPo po:pageData.getRecords())
-        {
-            PcIndexPriceInfoOutputDto row=new PcIndexPriceInfoOutputDto();
-            row.setId(String.valueOf(po.getId()));
-            //row.setAsset(po.getAsset());
-            row.setPrice(DecimalUtil.toTrimLiteral(po.getPrice()));
-            row.setSymbol(po.getSymbol());
-            row.setSourceValue(po.getSourceValue());
-            row.setCtime(String.valueOf(po.getCtime()));
-            row.setMtime(String.valueOf(po.getMtime()));
-            rows.add(row);
+        if(CollectionUtils.isNotEmpty(pageData.getRecords())){
+            PcIndexPriceInfoOutputDto row = null;
+            for(PcIndexPriceHistoryPo po:pageData.getRecords()) {
+                row = new PcIndexPriceInfoOutputDto();
+                row.setId(String.valueOf(po.getId()));
+                //row.setAsset(po.getAsset());
+                row.setPrice(DecimalUtil.toTrimLiteral(po.getPrice()));
+                row.setSymbol(po.getSymbol());
+                row.setSourceValue(po.getSourceValue());
+                row.setCtime(String.valueOf(po.getCtime()));
+                row.setMtime(String.valueOf(po.getMtime()));
+                rows.add(row);
+            }
         }
         outputDto.setRows(rows);
         return outputDto;
