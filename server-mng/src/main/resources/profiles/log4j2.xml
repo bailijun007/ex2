@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="info" name="XMLConfigTest" packages="org.apache.logging.log4j.test" monitorInterval="30">
-    <SpringProperties>
+    <Properties>
         <Property name="logDir">/var/log/ex2/server_mng/</Property>
         <Property name="fileName">mng_server.log</Property>
-    </SpringProperties>
+    </Properties>
     <ThresholdFilter level="info"/>
 
     <Appenders>
