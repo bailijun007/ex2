@@ -13,7 +13,7 @@ public interface IApiBbFeeControllerService {
 
     BbFeeOutputDto createOrEditBbFee(BbFeeInputDto inputDto) throws BizException;
 
-    BbFeeInfoOutputDto getBbFeeInfo(BbFeeInputDto inputDto)throws BizException;
+    BbFeeOutputDto getBbFeeInfo(BbFeeInputDto inputDto)throws BizException;
 
     BbFeeListOutputDto getBbFeePageData(BbFeeListInputDto inputDto)throws BizException;
 

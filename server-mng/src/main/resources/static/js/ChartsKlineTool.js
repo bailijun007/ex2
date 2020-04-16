@@ -106,7 +106,7 @@ function buildKlineChart(id,title,dates,data,volumes,colorList) {
             },
             data: volumes
         }, {
-            type: 'candlestick',
+            type: 'candlestick',//红涨绿跌
             name: 'K线',
             data: data,
             itemStyle: {
@@ -119,7 +119,7 @@ function buildKlineChart(id,title,dates,data,volumes,colorList) {
                 //itemStyle: {
                     //color: 'black',
                     //color0: '#444',
-                    borderColor: 'black'
+                    //borderColor: 'black'
                     //borderColor0: '#444'
                 //}
            // }

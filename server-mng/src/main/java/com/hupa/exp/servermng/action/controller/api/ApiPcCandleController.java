@@ -62,7 +62,9 @@ public class ApiPcCandleController {
             @ApiParam(name="day",value = "天",required = true)
             @RequestParam(name = "day") String day,
             @ApiParam(name="klineType",value = "类型",required = true)
-            @RequestParam(name = "klineType") String klineType
+            @RequestParam(name = "klineType") String klineType,
+            @ApiParam(name="type",value = "类别",required = true)
+            @RequestParam(name = "type") String type
     ){
         PcCandleStatisticsOutputDto outputDto = null;
         PcCandleStatisticsInputDto inputDto = new PcCandleStatisticsInputDto();
@@ -74,6 +76,7 @@ public class ApiPcCandleController {
             inputDto.setMonth(month);
             inputDto.setDay(day);
             inputDto.setKlineType(klineType);
+            inputDto.setType(type);
             outputDto = service.getBbCandleStatisticsData(inputDto);
         }catch(BizException e){
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);

@@ -184,9 +184,11 @@ public class UserBizImpl implements IUserBiz {
             changeBo.setUserpwd(newPwd);//加密后的密码
         }
 
-        String newFundPwd=pwdHelper.getMd5Pwd("FundPwdMD5Key",changeBo.getFundPwd());
-        if (defaultPo.getFundPwd()==null || !defaultPo.getFundPwd().equals(changeBo.getFundPwd())) { //不修改密码的时候密码不加密
-            changeBo.setFundPwd(newFundPwd);//加密后的密码
+        if(defaultPo.getUserType() != 0){
+            String newFundPwd=pwdHelper.getMd5Pwd("FundPwdMD5Key",changeBo.getFundPwd());
+            if (defaultPo.getFundPwd()==null || !defaultPo.getFundPwd().equals(changeBo.getFundPwd())) { //不修改密码的时候密码不加密
+                changeBo.setFundPwd(newFundPwd);//加密后的密码
+            }
         }
 
         if (defaultPo.getUserType() == 0) {

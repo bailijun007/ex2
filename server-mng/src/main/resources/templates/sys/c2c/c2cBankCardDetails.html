@@ -24,13 +24,8 @@
 <body class="gray-bg">
 <div class="form-horizontal">
     <div class="wrapper wrapper-content animated fadeInRight">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-content" id="carddiv">
-                    </div>
-                </div>
-            </div>
+        <div id="carddiv">
+
         </div>
     </div>
 </div>
@@ -73,21 +68,23 @@
                         var obj = "";
                         if (data.data != null) {
                             var strRows = data.data.rows;
-                            if(strRows!=null || strRows.length>0){
+                            if(strRows!=null && strRows.length>0){
                                 for(i = 0,len=strRows.length; i < len; i++) {
                                     //obj +="<div class=\"form-group\"><label class=\"col-sm-2 control-label\">id：</label><div>"+strRows[i].id+ "</div></div>";
-                                    obj +="<div class=\"form-group\"><div class=\"col-sm-8 control-label\">币种："+strRows[i].asset+ "</div></div>";
-                                    obj +="<div class=\"form-group\"><div class=\"col-sm-8 control-label\">姓名："+strRows[i].cardUserName+ "</div></div>";
-                                    obj +="<div class=\"form-group\"><div class=\"col-sm-8 control-label\">卡号："+strRows[i].cardNo+ "</div></div>";
-                                    obj +="<div class=\"form-group\"><div class=\"col-sm-8 control-label\">开户行："+strRows[i].openBank+ "</div></div>";
-                                    obj +="<div class=\"form-group\"><div class=\"col-sm-8 control-label\">开户支行："+strRows[i].openBank+ "<div/></div>";
+                                    obj +="<div class=\"row\"><div class=\"col-sm-12\"><div class=\"ibox-content\">";
+                                    obj +="<div class=\"form-group\"><div class=\"col-sm-8\">币种："+strRows[i].asset+ "</div></div>";
+                                    obj +="<div class=\"form-group\"><div class=\"col-sm-8\">姓名："+strRows[i].cardUserName+ "</div></div>";
+                                    obj +="<div class=\"form-group\"><div class=\"col-sm-8\">卡号："+strRows[i].cardNo+ "</div></div>";
+                                    obj +="<div class=\"form-group\"><div class=\"col-sm-8\">开户行:"+strRows[i].openBank+ "</div></div>";
+                                    obj +="<div class=\"form-group\"><div class=\"col-sm-8\">开户支行："+strRows[i].openBranch+ "</div></div>";
+                                    obj +="</div></div></div>";
                                     //obj +="<div class=\"form-group\"><label class=\"col-sm-2 control-label\">状态：</label><div class=\"col-sm-6\">"+strRows[i].enableFlag+ "</div></div>";
                                 }
                             }else{
-                                obj +="<div style='height: 200px'>没查到数据</div>";
+                                obj +="<div class=\"row\"><div class=\"col-sm-12\"><div class=\"ibox-content\">未绑定银行卡</div></div></div>";
                             }
                         }else{
-                            obj +="<div style='height: 200px'>没查到数据</div>";
+                            obj +="<div class=\"row\"><div class=\"col-sm-12\"><div class=\"ibox-content\">未绑定银行卡</div></div></div>";
                         }
                         $('#carddiv').html(obj);
                     }

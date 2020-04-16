@@ -163,27 +163,31 @@
                         columns: [
                             {
                                 checkbox: true
-                            }
-                            , {
+                            },
+                            {
                                 title: '用户名',
                                 field:'userName'
-                            }, {
+                            },
+                            {
                                 title: '邮箱',
                                 field: 'email'
-                            }
-                            ,
+                            },
                             {
                                 title: '手机号码',
                                 field: 'phone'
-                            }
-                            ,
+                            },
                             {
                                 title: '用户类型',
                                 formatter: function (value, row, index) {
-                                    if(row.status=="1")
-                                        return "交易所用户";
-                                    else
+                                    if(row.userType=="0"){
                                         return "后台用户";
+                                    }else if(row.userType=="1"){
+                                        return "交易所用户";
+                                    }else if(row.userType=="2"){
+                                        return "内部用户";
+                                    }else{
+                                        return " ";
+                                    }
                                 }
                             }
                             , {

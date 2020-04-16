@@ -106,13 +106,12 @@
                             <label class="col-sm-3 control-label">用户类型：</label>
                             <div class="col-sm-6">
                                 <div class="rule-multi-radio" id="userTypeList">
-                                    <!--<input type="radio" name="userType" value="1" checked="checked"><label>交易所用户</label>-->
-                                    <input type="radio" name="userType" value="2"   checked="checked"><label>内部用户</label>
+                                    <input type="radio" name="userType" value="1"><label>交易所用户</label>
+                                    <input type="radio" name="userType" value="2"><label>内部用户</label>
                                 </div>
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
-
 
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-3">
@@ -210,6 +209,7 @@
             fundPwd=hex_md5($("#fund_pwd").val());
         else
             fundPwd=$("#userFundPwd").val();
+
         $.ajax({
             type:"post",
             url:"/v1/http/user/create_or_edit",
