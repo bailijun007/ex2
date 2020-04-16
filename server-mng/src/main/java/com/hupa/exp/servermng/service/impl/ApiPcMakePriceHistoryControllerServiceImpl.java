@@ -13,6 +13,7 @@ import com.hupa.exp.servermng.entity.pcmakepricehistory.PcMakePriceHistoryListOu
 import com.hupa.exp.servermng.enums.MngExceptionCode;
 import com.hupa.exp.servermng.exception.MngException;
 import com.hupa.exp.servermng.service.def.IApiPcMakePriceHistoryControllerService;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,18 +45,20 @@ public class ApiPcMakePriceHistoryControllerServiceImpl implements IApiPcMakePri
         PcMakePriceHistoryListOutputDto outputDto=new PcMakePriceHistoryListOutputDto();
         outputDto.setTotal(pageData.getTotal());
         List<PcMakePriceHistoryInfoOutputDto> rows=new ArrayList<>();
-        for(PcMarkPriceHistoryPo po:pageData.getRecords())
-        {
-            PcMakePriceHistoryInfoOutputDto row=new PcMakePriceHistoryInfoOutputDto();
-            row.setId(String.valueOf(po.getId()));
-            row.setAsset(po.getAsset());
-            row.setFundRate(DecimalUtil.toTrimLiteral(po.getFundRate()));
-            row.setPrice(DecimalUtil.toTrimLiteral(po.getPrice()));
-            row.setSymbol(po.getSymbol());
-            row.setSourceValue(po.getSourceValue());
-            row.setCtime(String.valueOf(po.getCtime()));
-            row.setMtime(String.valueOf(po.getMtime()));
-            rows.add(row);
+        if(CollectionUtils.isNotEmpty(pageData.getRecords())) {
+            PcMakePriceHistoryInfoOutputDto row = null;
+            for (PcMarkPriceHistoryPo po : pageData.getRecords()) {
+                row = new PcMakePriceHistoryInfoOutputDto();
+                row.setId(String.valueOf(po.getId()));
+                row.setAsset(po.getAsset());
+                row.setFundRate(DecimalUtil.toTrimLiteral(po.getFundRate()));
+                row.setPrice(DecimalUtil.toTrimLiteral(po.getPrice()));
+                row.setSymbol(po.getSymbol());
+                row.setSourceValue(po.getSourceValue());
+                row.setCtime(String.valueOf(po.getCtime()));
+                row.setMtime(String.valueOf(po.getMtime()));
+                rows.add(row);
+            }
         }
         outputDto.setRows(rows);
         return outputDto;

@@ -216,6 +216,7 @@ function getCandleData() {
     param += "&month=" + $("#month").val();
     param += "&day=" + $("#day").val();
     param += "&klineType=" + $("#kline_type").val();
+    param += "&type=bb";
     $.ajax({
         type: "get",
         url: "/v1/http/candle/query_interval_BbKline" + param,

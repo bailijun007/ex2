@@ -31,7 +31,7 @@ public class LoginBizImpl implements ILoginBiz {
        //redisUtil.set("123","123");
         String pwd=securityPwdHelper.getMd5Pwd("PwdMD5Key",loginPwd);
         ExpUserPo expUserPo=iExpUserDao.login(userName,pwd);
-        if(expUserPo==null)
+        if(expUserPo==null || expUserPo.getStatus()==0)
             throw new BizUserException(BizUserExceptionCode.USERNAME_OR_PWD_ERROR);
         AdminLoginBizBo loginBizBo= ConventObjectUtil.conventObject(expUserPo,AdminLoginBizBo.class);
         String token= getToken(userName,loginPwd);

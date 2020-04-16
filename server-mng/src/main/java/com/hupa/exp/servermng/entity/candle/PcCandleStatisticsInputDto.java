@@ -11,6 +11,7 @@ public class PcCandleStatisticsInputDto extends BaseInputDto {
     private String month;
     private String day;
     private String klineType;
+    private String type;
 
     public String getAsset() {
         return asset;
@@ -66,5 +67,13 @@ public class PcCandleStatisticsInputDto extends BaseInputDto {
 
     public void setKlineType(String klineType) {
         this.klineType = klineType;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

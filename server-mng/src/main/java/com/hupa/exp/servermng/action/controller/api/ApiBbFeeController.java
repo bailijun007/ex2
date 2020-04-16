@@ -6,7 +6,10 @@ import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
 import com.hupa.exp.servermng.entity.base.DeleteInputDto;
 import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
-import com.hupa.exp.servermng.entity.bbfee.*;
+import com.hupa.exp.servermng.entity.bbfee.BbFeeInputDto;
+import com.hupa.exp.servermng.entity.bbfee.BbFeeListInputDto;
+import com.hupa.exp.servermng.entity.bbfee.BbFeeListOutputDto;
+import com.hupa.exp.servermng.entity.bbfee.BbFeeOutputDto;
 import com.hupa.exp.servermng.service.def.IApiBbFeeControllerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,21 +20,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 
-/**
- * Created by Administrator on 2020/2/6.
- */
 
 @Api(tags = "apiBbFeeController")
 @RestController
 @RequestMapping(path = "/v1/http/bbfee",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ApiBbFeeController {
+
     @Autowired
     private IApiBbFeeControllerService service;
-
-    //@Autowired
-    //private SessionHelper sessionHelper;
-
-    //private Logger logger = LoggerFactory.getLogger(ApiBbFeeController.class);
 
     @ApiOperation(value = "创建或修改手续费规则")
     @PostMapping("/create_or_edit")
@@ -53,15 +49,15 @@ public class ApiBbFeeController {
     )
     {
         BbFeeInputDto inputDto=new BbFeeInputDto();
-        inputDto.setCompare(compare);
-        inputDto.setId(id);
-        inputDto.setMakerFee(makerFee);
-        inputDto.setTakerFee(takerFee);
-        inputDto.setTier(tier);
-        inputDto.setWithdrawLimit(withdrawLimit);
-        inputDto.setTradingVolume(tradingVolume);
-        BbFeeOutputDto outputDto=new BbFeeOutputDto();
+        BbFeeOutputDto outputDto = null;
         try {
+            inputDto.setCompare(compare);
+            inputDto.setId(id);
+            inputDto.setMakerFee(makerFee);
+            inputDto.setTakerFee(takerFee);
+            inputDto.setTier(tier);
+            inputDto.setWithdrawLimit(withdrawLimit);
+            inputDto.setTradingVolume(tradingVolume);
             outputDto= service.createOrEditBbFee(inputDto);
         } catch (BizException e) {
             BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
@@ -71,14 +67,14 @@ public class ApiBbFeeController {
 
     @ApiOperation(value = "查询单个")
     @GetMapping("/query")
-    public BaseResultDto<BbFeeInputDto,BbFeeInfoOutputDto> getBbFeeById(
+    public BaseResultDto<BbFeeInputDto,BbFeeOutputDto> getBbFeeById(
             @ApiParam(name="id",value ="id" ,required = true)
             @RequestParam(name = "id") long id
     ) {
         BbFeeInputDto inputDto=new BbFeeInputDto();
-        inputDto.setId(id);
-        BbFeeInfoOutputDto outputDto=new BbFeeInfoOutputDto();
+        BbFeeOutputDto outputDto = null;
         try {
+            inputDto.setId(id);
             outputDto= service.getBbFeeInfo(inputDto);
         } catch (BizException e) {
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
@@ -94,14 +90,13 @@ public class ApiBbFeeController {
             @RequestParam(name = "current_page") Integer currentPage,
             @ApiParam(name="page_size",value ="pageSize" ,required = true)
             @RequestParam(name = "page_size") Integer pageSize
-
     )
     {
         BbFeeListInputDto inputDto=new BbFeeListInputDto();
-        inputDto.setCurrentPage(currentPage);
-        inputDto.setPageSize(pageSize);
-        BbFeeListOutputDto outputDto=new BbFeeListOutputDto();
+        BbFeeListOutputDto outputDto = null;
         try {
+            inputDto.setCurrentPage(currentPage);
+            inputDto.setPageSize(pageSize);
             outputDto= service.getBbFeePageData(inputDto);
         } catch (BizException e) {
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
@@ -115,13 +110,11 @@ public class ApiBbFeeController {
             @ApiParam(name="ids",value = "ids",required = true)
             @RequestParam(name = "ids") String ids
     ){
-        //logger.info("打印日志--------------------->");
         DeleteInputDto inputDto=new DeleteInputDto();
         DeleteOutputDto outputDto=new DeleteOutputDto();
         inputDto.setIds(ids);
         try{
             outputDto = service.deleteBbFee(inputDto);
-
         }catch(BizException e){
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
         }

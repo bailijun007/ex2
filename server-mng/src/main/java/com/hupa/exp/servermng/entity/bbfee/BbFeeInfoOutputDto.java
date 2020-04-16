@@ -1,23 +1,21 @@
+/*
 package com.hupa.exp.servermng.entity.bbfee;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hupa.exp.common.entity.dto.output.BaseOutputDto;
 
-/**
- * Created by Administrator on 2020/2/6.
- */
 public class BbFeeInfoOutputDto extends BaseOutputDto {
 
     private String id;
     private String tier;
     private String compare;
-    @JsonProperty("trading_volume")
+    //@JsonProperty("trading_volume")
     private String tradingVolume;
-    @JsonProperty("maker_fee")
+    //@JsonProperty("maker_fee")
     private String makerFee;
-    @JsonProperty("taker_fee")
+    //@JsonProperty("taker_fee")
     private String takerFee;
-    @JsonProperty("withdraw_limit")
+    //@JsonProperty("withdraw_limit")
     private String withdrawLimit;
     private String ctime;
     private String mtime;
@@ -93,4 +91,4 @@ public class BbFeeInfoOutputDto extends BaseOutputDto {
     public void setMtime(String mtime) {
         this.mtime = mtime;
     }
-}
+}*/

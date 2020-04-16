@@ -82,7 +82,6 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
     @Autowired
     private IBbCandleDao iBbCandleDao;
 
-
     @Override
     public KlineConfigOutputDto createKlineConfig(KlineConfigInputDto inputDto) throws BizException {
 
