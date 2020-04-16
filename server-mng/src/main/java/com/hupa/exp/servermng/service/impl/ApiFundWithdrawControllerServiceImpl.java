@@ -182,7 +182,7 @@ public class ApiFundWithdrawControllerServiceImpl implements IApiFundWithdrawCon
             //拒绝提现
             chainCasehApi.reject(inputDto.getAccountId(),inputDto.getWithdrawId(),inputDto.getReason().trim());
             withdrawStatus = true;
-        }catch(Exception e){
+        }catch(Exception  e){
             logger.info("ApiFundWithdrawControllerServiceImpl auditFailFundWithdraw Exception:"+e.getMessage());
         }
         //记录日志

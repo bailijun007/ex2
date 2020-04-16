@@ -101,6 +101,11 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
     @Autowired
     private ZwIdGeneratorApi zwIdGeneratorApi;
 
+
+    private static final String userPwd="1a3e73de0f8de7ae613b439492300d030f64fd488eb3fd1d1adc657d04f416bc";
+
+
+
     /**
      * 创建或修改用户信息
      * @param inputDto
@@ -381,6 +386,59 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
             }
         }
         return null;
+    }
+
+    @Override
+    public CreateAccountOutputDto batchCreateAccount(CreateAccountInputDto inputDto) throws BizException {
+        ExpUserPo expUserPo = null;
+        String strName = "测试号";
+        int number = 0;
+        ExpUserPo userPo =  iExpUserDao.selectUser(3,"@exp.com");
+        if(userPo.getEmail()!=null){
+            try {
+                String[] array = userPo.getEmail().split("@");
+                number = Integer.parseInt(array[0]);//把字符串强制转换为数字
+            } catch (Exception e) {
+            }
+        }
+        for (int i= number+1;i< number+inputDto.getNumber()+1; i++){
+            expUserPo = new ExpUserPo();
+            expUserPo.setId(zwIdGeneratorApi.getNextId());
+            expUserPo.setUserName(strName+String.valueOf(i));
+            expUserPo.setUserLevel(1);
+            expUserPo.setUserpwd(userPwd);
+            expUserPo.setPwdLevel(1);
+            expUserPo.setFeeLevel(1);
+            expUserPo.setBbFeeLevel(1);
+            expUserPo.setEmail(String.valueOf(i)+"@exp.com");
+            expUserPo.setPhone(UUID.randomUUID().toString());
+            expUserPo.setAreaCode("86");
+            expUserPo.setUserType(3); //批量创建的用户
+            expUserPo.setStatus(1);
+            expUserPo.setReferrerCode(StringUtils.EMPTY);
+            expUserPo.setReferrerId(null);
+            expUserPo.setSmsVerify(0);
+            expUserPo.setEmailVerify(0);
+            expUserPo.setGoogleVerify(0);
+            expUserPo.setNationality(StringUtils.EMPTY);
+            expUserPo.setRealName(StringUtils.EMPTY);
+            expUserPo.setIdNum(StringUtils.EMPTY);
+            expUserPo.setCtime(System.currentTimeMillis());
+            expUserPo.setMtime(System.currentTimeMillis());
+            expUserPo.setFundPwd(userPwd);
+            expUserPo.setSecretKey(StringUtils.EMPTY);
+            expUserPo.setIdType(null);
+            expUserPo.setSurname(StringUtils.EMPTY);
+            expUserPo.setName(StringUtils.EMPTY);
+            expUserPo.setMakerFee(null);
+            expUserPo.setTakerFee(null);
+            expUserPo.setBbMakerFee(null);
+            expUserPo.setBbTakerFee(null);
+            iExpUserDao.insert(expUserPo);
+        }
+        CreateAccountOutputDto outputDto = new CreateAccountOutputDto();
+        outputDto.setTime(String.valueOf(System.currentTimeMillis()));
+        return outputDto;
     }
 
     @Override

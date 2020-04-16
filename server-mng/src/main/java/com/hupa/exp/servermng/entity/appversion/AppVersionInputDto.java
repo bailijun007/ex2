@@ -11,6 +11,7 @@ public class AppVersionInputDto extends BaseInputDto {
     private String  updateContent;
     private String linkUrl;
     private Long  releaseTime;
+    private String status;
     private Long ctime;
     private Long mtime;
 
@@ -92,5 +93,13 @@ public class AppVersionInputDto extends BaseInputDto {
 
     public void setReleaseTime(Long releaseTime) {
         this.releaseTime = releaseTime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

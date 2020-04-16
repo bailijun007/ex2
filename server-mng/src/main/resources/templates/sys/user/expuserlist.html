@@ -50,7 +50,8 @@
                                         <div class="btn-group hidden-xs" id="toolbar" role="group">
                                             <a class="btn btn-outline btn-default" href="javascript:addCatalogEvent('Add')"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>新增</a>
                                             <!-- <a class="btn btn-outline btn-default" href="javascript:createAccount()"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>创建账户</a> -->
-                                            <a class="btn btn-outline btn-default" href="javascript:genFee()"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>生成手续费率</a>
+                                            <a class="btn btn-outline btn-default" href="javascript:batchCreateAccountEvent('Add','0')"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>批量创建用户</a>
+                                            <a class="btn btn-outline btn-default" href="javascript:enable_ck_confirm('tb_departments','/v1/http/user/enable',1)"><i class="glyphicon glyphicon-ok" aria-hidden="true"></i>批量启用</a>
                                             <a class="btn btn-outline btn-default" href="javascript:enable_ck_confirm('tb_departments','/v1/http/user/enable',1)"><i class="glyphicon glyphicon-ok" aria-hidden="true"></i>批量启用</a>
                                             <a class="btn btn-outline btn-default" href="javascript:enable_ck_confirm('tb_departments','/v1/http/user/enable',0)"><i class="glyphicon glyphicon-remove" aria-hidden="true"></i>批量禁用</a>
                                         </div>
@@ -128,6 +129,26 @@
             }
         });
         layer.full(index);
+    }
+
+    var batchCreateAccountEvent = function (action,id) {
+        var text = "批量创建用户"
+        url = "/sys/user/batchcreateaccount.html?id="+id+"&action="+action+"";
+        parent.layer.open({
+            type: 2,
+            title: text,
+            shadeClose: true,
+            shade: 0.8,
+            area: ['800px', '65%'],
+            content: url,
+            success: function (layero, index) {
+
+            },
+            end: function () {
+                $('#tb_departments').bootstrapTable('destroy');
+                oTable.Init();
+            }
+        });
     }
 
 function createAccount() {

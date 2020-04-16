@@ -3,6 +3,8 @@ package com.hupa.exp.servermng.service.impl;
 import com.gitee.hupadev.base.api.PageResult;
 import com.hp.sh.expv3.fund.extension.api.C2cOrderExtApi;
 import com.hp.sh.expv3.fund.extension.vo.C2cOrderVo;
+import com.hupa.exp.bizother.entity.account.FundAccountBizBo;
+import com.hupa.exp.bizother.service.account.def.IAccountBiz;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.daomysql.dao.expv2.def.IBankCardDao;
 import com.hupa.exp.daomysql.dao.expv2.def.IExpUserDao;
@@ -37,6 +39,9 @@ public class ApiC2cControllerService implements IApiC2cControllerService {
     @Autowired
     private IExpUserDao iExpUserDao;
 
+    @Autowired
+    private IAccountBiz iAccountBiz;
+
     @Override
     public C2CListOutputDto findAllC2cList(C2CListInputDto inputDto) throws BizException {
         //返回对象
@@ -58,6 +63,10 @@ public class ApiC2cControllerService implements IApiC2cControllerService {
                             ExpUserPo expUserPo = iExpUserDao.selectPoById(c2cOrderVo.getUserId());
                             if(expUserPo!=null){
                                 c2COutputDto.setUserName(expUserPo.getPhone()==null? expUserPo.getEmail():expUserPo.getPhone());
+                            }
+                            FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(expUserPo.getId(), "USDT");
+                            if(fundAccount!=null){
+                                c2COutputDto.setFundAccountAvailable(fundAccount.getAvailable());
                             }
                         }
                         c2COutputDto.setCreated(c2cOrderVo.getCreated());

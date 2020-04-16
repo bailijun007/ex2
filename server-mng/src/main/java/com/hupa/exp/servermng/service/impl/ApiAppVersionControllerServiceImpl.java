@@ -70,6 +70,7 @@ public class ApiAppVersionControllerServiceImpl implements IApiAppVersionControl
             outputDto.setId(String.valueOf(po.getId()));
             outputDto.setRemark(po.getRemark());
             outputDto.setType(String.valueOf(po.getType()));
+            outputDto.setStatus(String.valueOf(po.getStatus()));
             outputDto.setVersion(po.getVersion());
             outputDto.setUpdateContent(po.getUpdateContent());
             outputDto.setLinkUrl(po.getLinkUrl());
@@ -92,6 +93,7 @@ public class ApiAppVersionControllerServiceImpl implements IApiAppVersionControl
             row.setId(String.valueOf(po.getId()));
             row.setRemark(po.getRemark());
             row.setType(String.valueOf(po.getType()));
+            row.setStatus(String.valueOf(po.getStatus()));
             row.setVersion(po.getVersion());
             row.setForcedUpdate(po.getUpdateContent());
             row.setLinkUrl(po.getLinkUrl());

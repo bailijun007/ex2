@@ -35,4 +35,6 @@ public interface IApiUserControllerService {
 
     DeleteOutputDto deleteUser(DeleteInputDto inputDto) throws BizException;
 
+    CreateAccountOutputDto batchCreateAccount(CreateAccountInputDto inputDto) throws BizException;
+
 }
