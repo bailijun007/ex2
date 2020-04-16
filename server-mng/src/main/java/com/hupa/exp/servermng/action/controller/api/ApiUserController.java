@@ -248,15 +248,30 @@ public class ApiUserController {
 
     @ApiOperation(value = "创建账户")
     @GetMapping("/create_account")
-    public BaseResultViaApiDto<CreateAccountInputDto,CreateAccountOutputDto> createAccount()
-    {
+    public BaseResultViaApiDto<CreateAccountInputDto,CreateAccountOutputDto> createAccount() {
         CreateAccountOutputDto outputDto=new CreateAccountOutputDto();
         CreateAccountInputDto inputDto=new CreateAccountInputDto();
-
         try {
             outputDto= iApiUserControllerService.createAccount(inputDto);
         } catch (Exception e) {
             return null;
+        }
+        return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto) ;
+    }
+
+
+    @ApiOperation(value = "批量创建账户")
+    @GetMapping("/batch_create_account")
+    public BaseResultViaApiDto<CreateAccountInputDto,CreateAccountOutputDto> batchCreateAccount(
+            @ApiParam(name="number",value = "number",required = true)
+            @RequestParam(name = "number") Integer number) {
+        CreateAccountOutputDto outputDto = null;
+        CreateAccountInputDto inputDto=new CreateAccountInputDto();
+        try {
+            inputDto.setNumber(number);
+            outputDto = iApiUserControllerService.batchCreateAccount(inputDto);
+        } catch (BizException e) {
+            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e) ;
         }
         return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto) ;
     }

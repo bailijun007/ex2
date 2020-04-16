@@ -42,7 +42,9 @@ public class ApiAppVersionController {
             @ApiParam(name="link_url",value = "备注",required = true)
             @RequestParam(name = "link_url") String linkUrl,
             @ApiParam(name="release_time",value = "备注",required = true)
-            @RequestParam(name = "release_time") Long releaseTime
+            @RequestParam(name = "release_time") Long releaseTime,
+            @ApiParam(name="status",value = "启用状态",required = true)
+            @RequestParam(name = "status") String status
 
     ){
         AppVersionOutputDto outputDto=new AppVersionOutputDto();
@@ -55,6 +57,7 @@ public class ApiAppVersionController {
         inputDto.setUpdateContent(updateContent);
         inputDto.setLinkUrl(linkUrl);
         inputDto.setReleaseTime(releaseTime);
+        inputDto.setStatus(status);
         try{
                 outputDto = service.createOrUpdateAppVersion(inputDto);
         }catch(BizException e){

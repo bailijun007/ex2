@@ -137,6 +137,15 @@
                 }
             }
             , {
+                title: '是否启用',
+                formatter: function (value, row, index) {
+                    if(row.status=="1")
+                        return "启用";
+                    else
+                        return "不启用";
+                }
+            }
+            , {
                 title: '版本',
                 field: 'version'
             }
@@ -174,7 +183,7 @@
     }
 
     var addCatalogEvent = function (action,id) {
-        var text = "添加短信模板"
+        var text = "添加版本"
         url = "/sys/appversion/edit.html?id="+id+"&action="+action+"";
 
         parent.layer.open({

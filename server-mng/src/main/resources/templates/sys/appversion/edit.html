@@ -87,6 +87,15 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">是否启用：</label>
+                            <div class="col-sm-5">
+                                <div class="rule-single-checkbox">
+                                    <input type="checkbox" id="status" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-3">
                                 <input type="button" id="BtnSave" value="提交" class="btn btn-primary">
                             </div>
@@ -143,7 +152,10 @@
                             $("#link_url").val(data.data.link_url);
                             $("#release_time").val(data.data.release_time);
                             if (data.data.forced_update == true)
-                                $("#forced_update").parent().find("a").attr("class","selected")
+                                $("#forced_update").parent().find("a").attr("class","selected");
+                            if (data.data.status == "1")
+                                $("#status").parent().find("a").attr("class","selected")
+
                         }
                     }
                 })
@@ -163,6 +175,13 @@
         var id = GetQueryString("id");
         var action=GetQueryString("action");
 
+        var enableStatusCheck;
+        if($("#status").parent().find("a").attr("class")=="selected"){
+            enableStatusCheck=1;
+        }else{
+            enableStatusCheck=0;
+        }
+
         var param="?";
         if($(".Validform_wrong").length>0)
         {
@@ -177,6 +196,7 @@
         param+="&update_content="+$("#update_content").val();
         param+="&link_url="+$("#link_url").val();
         param+="&release_time="+$("#release_time").val();
+        param+="&status="+enableStatusCheck;
         $.ajax({
             type:"post",
             url:"/v1/http/appversion/create_or_edit"+param,

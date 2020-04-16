@@ -19,6 +19,10 @@ public class AppVersionInfoOutputDto extends BaseOutputDto {
     private String ctime;
     private String mtime;
 
+    private String status;
+
+
+
     public String getId() {
         return id;
     }
@@ -97,5 +101,13 @@ public class AppVersionInfoOutputDto extends BaseOutputDto {
 
     public void setReleaseTime(String releaseTime) {
         this.releaseTime = releaseTime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

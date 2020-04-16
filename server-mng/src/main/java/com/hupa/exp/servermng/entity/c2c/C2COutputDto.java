@@ -78,6 +78,9 @@ public class C2COutputDto {
 
     private String userName;
 
+
+    private BigDecimal fundAccountAvailable;
+
     public String getId() {
         return id;
     }
@@ -220,5 +223,13 @@ public class C2COutputDto {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public BigDecimal getFundAccountAvailable() {
+        return fundAccountAvailable;
+    }
+
+    public void setFundAccountAvailable(BigDecimal fundAccountAvailable) {
+        this.fundAccountAvailable = fundAccountAvailable;
     }
 }

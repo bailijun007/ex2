@@ -30,4 +30,5 @@ public interface IUserBiz {
 
     long enableById(ExpUserBizBo expUserBo) throws BizUserException, ValidateException;
 
+
 }
