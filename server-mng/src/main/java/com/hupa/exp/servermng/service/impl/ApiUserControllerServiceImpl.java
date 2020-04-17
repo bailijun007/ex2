@@ -394,7 +394,7 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
         String strName = "测试号";
         int number = 0;
         ExpUserPo userPo =  iExpUserDao.selectUser(3,"@exp.com");
-        if(userPo.getEmail()!=null){
+        if(userPo!=null && userPo.getEmail()!=null){
             try {
                 String[] array = userPo.getEmail().split("@");
                 number = Integer.parseInt(array[0]);//把字符串强制转换为数字
