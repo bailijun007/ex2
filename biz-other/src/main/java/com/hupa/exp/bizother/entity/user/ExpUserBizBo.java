@@ -35,6 +35,7 @@ public class ExpUserBizBo {
     private List<Integer> roleList;
     private Long loginTime;
     private String loginIp;
+    private String loginLocation;
     private BigDecimal makerFee;
     private BigDecimal takerFee;
 
@@ -312,5 +313,13 @@ public class ExpUserBizBo {
 
     public void setBbFeeLevel(Integer bbFeeLevel) {
         this.bbFeeLevel = bbFeeLevel;
+    }
+
+    public String getLoginLocation() {
+        return loginLocation;
+    }
+
+    public void setLoginLocation(String loginLocation) {
+        this.loginLocation = loginLocation;
     }
 }

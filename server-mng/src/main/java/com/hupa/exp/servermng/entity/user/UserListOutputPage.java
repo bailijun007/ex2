@@ -31,6 +31,7 @@ public class UserListOutputPage  {
     private String name;
     private String loginTime;
     private String loginIp;
+    private String loginLocation;
     private List<String> roleList;
     public String getId() {
         return id;
@@ -270,5 +271,13 @@ public class UserListOutputPage  {
 
     public void setBbFeeLevel(String bbFeeLevel) {
         this.bbFeeLevel = bbFeeLevel;
+    }
+
+    public String getLoginLocation() {
+        return loginLocation;
+    }
+
+    public void setLoginLocation(String loginLocation) {
+        this.loginLocation = loginLocation;
     }
 }

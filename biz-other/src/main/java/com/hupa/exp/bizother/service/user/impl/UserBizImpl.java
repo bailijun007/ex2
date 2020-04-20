@@ -63,6 +63,9 @@ public class UserBizImpl implements IUserBiz {
     @Autowired
     private IExpDicDao iExpDicDao;
 
+    @Autowired
+    private IExpLoginRecordDao iExpLoginRecordDao;
+
     @Override
     public long createUser(ExpUserBizBo expUserBo) throws BizUserException, ValidateException {
         if(expUserBo==null)
@@ -161,8 +164,15 @@ public class UserBizImpl implements IUserBiz {
         ExpUserListBizBo listBizBo = new ExpUserListBizBo();
         IPage<ExpUserPo> userPos = iExpUserDao.selectUserList(currentPage, pageSize, userType, userName,id);
         List<ExpUserBizBo> boList = new ArrayList<>();
+        ExpLoginRecordPo expLoginRecordPo = null;
         for (ExpUserPo po : userPos.getRecords()) {
             ExpUserBizBo bo = ConventObjectUtil.conventObject(po, ExpUserBizBo.class);
+            expLoginRecordPo = iExpLoginRecordDao.selectLoginRecord(po.getId());
+            if(expLoginRecordPo!=null){
+                bo.setLoginIp(expLoginRecordPo.getLoginIp());
+                bo.setLoginTime(expLoginRecordPo.getLoginTime());
+                bo.setLoginLocation(expLoginRecordPo.getLoginLocation());
+            }
             boList.add(bo);
         }
         listBizBo.setRows(boList);

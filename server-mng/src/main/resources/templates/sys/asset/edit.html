@@ -159,7 +159,7 @@
                             <label class="col-sm-3 control-label">是否生效：</label>
                             <div class="col-sm-5">
                                 <div class="rule-single-checkbox">
-                                    <input type="checkbox" checked="checked" id="ckbIsOnTop"  />
+                                    <input type="checkbox" id="ckbIsOnTop"  />
                                 </div>
                             </div>
                             <div class="Validform_checktip"></div>
@@ -329,7 +329,6 @@
     // })
 
     $("#BtnSave").click(function(){
-        var checkVal=$("#ckbIsOnTop").parent().find("a").attr("class");
         var isCheck;
         var enableFlagPcAccountCheck;
         var enableFlagBbAccountCheck;
@@ -339,6 +338,7 @@
         var action=GetQueryString("action");
         if(action!="Edit")
             id=0;
+        var checkVal=$("#ckbIsOnTop").parent().find("a").attr("class");
         if(checkVal=="selected")
             isCheck=1;
         else
@@ -382,7 +382,7 @@
         parmes+="&chain_name="+$("#chain_name").val();
         parmes+="&pre="+$("#precision").val();
         parmes+="&privilege="+$("#privilege").val();
-        parmes+="&stat="+isCheck;
+        parmes+="&status="+isCheck;
         parmes+="&sort="+$("#sort").val();
         parmes+="&withdraw_fee="+$("#withdraw_fee").val();
         parmes+="&c2c_fee="+$("#c2c_fee").val();

@@ -68,8 +68,8 @@ public class ApiAssetController {
             @RequestParam(name = "pre") BigDecimal precision,
             @ApiParam(name="privilege",value = "币的权限",required = true)
             @RequestParam(name = "privilege") Integer privilege,
-            @ApiParam(name="stat",value = "是否生效",required = true)
-            @RequestParam(name = "stat") Integer status,
+            @ApiParam(name="status",value = "是否生效",required = true)
+            @RequestParam(name = "status") Integer status,
             @ApiParam(name="sort",value = "排序",required = true)
             @RequestParam(name = "sort") Integer sort,
             @ApiParam(name="dw_type",value = "是否生效",required = true)

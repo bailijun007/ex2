@@ -204,7 +204,7 @@
                             <label class="col-sm-3 control-label">是否生效：</label>
                             <div class="col-sm-5">
                                 <div class="rule-single-checkbox">
-                                    <input type="checkbox" id="ckbIsOnTop" checked="checked" />
+                                    <input type="checkbox" id="ckbIsOnTop"/>
                                 </div>
                             </div>
                             <div class="Validform_checktip"></div>
@@ -340,9 +340,9 @@ function initData() {
                      $("#settle_price").val(data.data.settle_price);
                      $("#base_currency").val(data.data.base_currency);
                      $("#privilege").val(data.data.privilege);*/
-                    if (data.data.status == "1")
-                        $("#ckbIsOnTop").parent().find("a").attr("class", "selected")
-
+                    if (data.data.status == "1"){
+                        $("#ckbIsOnTop").parent().find("a").attr("class", "selected");
+                    }
                     if (data.data.enableCreate == "1"){
                         $("#enable_create").parent().find("a").attr("class", "selected");
                     }
@@ -430,6 +430,7 @@ function getGroupNum() {
 
         var enableCreateCheck;
         var enableCancelCheck;
+        var isCheck;
 
         if($("#enable_create").parent().find("a").attr("class")=="selected"){
             enableCreateCheck=1;
@@ -443,15 +444,16 @@ function getGroupNum() {
         }
 
         var checkVal=$("#ckbIsOnTop").parent().find("a").attr("class");
-        var isCheck;
-        var id = GetQueryString("id");
-        var action=GetQueryString("action");
-        if(action!="Edit")
-            id=0;
         if(checkVal=="selected")
             isCheck=1;
         else
             isCheck=0;
+
+        var id = GetQueryString("id");
+        var action=GetQueryString("action");
+        if(action!="Edit")
+            id=0;
+
 
         if($(".Validform_wrong").length>0)
         {
