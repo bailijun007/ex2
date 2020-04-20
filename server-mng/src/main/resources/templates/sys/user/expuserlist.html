@@ -219,8 +219,7 @@ function createAccount() {
                 columns: [
                     {
                         checkbox: true
-                    }
-                    ,
+                    },
                     {
                         title: '用户名Id',
                         field:'id'
@@ -253,7 +252,26 @@ function createAccount() {
                                 return "否";
                         }
 
-                    }, {
+                    },
+                    {
+                        title: '登入时间',
+                        //field: 'loginTime'
+                        formatter: function (value, row, index) {
+                            if(row.loginTime!=null && row.loginTime!="" && parseInt(row.loginTime)!=null){
+                                return time(parseInt(row.loginTime))
+                            }
+                            return "";
+                        }
+                    },
+                    {
+                        title: '登入IP',
+                        field: 'loginIp'
+                    },
+                    {
+                        title: '登入地点',
+                        field: 'loginLocation'
+                    },
+                    {
                         title: '操作', field: '#', align: 'center',
                         formatter: function (value, row, index) {
                             var d ="     <a href=\"javascript:addCatalogEvent('Edit','" + row.id + "')\">修改</a>";

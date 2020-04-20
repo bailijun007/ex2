@@ -666,8 +666,9 @@ public class ApiUserControllerServiceImpl implements IApiUserControllerService {
                 user.setIdType(String.valueOf(bo.getIdType()));
                 user.setSurname(bo.getSurname());
                 user.setRealName(String.valueOf(bo.getId()));
-                user.setLoginTime(String.valueOf(bo.getLoginTime()));
+                user.setLoginTime(bo.getLoginTime()==null?"":String.valueOf(bo.getLoginTime()));
                 user.setLoginIp(bo.getLoginIp());
+                user.setLoginLocation(bo.getLoginLocation());
                 pageList.add(user);
             }
         }
