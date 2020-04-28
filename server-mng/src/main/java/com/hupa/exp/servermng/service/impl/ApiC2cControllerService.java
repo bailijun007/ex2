@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -64,11 +65,9 @@ public class ApiC2cControllerService implements IApiC2cControllerService {
                             if(expUserPo!=null){
                                 c2COutputDto.setUserName(expUserPo.getPhone()==null? expUserPo.getEmail():expUserPo.getPhone());
                             }
-                            FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(expUserPo.getId(), "USDT");
-                            if(fundAccount!=null){
-                                c2COutputDto.setFundAccountAvailable(fundAccount.getAvailable());
-                            }
                         }
+                         BigDecimal volume = c2cOrderVo.getVolume();
+                        c2COutputDto.setFundAccountAvailable(volume);
                         c2COutputDto.setCreated(c2cOrderVo.getCreated());
                         c2COutputDto.setModified(c2cOrderVo.getModified());
                         c2COutputDto.setSn(c2cOrderVo.getSn());
@@ -76,7 +75,7 @@ public class ApiC2cControllerService implements IApiC2cControllerService {
                         c2COutputDto.setExchangeCurrency(c2cOrderVo.getExchangeCurrency());
                         c2COutputDto.setType(c2cOrderVo.getType());
                         c2COutputDto.setPrice(c2cOrderVo.getPrice());
-                        c2COutputDto.setVolume(c2cOrderVo.getVolume());
+                        c2COutputDto.setVolume(volume);
                         c2COutputDto.setAmount(c2cOrderVo.getAmount());
                         c2COutputDto.setPayStatus(c2cOrderVo.getPayStatus());
                         c2COutputDto.setPayStatusDesc(c2cOrderVo.getPayStatusDesc());
