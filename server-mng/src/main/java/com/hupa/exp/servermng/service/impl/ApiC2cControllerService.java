@@ -65,9 +65,14 @@ public class ApiC2cControllerService implements IApiC2cControllerService {
                             if(expUserPo!=null){
                                 c2COutputDto.setUserName(expUserPo.getPhone()==null? expUserPo.getEmail():expUserPo.getPhone());
                             }
+//                            FundAccountBizBo fundAccount = iAccountBiz.getFundAccount(expUserPo.getId(), "USDT");
+//                            if(fundAccount!=null){
+//                                 BigDecimal frozenAsset = c2cOrderVo.getFrozenAsset();
+//                                c2COutputDto.setFundAccountAvailable(fundAccount.getTotal().subtract(frozenAsset));
+//                            }
                         }
                          BigDecimal volume = c2cOrderVo.getVolume();
-                        c2COutputDto.setFundAccountAvailable(volume);
+//                        c2COutputDto.setFundAccountAvailable(volume);
                         c2COutputDto.setCreated(c2cOrderVo.getCreated());
                         c2COutputDto.setModified(c2cOrderVo.getModified());
                         c2COutputDto.setSn(c2cOrderVo.getSn());
