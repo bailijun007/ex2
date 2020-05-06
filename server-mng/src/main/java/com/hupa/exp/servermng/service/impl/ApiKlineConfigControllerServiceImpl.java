@@ -36,6 +36,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.*;
 
 @Service
@@ -291,7 +294,11 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
                     for (BbCandlePo candlePo : redisList) {
                         RepairKlineOutputDto outputDto = new RepairKlineOutputDto();
                         outputDto.setOpenTime(candlePo.getOpenTime());
-                        outputDto.setOpen(candlePo.getOpen());
+                        BigDecimal open = candlePo.getOpen();
+                        long timestamp = Long.parseLong(open + "");
+                        DateTime dateTime = new DateTime(timestamp);
+                        DateTime openTime = dateTime.minusHours(8);
+                        outputDto.setOpen(new BigDecimal(openTime.getMillis()));
                         outputDto.setHigh(candlePo.getHigh());
                         outputDto.setLow(candlePo.getLow());
                         outputDto.setClose(candlePo.getClose());
