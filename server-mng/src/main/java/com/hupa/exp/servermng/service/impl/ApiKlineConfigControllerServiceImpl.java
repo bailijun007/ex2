@@ -2,6 +2,7 @@ package com.hupa.exp.servermng.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
+import com.hupa.controller.QueryKlineDataByThirdDataController;
 import com.hupa.exp.base.config.redis.Db5RedisConfig;
 import com.hupa.exp.base.dic.expv2.PcCandleIntervalDic;
 import com.hupa.exp.base.enums.OperationModule;
@@ -70,6 +71,8 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
     @Autowired
     private Expv2MySqlConfig expv2MySqlConfig;
 
+    @Autowired
+    private QueryKlineDataByThirdDataController queryKlineDataByThirdDataController;
 
     public static final String BB_TASK_REDIS = "from_exp:bbKlineTask:";//redis的key前罪名 kline:task:from_exp:BB:  %{asset}:%{symbol}:%{freq}
 
@@ -453,8 +456,8 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
                 Set<String> lists = RedisUtil.redisClientFactory(candleRedisConfig).zRevRangeByScore(redisKey, String.valueOf(statTime), String.valueOf(endTime));
                 if (lists != null && lists.size() > 0) {
                     List<RepairKlineOutputDto> rowLists = new ArrayList<>();
-                        List<String> listRedis = new ArrayList<>(lists);
-                        for (String str : listRedis) {
+                    List<String> listRedis = new ArrayList<>(lists);
+                    for (String str : listRedis) {
                         String[] array = str.split(",");//[1577774220000,null,null,null,null,0] time,open,high,low,close.volume
                         RepairKlineOutputDto bbCandlePo = new RepairKlineOutputDto();
                         bbCandlePo.setOpenTime(Long.parseLong(array[0].substring(1)));
@@ -501,8 +504,6 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
     }
 
 
-
-
     /**
      * 重置某个时间段K线数据
      *
@@ -520,7 +521,7 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
             String interval = inputDto.getKlineInterval();
             long statTime = inputDto.getStatTime();
             long endTime = inputDto.getEndTime() == null ? System.currentTimeMillis() : inputDto.getEndTime();//结束时间
-            if (asset != null && symbol != null && interval!=null) {
+            if (asset != null && symbol != null && interval != null) {
                 String dataRedisKey = null;
                 if (inputDto.getKlineType() == 0) {
                     dataRedisKey = "bb:kline:updateEvent:" + inputDto.getAsset() + ":" + inputDto.getSymbol() + ":" + interval;
@@ -546,6 +547,32 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
                     outputDto.setBn(true);
                     outputDto.setMsg("操作成功");
                 }
+            } else {
+                outputDto.setBn(false);
+                outputDto.setMsg("重置参数有错");
+            }
+        } catch (Exception e) {
+            logger.error("getResetKline Exception" + e.getMessage(), e);
+        }
+        outputDto.setTime(String.valueOf(System.currentTimeMillis()));
+        return outputDto;
+    }
+
+    @Override
+    public KlineConfigOutputDto repairKlineByThirdData(KlineConfigInputDto inputDto) throws BizException {
+        KlineConfigOutputDto outputDto = new KlineConfigOutputDto();
+        outputDto.setBn(false);
+        try {
+            String tableName = inputDto.getTableName();
+            Integer klineType = inputDto.getKlineType();
+            String symbol = inputDto.getSymbol();//交易对
+            String klineInterval = inputDto.getKlineInterval();
+            Long statTime = inputDto.getStatTime();
+            Long endTime = inputDto.getEndTime() == null ? System.currentTimeMillis() : inputDto.getEndTime();//结束时间
+            if (tableName != null && symbol != null && statTime != null && endTime != null) {
+                queryKlineDataByThirdDataController.queryKlineDataByThirdData(tableName, klineType, symbol, klineInterval, statTime, endTime);
+                outputDto.setBn(true);
+                outputDto.setMsg("操作成功");
             } else {
                 outputDto.setBn(false);
                 outputDto.setMsg("重置参数有错");

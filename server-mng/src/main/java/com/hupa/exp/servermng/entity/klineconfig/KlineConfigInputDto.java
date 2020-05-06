@@ -16,6 +16,7 @@ public class KlineConfigInputDto extends BaseInputDto {
     private Integer type;
     private List<RepairKlineOutputDto> rows;
     private String expName;
+    private String tableName;
 
     public Long getEndTime() {
         return endTime;
@@ -39,6 +40,14 @@ public class KlineConfigInputDto extends BaseInputDto {
 
     public void setStatTime(Long statTime) {
         this.statTime = statTime;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 
     public long getId() {

@@ -1,5 +1,6 @@
 package com.hupa.exp.servermng.action.controller.api;
 
+import com.hupa.controller.QueryKlineDataByThirdDataController;
 import com.hupa.exp.common.entity.dto.BaseResultViaApiDto;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
@@ -8,6 +9,7 @@ import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.klineconfig.*;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiKlineConfigControllerService;
+import com.hupa.pojo.KlineDataPo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -21,6 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Api(tags = {"apiKlineConfigController"})
 @RestController
 @RequestMapping(path = "/v1/http/klineconfig",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -29,6 +33,7 @@ public class ApiKlineConfigController {
 
     @Autowired
     IApiKlineConfigControllerService service;
+
 
     @Autowired
     private SessionHelper sessionHelper;
@@ -209,6 +214,43 @@ public class ApiKlineConfigController {
         return  BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
     }
 
+
+    @ApiOperation(value = "通过第三方数据修复k线")
+    @GetMapping(path = "/repairKlineByThirdData")
+    public BaseResultViaApiDto<KlineConfigInputDto,KlineConfigOutputDto> repairKlineByThirdData(@ApiParam(name="asset",value = "资产",required = true)
+                                                                                        @RequestParam(name = "asset") String asset,
+                                                                                        @ApiParam(name="symbol",value = "交易对名称",required = true)
+                                                                                        @RequestParam(name = "symbol") String symbol,
+                                                                                        @ApiParam(name="stat_time",value = "开始时间",required = true)
+                                                                                        @RequestParam(name = "stat_time") String statTime,
+                                                                                        @ApiParam(name="end_time",value = "开始时间",required = true)
+                                                                                        @RequestParam(name = "end_time") String endTime,
+                                                                                        @ApiParam(name="kline_type",value = "类别",required = true)
+                                                                                        @RequestParam(name = "kline_type") Integer klineType
+    ) {
+        KlineConfigInputDto inputDto=new KlineConfigInputDto();
+        inputDto.setAsset(asset);
+        inputDto.setSymbol(symbol);
+        inputDto.setKlineType(klineType);
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm");
+         Long openTimeBegin = DateTime.parse(statTime, formatter).getMillis();
+        inputDto.setStatTime(openTimeBegin);
+        Long openTimeEnd = DateTime.parse(endTime, formatter).getMillis();
+        inputDto.setEndTime(openTimeEnd);
+         String[] split = statTime.split("-");
+        //tableName = kline_data_202005
+        String tableName="kline_data_"+split[0]+split[1];
+        inputDto.setTableName(tableName);
+        String interval = "1min";
+        inputDto.setKlineInterval(interval);
+        KlineConfigOutputDto outputDto=new KlineConfigOutputDto();
+        try {
+            outputDto = service.repairKlineByThirdData(inputDto);
+        } catch (BizException e) {
+            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
+        }
+        return  BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
+    }
 
     @ApiOperation(value = "撤销某一段时间的K线数据")
     @GetMapping(path = "/getRevokeKline")

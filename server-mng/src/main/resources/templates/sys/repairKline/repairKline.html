@@ -60,6 +60,7 @@
                                             <!--<a class="btn btn-outline btn-default" href="javascript:thirdDataEvent()"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>用第三方数据覆盖K线</a>&nbsp;&nbsp;-->
                                               <!--<a class="btn btn-outline btn-default" href="javascript:thirdDataIntervalEvent()"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>按分钟修补第三方历史K线</a>-->
                                               <a class="btn btn-outline btn-default" href="javascript:repairEvent()"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>通过本平台成交记录计算K线</a>
+                                            <a class="btn btn-outline btn-default" href="javascript:repairByThirdDataEvent()"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>通过第三方平台成修正K线</a>
                                         </div>
                                     </div>
                                 </div>
@@ -421,6 +422,37 @@ var repairEvent = function () {
     });
 }
 
+
+/**
+ * 通过第三方平台成修正K线
+ * @param id
+ */
+var repairByThirdDataEvent = function () {
+    if($("#stat_time").val()==null || $("#end_time").val()==null){
+        layer.msg("没有设置时间,不能修补");
+        return;
+    }
+    var param="?";
+    param+= "&asset="+$("#asset").val();
+    param+= "&symbol="+$("#symbol").val();
+    param+= "&stat_time="+$("#stat_time").val();
+    param+= "&end_time="+$("#end_time").val();
+    param+= "&kline_type="+$("#kline_type").val();
+    $.ajax({
+        type: "get",
+        url: "/v1/http/klineconfig/repairKlineByThirdData" + param,
+        contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+        async: false,
+        success: function (data) {
+            if(data.data.bn) {
+                layer.msg("操作成功！");
+            }else{
+                layer.msg("操作失败！");
+            }
+            setTimeout("Close()", 1000);
+        }
+    });
+}
 
 
 

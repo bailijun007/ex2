@@ -71,4 +71,11 @@ public interface IApiKlineConfigControllerService {
     KlineConfigOutputDto getResetKline(KlineConfigInputDto inputDto) throws BizException;
 
 
+    /**
+     * 通过第三方平台数据修复本平台k线数据
+     * @param inputDto
+     * @return
+     * @throws BizException
+     */
+    KlineConfigOutputDto repairKlineByThirdData(KlineConfigInputDto inputDto) throws BizException;
 }
