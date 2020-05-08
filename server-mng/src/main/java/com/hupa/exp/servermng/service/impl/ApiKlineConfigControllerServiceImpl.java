@@ -2,7 +2,7 @@ package com.hupa.exp.servermng.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
-import com.hupa.controller.QueryKlineDataByThirdDataController;
+import com.hp.sh.expv3.bb.extension.api.QueryKlineDataByThirdDataApi;
 import com.hupa.exp.base.config.redis.Db5RedisConfig;
 import com.hupa.exp.base.dic.expv2.PcCandleIntervalDic;
 import com.hupa.exp.base.enums.OperationModule;
@@ -72,7 +72,7 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
     private Expv2MySqlConfig expv2MySqlConfig;
 
     @Autowired
-    private QueryKlineDataByThirdDataController queryKlineDataByThirdDataController;
+    private QueryKlineDataByThirdDataApi queryKlineDataByThirdDataController;
 
     public static final String BB_TASK_REDIS = "from_exp:bbKlineTask:";//redis的key前罪名 kline:task:from_exp:BB:  %{asset}:%{symbol}:%{freq}
 
@@ -565,12 +565,20 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
         try {
             String tableName = inputDto.getTableName();
             Integer klineType = inputDto.getKlineType();
+            String asset = inputDto.getAsset();
             String symbol = inputDto.getSymbol();//交易对
             String klineInterval = inputDto.getKlineInterval();
             Long statTime = inputDto.getStatTime();
             Long endTime = inputDto.getEndTime() == null ? System.currentTimeMillis() : inputDto.getEndTime();//结束时间
             if (tableName != null && symbol != null && statTime != null && endTime != null) {
-                queryKlineDataByThirdDataController.queryKlineDataByThirdData(tableName, klineType, symbol, klineInterval, statTime, endTime);
+                //klineType前段参数 0:币币,1:合约，后端：1币币，2：合约，这里需要做转化
+                Integer type = null;
+                if (klineType == 0) {
+                    type = 1;
+                }else if(klineType == 1){
+                    type = 2;
+                }
+                queryKlineDataByThirdDataController.queryKlineDataByThirdData(tableName, type, asset, symbol, klineInterval, statTime, endTime);
                 outputDto.setBn(true);
                 outputDto.setMsg("操作成功");
             } else {

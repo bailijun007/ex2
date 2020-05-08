@@ -1,6 +1,5 @@
 package com.hupa.exp.servermng.action.controller.api;
 
-import com.hupa.controller.QueryKlineDataByThirdDataController;
 import com.hupa.exp.common.entity.dto.BaseResultViaApiDto;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
@@ -9,7 +8,6 @@ import com.hupa.exp.servermng.entity.base.DeleteOutputDto;
 import com.hupa.exp.servermng.entity.klineconfig.*;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiKlineConfigControllerService;
-import com.hupa.pojo.KlineDataPo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
