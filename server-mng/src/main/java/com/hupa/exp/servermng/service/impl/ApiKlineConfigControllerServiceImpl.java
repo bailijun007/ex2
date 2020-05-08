@@ -573,7 +573,8 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
             String tableName = inputDto.getTableName();
             Integer klineType = inputDto.getKlineType();
             String asset = inputDto.getAsset();
-            String symbol = inputDto.getSymbol();//交易对
+            //交易对
+            String symbol = inputDto.getSymbol();
             String klineInterval = inputDto.getKlineInterval();
             Long statTime = inputDto.getStatTime();
             Long endTime = inputDto.getEndTime() == null ? System.currentTimeMillis() : inputDto.getEndTime();//结束时间
@@ -582,7 +583,7 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
                 Integer type = null;
                 if (klineType == 0) {
                     type = 1;
-                }else if(klineType == 1){
+                } else if (klineType == 1) {
                     type = 2;
                 }
                 queryKlineDataByThirdDataController.queryKlineDataByThirdData(tableName, type, asset, symbol, klineInterval, statTime, endTime);
