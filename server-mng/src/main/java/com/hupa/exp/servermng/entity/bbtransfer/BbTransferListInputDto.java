@@ -11,9 +11,27 @@ public class BbTransferListInputDto extends BaseInputDto {
     private Long accountId;
     private Long transferTime;
     private Long transferId;
+    private String statrTime;
+    private String endTime;
     private long currentPage;
     private int pageSize;
     private Integer pageStatus;
+
+    public String getStatrTime() {
+        return statrTime;
+    }
+
+    public void setStatrTime(String statrTime) {
+        this.statrTime = statrTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
 
     public String getAsset() {
         return asset;

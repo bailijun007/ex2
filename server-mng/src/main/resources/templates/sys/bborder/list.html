@@ -36,6 +36,14 @@
                         <label class="sr-only">用户Id</label>
                         <input type="text" placeholder="请输入用户Id" id="accountId" class="form-control">
                     </div>
+                    <div class="form-group" style="width: 15%; float: left;">
+                        <label class="sr-only">开始时间</label>
+                        <input type="text" placeholder="请输入开始时间" id="start_time" class="form-control layer-date">
+                    </div>
+                    <div class="form-group" style="width: 15%; float: left;">
+                        <label class="sr-only">结束时间</label>
+                        <input type="text" placeholder="请输入结束时间" id="end_time" class="form-control layer-date">
+                    </div>
                     <div class="input-group">
                         <span class="input-group-btn"><button type="button" class="btn btn-primary" id="btn_query">搜索</button></span>
                     </div>
@@ -92,6 +100,24 @@
 
         //4、获取交易对
         bindAssetSymbol("symbol", $("#asset").val(), false);
+
+        //时间选择器
+        laydate.render({
+            elem: '#start_time',
+            type: 'date',
+            fullPanel: true,
+            format: 'yyyy-MM-dd HH:mm',//yyyy-MM-dd HH:mm:ss
+            value:new Date()
+        });
+
+        //时间选择器
+        laydate.render({
+            elem: '#end_time',
+            type: 'date',
+            fullPanel: true,
+            format: 'yyyy-MM-dd HH:mm',//yyyy-MM-dd HH:mm:ss
+            value:new Date()
+        });
 
         //搜索事件
         $("#btn_query").click(function () {
@@ -261,7 +287,9 @@
                 symbol:$("#symbol").val(),
                 //order_id:$("#orderId").val(),
                 account_id:$("#accountId").val(),
-                account:$("#account").val()
+                account:$("#account").val(),
+                start_time:$("#start_time").val(),
+                end_time:$("#end_time").val()
                 //status:$("#status").val(),
                 //close_flag:$("#closeFlag").val(),
                 //price:null
