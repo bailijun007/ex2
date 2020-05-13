@@ -6,11 +6,14 @@ import com.hupa.exp.common.tool.converter.BaseResultViaApiUtil;
 import com.hupa.exp.servermng.entity.robotmarketrootconfig.RobotMarketRootConfigInputDto;
 import com.hupa.exp.servermng.entity.robotmarketrootconfig.RobotMarketRootConfigListOutputDto;
 import com.hupa.exp.servermng.entity.robotmarketrootconfig.RobotMarketRootConfigOutputDto;
+import com.hupa.exp.servermng.enums.MngExceptionCode;
+import com.hupa.exp.servermng.exception.MngException;
 import com.hupa.exp.servermng.service.def.IApiRobotMarketRootConfigControllerService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -27,10 +30,6 @@ public class ApiRobotMarketRootConfigController {
 
     @GetMapping("/query_list")
     public BaseResultViaApiDto<RobotMarketRootConfigInputDto, RobotMarketRootConfigListOutputDto> pageQuery(
-//            @ApiParam(name="asset",value = "币种",required = false)
-//            @RequestParam(name = "asset") String asset,
-//            @ApiParam(name="symbol",value = "交易对",required = false)
-//            @RequestParam(name = "symbol") String symbol,
             @ApiParam(name = "exp_area_type", value = "类型：1.pc,2.bb", required = false)
             @RequestParam(name = "exp_area_type") Integer expAreaType,
             @ApiParam(name = "page_size", value = "条数", required = true)
@@ -77,6 +76,9 @@ public class ApiRobotMarketRootConfigController {
         inputDto.setQueryOrderUrl(queryOrderUrl);
         RobotMarketRootConfigOutputDto outputDto=new RobotMarketRootConfigOutputDto();
         try {
+            if(StringUtils.isEmpty(createOrderUrl)||StringUtils.isEmpty(cancelOrderUrl)||StringUtils.isEmpty(queryOrderUrl)){
+                throw new MngException(MngExceptionCode.THE_PARAMETER_CANNOT_BE_NULL);
+            }
             if(inputDto.getId()>0){
                 outputDto= service.edit(inputDto);
             } else{

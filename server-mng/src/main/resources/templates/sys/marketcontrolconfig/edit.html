@@ -31,13 +31,23 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
                         <input type="hidden" id="id" value="0">
-                        <!--<div class="form-group">-->
-                            <!--<label class="col-sm-3 control-label">币的符号：</label>-->
-                            <!--<div class="col-sm-6">-->
-                                <!--<input  class="form-control" type="text" id="symbol">-->
-                            <!--</div>-->
-                            <!--<div class="Validform_checktip"></div>-->
-                        <!--</div>-->
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">资产：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="asset" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">交易对：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="symbol" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
                         <div class="form-group">
                             <label class="col-sm-3 control-label">类型：</label>
                             <div class="col-sm-6">
@@ -50,29 +60,80 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">创建订单url：</label>
+                            <label class="col-sm-3 control-label">控制：</label>
                             <div class="col-sm-6">
-                                <input class="form-control" id="create_order_url" type="text">
+                                <select id="control_enable" class="form-control">
+                                    <option value="1">开启</option>>
+                                    <option value="2">关闭</option>>
+                                </select>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">最小价格间隔距离：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="min_space" type="text">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">取消订单url：</label>
+                            <label class="col-sm-3 control-label">最大价格间隔距离：</label>
                             <div class="col-sm-6">
-                                <input class="form-control" id="cancel_order_url" type="text">
+                                <input class="form-control" id="max_space" type="text">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">查询订单url：</label>
+                            <label class="col-sm-3 control-label">最小价格摆动：</label>
                             <div class="col-sm-6">
-                                <input class="form-control" id="query_order_url" type="text">
+                                <input class="form-control" id="min_swing" type="text">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">最大价格摆动：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="max_swing" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">最小下单量：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="min_order_number" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">最大下单量：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="max_order_number" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">行情控制最小频率：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="min_frequency" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">行情控制最大频率：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="max_frequency" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
 
 
                         <div class="form-group">
@@ -109,18 +170,13 @@
 <script type="text/javascript">
     $(function () {
         function initData() {
-            // bindDrop("DwType","dw_type",false)
-            //document.getElementById("dw_type").options.remove(0);
             var id = GetQueryString("id");
             var action=GetQueryString("action");
             if (id != ""&&action=="Edit")//id不为空则需要绑定值
             {
-                // $("#real_name").attr("readonly","readonly");
-                //$("#chain_appoint_id").attr("readonly","readonly");
-                //$("#icon").attr("readonly","readonly");
                 $.ajax({
                     type: "get",
-                    url: "/v1/http/marketControl/query?id=" + id,
+                    url: "/v1/http/market_control_config/query?id=" + id,
                     contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
                     async: false,
                     //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
@@ -128,12 +184,19 @@
                     success: function (data) {
                         //console.log(data);
                         if (data.data != null) {
-                            $("#id").val(data.data.id);
-                            $("#type").val(data.data.type);
-                            $("#create_order_url").val(data.data.createOrderUrl);
-                            $("#cancel_order_url").val(data.data.cancelOrderUrl);
-                            $("#query_order_url").val(data.data.queryOrderUrl)
-                            // $("#dw_type").val(data.data.dwType)
+                            $("#id").val(data.data.id)
+                            $("#type").val(data.data.expAreaType);
+                            $("#asset").val(data.data.asset);
+                            $("#symbol").val(data.data.symbol);
+                            $("#control_enable").val(data.data.controlEnable);
+                            $("#min_space").val(data.data.minSpace);
+                            $("#max_space").val(data.data.maxSpace);
+                            $("#min_swing").val(data.data.minSwing);
+                            $("#max_swing").val(data.data.maxSwing);
+                            $("#min_order_number").val(data.data.minOrderNumber);
+                            $("#max_order_number").val(data.data.maxOrderNumber);
+                            $("#min_frequency").val(data.data.minFrequency);
+                            $("#max_frequency").val(data.data.maxFrequency);
                         }
                     }
                 })
@@ -179,13 +242,21 @@
 
         var parmes="?";
         parmes+= "id="+id;
+        parmes+= "&asset="+$("#asset").val();
+        parmes+= "&symbol="+$("#symbol").val();
         parmes+="&expAreaType="+$("#type").val();
-        parmes+="&createOrderUrl="+$("#create_order_url").val();
-        parmes+="&cancelOrderUrl="+$("#cancel_order_url").val();
-        parmes+="&queryOrderUrl="+$("#query_order_url").val();
+        parmes+="&controlEnable="+$("#control_enable").val();
+        parmes+="&minSpace="+$("#min_space").val();
+        parmes+="&maxSpace="+$("#max_space").val();
+        parmes+="&minSwing="+$("#min_swing").val();
+        parmes+="&maxSwing="+$("#max_swing").val();
+        parmes+="&minOrderNumber="+$("#min_order_number").val();
+        parmes+="&maxOrderNumber="+$("#max_order_number").val();
+        parmes+="&minFrequency="+$("#min_frequency").val();
+        parmes+="&maxFrequency="+$("#max_frequency").val();
         $.ajax({
             type:"post",
-            url:"/v1/http/marketControl/create_or_edit"+parmes,
+            url:"/v1/http/market_control_config/create_or_edit"+parmes,
             contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
             success:function(data) {
                 debugger

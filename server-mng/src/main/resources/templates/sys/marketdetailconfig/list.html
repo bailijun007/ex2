@@ -18,14 +18,14 @@
         <div class="ibox-content">
             <div class="row row-lg">
                 <div class="col-sm-11">
-                    <!--<div class="form-group" style="width: 15%; float: left;">-->
-                        <!--<label class="sr-only">资产</label>-->
-                        <!--<input type="text" placeholder="请输入资产" id="asset" class="form-control">-->
-                    <!--</div>-->
-                    <!--<div class="form-group" style="width: 15%; float: left;">-->
-                        <!--<label class="sr-only">交易对</label>-->
-                        <!--<input type="text" placeholder="请输入交易对" id="symbol" class="form-control">-->
-                    <!--</div>-->
+                    <div class="form-group" style="width: 15%; float: left;">
+                        <label class="sr-only">资产</label>
+                        <input type="text" placeholder="请输入资产" id="asset" class="form-control">
+                    </div>
+                    <div class="form-group" style="width: 15%; float: left;">
+                        <label class="sr-only">交易对</label>
+                        <input type="text" placeholder="请输入交易对" id="symbol" class="form-control">
+                    </div>
                     <div class="form-group" style="width: 15%; float: left;">
                         <label class="sr-only">类型</label>
                         <select id="exp_area_type" class="form-control">
@@ -99,7 +99,7 @@
 
     var addCatalogEvent = function (action,id) {
         var text = "新增"
-        url = "/sys/marketcontrol/edit.html?id="+id+"&action="+action+"";
+        url = "/sys/marketdetailconfig/edit.html?id="+id+"&action="+action+"";
 
         parent.layer.open({
             type: 2,
@@ -127,7 +127,7 @@
         //初始化Table
         oTableInit.Init = function () {
                     $('#tb_departments').bootstrapTable({
-                         url: '/v1/http/marketControl/query_list',//+param,         //请求后台的URL（*）
+                         url: '/v1/http/market_detail_config/query_list',//+param,         //请求后台的URL（*）
                          method: 'get',                      //请求方式（*）
                         //toolbar: '#toolbar',                //工具按钮用哪个容器
                         //striped: true,                      //是否显示行间隔色
@@ -165,22 +165,59 @@
                                 title: '类型',//（1.pc 2.bb）
                                 formatter: function (value, row, index) {
                                     if (row.expAreaType == 1)
-                                        return "pc";
+                                        return "合约";
                                     else
-                                        return "bb";
+                                        return "币币";
                                 }
                             },
+
                             {
-                                title: '创建订单url',
-                                field: 'createOrderUrl'
+                                title: '买入做市用户id',
+                                field: 'bidUserId'
                             },
                             {
-                                title: '取消订单url',
-                                field: 'cancelOrderUrl'
+                                title: '卖出做市用户id',
+                                field: 'askUserId'
                             },
                             {
-                                title: '查询订单url',
-                                field: 'queryOrderUrl'
+                                title: '资产',
+                                field: 'asset'
+                            },
+                            {
+                                title: '交易对',
+                                field: 'symbol'
+                            },
+                            {
+                                title: '是否启动',
+                                field: 'marketEnable'
+                            },
+                            {
+                                title: '最小的下单的委托量',
+                                field: 'minOrderNumber'
+                            },
+                            {
+                                title: '最大的下单的委托量',
+                                field: 'maxOrderNumber'
+                            },
+                            {
+                                title: '最大深度数',
+                                field: 'maxOrderBookSize'
+                            },
+                            {
+                                title: 'order_book_bid_number',
+                                field: 'orderBookBidNumber'
+                            },
+                            {
+                                title: 'order_book_ask_number',
+                                field: 'orderBookAskNumber'
+                            },
+                            {
+                                title: '做市最小频率',
+                                field: 'minFrequency'
+                            },
+                            {
+                                title: '做市最大频率',
+                                field: 'maxFrequency'
                             },
                             {
                                 title: '创建时间',
@@ -218,9 +255,9 @@
             var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                 page_size: params.limit,   //页面大小
                 page_no: params.offset==0?1:(params.offset/params.limit)+1,  //页码
-                exp_area_type: $("#exp_area_type").val()
-                // asset:$("#asset").val(),
-                // symbol:$("#symbol").val()
+                exp_area_type: $("#exp_area_type").val(),
+                 asset:$("#asset").val(),
+                 symbol:$("#symbol").val()
                 //action: "GetBakModuleList"
 
             };

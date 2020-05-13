@@ -31,13 +31,21 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
                         <input type="hidden" id="id" value="0">
-                        <!--<div class="form-group">-->
-                            <!--<label class="col-sm-3 control-label">币的符号：</label>-->
-                            <!--<div class="col-sm-6">-->
-                                <!--<input  class="form-control" type="text" id="symbol">-->
-                            <!--</div>-->
-                            <!--<div class="Validform_checktip"></div>-->
-                        <!--</div>-->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">资产：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="asset" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">交易对：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="symbol" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">类型：</label>
                             <div class="col-sm-6">
@@ -50,30 +58,87 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">创建订单url：</label>
+                            <label class="col-sm-3 control-label">买入做市用户id：</label>
                             <div class="col-sm-6">
-                                <input class="form-control" id="create_order_url" type="text">
+                                <input class="form-control" id="bid_user_id" type="text">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">取消订单url：</label>
+                            <label class="col-sm-3 control-label">卖出做市用户id：</label>
                             <div class="col-sm-6">
-                                <input class="form-control" id="cancel_order_url" type="text">
+                                <input class="form-control" id="ask_user_id" type="text">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">查询订单url：</label>
+                            <label class="col-sm-3 control-label">是否启动：</label>
                             <div class="col-sm-6">
-                                <input class="form-control" id="query_order_url" type="text">
+                                <select id="market_enable" class="form-control">
+                                    <option value="1">启动</option>>
+                                    <option value="0">不启动</option>>
+                                </select>
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">最小的下单的委托量：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="min_order_number" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
 
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">最大的下单的委托量：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="max_order_number" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">最大深度数：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="max_order_book_size" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">order_book_bid_number：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="order_book_bid_number" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">order_book_ask_number：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="order_book_ask_number" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">做市最小频率：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="min_frequency" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">做市最大频率：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="max_frequency" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
 
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-3">
@@ -120,7 +185,7 @@
                 //$("#icon").attr("readonly","readonly");
                 $.ajax({
                     type: "get",
-                    url: "/v1/http/marketControl/query?id=" + id,
+                    url: "/v1/http/market_detail_config/query?id=" + id,
                     contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
                     async: false,
                     //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
@@ -129,10 +194,19 @@
                         //console.log(data);
                         if (data.data != null) {
                             $("#id").val(data.data.id);
-                            $("#type").val(data.data.type);
-                            $("#create_order_url").val(data.data.createOrderUrl);
-                            $("#cancel_order_url").val(data.data.cancelOrderUrl);
-                            $("#query_order_url").val(data.data.queryOrderUrl)
+                            $("#type").val(data.data.expAreaType);
+                            $("#asset").val(data.data.asset);
+                            $("#symbol").val(data.data.symbol);
+                            $("#bid_user_id").val(data.data.bidUserId);
+                            $("#ask_user_id").val(data.data.askUserId);
+                            $("#market_enable").val(data.data.marketEnable);
+                            $("#min_order_number").val(data.data.minOrderNumber);
+                            $("#max_order_number").val(data.data.maxOrderNumber);
+                            $("#max_order_book_size").val(data.data.maxOrderBookSize);
+                            $("#order_book_bid_number").val(data.data.orderBookBidNumber);
+                            $("#order_book_ask_number").val(data.data.orderBookAskNumber);
+                            $("#min_frequency").val(data.data.minFrequency);
+                            $("#max_frequency").val(data.data.maxFrequency);
                             // $("#dw_type").val(data.data.dwType)
                         }
                     }
@@ -180,12 +254,23 @@
         var parmes="?";
         parmes+= "id="+id;
         parmes+="&expAreaType="+$("#type").val();
-        parmes+="&createOrderUrl="+$("#create_order_url").val();
-        parmes+="&cancelOrderUrl="+$("#cancel_order_url").val();
-        parmes+="&queryOrderUrl="+$("#query_order_url").val();
+        parmes+= "&asset="+$("#asset").val();
+        parmes+= "&symbol="+$("#symbol").val();
+        parmes+= "&bidUserId="+$("#bid_user_id").val();
+        parmes+= "&askUserId="+$("#ask_user_id").val();
+        parmes+= "&expAreaType="+$("#exp_area_type").val();
+        parmes+= "&marketEnable="+$("#market_enable").val();
+        parmes+= "&minOrderNumber="+$("#min_order_number").val();
+        parmes+= "&maxOrderNumber="+$("#max_order_number").val();
+        parmes+= "&maxOrderBookSize="+$("#max_order_book_size").val();
+        parmes+= "&orderBookBidNumber="+$("#order_book_bid_number").val();
+        parmes+= "&orderBookAskNumber="+$("#order_book_ask_number").val();
+        parmes+= "&minFrequency="+$("#min_frequency").val();
+        parmes+= "&maxFrequency="+$("#max_frequency").val();
+
         $.ajax({
             type:"post",
-            url:"/v1/http/marketControl/create_or_edit"+parmes,
+            url:"/v1/http/market_detail_config/create_or_edit"+parmes,
             contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
             success:function(data) {
                 debugger
