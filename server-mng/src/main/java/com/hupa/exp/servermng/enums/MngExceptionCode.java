@@ -15,6 +15,7 @@ public enum MngExceptionCode implements ExceptionDescribe {
     TABLE_NOT_EXIST_ERROR(-90010,"TABLE_NOT_EXIST_ERROR",""),
     CONSTANT_EXIST_ERROR(-90011,"CONSTANT_EXIST_ERROR",""),
     OPERATION_DATABASE_ERROR(-90012,"CONSTANT_OPE_DATABASE_ERROR","操作数据库错误"),
+    DATA_EXIST_ERROR(-90013,"DATA_EXIST_ERROR",""),
     ;
     private int code;
     private String constant;
