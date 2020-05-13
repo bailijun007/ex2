@@ -64,7 +64,7 @@ public class ApiRobotMarketDetailConfigControllerServiceImpl implements IApiRobo
                 }
                 ExpUserPo expUserPo2 = iExpUserMapper.selectById(bo.getBidUserId());
                 if(null!=expUserPo2){
-                    bo.setBidUserName(expUserPo.getPhone());
+                    bo.setBidUserName(expUserPo2.getPhone());
                 }
                 boList.add(bo);
             }
