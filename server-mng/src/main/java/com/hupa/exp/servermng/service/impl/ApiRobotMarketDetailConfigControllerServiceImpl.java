@@ -8,6 +8,8 @@ import com.hupa.exp.bizother.service.operationlog.def.IExpOperationLogService;
 import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.JsonUtil;
 import com.hupa.exp.daomysql.dao.expv2.def.IRobotMarketDetailConfigDao;
+import com.hupa.exp.daomysql.dao.expv2.mapper.IExpUserMapper;
+import com.hupa.exp.daomysql.entity.po.expv2.ExpUserPo;
 import com.hupa.exp.daomysql.entity.po.expv2.RobotMarketDetailConfigPo;
 import com.hupa.exp.servermng.entity.robotmarketdetailconfig.RobotMarketDetailConfigInfo;
 import com.hupa.exp.servermng.entity.robotmarketdetailconfig.RobotMarketDetailConfigInputDto;
@@ -43,6 +45,9 @@ public class ApiRobotMarketDetailConfigControllerServiceImpl implements IApiRobo
     @Autowired
     private SessionHelper sessionHelper;
 
+    @Autowired
+    private IExpUserMapper iExpUserMapper;
+
     @Override
     public RobotMarketDetailConfigListOutputDto pageQuery(RobotMarketDetailConfigInputDto inputDto) throws BizException {
         RobotMarketDetailConfigListOutputDto outputDto = new RobotMarketDetailConfigListOutputDto();
@@ -53,6 +58,14 @@ public class ApiRobotMarketDetailConfigControllerServiceImpl implements IApiRobo
 
             for (RobotMarketDetailConfigPo po : list.getRecords()) {
                 RobotMarketDetailConfigInfo bo = ConventObjectUtil.conventObject(po, RobotMarketDetailConfigInfo.class);
+                 ExpUserPo expUserPo = iExpUserMapper.selectById(bo.getAskUserId());
+                if(null!=expUserPo){
+                    bo.setAskUserName(expUserPo.getPhone());
+                }
+                ExpUserPo expUserPo2 = iExpUserMapper.selectById(bo.getBidUserId());
+                if(null!=expUserPo2){
+                    bo.setBidUserName(expUserPo.getPhone());
+                }
                 boList.add(bo);
             }
             outputDto.setRows(boList);

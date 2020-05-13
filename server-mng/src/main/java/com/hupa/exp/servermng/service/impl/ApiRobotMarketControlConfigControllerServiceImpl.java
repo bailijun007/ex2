@@ -9,6 +9,7 @@ import com.hupa.exp.common.exception.BizException;
 import com.hupa.exp.common.tool.format.JsonUtil;
 import com.hupa.exp.daomysql.dao.expv2.def.IRobotMarketControlConfigDao;
 import com.hupa.exp.daomysql.dao.expv2.def.IRobotMarketRootConfigDao;
+import com.hupa.exp.daomysql.dao.expv2.mapper.IExpUserMapper;
 import com.hupa.exp.daomysql.entity.po.expv2.RobotMarketControlConfigPo;
 import com.hupa.exp.daomysql.entity.po.expv2.RobotMarketRootConfigPo;
 import com.hupa.exp.servermng.entity.robotmarketcontrolconfig.RobotMarketControlConfigInfo;
@@ -41,6 +42,9 @@ public class ApiRobotMarketControlConfigControllerServiceImpl implements IApiRob
 
     @Autowired
     private IExpOperationLogService logService;
+
+    @Autowired
+    private IExpUserMapper iExpUserMapper;
 
     @Autowired
     private SessionHelper sessionHelper;

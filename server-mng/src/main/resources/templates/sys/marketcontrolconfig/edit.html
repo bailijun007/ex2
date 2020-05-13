@@ -52,6 +52,7 @@
                             <label class="col-sm-3 control-label">类型：</label>
                             <div class="col-sm-6">
                                 <select id="type" class="form-control">
+                                    <option value="0" selected="selected">全部</option>
                                     <option value="1">合约</option>>
                                     <option value="2">币币</option>>
                                 </select>
@@ -64,7 +65,7 @@
                             <div class="col-sm-6">
                                 <select id="control_enable" class="form-control">
                                     <option value="1">开启</option>>
-                                    <option value="2">关闭</option>>
+                                    <option value="0">关闭</option>>
                                 </select>
                             </div>
                             <div class="Validform_checktip"></div>
@@ -120,7 +121,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">行情控制最小频率：</label>
+                            <label class="col-sm-3 control-label">行情控制最小频率（毫秒）：</label>
                             <div class="col-sm-6">
                                 <input class="form-control" id="min_frequency" type="text">
                             </div>
@@ -128,13 +129,28 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">行情控制最大频率：</label>
+                            <label class="col-sm-3 control-label">行情控制最大频率（毫秒）：</label>
                             <div class="col-sm-6">
                                 <input class="form-control" id="max_frequency" type="text">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">关闭控制时,回到默认行情的最小幅度：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="min_back" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">关闭控制时,回到默认行情的最大幅度：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="max_back" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
 
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-3">
@@ -197,6 +213,8 @@
                             $("#max_order_number").val(data.data.maxOrderNumber);
                             $("#min_frequency").val(data.data.minFrequency);
                             $("#max_frequency").val(data.data.maxFrequency);
+                            $("#min_back").val(data.data.minBack);
+                            $("#max_back").val(data.data.maxBack);
                         }
                     }
                 })
@@ -254,6 +272,8 @@
         parmes+="&maxOrderNumber="+$("#max_order_number").val();
         parmes+="&minFrequency="+$("#min_frequency").val();
         parmes+="&maxFrequency="+$("#max_frequency").val();
+        parmes+="&minBack="+$("#min_back").val();
+        parmes+="&maxBack="+$("#max_back").val();
         $.ajax({
             type:"post",
             url:"/v1/http/market_control_config/create_or_edit"+parmes,

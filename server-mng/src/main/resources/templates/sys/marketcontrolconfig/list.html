@@ -30,7 +30,7 @@
                         <label class="sr-only">类型</label>
                         <select id="exp_area_type" class="form-control">
                             <option value="0" selected="selected">全部</option>
-                            <option value="1" selected="selected">合约</option>
+                            <option value="1">合约</option>
                             <option value="2">币币</option>
                         </select>
                     </div>
@@ -188,11 +188,11 @@
                             },
 
                             {
-                                title: '最小价格间隔距离',
+                                title: '最小价格区间',
                                 field: 'minSpace'
                             },
                             {
-                                title: '最大价格间隔距离',
+                                title: '最大价格区间',
                                 field: 'maxSpace'
                             },
                             {
@@ -213,12 +213,20 @@
                                 field: 'maxOrderNumber'
                             },
                             {
-                                title: '行情控制最小频率',
+                                title: '行情控制最小频率（毫秒）',
                                 field: 'minFrequency'
                             },
                             {
-                                title: '最大频率',
+                                title: '最大频率（毫秒）',
                                 field: 'maxFrequency'
+                            },
+                            {
+                                title: '关闭控制时,回到默认行情的最小幅度',
+                                field: 'minBack'
+                            },
+                            {
+                                title: '关闭控制时,回到默认行情的最大幅度',
+                                field: 'maxBack'
                             },
                             {
                                 title: '创建时间',

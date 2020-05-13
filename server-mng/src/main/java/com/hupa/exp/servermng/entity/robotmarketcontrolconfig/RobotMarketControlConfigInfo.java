@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 public class RobotMarketControlConfigInfo implements Serializable {
     private Long id;
 
+
     private String asset;
 
     private String symbol;
@@ -32,6 +33,11 @@ public class RobotMarketControlConfigInfo implements Serializable {
     private long mtime;
     private int expAreaType;
 
+    private BigDecimal minBack;
+
+    private BigDecimal maxBack;
+
+
     public RobotMarketControlConfigInfo() {
     }
 
@@ -53,7 +59,25 @@ public class RobotMarketControlConfigInfo implements Serializable {
                 ", ctime=" + ctime +
                 ", mtime=" + mtime +
                 ", expAreaType=" + expAreaType +
+                ", minBack=" + minBack +
+                ", maxBack=" + maxBack +
                 '}';
+    }
+
+    public BigDecimal getMinBack() {
+        return minBack;
+    }
+
+    public void setMinBack(BigDecimal minBack) {
+        this.minBack = minBack;
+    }
+
+    public BigDecimal getMaxBack() {
+        return maxBack;
+    }
+
+    public void setMaxBack(BigDecimal maxBack) {
+        this.maxBack = maxBack;
     }
 
     public Long getId() {

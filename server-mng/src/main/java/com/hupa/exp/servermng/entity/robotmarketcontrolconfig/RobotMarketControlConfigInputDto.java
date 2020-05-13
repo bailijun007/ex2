@@ -30,8 +30,27 @@ public class RobotMarketControlConfigInputDto extends BaseInputDto {
 
     private int minFrequency;
     private int maxFrequency;
+
+    private BigDecimal minBack;
+    private BigDecimal maxBack;
     public String getAsset() {
         return asset;
+    }
+
+    public BigDecimal getMinBack() {
+        return minBack;
+    }
+
+    public void setMinBack(BigDecimal minBack) {
+        this.minBack = minBack;
+    }
+
+    public BigDecimal getMaxBack() {
+        return maxBack;
+    }
+
+    public void setMaxBack(BigDecimal maxBack) {
+        this.maxBack = maxBack;
     }
 
     public int getControlEnable() {

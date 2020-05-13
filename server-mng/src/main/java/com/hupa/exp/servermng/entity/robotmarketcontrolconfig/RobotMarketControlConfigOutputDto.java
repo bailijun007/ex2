@@ -37,6 +37,9 @@ public class RobotMarketControlConfigOutputDto extends BaseOutputDto {
     private long mtime;
     private int expAreaType;
 
+
+    private BigDecimal minBack;
+    private BigDecimal maxBack;
     public RobotMarketControlConfigOutputDto() {
     }
 
@@ -58,7 +61,25 @@ public class RobotMarketControlConfigOutputDto extends BaseOutputDto {
                 ", ctime=" + ctime +
                 ", mtime=" + mtime +
                 ", expAreaType=" + expAreaType +
+                ", minBack=" + minBack +
+                ", maxBack=" + maxBack +
                 '}';
+    }
+
+    public BigDecimal getMinBack() {
+        return minBack;
+    }
+
+    public void setMinBack(BigDecimal minBack) {
+        this.minBack = minBack;
+    }
+
+    public BigDecimal getMaxBack() {
+        return maxBack;
+    }
+
+    public void setMaxBack(BigDecimal maxBack) {
+        this.maxBack = maxBack;
     }
 
     public Long getId() {

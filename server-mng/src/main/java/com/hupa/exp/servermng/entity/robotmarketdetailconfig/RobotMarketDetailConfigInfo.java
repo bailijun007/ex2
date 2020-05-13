@@ -39,6 +39,10 @@ public class RobotMarketDetailConfigInfo implements Serializable {
 
     private Long mtime;
 
+    private String bidUserName;
+
+    private String askUserName;
+
     public RobotMarketDetailConfigInfo() {
     }
 
@@ -62,6 +66,22 @@ public class RobotMarketDetailConfigInfo implements Serializable {
                 ", ctime=" + ctime +
                 ", mtime=" + mtime +
                 '}';
+    }
+
+    public String getBidUserName() {
+        return bidUserName;
+    }
+
+    public void setBidUserName(String bidUserName) {
+        this.bidUserName = bidUserName;
+    }
+
+    public String getAskUserName() {
+        return askUserName;
+    }
+
+    public void setAskUserName(String askUserName) {
+        this.askUserName = askUserName;
     }
 
     public Long getId() {

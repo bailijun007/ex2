@@ -92,7 +92,11 @@ public class ApiRobotMarketControlConfigController {
             @ApiParam(name="minFrequency",value = "行情控制最小频率",required = false)
             @RequestParam(name = "minFrequency") Integer minFrequency,
             @ApiParam(name="maxFrequency",value = "行情控制最大频率",required = false)
-            @RequestParam(name = "maxFrequency") Integer maxFrequency
+            @RequestParam(name = "maxFrequency") Integer maxFrequency,
+            @ApiParam(name="minBack",value = "关闭控制时,回到默认行情的幅度,不能是负",required = false)
+            @RequestParam(name = "minBack") BigDecimal minBack,
+            @ApiParam(name="maxBack",value = "",required = false)
+            @RequestParam(name = "maxBack") BigDecimal maxBack
     ) {
         RobotMarketControlConfigInputDto inputDto=new RobotMarketControlConfigInputDto();
         inputDto.setId(id);
@@ -108,7 +112,8 @@ public class ApiRobotMarketControlConfigController {
         inputDto.setMaxOrderNumber(maxOrderNumber);
         inputDto.setMinFrequency(minFrequency);
         inputDto.setMaxFrequency(maxFrequency);
-
+        inputDto.setMinBack(minBack);
+        inputDto.setMaxBack(maxBack);
         RobotMarketControlConfigOutputDto outputDto=new RobotMarketControlConfigOutputDto();
         try {
             if(StringUtils.isEmpty(asset)||StringUtils.isEmpty(symbol)||expAreaType==null){

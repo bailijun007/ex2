@@ -30,7 +30,7 @@
                         <label class="sr-only">类型</label>
                         <select id="exp_area_type" class="form-control">
                             <option value="0" selected="selected">全部</option>
-                            <option value="1" selected="selected">合约</option>
+                            <option value="1">合约</option>
                             <option value="2">币币</option>
                         </select>
                     </div>
@@ -176,8 +176,16 @@
                                 field: 'bidUserId'
                             },
                             {
+                                title: '买入做市用户姓名',
+                                field: 'bidUserName'
+                            },
+                            {
                                 title: '卖出做市用户id',
                                 field: 'askUserId'
+                            },
+                            {
+                                title: '卖出做市用户姓名',
+                                field: 'askUserName'
                             },
                             {
                                 title: '资产',
@@ -204,11 +212,11 @@
                                 field: 'maxOrderBookSize'
                             },
                             {
-                                title: 'order_book_bid_number',
+                                title: '买方深度数量(比例)',
                                 field: 'orderBookBidNumber'
                             },
                             {
-                                title: 'order_book_ask_number',
+                                title: '卖方深度数量(比例)',
                                 field: 'orderBookAskNumber'
                             },
                             {
