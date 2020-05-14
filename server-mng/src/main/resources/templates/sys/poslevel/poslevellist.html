@@ -28,6 +28,14 @@
                         <select class="form-control" id="symbol">
                         </select>
                     </div>
+
+                    <!--<div class="input-group">-->
+
+                                <!--<span class="input-group-btn">-->
+                                    <!--<button type="button" class="btn btn-primary" id="batchUpdate">批量更新</button>-->
+                                <!--</span>-->
+                    <!--</div>-->
+
                     <div class="input-group">
 
                                 <span class="input-group-btn">
@@ -81,6 +89,12 @@
             $('#tb_departments').bootstrapTable('destroy');
             oTable.Init();
         });
+
+        $("#batchUpdate").click(function () {
+            $('#tb_departments').bootstrapTable('destroy');
+            TableInit2();
+        });
+
         $("#asset").change(function () {
             $('#tb_departments').bootstrapTable('destroy');
             oTable.Init();
@@ -183,11 +197,11 @@
                             }
                             ,
                            {
-                                title: '初始保证金率',
+                                title: '维持保证金率',//初始保证金率
                                 field: 'posHoldMarginRatio'
                             } ,
                             {
-                                title: '维持保证金率',
+                                title: '初始保证金率',//维持保证金率
                                 field: 'minHoldMarginRatio'
                             },
 
@@ -220,6 +234,29 @@
         return oTableInit;
     };
 
+    var TableInit2 = function () {
+        var parmes="?";
+        parmes+="&asset="+$("#asset").val();
+        parmes+="&symbol="+$("#asset").val()+"_USDT";
+
+        $.ajax({
+            type:"get",
+            url:"/v1/http/poslevel/batchUpdate"+parmes,
+            contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+            success:function(data) {
+                debugger
+                //console.log(data);
+                if(data.code==0)
+                {
+                    layer.msg("修改成功！");
+                }
+                else
+                {
+                    layer.msg("修改失败！");
+                }
+            }
+        })
+    };
 
 
 

@@ -14,4 +14,5 @@ public interface IApiPosLevelControllerService {
 
     DeleteOutputDto deletePosLevel(DeleteInputDto inputDto) throws BizException;
 
+    PosLevelOutputDto batchUpdate(PosLevelInputDto inputDto) throws BizException;
 }
