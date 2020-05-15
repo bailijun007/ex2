@@ -26,7 +26,7 @@ import java.util.List;
  * Created by Administrator on 2020/2/15.
  */
 @Service
-public class ApiBbOrderControllerServiceImpl implements IApiBbOrderControllerService {
+public class ApiBbOrderControllerServiceImpl  implements IApiBbOrderControllerService {
 
     private static Logger logger = LoggerFactory.getLogger(ApiBbOrderControllerServiceImpl.class);
 
@@ -38,20 +38,19 @@ public class ApiBbOrderControllerServiceImpl implements IApiBbOrderControllerSer
 
 
     @Override
-    public BbOrderPageOutputDto getBbOrderPageData(BbOrderPageInputDto inputDto) throws BizException {
-        BbOrderPageOutputDto outputDto = new BbOrderPageOutputDto();
-        try {
-            if (!StringUtils.isEmpty(inputDto.getAccount())) {
-                ExpUserPo userPo = iExpUserDao.selectUserByAccount(inputDto.getAccount());
+    public BbOrderPageOutputDto getBbOrderPageData(BbOrderPageInputDto inputDto) throws BizException{
+        BbOrderPageOutputDto outputDto=new BbOrderPageOutputDto();
+        try{
+            if(!StringUtils.isEmpty(inputDto.getAccount())) {
+                ExpUserPo userPo= iExpUserDao.selectUserByAccount(inputDto.getAccount());
                 inputDto.setAccountId(userPo.getId());
             }
-            //  inputDto.getSymbol() TODO 接口变动(已改)
-            PageResult<BbOrderVo> pageResult = bbOrderExtApi.queryAllBbOrederHistory(inputDto.getAccountId(), inputDto.getAsset(),
-                    inputDto.getSymbol(), inputDto.getStartTime(), inputDto.getEndTime(), inputDto.getPageSize(),
-                    inputDto.getCurrentPage() != 0 ? (int) inputDto.getCurrentPage() : 1);
+            // inputDto.getSymbol()
+            PageResult<BbOrderVo> pageResult = bbOrderExtApi.queryAllBbOrederHistory(inputDto.getAccountId(), inputDto.getAsset(), inputDto.getPageSize(),
+                    inputDto.getCurrentPage()!=0?(int)inputDto.getCurrentPage():1);
 
             //遍历赋值
-            if (pageResult != null) {
+            if(pageResult!=null) {
                 List<BbOrderInfo> list = new ArrayList();
                 if (CollectionUtils.isNotEmpty(pageResult.getList())) {
                     BbOrderInfo bbOrderInfo = null;
@@ -94,7 +93,7 @@ public class ApiBbOrderControllerServiceImpl implements IApiBbOrderControllerSer
             outputDto.setSizePerPage(inputDto.getPageSize());
             outputDto.setTime(String.valueOf(System.currentTimeMillis()));
             outputDto.setPageData(JSON.toJSONString(outputDto, SerializerFeature.WriteNonStringValueAsString));
-        } catch (Exception e) {
+        }catch(Exception e){
             logger.info("ApiBbOrderControllerServiceImpl getBbOrderPageData exception: " + e.getMessage());
         }
         return outputDto;

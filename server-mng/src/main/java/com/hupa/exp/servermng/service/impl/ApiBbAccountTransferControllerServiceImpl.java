@@ -40,11 +40,10 @@ public class ApiBbAccountTransferControllerServiceImpl implements IApiBbAccountT
         //返回对象
         BbTransferListOutputDto outputDto = new BbTransferListOutputDto();
         try{
-            // 调用第三方接口：查询币币划转历史记录 TODO  接口参数有变动(yigai)
+            // 调用第三方接口：查询币币划转历史记录
             PageResult<BbAccountRecordVo> pageResult = bbAccountRecordExtApi.queryHistory(
                     inputDto.getAccountId()==null || inputDto.getAccountId()==0?null:inputDto.getAccountId(),
                     StringUtils.isNotBlank(inputDto.getAsset())?inputDto.getAsset():null,
-                    inputDto.getStatrTime(),inputDto.getEndTime(),
                     inputDto.getPageSize(), inputDto.getCurrentPage()!=0?(int)inputDto.getCurrentPage():1);
 
             if(pageResult!=null){
