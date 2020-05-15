@@ -31,63 +31,50 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
                         <input type="hidden" id="id" value="0">
+                        <!--<div class="form-group">-->
+                            <!--<label class="col-sm-3 control-label">币的符号：</label>-->
+                            <!--<div class="col-sm-6">-->
+                                <!--<input  class="form-control" type="text" id="symbol">-->
+                            <!--</div>-->
+                            <!--<div class="Validform_checktip"></div>-->
+                        <!--</div>-->
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">币种：</label>
+                            <label class="col-sm-3 control-label">类型：</label>
                             <div class="col-sm-6">
-                                <select id="asset" class="form-control">
-
+                                <select id="type" class="form-control">
+                                    <option value="0" selected="selected">全部</option>
+                                    <option value="1">合约</option>>
+                                    <option value="2">币币</option>>
                                 </select>
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
+
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">交易对：</label>
+                            <label class="col-sm-3 control-label">创建订单url：</label>
                             <div class="col-sm-6">
-                                <input  class="form-control" type="text" id="symbol">
+                                <input class="form-control" id="create_order_url" type="text">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
+
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">档位：</label>
+                            <label class="col-sm-3 control-label">取消订单url：</label>
                             <div class="col-sm-6">
-                                <input  class="form-control" type="text" datatype="n1-10" id="gear">
+                                <input class="form-control" id="cancel_order_url" type="text">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
+
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">最小张数：</label>
-                                <div class="col-sm-6">
-                                    <input  class="form-control" type="text" datatype="n1-20" id="min_amt" errormsg="最大为20位">
-                                </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">最大张数：</label>
+                            <label class="col-sm-3 control-label">查询订单url：</label>
                             <div class="col-sm-6">
-                                <input  class="form-control" type="text" datatype="n1-20"  id="max_amt" errormsg="最大为20位">
+                                <input class="form-control" id="query_order_url" type="text">
                             </div>
                             <div class="Validform_checktip"></div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">最大杠杆数：</label>
-                            <div class="col-sm-6">
-                                <input class="form-control" id="max_leverage" type="text" datatype="*1-10" errormsg="菜单名称最多不能超过100位数">
-                            </div>
-                            <div class="Validform_checktip"></div>
-                        </div>
-                       <!-- <div class="form-group">
-                            <label class="col-sm-3 control-label">初始保证金率：</label>
-                            <div class="col-sm-6">
-                                <input class="form-control" id="pos_hold_margin_ratio" type="text" datatype="*1-100" errormsg="合约展示名最多10位">
-                            </div>
-                            <div class="Validform_checktip"></div>
-                        </div>-->
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">维持保证金率：</label>
-                            <div class="col-sm-6">
-                                <input class="form-control" id="pos_hold_margin_ratio" type="text" datatype="*1-100" errormsg="合约展示名最多10位">
-                            </div>
-                            <div class="Validform_checktip"></div>
-                        </div>
+
+
 
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-3">
@@ -123,14 +110,18 @@
 <script type="text/javascript">
     $(function () {
         function initData() {
-
+            // bindDrop("DwType","dw_type",false)
+            //document.getElementById("dw_type").options.remove(0);
             var id = GetQueryString("id");
             var action=GetQueryString("action");
             if (id != ""&&action=="Edit")//id不为空则需要绑定值
             {
+                // $("#real_name").attr("readonly","readonly");
+                //$("#chain_appoint_id").attr("readonly","readonly");
+                //$("#icon").attr("readonly","readonly");
                 $.ajax({
                     type: "get",
-                    url: "/v1/http/poslevel/query?id=" + id,
+                    url: "/v1/http/marketControl/query?id=" + id,
                     contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
                     async: false,
                     //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
@@ -139,15 +130,11 @@
                         //console.log(data);
                         if (data.data != null) {
                             $("#id").val(data.data.id);
-                            $("#asset").val(data.data.asset);
-                            $("#symbol").val(data.data.symbol);
-                            $("#gear").val(data.data.gear);
-                            $("#min_amt").val(data.data.minAmt);
-                            $("#max_amt").val(data.data.maxAmt);
-                            $("#max_leverage").val(data.data.maxLeverage);
-                            $("#pos_hold_margin_ratio").val(data.data.posHoldMarginRatio);
-                            // $("#min_hold_margin_ratio").val(data.data.minHoldMarginRatio);
-
+                            $("#type").val(data.data.expAreaType);
+                            $("#create_order_url").val(data.data.createOrderUrl);
+                            $("#cancel_order_url").val(data.data.cancelOrderUrl);
+                            $("#query_order_url").val(data.data.queryOrderUrl)
+                            // $("#dw_type").val(data.data.dwType)
                         }
                     }
                 })
@@ -156,17 +143,18 @@
         $(".form-horizontal").Validform({ tiptype: 2 });
         initData();
     });
-    bindAsset("asset",false);
-    // $("#symbol").blur(function(){
+
+    // $("#real_name").blur(function(){
     //     $.ajax({
     //         type:"post",
-    //         url:"/v1/http/asset/check_has_coin?symbol="+$("#symbol").val(),
+    //         url:"/v1/http/asset/check_has_asset?real_name="+$("#real_name").val(),
     //         contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
     //         success:function(data) {
-    //             if(data.data.has_coin==true)
+    //             if(data.data.has_asset==true)
     //             {
     //                 layer.msg("已存在该币种！");
-    //                 $("#symbol").val("");
+    //                 $("#real_name").val("");
+    //                 //$("#real_name").parent().next().children().remove();
     //             }
     //         }
     //     });
@@ -174,12 +162,15 @@
     // })
 
     $("#BtnSave").click(function(){
-
+        // var isCheck;
+        // var enableFlagPcAccountCheck;
+        // var enableFlagBbAccountCheck;
+        // var enableFlagPcMarketCheck;
+        // var enableFlagBbMarketCheck;
         var id = GetQueryString("id");
         var action=GetQueryString("action");
         if(action!="Edit")
             id=0;
-
 
         if($(".Validform_wrong").length>0)
         {
@@ -189,20 +180,14 @@
 
         var parmes="?";
         parmes+= "id="+id;
-        parmes+="&asset="+$("#asset").val();
-        parmes+="&symbol="+$("#symbol").val();
-        parmes+="&gear="+$("#gear").val();
-        parmes+="&min_amt="+$("#min_amt").val();
-        parmes+="&max_amt="+$("#max_amt").val();
-        parmes+="&max_leverage="+$("#max_leverage").val();
-        parmes+="&pos_hold_margin_ratio="+$("#pos_hold_margin_ratio").val();
-       // parmes+="&min_hold_margin_ratio="+$("#min_hold_margin_ratio").val();
-
+        parmes+="&expAreaType="+$("#type").val();
+        parmes+="&createOrderUrl="+$("#create_order_url").val();
+        parmes+="&cancelOrderUrl="+$("#cancel_order_url").val();
+        parmes+="&queryOrderUrl="+$("#query_order_url").val();
         $.ajax({
             type:"post",
-            url:"/v1/http/poslevel/create_or_edit"+parmes,
+            url:"/v1/http/marketControl/create_or_edit"+parmes,
             contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
-
             success:function(data) {
                 debugger
                 //console.log(data);
@@ -222,6 +207,51 @@
             }
         })
     })
+
+
+    function uploadImg(obj)
+    {
+        var oldImgName=$("#upImg").val();
+        var f=$(obj).val();
+        //alert(f);
+        //console.log(obj);
+        if(f == null || f ==undefined || f == ''){
+            return false;
+        }
+        if(!/\.(?:png|jpg|bmp|gif|PNG|JPG|BMP|GIF)$/.test(f)) {
+            alert("类型必须是图片(.png|jpg|bmp|gif|PNG|JPG|BMP|GIF)");
+            $(obj).val('');
+            return false;
+        }
+
+        var data = new FormData();
+
+        $.each($(obj)[0].files,function(i,file){
+            data.append('file', file);
+        });
+        //其实不应该写在这   应该写在提交哪里
+        data.append('oldImg', oldImgName);
+        $.ajax({
+            url: "/v1/http/upload/img",
+            method: 'POST',
+            data: data,
+            contentType: false,
+            processData: false,
+            success: function (resp) {
+                var data= JSON.parse(resp);
+                if(data.code==0)
+                {
+                    $("#icon_img").attr("src",data.data);
+                    $("#upImg").val(data.data);
+                    layer.msg("上传成功");
+                }
+                else
+                    layer.msg("上传失败");
+
+            }
+        });
+    }
+
 </script>
 
 </body>

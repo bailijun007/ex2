@@ -51,10 +51,10 @@ public class ApiPosLevelController {
             @RequestParam(name = "max_amt") Long maxAmt,
             @ApiParam(name="max_leverage",value = "最大杠杆",required = true)
             @RequestParam(name = "max_leverage") BigDecimal maxLeverage,
-           /* @ApiParam(name="pos_hold_margin_ratio",value = "初始保证金率",required = true)
-            @RequestParam(name = "pos_hold_margin_ratio") BigDecimal posHoldMarginRatio,*/
-            @ApiParam(name="min_hold_margin_ratio",value = "维持保证金率 ",required = true)
-            @RequestParam(name = "min_hold_margin_ratio") BigDecimal minHoldMarginRatio
+            @ApiParam(name="pos_hold_margin_ratio",value = "维持保证金率",required = true)
+            @RequestParam(name = "pos_hold_margin_ratio") BigDecimal posHoldMarginRatio
+//            @ApiParam(name="min_hold_margin_ratio",value = "维持保证金率 ",required = true)
+//            @RequestParam(name = "min_hold_margin_ratio") BigDecimal minHoldMarginRatio
 
     ){
         PosLevelOutputDto outputDto=new PosLevelOutputDto();
@@ -68,13 +68,37 @@ public class ApiPosLevelController {
         inputDto.setMaxLeverage(maxLeverage);
         if(maxLeverage!=null){
             //初始保证金率
-            //min_hold_margin_ratio 初始保证金率 -> 维持保证金率
-            //pos_hold_margin_ratio 维持保证金率 -> 初始保证金率 = 1 / max_leverage 保留4位小数，直接截取第5位
-           inputDto.setPosHoldMarginRatio(new BigDecimal("1").divide(maxLeverage,4, BigDecimal.ROUND_HALF_DOWN));//posHoldMarginRatio
+            //min_hold_margin_ratio 初始保证金率  初始保证金率 = 1 / max_leverage 保留4位小数，直接截取第5位
+            //pos_hold_margin_ratio 维持保证金率
+           inputDto.setMinHoldMarginRatio(new BigDecimal("1").divide(maxLeverage,4, BigDecimal.ROUND_HALF_DOWN));//posHoldMarginRatio
         }
-        inputDto.setMinHoldMarginRatio(minHoldMarginRatio);
+        inputDto.setPosHoldMarginRatio(posHoldMarginRatio);
         try{
             outputDto= service.createOrEditPosLevel(inputDto);
+        }catch(BizException e){
+            return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
+        }
+        return BaseResultViaApiUtil.buildSucceedResult(inputDto,outputDto);
+    }
+
+
+
+    @GetMapping("/batchUpdate")
+    public BaseResultViaApiDto<PosLevelInputDto,PosLevelOutputDto> batchUpdate(
+            @ApiParam(name="asset",value = "币",required = true)
+            @RequestParam(name = "asset") String asset,
+            @ApiParam(name="symbol",value = "交易对",required = true)
+            @RequestParam(name = "symbol") String symbol
+    ){
+        PosLevelOutputDto outputDto=new PosLevelOutputDto();
+        PosLevelInputDto inputDto=new PosLevelInputDto();
+        inputDto.setAsset(asset);
+        inputDto.setSymbol(symbol);
+       if(asset.equals("USDT")){
+           inputDto.setSymbol("ETH_USDT");
+       }
+        try{
+            outputDto= service.batchUpdate(inputDto);
         }catch(BizException e){
             return BaseResultViaApiUtil.buildExceptionResult(inputDto,outputDto,e);
         }

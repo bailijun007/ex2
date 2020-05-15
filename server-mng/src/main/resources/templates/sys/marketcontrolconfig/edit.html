@@ -1,0 +1,352 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>编辑信息</title>
+
+    <link rel="shortcut icon" href="../../../static/img/favicon.ico" />
+    <link href="../../../static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet" />
+    <link href="../../../static/css/font-awesome.css?v=4.4.0" rel="stylesheet" />
+    <link href="../../../static/css/animate.css" rel="stylesheet" />
+    <link href="../../../static/css/Validformstyle.css" rel="stylesheet" />
+    <link href="../../../static/js/skin/default/style.css" rel="stylesheet" />
+    <link href="../../../static/css/style.css"  rel="stylesheet" />
+    <script type="text/javascript">
+        function Close() {
+            //parent.layer.msg(msg);
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            parent.layer.close(index);
+        }
+    </script>
+</head>
+<body class="gray-bg">
+<div class="form-horizontal">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+
+
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <input type="hidden" id="id" value="0">
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">资产：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="asset" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">交易对：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="symbol" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">类型：</label>
+                            <div class="col-sm-6">
+                                <select id="type" class="form-control">
+                                    <option value="0" selected="selected">全部</option>
+                                    <option value="1">合约</option>>
+                                    <option value="2">币币</option>>
+                                </select>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">控制：</label>
+                            <div class="col-sm-6">
+                                <select id="control_enable" class="form-control">
+                                    <option value="1">开启</option>>
+                                    <option value="0">关闭</option>>
+                                </select>
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">最小价格间隔距离：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="min_space" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">最大价格间隔距离：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="max_space" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">最小价格摆动：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="min_swing" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">最大价格摆动：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="max_swing" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">最小下单量：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="min_order_number" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">最大下单量：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="max_order_number" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">行情控制最小频率（毫秒）：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="min_frequency" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">行情控制最大频率（毫秒）：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="max_frequency" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">关闭控制时,回到默认行情的最小幅度：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="min_back" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">关闭控制时,回到默认行情的最大幅度：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="max_back" type="text">
+                            </div>
+                            <div class="Validform_checktip"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-3">
+                                <input type="button" id="BtnSave" value="提交" class="btn btn-primary">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 全局js -->
+<script src="../../../static/js/jquery.min.js"></script>
+<script src="../../../static/js/bootstrap.min.js"></script>
+<script src="../../../static/js/Validform_v5.3.2.js"></script>
+<!-- 自定义js -->
+<script src="../../../static/js/layout.js"></script>
+<script src="../../../static/js/content.js?v=1.0.0"></script>
+<script src="../../../static/js/plugins/layer/layer.min.js"></script>
+<script src="../../../static/js/LayerTool.js"></script>
+<script type="text/javascript">
+    $(function () {
+        // $(".form-horizontal").Validform({ tiptype: 2 });
+        $(".form-horizontal").Validform({ tiptype: 2 });
+    });
+</script>
+
+<!--下拉框检索-->
+<link href="../../../static/js/plugins/jquery.searchableSelect/jquery.searchableSelect.css" rel="stylesheet" />
+<script src="../../../static/js/plugins/jquery.searchableSelect/jquery.searchableSelect.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        function initData() {
+            var id = GetQueryString("id");
+            var action=GetQueryString("action");
+            if (id != ""&&action=="Edit")//id不为空则需要绑定值
+            {
+                $.ajax({
+                    type: "get",
+                    url: "/v1/http/market_control_config/query?id=" + id,
+                    contentType: "application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+                    async: false,
+                    //dataType:"json",  // 预期服务器返回的数据类型。如果不指定，jQuery 将自动根据 HTTP 包 MIME 信息来智能判断，比如XML MIME类型就被识别为XML。
+                    //data:JSON.stringify({id:id}),
+                    success: function (data) {
+                        //console.log(data);
+                        if (data.data != null) {
+                            $("#id").val(data.data.id)
+                            $("#type").val(data.data.expAreaType);
+                            $("#asset").val(data.data.asset);
+                            $("#symbol").val(data.data.symbol);
+                            $("#control_enable").val(data.data.controlEnable);
+                            $("#min_space").val(data.data.minSpace);
+                            $("#max_space").val(data.data.maxSpace);
+                            $("#min_swing").val(data.data.minSwing);
+                            $("#max_swing").val(data.data.maxSwing);
+                            $("#min_order_number").val(data.data.minOrderNumber);
+                            $("#max_order_number").val(data.data.maxOrderNumber);
+                            $("#min_frequency").val(data.data.minFrequency);
+                            $("#max_frequency").val(data.data.maxFrequency);
+                            $("#min_back").val(data.data.minBack);
+                            $("#max_back").val(data.data.maxBack);
+                        }
+                    }
+                })
+            }
+        }
+        $(".form-horizontal").Validform({ tiptype: 2 });
+        initData();
+    });
+
+    // $("#real_name").blur(function(){
+    //     $.ajax({
+    //         type:"post",
+    //         url:"/v1/http/asset/check_has_asset?real_name="+$("#real_name").val(),
+    //         contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+    //         success:function(data) {
+    //             if(data.data.has_asset==true)
+    //             {
+    //                 layer.msg("已存在该币种！");
+    //                 $("#real_name").val("");
+    //                 //$("#real_name").parent().next().children().remove();
+    //             }
+    //         }
+    //     });
+    //
+    // })
+
+    $("#BtnSave").click(function(){
+        // var isCheck;
+        // var enableFlagPcAccountCheck;
+        // var enableFlagBbAccountCheck;
+        // var enableFlagPcMarketCheck;
+        // var enableFlagBbMarketCheck;
+        var id = GetQueryString("id");
+        var action=GetQueryString("action");
+        if(action!="Edit")
+            id=0;
+
+        if($(".Validform_wrong").length>0)
+        {
+            layer.msg("请确认信息填写是否有误！");
+            return false;
+        }
+
+        var parmes="?";
+        parmes+= "id="+id;
+        parmes+= "&asset="+$("#asset").val();
+        parmes+= "&symbol="+$("#symbol").val();
+        parmes+="&expAreaType="+$("#type").val();
+        parmes+="&controlEnable="+$("#control_enable").val();
+        parmes+="&minSpace="+$("#min_space").val();
+        parmes+="&maxSpace="+$("#max_space").val();
+        parmes+="&minSwing="+$("#min_swing").val();
+        parmes+="&maxSwing="+$("#max_swing").val();
+        parmes+="&minOrderNumber="+$("#min_order_number").val();
+        parmes+="&maxOrderNumber="+$("#max_order_number").val();
+        parmes+="&minFrequency="+$("#min_frequency").val();
+        parmes+="&maxFrequency="+$("#max_frequency").val();
+        parmes+="&minBack="+$("#min_back").val();
+        parmes+="&maxBack="+$("#max_back").val();
+        $.ajax({
+            type:"post",
+            url:"/v1/http/market_control_config/create_or_edit"+parmes,
+            contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
+            success:function(data) {
+                debugger
+                //console.log(data);
+                if(data.code==0)
+                {
+                    if(id>0&&action=="Edit")
+                        layer.msg("修改成功！");
+                    else
+                        layer.msg("添加成功！");
+                    setTimeout("Close()", 1000);
+                }
+                else
+                {
+                    layer.msg(data.msg);
+                }
+
+            }
+        })
+    })
+
+
+    function uploadImg(obj)
+    {
+        var oldImgName=$("#upImg").val();
+        var f=$(obj).val();
+        //alert(f);
+        //console.log(obj);
+        if(f == null || f ==undefined || f == ''){
+            return false;
+        }
+        if(!/\.(?:png|jpg|bmp|gif|PNG|JPG|BMP|GIF)$/.test(f)) {
+            alert("类型必须是图片(.png|jpg|bmp|gif|PNG|JPG|BMP|GIF)");
+            $(obj).val('');
+            return false;
+        }
+
+        var data = new FormData();
+
+        $.each($(obj)[0].files,function(i,file){
+            data.append('file', file);
+        });
+        //其实不应该写在这   应该写在提交哪里
+        data.append('oldImg', oldImgName);
+        $.ajax({
+            url: "/v1/http/upload/img",
+            method: 'POST',
+            data: data,
+            contentType: false,
+            processData: false,
+            success: function (resp) {
+                var data= JSON.parse(resp);
+                if(data.code==0)
+                {
+                    $("#icon_img").attr("src",data.data);
+                    $("#upImg").val(data.data);
+                    layer.msg("上传成功");
+                }
+                else
+                    layer.msg("上传失败");
+
+            }
+        });
+    }
+
+</script>
+
+</body>
+</html>
+
+
+
+

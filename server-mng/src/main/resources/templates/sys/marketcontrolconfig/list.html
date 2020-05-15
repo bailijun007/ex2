@@ -19,23 +19,21 @@
             <div class="row row-lg">
                 <div class="col-sm-11">
                     <div class="form-group" style="width: 15%; float: left;">
-                        <label class="sr-only">币种</label>
-                        <select class="form-control" id="asset">
-                        </select>
+                        <label class="sr-only">资产</label>
+                        <input type="text" placeholder="请输入资产" id="asset" class="form-control">
                     </div>
                     <div class="form-group" style="width: 15%; float: left;">
                         <label class="sr-only">交易对</label>
-                        <select class="form-control" id="symbol">
+                        <input type="text" placeholder="请输入交易对" id="symbol" class="form-control">
+                    </div>
+                    <div class="form-group" style="width: 15%; float: left;">
+                        <label class="sr-only">类型</label>
+                        <select id="exp_area_type" class="form-control">
+                            <option value="0" selected="selected">全部</option>
+                            <option value="1">合约</option>
+                            <option value="2">币币</option>
                         </select>
                     </div>
-
-                    <!--<div class="input-group">-->
-
-                                <!--<span class="input-group-btn">-->
-                                    <!--<button type="button" class="btn btn-primary" id="batchUpdate">批量更新</button>-->
-                                <!--</span>-->
-                    <!--</div>-->
-
                     <div class="input-group">
 
                                 <span class="input-group-btn">
@@ -53,7 +51,7 @@
                                         <div class="btn-group hidden-xs" id="toolbar" role="group">
 
                                             <a class="btn btn-outline btn-default" href="javascript:addCatalogEvent('Add','0')"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i>新增</a>
-                                            <a class="btn btn-outline btn-default" href="javascript:del_ck_confirm('tb_departments','/v1/http/poslevel/delete')"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>删除</a>
+                                            <!--<a class="btn btn-outline btn-default" href="javascript:del_ck_confirm('tb_departments','/v1/http/asset/delete')"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>删除</a>-->
                                         </div>
                                     </div>
                                 </div>
@@ -90,33 +88,18 @@
             oTable.Init();
         });
 
-        $("#batchUpdate").click(function () {
-            $('#tb_departments').bootstrapTable('destroy');
-            TableInit2();
-        });
-
-        $("#asset").change(function () {
-            $('#tb_departments').bootstrapTable('destroy');
-            oTable.Init();
-        });
-        $("#symbol").change(function () {
-            $('#tb_departments').bootstrapTable('destroy');
-            oTable.Init();
-        });
-
         // var oButtonInit = new ButtonInit();
         // oButtonInit.Init();
 
     });
-    bindAsset("asset",true);
-    bindAssetSymbol("symbol", $("#asset").val(), true);
-    $("#asset").change(function () {
-        $("#symbol").empty();
-        bindAssetSymbol("symbol", $("#asset").val(), true);
-    })
+
+    function ShowParam(id) {
+        alert(id);
+    }
+
     var addCatalogEvent = function (action,id) {
-        var text = "添加档位信息"
-        url = "/sys/poslevel/edit.html?id="+id+"&action="+action+"";
+        var text = "新增"
+        url = "/sys/marketcontrolconfig/edit.html?id="+id+"&action="+action+"";
 
         parent.layer.open({
             type: 2,
@@ -144,7 +127,7 @@
         //初始化Table
         oTableInit.Init = function () {
                     $('#tb_departments').bootstrapTable({
-                         url: '/v1/http/poslevel/query_list',//+param,         //请求后台的URL（*）
+                         url: '/v1/http/market_control_config/query_list',//+param,         //请求后台的URL（*）
                          method: 'get',                      //请求方式（*）
                         //toolbar: '#toolbar',                //工具按钮用哪个容器
                         //striped: true,                      //是否显示行间隔色
@@ -174,38 +157,94 @@
                                 checkbox: true
                             }
                             , {
-                                title: '币',
+                                title: '编号',
+                                field: 'id'
+                            },
+                            {
+                                title: '资产',
                                 field: 'asset'
-                            }
-                            , {
+                            },
+                            {
                                 title: '交易对',
                                 field: 'symbol'
-                            }, {
-                                title: '档位',
-                                field: 'gear'
-                            }, {
-                                title: '最小张数',
-                                field: 'minAmt'
-                            }
-                            , {
-                                title: '最大张数',
-                                field: 'maxAmt'
-                            }
-                            , {
-                                title: '最高可用杠杆倍数',
-                                field: 'maxLeverage'
-                            }
-                            ,
-                           {
-                                title: '维持保证金率',//初始保证金率
-                                field: 'posHoldMarginRatio'
-                            } ,
+                            },
                             {
-                                title: '初始保证金率',//维持保证金率
-                                field: 'minHoldMarginRatio'
+                                title: '类型',//（1.pc 2.bb）
+                                formatter: function (value, row, index) {
+                                    if (row.expAreaType == 1)
+                                        return "合约";
+                                    else
+                                        return "币币";
+                                }
+                            },
+                            {
+                                title: '开关控制',//（1.开启控制,0.关闭）
+                                formatter: function (value, row, index) {
+                                    if (row.controlEnable == 1)
+                                        return "开启";
+                                    else
+                                        return "关闭";
+                                }
                             },
 
                             {
+                                title: '最小价格区间',
+                                field: 'minSpace'
+                            },
+                            {
+                                title: '最大价格区间',
+                                field: 'maxSpace'
+                            },
+                            {
+                                title: '最小价格摆动',
+                                field: 'minSwing'
+                            },
+
+                            {
+                                title: '最大价格摆动',
+                                field: 'maxSwing'
+                            },
+                            {
+                                title: '最小下单量',
+                                field: 'minOrderNumber'
+                            },
+                            {
+                                title: '最大下单量',
+                                field: 'maxOrderNumber'
+                            },
+                            {
+                                title: '行情控制最小频率（毫秒）',
+                                field: 'minFrequency'
+                            },
+                            {
+                                title: '最大频率（毫秒）',
+                                field: 'maxFrequency'
+                            },
+                            {
+                                title: '关闭控制时,回到默认行情的最小幅度',
+                                field: 'minBack'
+                            },
+                            {
+                                title: '关闭控制时,回到默认行情的最大幅度',
+                                field: 'maxBack'
+                            },
+                            {
+                                title: '创建时间',
+                                formatter: function (value, row, index) {
+                                    if(row.ctime!=null)
+                                        return time(parseInt(row.ctime));
+                                    return"";
+                                }
+                            },
+                            {
+                                title: '修改时间',
+                                formatter: function (value, row, index) {
+                                    if(row.mtime!=null)
+                                        return time(parseInt(row.mtime));
+                                    return"";
+                                }
+                            }
+                            , {
                                 title: '操作', field: '#', align: 'center',
                                 formatter: function (value, row, index) {
                                     var d = "<a href=\"javascript:addCatalogEvent('Edit'," + row.id + ")\">修改</a>";
@@ -224,39 +263,30 @@
         oTableInit.queryParams = function (params) {
             var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                 page_size: params.limit,   //页面大小
-                current_page: params.offset==0?1:(params.offset/params.limit)+1,  //页码
-                asset:$("#asset").val(),
-                symbol: $("#symbol").val()
+                page_no: params.offset==0?1:(params.offset/params.limit)+1,  //页码
+                exp_area_type: $("#exp_area_type").val(),
+                 asset:$("#asset").val(),
+                 symbol:$("#symbol").val()
+                //action: "GetBakModuleList"
+
             };
             //console.log(temp);
             return temp;
         };
         return oTableInit;
     };
+    $('#tb_departments').on('page-change.bs.table', function (number,size) {
 
-    var TableInit2 = function () {
-        var parmes="?";
-        parmes+="&asset="+$("#asset").val();
-        parmes+="&symbol="+$("#asset").val()+"_USDT";
+        //oTable.Init(size,10);
+        // ...
+    });
 
-        $.ajax({
-            type:"get",
-            url:"/v1/http/poslevel/batchUpdate"+parmes,
-            contentType:"application/json;charset=UTF-8",  //发送信息至服务器时内容编码类型。
-            success:function(data) {
-                debugger
-                //console.log(data);
-                if(data.code==0)
-                {
-                    layer.msg("修改成功！");
-                }
-                else
-                {
-                    layer.msg("修改失败！");
-                }
-            }
-        })
-    };
+    $('#tb_departments').on('load-success.bs.table', function (e) {
+        //debugger;
+        //alert("1213");
+        $(".fixed-table-loading").attr("style","display:none");//不知道什么鬼原因  反正先加载时候先去掉
+        // ...
+    });
 
 
 
@@ -271,7 +301,16 @@
         return context == null || context == "" || context == "undefined" ? "" : context;
     }//获取连接中的参数
 
+    var ButtonInit = function () {
+        var oInit = new Object();
+        var postdata = {};
 
+        oInit.Init = function () {
+            //初始化页面上面的按钮事件
+        };
+
+        return oInit;
+    };
 
 
 </script>
