@@ -37,8 +37,8 @@ import java.util.List;
 public class ApiRobotMarketDetailConfigControllerServiceImpl implements IApiRobotMarketDetailConfigControllerService {
 
     private static Logger logger = LoggerFactory.getLogger(ApiRobotMarketDetailConfigControllerServiceImpl.class);
-    @Autowired
-    private IRobotMarketDetailConfigDao detailConfigDao;
+//    @Autowired
+//    private IRobotMarketDetailConfigDao detailConfigDao;
 
     @Autowired
     private IExpOperationLogService logService;
@@ -55,22 +55,22 @@ public class ApiRobotMarketDetailConfigControllerServiceImpl implements IApiRobo
         try {
             Integer expAreaType = inputDto.getExpAreaType();
             List<RobotMarketDetailConfigInfo> boList = new ArrayList();
-            IPage<RobotMarketDetailConfigPo> list = detailConfigDao.selectAllPoByPage(inputDto.getAsset(), inputDto.getSymbol(), expAreaType, inputDto.getPageNo(), inputDto.getPageSize());
-
-            for (RobotMarketDetailConfigPo po : list.getRecords()) {
-                RobotMarketDetailConfigInfo bo = ConventObjectUtil.conventObject(po, RobotMarketDetailConfigInfo.class);
-                 ExpUserPo expUserPo = iExpUserMapper.selectById(bo.getAskUserId());
-                if(null!=expUserPo){
-                    bo.setAskUserName(expUserPo.getPhone());
-                }
-                ExpUserPo expUserPo2 = iExpUserMapper.selectById(bo.getBidUserId());
-                if(null!=expUserPo2){
-                    bo.setBidUserName(expUserPo2.getPhone());
-                }
-                boList.add(bo);
-            }
-            outputDto.setRows(boList);
-            outputDto.setTotal(list.getTotal());
+//            IPage<RobotMarketDetailConfigPo> list = detailConfigDao.selectAllPoByPage(inputDto.getAsset(), inputDto.getSymbol(), expAreaType, inputDto.getPageNo(), inputDto.getPageSize());
+//
+//            for (RobotMarketDetailConfigPo po : list.getRecords()) {
+//                RobotMarketDetailConfigInfo bo = ConventObjectUtil.conventObject(po, RobotMarketDetailConfigInfo.class);
+//                 ExpUserPo expUserPo = iExpUserMapper.selectById(bo.getAskUserId());
+//                if(null!=expUserPo){
+//                    bo.setAskUserName(expUserPo.getPhone());
+//                }
+//                ExpUserPo expUserPo2 = iExpUserMapper.selectById(bo.getBidUserId());
+//                if(null!=expUserPo2){
+//                    bo.setBidUserName(expUserPo2.getPhone());
+//                }
+//                boList.add(bo);
+//            }
+//            outputDto.setRows(boList);
+//            outputDto.setTotal(list.getTotal());
         } catch (Exception e) {
             logger.info("IApiRobotMarketDetailConfigControllerServiceImpl pageQuery exception: " + e.getMessage());
         }
@@ -81,29 +81,29 @@ public class ApiRobotMarketDetailConfigControllerServiceImpl implements IApiRobo
     @Override
     public RobotMarketDetailConfigOutputDto queryById(Long id) throws BizException {
         RobotMarketDetailConfigOutputDto outputDto = new RobotMarketDetailConfigOutputDto();
-        RobotMarketDetailConfigPo po = detailConfigDao.selectPoById(id);
-        if (null != po) {
-            BeanUtils.copyProperties(po, outputDto);
-        }
+//        RobotMarketDetailConfigPo po = detailConfigDao.selectPoById(id);
+//        if (null != po) {
+//            BeanUtils.copyProperties(po, outputDto);
+//        }
         return outputDto;
     }
 
     @Override
     public RobotMarketDetailConfigOutputDto edit(RobotMarketDetailConfigInputDto inputDto) throws BizException {
-        RobotMarketDetailConfigPo beforeBo = detailConfigDao.selectPoById(inputDto.getId());
-        if (beforeBo == null) {
-            throw new MngException(MngExceptionCode.DATA_NOT_EXIST_ERROR);
-        }
-
-        this.checkParam(inputDto);
-
-        RobotMarketDetailConfigPo bo = ConventObjectUtil.conventObject(inputDto, RobotMarketDetailConfigPo.class);
-        bo.setMtime(System.currentTimeMillis());
-        detailConfigDao.updateById(bo);
-        //添加操作日志
-        ExpUserBizBo user = sessionHelper.getUserInfoBySession();
-        logService.createOperationLog(user.getId(), user.getUserName(), OperationModule.Asset.toString(),
-                OperationType.Update.toString(), JsonUtil.toJsonString(beforeBo), JsonUtil.toJsonString(bo));
+//        RobotMarketDetailConfigPo beforeBo = detailConfigDao.selectPoById(inputDto.getId());
+//        if (beforeBo == null) {
+//            throw new MngException(MngExceptionCode.DATA_NOT_EXIST_ERROR);
+//        }
+//
+//        this.checkParam(inputDto);
+//
+//        RobotMarketDetailConfigPo bo = ConventObjectUtil.conventObject(inputDto, RobotMarketDetailConfigPo.class);
+//        bo.setMtime(System.currentTimeMillis());
+//        detailConfigDao.updateById(bo);
+//        //添加操作日志
+//        ExpUserBizBo user = sessionHelper.getUserInfoBySession();
+//        logService.createOperationLog(user.getId(), user.getUserName(), OperationModule.Asset.toString(),
+//                OperationType.Update.toString(), JsonUtil.toJsonString(beforeBo), JsonUtil.toJsonString(bo));
         RobotMarketDetailConfigOutputDto outputDto = new RobotMarketDetailConfigOutputDto();
         return outputDto;
     }
@@ -122,10 +122,10 @@ public class ApiRobotMarketDetailConfigControllerServiceImpl implements IApiRobo
 
     @Override
     public RobotMarketDetailConfigOutputDto create(RobotMarketDetailConfigInputDto inputDto) throws BizException {
-        RobotMarketDetailConfigPo selectOnePo = detailConfigDao.selectOnePo(inputDto.getAsset(), inputDto.getSymbol(), inputDto.getExpAreaType());
-        if (selectOnePo != null) {
-            throw new MngException(MngExceptionCode.DATA_EXIST_ERROR);
-        }
+//        RobotMarketDetailConfigPo selectOnePo = detailConfigDao.selectOnePo(inputDto.getAsset(), inputDto.getSymbol(), inputDto.getExpAreaType());
+//        if (selectOnePo != null) {
+//            throw new MngException(MngExceptionCode.DATA_EXIST_ERROR);
+//        }
 
         this.checkParam(inputDto);
 
@@ -133,7 +133,7 @@ public class ApiRobotMarketDetailConfigControllerServiceImpl implements IApiRobo
         long time = System.currentTimeMillis();
         bo.setCtime(time);
         bo.setMtime(time);
-        detailConfigDao.insert(bo);
+//        detailConfigDao.insert(bo);
         //添加操作日志
         ExpUserBizBo user = sessionHelper.getUserInfoBySession();
         logService.createOperationLog(user.getId(), user.getUserName(), OperationModule.Asset.toString(),
