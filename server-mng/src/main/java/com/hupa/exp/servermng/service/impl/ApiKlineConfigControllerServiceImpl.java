@@ -297,11 +297,7 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
                     for (BbCandlePo candlePo : redisList) {
                         RepairKlineOutputDto outputDto = new RepairKlineOutputDto();
                         outputDto.setOpenTime(candlePo.getOpenTime());
-                        BigDecimal open = candlePo.getOpen();
-                        long timestamp = Long.parseLong(open + "");
-                        DateTime dateTime = new DateTime(timestamp);
-                        DateTime openTime = dateTime.minusHours(8);
-                        outputDto.setOpen(new BigDecimal(openTime.getMillis()));
+                        outputDto.setOpen(candlePo.getOpen());
                         outputDto.setHigh(candlePo.getHigh());
                         outputDto.setLow(candlePo.getLow());
                         outputDto.setClose(candlePo.getClose());
