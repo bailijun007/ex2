@@ -18,6 +18,14 @@ public enum MngExceptionCode implements ExceptionDescribe {
     DATA_EXIST_ERROR(-90013,"DATA_EXIST_ERROR",""),
     DATA_NOT_EXIST_ERROR(-90014,"DATA_NOT_EXIST_ERROR",""),
     THE_PARAMETER_CANNOT_BE_NULL(-90015,"THE_PARAMETER_CANNOT_BE_NULL",""),
+    MIN_SPACE_NOT_GREATER_THAN_MAX_SPACE(-90016,"最小价格区间不能大于最大价格区间",""),
+    MIN_ORDER_NUMBER_NOT_GREATER_THAN_MAX_ORDER_NUMBER(-90017,"最小下单量不能大于最大下单量",""),
+    MIN_SWING_NOT_GREATER_THAN_MAX_SWING(-90018,"最小价格摆动不能大于最大价格摆动",""),
+    MIN_BACK_NOT_BE_ZERO_OR_NEGATIVE(-90019,"关闭控制时,回到默认最小行情的幅度,不能是负和零",""),
+    MAX_BACK_NOT_BE_ZERO_OR_NEGATIVE(-90020,"关闭控制时,回到默认最大行情的幅度,不能是负和零",""),
+    THE_PARAM_MUST_BE_A_NUMBER(-90021,"参数必须为数字,请检查输入参数类型",""),
+    MIN_FREQUENCY_NOT_GREATER_THAN_MAX_FREQUENCY(-90022,"行情控制最小频率不能大于最大频率",""),
+    MIN_BACK_NOT_GREATER_THAN_MAX_BACK(-90023,"最小默认行情的幅度不能大于最大默认行情的幅度",""),
     ;
     private int code;
     private String constant;

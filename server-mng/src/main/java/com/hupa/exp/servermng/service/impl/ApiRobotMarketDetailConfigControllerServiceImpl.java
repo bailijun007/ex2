@@ -10,6 +10,7 @@ import com.hupa.exp.common.tool.format.JsonUtil;
 import com.hupa.exp.daomysql.dao.expv2.def.IRobotMarketDetailConfigDao;
 import com.hupa.exp.daomysql.dao.expv2.mapper.IExpUserMapper;
 import com.hupa.exp.daomysql.entity.po.expv2.ExpUserPo;
+import com.hupa.exp.daomysql.entity.po.expv2.RobotMarketControlConfigPo;
 import com.hupa.exp.daomysql.entity.po.expv2.RobotMarketDetailConfigPo;
 import com.hupa.exp.servermng.entity.robotmarketdetailconfig.RobotMarketDetailConfigInfo;
 import com.hupa.exp.servermng.entity.robotmarketdetailconfig.RobotMarketDetailConfigInputDto;
@@ -93,6 +94,9 @@ public class ApiRobotMarketDetailConfigControllerServiceImpl implements IApiRobo
         if (beforeBo == null) {
             throw new MngException(MngExceptionCode.DATA_NOT_EXIST_ERROR);
         }
+
+        this.checkParam(inputDto);
+
         RobotMarketDetailConfigPo bo = ConventObjectUtil.conventObject(inputDto, RobotMarketDetailConfigPo.class);
         bo.setMtime(System.currentTimeMillis());
         detailConfigDao.updateById(bo);
@@ -104,12 +108,27 @@ public class ApiRobotMarketDetailConfigControllerServiceImpl implements IApiRobo
         return outputDto;
     }
 
+    private void checkParam(RobotMarketDetailConfigInputDto inputDto) throws MngException{
+        if (inputDto.getMinOrderNumber() != null && inputDto.getMaxOrderNumber() != null) {
+            if (inputDto.getMinOrderNumber().compareTo(inputDto.getMaxOrderNumber()) > 0) {
+                throw new MngException(MngExceptionCode.MIN_ORDER_NUMBER_NOT_GREATER_THAN_MAX_ORDER_NUMBER);
+            }
+        }
+        if (inputDto.getMinFrequency() > inputDto.getMaxFrequency()) {
+            throw new MngException(MngExceptionCode.MIN_FREQUENCY_NOT_GREATER_THAN_MAX_FREQUENCY);
+        }
+
+    }
+
     @Override
     public RobotMarketDetailConfigOutputDto create(RobotMarketDetailConfigInputDto inputDto) throws BizException {
         RobotMarketDetailConfigPo selectOnePo = detailConfigDao.selectOnePo(inputDto.getAsset(), inputDto.getSymbol(), inputDto.getExpAreaType());
         if (selectOnePo != null) {
             throw new MngException(MngExceptionCode.DATA_EXIST_ERROR);
         }
+
+        this.checkParam(inputDto);
+
         RobotMarketDetailConfigPo bo = ConventObjectUtil.conventObject(inputDto, RobotMarketDetailConfigPo.class);
         long time = System.currentTimeMillis();
         bo.setCtime(time);
