@@ -20,6 +20,7 @@ import com.hupa.exp.servermng.enums.MngExceptionCode;
 import com.hupa.exp.servermng.exception.MngException;
 import com.hupa.exp.servermng.help.SessionHelper;
 import com.hupa.exp.servermng.service.def.IApiRobotMarketControlConfigControllerService;
+import com.hupa.exp.servermng.util.CommonIntegerUtil;
 import com.hupa.exp.util.convent.ConventObjectUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,6 +90,8 @@ public class ApiRobotMarketControlConfigControllerServiceImpl implements IApiRob
         if (beforeBo == null) {
             throw new MngException(MngExceptionCode.DATA_NOT_EXIST_ERROR);
         }
+        this.checkParam(inputDto);
+
         RobotMarketControlConfigPo bo = ConventObjectUtil.conventObject(inputDto, RobotMarketControlConfigPo.class);
         bo.setMtime(System.currentTimeMillis());
         controlConfigDao.updateById(bo);
@@ -99,12 +103,58 @@ public class ApiRobotMarketControlConfigControllerServiceImpl implements IApiRob
         return outputDto;
     }
 
+    private void checkParam(RobotMarketControlConfigInputDto inputDto) throws MngException {
+        BigDecimal minSpace = inputDto.getMinSpace();
+        BigDecimal maxSpace = inputDto.getMaxSpace();
+        if (minSpace != null && maxSpace != null) {
+            if (minSpace.compareTo(maxSpace) > 0) {
+                throw new MngException(MngExceptionCode.MIN_SPACE_NOT_GREATER_THAN_MAX_SPACE);
+            }
+        }
+
+        if (inputDto.getMinOrderNumber() != null && inputDto.getMaxOrderNumber() != null) {
+            if (inputDto.getMinOrderNumber().compareTo(inputDto.getMaxOrderNumber()) > 0) {
+                throw new MngException(MngExceptionCode.MIN_ORDER_NUMBER_NOT_GREATER_THAN_MAX_ORDER_NUMBER);
+            }
+        }
+
+        if (inputDto.getMinSwing() != null && inputDto.getMaxSwing() != null) {
+            if (inputDto.getMinSwing().compareTo(inputDto.getMaxSwing()) > 0) {
+                throw new MngException(MngExceptionCode.MIN_SWING_NOT_GREATER_THAN_MAX_SWING);
+            }
+        }
+
+        if (inputDto.getMinFrequency() > inputDto.getMaxFrequency()) {
+            throw new MngException(MngExceptionCode.MIN_FREQUENCY_NOT_GREATER_THAN_MAX_FREQUENCY);
+        }
+
+        if (inputDto.getMinBack() != null) {
+            if (inputDto.getMinBack().compareTo(BigDecimal.ZERO) <= 0) {
+                throw new MngException(MngExceptionCode.MIN_BACK_NOT_BE_ZERO_OR_NEGATIVE);
+            }
+        }
+
+        if (inputDto.getMaxBack() != null) {
+            if (inputDto.getMaxBack().compareTo(BigDecimal.ZERO) <= 0) {
+                throw new MngException(MngExceptionCode.MAX_BACK_NOT_BE_ZERO_OR_NEGATIVE);
+            }
+        }
+        if (inputDto.getMinBack() != null && inputDto.getMaxBack() != null) {
+            if (inputDto.getMinBack().compareTo(inputDto.getMaxBack()) > 0) {
+                throw new MngException(MngExceptionCode.MIN_BACK_NOT_GREATER_THAN_MAX_BACK);
+            }
+        }
+
+    }
+
     @Override
     public RobotMarketControlConfigOutputDto create(RobotMarketControlConfigInputDto inputDto) throws BizException {
         RobotMarketControlConfigPo selectOnePo = controlConfigDao.selectOnePo(inputDto.getAsset(), inputDto.getSymbol(), inputDto.getExpAreaType());
-        if (null != selectOnePo) {
+        if (selectOnePo == null) {
             throw new MngException(MngExceptionCode.DATA_EXIST_ERROR);
         }
+        this.checkParam(inputDto);
+
         RobotMarketControlConfigPo bo = ConventObjectUtil.conventObject(inputDto, RobotMarketControlConfigPo.class);
         long time = System.currentTimeMillis();
         bo.setCtime(time);
