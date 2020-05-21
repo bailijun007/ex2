@@ -438,6 +438,12 @@ var repairByThirdDataEvent = function () {
     param+= "&stat_time="+$("#stat_time").val();
     param+= "&end_time="+$("#end_time").val();
     param+= "&kline_type="+$("#kline_type").val();
+     var statTime2=$("#stat_time").val();
+    var statTimeInMs = new Date(statTime2).getTime();
+    param+= "&stat_time_in_ms="+statTimeInMs;
+    var endTime2=$("#end_time").val();
+    var endTimeInMs = new Date(endTime2).getTime();
+    param+= "&end_time_in_ms="+endTimeInMs;
     $.ajax({
         type: "get",
         url: "/v1/http/klineconfig/repairKlineByThirdData" + param,

@@ -21,8 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Api(tags = {"apiKlineConfigController"})
@@ -222,33 +220,38 @@ public class ApiKlineConfigController {
 
     @ApiOperation(value = "通过第三方数据修复k线")
     @GetMapping(path = "/repairKlineByThirdData")
-    public BaseResultViaApiDto<KlineConfigByThirdDataInputDto, KlineConfigOutputDto> repairKlineByThirdData(@ApiParam(name = "asset", value = "资产", required = true)
-                                                                                                            @RequestParam(name = "asset") String asset,
-                                                                                                            @ApiParam(name = "symbol", value = "交易对名称", required = true)
-                                                                                                            @RequestParam(name = "symbol") String symbol,
-                                                                                                            @ApiParam(name = "stat_time", value = "开始时间", required = true)
-                                                                                                            @RequestParam(name = "stat_time") LocalDateTime startTime,
-                                                                                                            @ApiParam(name = "end_time", value = "结束时间", required = true)
-                                                                                                            @RequestParam(name = "end_time") LocalDateTime endTime,
-                                                                                                            @ApiParam(name = "kline_type", value = "类别", required = true)
-                                                                                                            @RequestParam(name = "kline_type") Integer klineType
-    ) {
-        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyyMM");
-        KlineConfigByThirdDataInputDto inputDto = new KlineConfigByThirdDataInputDto();
+    public BaseResultViaApiDto<KlineConfigInputDto, KlineConfigOutputDto> repairKlineByThirdData(
+            @ApiParam(name = "asset", value = "资产", required = true)
+            @RequestParam(name = "asset") String asset,
+            @ApiParam(name = "symbol", value = "交易对名称", required = true)
+            @RequestParam(name = "symbol") String symbol,
+            @ApiParam(name = "stat_time", value = "开始时间", required = true)
+            @RequestParam(name = "stat_time") String statTime,
+            @ApiParam(name = "end_time", value = "结束时间", required = true)
+            @RequestParam(name = "end_time") String endTime,
+            @ApiParam(name = "kline_type", value = "类别", required = true)
+            @RequestParam(name = "kline_type") Integer klineType,
+            @ApiParam(name = "stat_time_in_ms", required = true)
+            @RequestParam(name = "stat_time_in_ms") Long statTimeInMs,
+            @ApiParam(name = "end_time_in_ms", required = true)
+            @RequestParam(name = "end_time_in_ms") Long endTimeInMs) {
+        KlineConfigInputDto inputDto = new KlineConfigInputDto();
         inputDto.setAsset(asset);
         inputDto.setSymbol(symbol);
         inputDto.setKlineType(klineType);
-
-        inputDto.setStartTime(startTime);
-        inputDto.setEndTime(endTime);
-
-        LocalDate localDate = startTime.toLocalDate();
-        String format = localDate.format(formatter);
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm");
+        Long openTimeBegin = DateTime.parse(statTime, formatter).getMillis();
+        inputDto.setStatTime(openTimeBegin);
+        Long openTimeEnd = DateTime.parse(endTime, formatter).getMillis();
+        inputDto.setEndTime(openTimeEnd);
+        String[] split = statTime.split("-");
         //tableName = kline_data_202005
-        String tableName = "kline_data_" + format;
+        String tableName = "kline_data_" + split[0] + split[1];
         inputDto.setTableName(tableName);
         String interval = "1min";
         inputDto.setKlineInterval(interval);
+        inputDto.setStatTimeInMs(statTimeInMs);
+        inputDto.setEndTimeInMs(endTimeInMs);
         KlineConfigOutputDto outputDto = new KlineConfigOutputDto();
         try {
             outputDto = service.repairKlineByThirdData(inputDto);
