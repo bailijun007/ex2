@@ -245,6 +245,7 @@ public class ApiKlineConfigController {
         Long openTimeEnd = DateTime.parse(endTime, formatter).getMillis();
         inputDto.setEndTime(openTimeEnd);
         String[] split = statTime.split("-");
+
         //tableName = kline_data_202005
         String tableName = "kline_data_" + split[0] + split[1];
         inputDto.setTableName(tableName);
