@@ -562,7 +562,7 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
     }
 
     @Override
-    public KlineConfigOutputDto repairKlineByThirdData(KlineConfigInputDto inputDto) throws BizException {
+    public KlineConfigOutputDto repairKlineByThirdData(KlineConfigByThirdDataInputDto inputDto) throws BizException {
         KlineConfigOutputDto outputDto = new KlineConfigOutputDto();
         outputDto.setBn(false);
         try {
@@ -572,7 +572,7 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
             //交易对
             String symbol = inputDto.getSymbol();
             String klineInterval = inputDto.getKlineInterval();
-            Long statTime = inputDto.getStatTime();
+//            Long statTime = inputDto.getStatTime();
             Long endTime = inputDto.getEndTime() == null ? System.currentTimeMillis() : inputDto.getEndTime();//结束时间
             if (tableName != null && symbol != null && statTime != null && endTime != null) {
                 //klineType前段参数 0:币币,1:合约，后端：1币币，2：合约，这里需要做转化

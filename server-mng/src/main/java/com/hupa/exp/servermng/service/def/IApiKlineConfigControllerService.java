@@ -77,5 +77,5 @@ public interface IApiKlineConfigControllerService {
      * @return
      * @throws BizException
      */
-    KlineConfigOutputDto repairKlineByThirdData(KlineConfigInputDto inputDto) throws BizException;
+    KlineConfigOutputDto repairKlineByThirdData(KlineConfigByThirdDataInputDto inputDto) throws BizException;
 }
