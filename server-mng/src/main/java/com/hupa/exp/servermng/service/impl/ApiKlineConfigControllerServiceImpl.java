@@ -579,7 +579,9 @@ public class ApiKlineConfigControllerServiceImpl implements IApiKlineConfigContr
                 if (klineType == 0) {
                     type = 1;
                 }else if(klineType == 1){
-                    type = 2;
+//                    type = 2;
+                   //没有第三方合约K线的数据。这里用币币数据代替
+                    type = 1;
                 }
                 queryKlineDataByThirdDataController.queryKlineDataByThirdData(tableName, type, asset, symbol, klineInterval, statTime, endTime);
                 outputDto.setBn(true);
