@@ -31,7 +31,7 @@
         <springframework.version>2.1.6.RELEASE</springframework.version>
         <guava.version>28.0-jre</guava.version>
         <curator.version>4.0.1</curator.version>
-        <dubbo.version>2.7.2</dubbo.version>
+        <dubbo.version>2.7.13</dubbo.version>
     </properties>
 
 
